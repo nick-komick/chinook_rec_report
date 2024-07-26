@@ -14,6 +14,9 @@ These quality control criteria are designed to avoid uncertainty where a monthly
 
 ```{r Loading packages useful functions, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 
+library(ROracle)
+library(pacRecCatch)
+
 library(tidyverse)
 library(odbc)
 library(lubridate)
@@ -36,34 +39,6 @@ colclear= "#1C00ff00"
 #utils
 "%notin%" <- Negate("%in%")
 
-Creel_Sport_mark_rate_finescale<-read_rds("data/Creel_Sport_mark_rate_finescale.RDS")
-
-Sport_mark_rate_finescale<-read_rds("data/Sport_mark_rate_finescale.RDS")
-
-Sport_mark_rate_finescale_combined<-read_rds("data/Sport_mark_rate_finescale_combined.RDS")
-
-models_combined<- read_rds("data/models_combined.RDS")
-
-Season_south_no_nas<-read_rds("data/Season_south_no_nas.RDS")
-Summer_south_no_nas<-read_rds("data/Summer_south_no_nas.RDS")
-Season_north_aabm_no_nas<-read_rds("data/Season_north_aabm_no_nas.RDS")
-Season_north_isbm_no_nas<-read_rds("data/Season_north_isbm_no_nas.RDS")
-Season_cbc_isbm_no_nas<-read_rds("data/Season_cbc_isbm_no_nas.RDS")
-Summer_north_aabm_no_nas<-read_rds("data/Summer_north_aabm_no_nas.RDS")
-Summer_north_isbm_no_nas<-read_rds("data/Summer_north_isbm_no_nas.RDS")
-
-Season_south_combined<-read_rds("data/Season_south_combined.RDS")
-Summer_south_combined<-read_rds("data/Summer_south_combined.RDS")
-Season_north_aabm_combined<-read_rds("data/Season_north_aabm_combined.RDS")
-Summer_north_aabm_combined<-read_rds("data/Summer_north_aabm_combined.RDS")
-Season_north_isbm_combined<-read_rds("data/Season_north_isbm_combined.RDS")
-Season_cbc_isbm_combined<-read_rds("data/Season_cbc_isbm_combined.RDS")
-Summer_north_isbm_combined<-read_rds("data/Summer_north_isbm_combined.RDS")
-
-
-Creel_month_PFMA_failed<- read_rds("data/Creel_month_PFMA_failed.RDS")
-Creel_month_PFMA_passed<- read_rds("data/Creel_month_PFMA_passed.RDS")
-
 
 ```
 
@@ -71,6 +46,9 @@ Creel_month_PFMA_passed<- read_rds("data/Creel_month_PFMA_passed.RDS")
 #| label: fig-creel-criteria
 #| fig-cap: "Creel estimates that passed (green) or failed (red) quality control criteria by month and PFMA."
 
+creel_month_PFMA<-filter_creel_catch("pacRecCatch_db.yaml")
+Creel_month_PFMA_failed<-creel_month_PFMA %>% filter(criteria == "failed")
+Creel_month_PFMA_passed<-creel_month_PFMA %>% filter(criteria == "passed")
 
 g<-ggplot()+
   geom_tile(data=Creel_month_PFMA_passed %>% mutate(across(where(is.numeric), ~na_if(., 0)))  %>%  filter(AREA %notin% c("Area 3", "Area 4")), aes(x=YEAR, y=as.factor(MONTH), fill = VAL),colour = "white") +
@@ -132,6 +110,8 @@ These rules prioritize quality-controlled creel estimates during months where th
 In Figure () we demonstrate how iREC fills in the gaps in each PFMA.
 
 ```{r pfma_month again, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
+
+
 
 pfma_yearMonth <- plyr::ddply(Sport_mark_rate_finescale, c( "YEAR", "MONTH", "AREA", "finescale_fishery_old"), summarise,
                          sum_creel = sum(creel, na.rm = TRUE), sum= sum(creel_plus, na.rm = TRUE), sum_historic= sum(historic_plus, na.rm = TRUE), sum_catch_estimate = sum(catch_estimate, na.rm = TRUE), sum_irec = sum(irec_calibrated, na.rm = TRUE)) %>% mutate(across(where(is.numeric), ~na_if(., 0))) %>% filter(finescale_fishery_old!="NA")
