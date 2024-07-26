@@ -10,7 +10,8 @@ When the iRec survey initially began in 2012, survey participants were selected 
 
 In more recent years (since 2018??) the iREC survey takes advantage of the web based purchasing of recreational licences to communicate survey selection and creating a sampling frame. Random selections of fishers with licences active in a given month are invited, via email, to provide details about their fishing activity and catch through a web-based survey tool. This fishing information from survey respondents is expanded to estimate total effort and catch following the methods described by Houtman et al. (2015).
 
-The iRec survey is designed to provide month recreational catch estimates for every area within DFO's Pacific Region. When the survey was initially designed, the survey used the legal definition of Pacific Fishery Management Areas (PFMA) within the PFMA 2007 act (???update with citation???).
+
+The iRec survey is designed to provide month recreational catch estimates for every area within DFO’s Pacific Region.   When the survey was initially designed, the survey used the legal definition of Pacific Fishery Management Areas (PFMA) within the @pfma_2007.
 
 ### License Stratification
 
