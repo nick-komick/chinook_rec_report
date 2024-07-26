@@ -103,7 +103,7 @@ $$iRec^*=\frac{(iRec)}{m}$$
 
 Use of JAGS
 
-```{r}
+```{r, echo=TRUE}
 model.jags <- function() {
   for(i in 1:Ndata) {
      #generate what true value may be based on se (notice that dnorm in jags
