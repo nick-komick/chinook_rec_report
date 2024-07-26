@@ -1,72 +1,130 @@
 # Results
 
-You can add new knitr code chunks with figure and tables in any section. csasdown links all these `.Rmd` files together into one large file. Keep track of your file order insertion follow the order in `_bookdown.yml`.
 
-Here's another plot for fun:
 
-(ref:batman) Batman!
+## Sport Head Recoveries
 
-(ref:batman-french) Homme chauve-souris!
+```{r Loading packages, useful functions, echo=FALSE}
+#load packages
+library(dplyr)
+library(readr)
+library(ggplot2)
+library(ROracle)
 
-```{r batman, fig.cap=ifelse(fr(), "(ref:batman-french)", "(ref:batman)")}
-#' Call the Batman
-#'
-#' https://charlotte-ngs.github.io/BatmanPlot/BatmanPlotPost.html
-#'
-#' @importFrom ggplot2 ggplot stat_function geom_path aes element_blank labs
-#' @return a ggplot2 object
-batman <- function(){
-  sc <- function(x) sqrt(1 - x ^ 2)                                         # semicircle
-  el <- function(x) 3 * sc(abs(x) / 7)                                      # ellipse
-  nl <- function(x) (-1) * el(x)                                            # negative of el
-  sh <- function(x) 4.2 - 0.5 * abs(x) - 2.8 * sc(0.5 * abs(x) - 0.5)       # shoulders
-  bf <- function(x) sc(abs(2 - abs(x)) - 1) - x ^ 2 / 11 + 0.5 * abs(x) - 3 # bottom
-  cr  <- data.frame(x = c(0, 0.5, 0.8, 1), y = c(1.7, 1.7, 2.6, 0.9))       # cowl right
-  cl  <- data.frame(x = -cr$x, y = cr$y)                                    # cowl left
+#utils
+"%notin%" <- Negate("%in%")
+sport_catch <- pacRecCatch::wrangle_rec_catch("pacRecCatch_db.yaml")
+models_combined <- pacRecCatch::model_rec_catch(sport_catch)
+head_df <-  pacRecCatch::get_head_totals()
 
-  plot_create <- function(fun, xmin, xmax){
-    rp <- stat_function(fun = fun, xlim = c(xmin,xmax))
-    lp <- stat_function(fun = fun, xlim = c(-xmax, -xmin))
-    result_plot <- list(left_plot = lp, right_plot = rp)
-    return(result_plot)
-  }
-
-  g <- ggplot(data.frame(x = c(-7, 7), y = c(-3, 3)), aes(x, y)) +
-    theme_bw() +
-    theme(panel.border = element_blank(),
-          panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(),
-          axis.line = element_blank(),
-          axis.text = element_blank(),
-          axis.ticks = element_blank()) +
-    labs(x = "", y = "")
-
-  upper_wing_plot <- plot_create(fun = el, xmin = 3, xmax = 7)
-  lower_wing_plot <- plot_create(fun = nl, xmin = 4, xmax = 7)
-  g <- g +
-    upper_wing_plot$left_plot +
-    upper_wing_plot$right_plot +
-    lower_wing_plot$left_plot +
-    lower_wing_plot$right_plot
-
-  sh_plot <- plot_create(fun = sh, xmin = 1, xmax = 3)
-  g <- g +
-    sh_plot$left_plot +
-    sh_plot$right_plot
-
-  bt_plot <- plot_create(fun = bf, xmin = 0, xmax = 4)
-  g <- g +
-    bt_plot$left_plot +
-    bt_plot$right_plot +
-    geom_path(data = cr,
-              na.rm = TRUE) +
-    geom_path(data = cl,
-              na.rm = TRUE)
-  g
+lm_eqn <- function(df){
+  m <- lm(head_total ~ catch_estimate_predicted + 0, df)
+  
+  eq <- substitute(italic(y) == a %.% italic(x)*","~~italic(r)^2~"="~r2*"," ~~italic(n)*"="~df_n,
+                   list(a = format(unname(coef(m)[1]), digits = 3),
+                        b = format(unname(coef(m)[2]), digits = 3),
+                        r2 = format(summary(m)$r.squared, digits = 3),
+                        df_n = nrow(df)))
+  as.character(as.expression(eq));
 }
-batman()
+
+models_combined <-
+  models_combined |>
+  mutate(finescale_fishery = if_else(grepl("NWCVI|SWCVI", finescale_fishery), 
+                                     trimws(gsub(" ISBM|AABM", "", finescale_fishery)),
+                                     finescale_fishery)) |>
+  group_by(YEAR, status, finescale_fishery, season, mark_status, kept_status) |>
+  summarize(catch_estimate_predicted = sum(catch_estimate_predicted, na.rm=TRUE),
+            .groups = "drop")
+
+head_df <-
+  head_df |>
+  mutate(region = if_else(grepl("NWCVI|SWCVI", region), 
+                          trimws(gsub(" ISBM|AABM", "", region)),
+                          region)) |>
+  group_by(year, region) |>
+  summarize(head_total = sum(head_total, na.rm=TRUE),
+            .groups = "drop")
+
+head_catch_df <-
+  models_combined |>
+  filter(status == "marked_Kept_total") |>
+  full_join(head_df, c(YEAR="year", finescale_fishery = "region")) |>
+  mutate(YEAR = as.integer(YEAR),
+         submit_rate = head_total/catch_estimate_predicted) |>
+  filter(catch_estimate_predicted > 50)
+
+head_catch_model_df <-
+  head_catch_df |>
+  filter(catch_estimate_predicted > 0, 
+         coalesce(head_total, 0) > 0,
+         coalesce(catch_estimate_predicted,0) > 0)
+
 ```
 
-Note that this figure is numbered consecutively even though the first figure appears in a different file and section. The figures, tables, and equations are numbered **after** all the files are stitched together by `csasdown`.
+```{r Head to Kept Mark Catch, echo=FALSE}
 
+ggplot(data = head_catch_model_df, aes(x=catch_estimate_predicted,
+                                       y=head_total)) +
+  geom_point(size=2) +
+  geom_smooth(method='lm', formula= y~x + 0) +
+  geom_text(x = 500, y = 5000, label = lm_eqn(head_catch_model_df), parse = TRUE, hjust=0, vjust=0) +
+  ggtitle("Chinook Head to Clipped Catch") +
+  xlab("Chinook Kept Adclipped Catch") + 
+  ylab("Chinook Head Recoveries")
+
+
+```
+
+```{r Pre iRec Head to Kept Mark Catch, echo=FALSE}
+
+pre_irec_catch_model_df <- 
+  head_catch_model_df |>
+  filter(YEAR < 2013)
+
+eq_y_pos <- max(pre_irec_catch_model_df$head_total, na.rm=0) * 0.9
+
+ggplot(data = pre_irec_catch_model_df,
+       aes(x=catch_estimate_predicted, y=head_total)) +
+  geom_point(size=2) +
+  geom_smooth(method='lm', formula= y~x + 0) +
+  geom_text(x = 500, y = eq_y_pos, label = lm_eqn(pre_irec_catch_model_df), parse = TRUE, hjust=0, vjust=0) +
+  ggtitle("Before iRec Chinook Head to Clipped Catch") +
+  xlab("Chinook Kept Adclipped Catch") + 
+  ylab("Chinook Head Recoveries")
+
+```
+
+```{r Post iRec Head to Kept Mark Catch, echo=FALSE}
+
+post_irec_catch_model_df <- 
+  head_catch_model_df |>
+  filter(YEAR >= 2013)
+
+eq_y_pos <- max(post_irec_catch_model_df$head_total, na.rm=0) * 0.9
+
+ggplot(data = post_irec_catch_model_df,
+       aes(x=catch_estimate_predicted, y=head_total)) +
+  geom_point(size=2) +
+  geom_smooth(method='lm', formula= y~x + 0) +
+  geom_text(x = 500, y = eq_y_pos, label = lm_eqn(post_irec_catch_model_df), parse = TRUE, hjust=0, vjust=0) +
+  ggtitle("iRec Chinook Head to Clipped Catch") +
+  xlab("Chinook Kept Adclipped Catch") + 
+  ylab("Chinook Head Recoveries")
+
+```
+
+```{r Fishery Rates, echo=FALSE}
+
+ggplot(data = head_catch_model_df, aes(x=YEAR, y=submit_rate, color=finescale_fishery)) +
+  geom_line(linewidth = 2)
+
+```
+
+```{r pre IRec Fishery Rates, echo=FALSE}
+
+ggplot(data = pre_irec_catch_model_df, aes(x=YEAR, y=submit_rate, color=finescale_fishery)) +
+  geom_line(linewidth = 2)
+
+```
 
