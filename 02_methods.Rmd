@@ -10,8 +10,7 @@ When the iRec survey initially began in 2012, survey participants were selected 
 
 In more recent years (since 2018??) the iREC survey takes advantage of the web based purchasing of recreational licences to communicate survey selection and creating a sampling frame. Random selections of fishers with licences active in a given month are invited, via email, to provide details about their fishing activity and catch through a web-based survey tool. This fishing information from survey respondents is expanded to estimate total effort and catch following the methods described by Houtman et al. (2015).
 
-
-The iRec survey is designed to provide month recreational catch estimates for every area within DFO’s Pacific Region.   When the survey was initially designed, the survey used the legal definition of Pacific Fishery Management Areas (PFMA) within the @pfma_2007.
+The iRec survey is designed to provide month recreational catch estimates for every area within DFO's Pacific Region. When the survey was initially designed, the survey used the legal definition of Pacific Fishery Management Areas (PFMA) within the @pfma_2007.
 
 ### License Stratification
 
@@ -59,6 +58,8 @@ col3 = "lightblue"
 col4 = "lightblue4"
 col5 = "pink"
 col6 = "darkred"
+col7 = "purple"
+col8 = "purple4"
 colclear= "#1C00ff00"
 
 #utils
@@ -67,7 +68,7 @@ colclear= "#1C00ff00"
 
 ```
 
-```{r plotting PFMA creel unfiltered, echo=FALSE, message=FALSE, warning=FALSE, fig.height=12, fig.width=15}
+```{r plotting PFMA creel unfiltered, echo=FALSE, message=FALSE, warning=FALSE, fig.height=12, fig.width=15, out.width = "7in", fig.align = "left"}
 #| label: fig-creel-criteria
 #| fig-cap: "Creel estimates that passed (green) or failed (red) quality control criteria by month and PFMA."
 
@@ -79,7 +80,7 @@ g<-ggplot()+
   geom_tile(data=Creel_month_PFMA_passed %>% mutate(across(where(is.numeric), ~na_if(., 0)))  %>%  filter(AREA %notin% c("Area 3", "Area 4")), aes(x=YEAR, y=as.factor(MONTH), fill = VAL),colour = "white") +
   scale_fill_gradient(low = col1, high = col2,  na.value = colclear, limits=c(0,20000)) +
   scale_y_discrete(limits=rev)+
-  guides(fill=guide_legend(title="Creel estimates that pass criteria")) +
+  guides(fill=guide_legend(title="Creel estimates that passed criteria")) +
   new_scale_fill() +
   geom_tile(data=Creel_month_PFMA_failed %>% mutate(across(where(is.numeric), ~na_if(., 0))) %>%  filter(AREA %notin% c("Area 3", "Area 4")), aes(x=YEAR, y=as.factor(MONTH), fill = VAL),colour = "white") +
   scale_fill_gradient(low = col5, high = col6,  na.value = colclear, limits=c(0,20000))+
@@ -87,7 +88,7 @@ g<-ggplot()+
   guides(fill=guide_legend(title="Creel estimates that failed criteria")) +
   labs(title = "Coverage by PFMA",
        x = "Year", y = "Month") +
-  theme_bw() + theme_minimal() 
+  theme_bw() + theme_minimal() + theme(legend.position="bottom")
 
 g
 ```
@@ -122,9 +123,7 @@ model.jags <- function() {
   #derived variables
   sigma <- 1/sqrt(tau) #std deviation about the regression line
 }
-```         
-
-
+```
 
 Forced through the origin (need background?)
 
@@ -164,7 +163,7 @@ For Northern and Central BC:
 
 These rules prioritize quality-controlled creel estimates during months where the most creel effort is concentrated, and then prioritizes iREC data during shoulder seasons and anywhere there is a gap in creel coverage. Northern and Central BC do not have standardized creel, and therefore the iREC data is preferred over logbook-only data.
 
-In Figure () we demonstrate how iREC fills in the gaps in each PFMA.
+In Figure \@ref(fig:fig-creel-irec-JDF) we demonstrate how iREC fills in the gaps in each PFMA for a given finescale fishery (Juan De Fuca shown as an example).
 
 ```{r pfma_month again, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 
@@ -178,9 +177,9 @@ pfma_yearMonth_catch_estimate_1<-pfma_yearMonth  %>% filter(sum_catch_estimate!=
 pfma_yearMonth_irec_1<-pfma_yearMonth  %>% filter(sum_catch_estimate==sum_irec)
 ```
 
-#### Juan de Fuca
-
-```{r plotting PFMA - Juan de Fuca, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.width=10}
+```{r plotting PFMA - Juan de Fuca, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2, fig.width=10}
+#| label: fig-creel-irec-JDF
+#| fig-cap: "Creel estimates in Juan de Fuca by area and month and chosen best catch estimate between creel and iREC"
 
 g<-ggplot()+
   geom_tile(data=pfma_yearMonth %>% filter(finescale_fishery_old=="CA JDF S"), aes(x=YEAR, y=as.factor(MONTH), fill = sum_catch_estimate),colour = "white") +
@@ -194,7 +193,53 @@ g<-ggplot()+
   guides(fill=guide_legend(title="iREC estimates")) +
   labs(title = "Coverage by PFMA",
        x = "Year", y = "Month") +
-  theme_bw() + theme_minimal() + geom_vline(xintercept = 2013)
+  theme_bw() + theme_minimal() + geom_vline(xintercept = 2013)+ theme(legend.position="bottom")
 
 g
 ```
+
+## Modelling iREC-incorporated catch (2005-2012)
+
+Where iREC is unavailable (before 2013), we model iREC-incorporated seasonal catch estimates by finescale fishery using the relationship between summertime creel estimates without iREC and seasonal iREC-incorporated catch estimates from 2013-2023. These seasonal estimates are then rolled up into yearly estimates.
+
+### Splitting fisheries by season
+
+Following the rules for incorporating iREC, we split previous fisheries in spring (months 1:4), summer (months 5:9) and fall (10:12) seasons. A few exceptions were made, for example WCVI ISBM doesn't have a spring fishery since no ISBM fisheries occur in the spring. We split fisheries by season in order to better pool estimates since there are not always iREC or creel estimates for each month.
+
+### Identifying a summer creel period
+
+We identified a fishery specific consistently creeled or logbooked coverage period for the summer period where there is consistent data throughout the time series (from 2005 to 2023) from the creel + logbook data. The summer coverage period included all months within 7:8 that are consistent through the timeseries. This consistent chunk of data will be used to predict the estimated catch in the section of the time series where we don't have iREC. This data is unfiltered creel + logbook catch estimates.
+
+### Modelling protocol
+
+We investigated various models using a systematic approach:
+
+-   Separate models for all southern BC fisheries and Northern and Central BC since the data inputs are different
+
+-   One model for spring and fall pre-terminal sport fisheries since these are iREC-only data
+
+-   One model for summer pre-terminal sport fisheries since these are iREC and creel combined data
+
+-   Same dataset tested for all models - therefore done without NAs
+
+-   We didn't consider random effects models since we don't have enough levels of each factor to warrant random effects inclusion (need \>10 typically)
+
+-   For all candidate models we used the DHARMa package to create a qq-plot to detect deviations in observations from expected distribution and a plot of the residuals against predicted values to detect patterns in residuals. We visually assessed whether candidate models improved plots.
+
+-   We also compared candidate models using AIC, a lower AIC indicating a better model fit.
+
+The order of comparisons was as follows:
+
+-   First we compared three distributions: normal (gaussian), poisson, and Gamma distribution to see which fit our data the best on the full model. These distributions are all consistent with our positive, continuous data
+
+    $$
+    catch = creel.summer * status * finescale.fishery * season 
+    $$
+
+-   Next, using the chosen distribution, we compared the full model with all terms to models with each of the terms dropped sequentially except for creel.summer which was our main interest. We did this first by dropping out full terms from the full interaction model, then used the dredge function in MuMIn to sequentially drop out the various sub-interactions
+
+-   In each case, we selected the model with the lowest AIC and best visual diagnostics.
+
+### Model validation with Sport Head Recovery Program 
+
+We validated the modelling output with the sport head recovery program by regressing both the observed catch (2013-2023) and the modelled catch (2005-2012) with heads recovered by the the sport head recovery program which receives voluntary head submissions for recovering CWT tags.
