@@ -2,7 +2,58 @@
 
 \clearpage
 
-# MODEL RESIDUALS {#app:first-appendix}
+# REVISED ESTIMATES 2013-2022 {#app:first-appendix}
+
+```{r m plots, results='asis', echo=FALSE}
+#| label: fig-catch-revised-1-appendix
+#| fig-cap: "All stocks revised yearly catch estimates"
+
+
+library(ROracle)
+library(pacRecCatch)
+library(tidyverse)
+library(odbc)
+library(lubridate)
+library(ggnewscale)
+library(patchwork)
+library(DHARMa)
+library(lme4)
+library(bbmle)
+library(SuppDists)
+library(MuMIn)
+
+models_combined <- pacRecCatch::model_rec_catch(Sport_mark_rate_finescale_combined)
+
+
+### make this by finescale fishery old... sum up. 
+models_combined_old<-models_combined %>% group_by(YEAR, status, kept_status, mark_status, pred_cat, finescale_fishery_old) %>% summarise_if(is.numeric, sum, na.rm = TRUE)
+
+fishery_name_south<- sort(unique(models_combined_old$finescale_fishery_old))
+
+
+
+for (i in 1:length(fishery_name_south)){
+
+ m<-ggplot(models_combined_old  %>% filter(finescale_fishery_old==fishery_name_south[i], YEAR %in% c(2013:2023))) +
+    geom_point(size=2.5,  aes(y=creel_unfiltered_plus, x=YEAR,col=status, fill=status, shape=pred_cat))+
+    geom_line(aes(y=creel_unfiltered_plus, x=YEAR,col=status, linetype = " Unfiltered creel and logbook"))+
+    scale_shape_manual(values=c(1,1), guide="none")+
+    scale_x_continuous(breaks = c(2013, 2015, 2017, 2019, 2021, 2023))+
+    new_scale("shape")+
+    scale_colour_viridis_d()+
+    geom_point(size=2.5, aes(y=catch_estimate_predicted, x=YEAR,col=status, fill=status, shape=pred_cat))+
+    geom_line(aes(y=catch_estimate_predicted, x=YEAR,col=status, linetype = "iREC included"))+
+    scale_shape_manual(values=c(16,17), guide="none")+
+    scale_linetype_manual(values=c(2,1))+
+    facet_wrap(~status, scales="free") + ggtitle(paste(fishery_name_south[i])) + theme_bw() + scale_x_continuous(breaks = c(2013, 2015, 2017, 2019, 2021, 2023))+ ylab("Catch estimate")
+ 
+ print(m)
+}
+```
+
+\clearpage
+
+# MODEL RESIDUALS {#app:second-appendix}
 
 ### Southern BC Summer fisheries
 
@@ -140,7 +191,7 @@ res_gam_drop_kept_spec <- simulateResiduals(cbc_isbm_model_full_gamma_spec, plot
 
 \clearpage
 
-# MODEL OUTPUT {#app:second-appendix}
+# MODEL OUTPUT {#app:third-appendix}
 
 ### Southern BC Summer fisheries
 

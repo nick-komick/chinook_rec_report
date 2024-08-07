@@ -1,11 +1,17 @@
 # Introduction {#sec:introduction}
 
-Recreational catch estimation in British Columbia has historically been accomplished using a combination of creel surveys and logbook programs. Creel surveys involve overflights to determine effort and dockside fisher interviews. This data is supplemented by logbook programs where guides and lodges voluntarily submit catch data. However, there are substantial spatial and temporal gaps in the creel and logbook data, which targets the most heavily fished areas and months. A mandatory Internet Recreational Effort and Catch (iREC) survey was introduced in 2013 to resolve these gaps.
+Recreational catch estimation in British Columbia has historically been accomplished using a combination of creel surveys and logbook programs. Creel surveys involve overflights to determine effort and dockside fisher interviews. This data is supplemented by logbook programs where guides and lodges voluntarily submit catch data. However, there are substantial spatial and temporal gaps in the creel and logbook data, which targets the most heavily fished areas and months. A mandatory Internet Recreational Effort and Catch (iREC) survey has been piloted since July 2012 to resolve these gaps and contribute to recreational catch information.
 
 iREC is an online sport catch reporting system that randomly selects recreational licence holders to self-report kept and released fish by adipose clip status for a given month of the year. This survey covers all months and regions. License holders also report if they did not fish which is equally as important as reported catch. The values from iREC are calibrated against creel survey estimates and combined to fill in spatial and temporal gaps where there are no creel or logbook programs but fishing does occur. These data have been variably incorporated into the recreational catch since 2013 in most regions domestically, but this incorporation has not occurred in a standardized way. Furthermore, iREC has not be incorporated in catch estimates prior to 2013. The Pacific Salmon Treaty outlines a 2009-2015 base period for calculating calendar year exploitation rate (CYER). This base period currently combines incongruous data sources (a mix of yearly iREC-incorporated and yearly catch estimates without iREC) and creates a bias when comparing to current data (yearly iREC-incorporated catch estimates).
 
 Here, we present:
 
-(1) a standardized method for combining quality-controlled creel and iREC data in years where both sources exist (2013-present) to generate the best recreational catch estimate by month and area, which is then rolled up to year and finescale fishery levels.
+(1) Revised catch estimates from 2013-present. We present standardized methods for filtering creel for quality control purposes and for combining quality-controlled creel and iREC data in years where both sources exist (2013-present) to generate the best recreational catch estimate by month and area, which is then rolled up to year and finescale fishery levels.
 
-(2) Next, in years where iREC is unavailable (before 2013), we model iREC-incorporated seasonal catch estimates by finescale fishery using the relationship between summertime creel estimates without iREC and seasonal iREC-incorporated catch estimates from 2013-2023. These seasonal estimates are then rolled up into yearly estimates.
+(2) Revised catch estimates from 2005-2012. In years where iREC is unavailable (before 2013), we model iREC-incorporated seasonal catch estimates by finescale fishery using the relationship between summertime creel estimates without iREC and seasonal iREC-incorporated catch estimates from 2013-2023. These seasonal estimates are then rolled up into yearly estimates.
+
+    *Note: should this report be only 1. and 2. and the memo to the CTC is 3. and 4.?*
+
+(3) Incorporation of both sets of revised estimates in Chinook Technical Committee Inputs to the annual Exploitation Rate Analysis.
+
+(4) Incorporation of both sets of revised estimates in Chinook Technical Committee Outputs from the annual Exploitation Rate Analysis.

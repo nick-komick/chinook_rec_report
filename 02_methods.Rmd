@@ -1,32 +1,38 @@
 # Methods
 
-## Internet Recreational Catch (iRec) Survey
+## Revised catch estimates from 2013-present
 
-The internet recreational effort and catch (iREC) survey is a recent method for estimating recreational fishing effort and catch in Pacific Region tidal waters. The iREC survey annually provides catch estimates and associated precision across all tidal water Pacific Fishery Management Areas (PFMA's), licenced fishing methods, species and fates (retained or released) at a monthly resolution (Houtman et al, 2015). For all fishing methods besides boat-based angling -- specifically angling from shore, shellfish trapping from boat or shore, beach collecting and hand picking and Dive and other methods -- these are the first estimates available. Piloted since July 2012, iREC is being considered as a new method that could inform official recreational catch estimates.
+### Internet Recreational Catch (iRec) Survey
 
-### Survey License Selection
+The internet recreational effort and catch (iREC) survey is a recent method for estimating recreational fishing effort and catch in Pacific Region tidal waters. The iREC survey annually provides catch estimates and associated precision across all tidal water Pacific Fishery Management Areas (PFMA's), licenced fishing methods, species and fates (retained or released) at a monthly resolution (Houtman et al, 2015). For all fishing methods besides boat-based angling -- specifically angling from shore, shellfish trapping from boat or shore, beach collecting, hand picking, diving, and other methods -- these are the first estimates available.
 
-When the iRec survey initially began in 2012, survey participants were selected from a provided subset of licence holders that purchased through a web based license purchasing system. This subset excluded any paper-based licences that were issued outside the web-based system and typically consisted of approximately XX% of all recreational licence holders. This subset of licence holders were contacted by email with instructions on how to
+#### Survey License Selection
+
+When the iRec survey initially began in 2012, survey participants were selected from a provided subset of licence holders that purchased through a web based license purchasing system. This subset excluded any paper-based licences that were issued outside the web-based system and typically consisted of approximately XX% of all recreational licence holders. This subset of licence holders were contacted by email with instructions on how to ....
+
+*Note: this sentence sort of just cut off - Nick?*
 
 In more recent years (since 2018??) the iREC survey takes advantage of the web based purchasing of recreational licences to communicate survey selection and creating a sampling frame. Random selections of fishers with licences active in a given month are invited, via email, to provide details about their fishing activity and catch through a web-based survey tool. This fishing information from survey respondents is expanded to estimate total effort and catch following the methods described by Houtman et al. (2015).
 
 The iRec survey is designed to provide month recreational catch estimates for every area within DFO's Pacific Region. When the survey was initially designed, the survey used the legal definition of Pacific Fishery Management Areas (PFMA) within the @pfma_2007.
 
-### License Stratification
+#### License Stratification
 
 When assessing survey responses, annual licences are unique compared to term licences as they can potentially fish any date after the licence purchase date and may be selected for one of several survey months within the licence year. To improve the representativeness of annual licence holders and provide a more consistent precision across months within the year, the licence selection process has used different stratification methods over the years the iRec has operated. Over the years, the approach to stratification has be adjusted to better align to improvements the in licence selection process and the increased number of selected licenses.
 
-At the beginning of the iRec survey in 2012, licences were selected monthly, after the licence was purchased. Based on whether the annual licence was selected to respond to the survey for the month it was purchased in or for a survey month and were stratified into pre- and post-selection strata based on the licence purchase date. While nearly all term licences fished near the licence purchase date, the were all stratified as post-selection. However, annual licences may be selected for either a month they purchased the licence in or a future survey month. Selected annual licences purchased date was during the survey month, the licence was estimated in the post-selection strata for the survey month. For example if a licence was purchased on August 15th and they were selected for the August survey, the licence was stratified as a post-selection licence they in relation to their selected survey period. If the licence was purchased during the
+At the beginning of the iRec survey in 2012, licences were selected monthly, after the licence was purchased. Based on whether the annual licence was selected to respond to the survey for the month it was purchased in or for a survey month and were stratified into pre- and post-selection strata based on the licence purchase date. While nearly all term licences fished near the licence purchase date, the were all stratified as post-selection. However, annual licences may be selected for either a month they purchased the licence in or a future survey month. Selected annual licences purchased date was during the survey month, the licence was estimated in the post-selection strata for the survey month. For example if a licence was purchased on August 15th and they were selected for the August survey, the licence was stratified as a post-selection licence they in relation to their selected survey period. If the licence was purchased during the ...
 
-## Creel Survey
+### Creel Survey
 
 Despite this potential bias, the iREC estimates are currently used, in a relative way, to prioritize the allocation of resources of creel surveys. Creel surveys are funded through contributions from Science (Salmon Stock Assessment) and Fisheries Management branches of Fisheries and Oceans Canada, ostensibly for the estimation of recreational salmon and Halibut catches although estimates for other finfish species are made. The iREC estimates of catch of these two species, along with boat-based recreational angling effort, are used to rank the most important month and area combinations for creel survey allocation purposes. Currently, creel surveys are focused on only those month -- area combinations contributing the highest combined retained catches of Chinook Salmon and Halibut. In times and locations where fishing effort and catch of these important species are low, creel surveys are not currently conducted (Houtman et al. 2015). In fact, for many month -- PFMA combinations, creel surveys or other recreational monitoring approaches have never been used to estimate recreational fishing effort or catch. The apparent bias in iREC estimates could result from numerous sources. With an invitational fisher-dependent survey of this type, there is potential that the respondents to the survey are not representative of all licenced fishers. Such 'response bias' could result from differential response rates by successful or unsuccessful fishers, active or inactive fishers, people who tend to inaccurately report their catch for prestige or strategic reasons as well as problems with recalling the details of their fishing activity. The survey is designed to minimize bias where possible, but not all sources of bias can be completely addressed through design or education. Without a source of alternative estimates of high accuracy, the overall magnitude and direction of bias is difficult to quantify.
 
 Total annual catch estimates of boat-based angling would thus be equal to the sum of estimates from creel surveys for all months and areas where they occurred plus the iREC\* estimates for all months and areas where they did not. Despite the apparent simplicity of this calibration approach, there are outstanding issues regarding the use of creel survey estimates to calibrate iREC estimates; three of which we address here. First, creel surveys vary in sampling intensity and spatial and temporal coverage even with a particular month -- area estimate strata. This variability in the 'quality' of creel estimates (both in terms of accuracy and precision) may adversely affect calibration of iREC estimates. Second, variability in the relative strength and direction of "response bias" may influence the spatial or temporal patterns of bias in iREC estimates, with important implications for calibration. Finally, we combine information about the previous two issues to make recommendations about where, when and how to conduct relatively costly creel surveys to maximize their calibration value.
 
-### Creel quality control
+#### Creel quality control
 
 Following the method used for iREC calibration (see DFO iREC report), we filtered the creel data based on quality criteria in a given area and month. Each monthly creel estimate included in our data was required to meet each of the following criteria:
+
+*Note: Need Kris and Rob to flesh out these bullet points .... Why was at least 3 flights for each type of day chosen? Is that because in a month you typically get x amount of flights? Need to flesh out with context.*
 
 -   At least 3 flights for each type of day (weekday or weekend)
 -   At least 25 interviews mid week OR at least 10% of interviews from mid-week
@@ -93,11 +99,16 @@ g<-ggplot()+
 g
 ```
 
-## Combining iREC and creel estimates (2013 - present)
+### Combining iREC and creel estimates (2013 - present)
 
 We pulled raw recreational catch data from the CREST database. This database stores creel, logbook, and iREC data for both marine and freshwater regions. We filtered the data to contain only marine estimates for legal-sized marked and unmarked fish that were kept and released. We loaded in data from Northern and Central BC separately since the information in CREST is incomplete for these regions. We filtered the creel data as described above to only include high quality creel estimates. These estimates (which don't include submissions from logbooks) were then augmented with logbook data where available (logbook and creel estimates were summed).
 
-### iRec to Creel Calibration
+*\*\* Note: Two points:*
+
+1.  *explain how iREC was incorporated in the past (i.e. not by PFMA but at the era fishery level) --\> for catch and escapement report at least*
+2.  *explain how south coast did it's own iREC infilling and how this is replacing that.*
+
+#### iRec to Creel Calibration
 
 Where absolute estimates of effort and catch are demanded, such as for allocation decisions, stock assessments and catch reporting requirements, calibration of iREC estimates would be required. Calibrated iREC estimates for boat-based angling would be achieved by scaling iREC to creel estimates using the regression parameters (slope [m]) of iREC -- creel regressions for equivalent month -- area pairs. The calibrated iREC point estimates of boat-based angling effort or species specific catch (iREC\*) would be simply:
 
@@ -127,15 +138,17 @@ model.jags <- function() {
 
 Forced through the origin (need background?)
 
-### Alignment issues
+#### Alignment issues
 
 iREC and creel both operate on the Pacific Fisheries Management Area system. However, there are a few areas that were initially not split by the iREC system into their component parts, as done in the creel database. These include areas 2, 19, 20, and 23. We therefore combined data from 2013 until the split was successfully incorporated into iREC (licence year 2014 for Areas 2,19, and 23; licence year 2020 for Area 20).
 
-\*\*Note about ISBM corridor alignment issue and how we handle it.
+*\*\*Note: Add something about ISBM corridor alignment issue and how we handle it -i.e. iREC is just the whole PFMA.*
 
-### Extrapolating unchecked catch by mark rate
+#### Extrapolating unchecked catch by mark rate
 
 All data is typically collected in number of marked and unmarked fish kept and released. However, when mark status is unknown, the catch estimates can be provided as unchecked kept and unchecked released catch. We extrapolated these unchecked estimates to marked and unmarked catch using mark rate.
+
+*Note: add in Nick's MRP mark rate data to this list. Is it preferred?*
 
 We calculated mark rate in a number of different ways and prioritize the assignment of mark rate in the following order:
 
@@ -147,7 +160,7 @@ We calculated mark rate in a number of different ways and prioritize the assignm
 6.  Monthly area average across years - Mark rate calculated for a given source within a given month, area, and across years
 7.  Monthly regional average across years- Mark rate calculated for a given source within a given month, region, and across years
 
-### Choosing best monthly catch estimate per PFMA
+#### Choosing best monthly catch estimate per PFMA
 
 We used the following rules to choose the best catch estimate between creel (augmented with logbook data) and calibrated iREC:
 
@@ -159,9 +172,9 @@ For Southern BC:
 
 For Northern and Central BC:
 
--   Use calibrated iREC
+-   Use calibrated iREC from 2015 onwards
 
-These rules prioritize quality-controlled creel estimates during months where the most creel effort is concentrated, and then prioritizes iREC data during shoulder seasons and anywhere there is a gap in creel coverage. Northern and Central BC do not have standardized creel, and therefore the iREC data is preferred over logbook-only data.
+These rules prioritize quality-controlled creel estimates during months where the most creel effort is concentrated, and then prioritizes iREC data during shoulder seasons and anywhere there is a gap in creel coverage. Northern and Central BC do not have standardized creel, and therefore the iREC data is preferred over logbook-only data. iREC took longer to become adopted in Northern BC and therefore data from 2015 onwards is used.
 
 In Figure \@ref(fig:fig-creel-irec-JDF) we demonstrate how iREC fills in the gaps in each PFMA for a given finescale fishery (Juan De Fuca shown as an example).
 
@@ -198,7 +211,7 @@ g<-ggplot()+
 g
 ```
 
-## Modelling iREC-incorporated catch (2005-2012)
+## Revised catch estimates from 2005-2012
 
 Where iREC is unavailable (before 2013), we model iREC-incorporated seasonal catch estimates by finescale fishery using the relationship between summertime creel estimates without iREC and seasonal iREC-incorporated catch estimates from 2013-2023. These seasonal estimates are then rolled up into yearly estimates.
 
@@ -206,11 +219,13 @@ Where iREC is unavailable (before 2013), we model iREC-incorporated seasonal cat
 
 Following the rules for incorporating iREC, we split previous fisheries in spring (months 1:4), summer (months 5:9) and fall (10:12) seasons. A few exceptions were made, for example WCVI ISBM doesn't have a spring fishery since no ISBM fisheries occur in the spring. We split fisheries by season in order to better pool estimates since there are not always iREC or creel estimates for each month.
 
+*Note on terminal finescale fisheries \*\*\*\* they get the same as the "summer" estimates.....*
+
 ### Identifying a summer creel period
 
 We identified a fishery specific consistently creeled or logbooked coverage period for the summer period where there is consistent data throughout the time series (from 2005 to 2023) from the creel + logbook data. The summer coverage period included all months within 7:8 that are consistent through the timeseries. This consistent chunk of data will be used to predict the estimated catch in the section of the time series where we don't have iREC. This data is unfiltered creel + logbook catch estimates.
 
-### Modelling protocol
+### Modeling protocol
 
 We investigated various models using a systematic approach:
 
@@ -243,3 +258,21 @@ The order of comparisons was as follows:
 ### Model validation with Sport Head Recovery Program 
 
 We validated the modelling output with the sport head recovery program by regressing both the observed catch (2013-2023) and the modelled catch (2005-2012) with heads recovered by the the sport head recovery program which receives voluntary head submissions for recovering CWT tags.
+
+*Note: More detail here. I.e. comparing the slopes of heads submitted with marked kept catch and the modelled catch, similar slopes = similar submission rates.*
+
+## Incorporating revised estimates in CTC processes (inputs)
+
+The revised catch estimates from modeled data from 2005 to 2012 and from improved data from 2013-2023 were re-inserted into the CTC process. Notably, catch estimates are used in:
+
+1) CWT Estimation process. CWTs were re-estimated with the revised data for adclipped catch and re-published to RMIS.
+
+2) Catch and Escapement Report Kept and Released \# fish by ERA fishery
+
+3) Exploitation Rate Analysis Chinook non-retention. This year the ERA is switching from a model that only accounts Chinook non-retention without selectively to non-retention by mark status, therefore the applicable rates in the ERA that are modified are the marked released rate (MRR) and unmarked kept rate (UKR).
+
+-   *Note: Explain the method here for MRR and UKR averaging before 2013, to keep it consistent ... except for Juan de Fuca 2008 on wards*
+
+## Incorporating revised estimates in CTC processes (outputs) 
+
+4) CYER outputs .... *note changes from including MRR and UKR as well.*
