@@ -1,6 +1,6 @@
 ---
 title: |
-  "Pacific Recreational Catch data revisions"
+  "Chinook Recreational Catch Data Revisions"
 french_title: Titre ici (*Nom latin de l'espèce*)
 year: 2024
 report_number: nnn
@@ -27,15 +27,19 @@ french_address: |
 phone: "(555) 555-5555"
 author_footnote: "Email: norah.brown@dfo-mpo.gc.ca | telephone: "
 abstract: |
-  The goal of this project is to increase the precision and accuracy of the coded-wire tag (CWT) estimate in recreational chinook fisheries in British Columbia. These estimates are derived from adipose clipped catch and submitted salmon heads to the voluntary Salmon Head Recovery Program. Recreational catch estimates were historically a combination of creel surveys (interviews and overflights) and logbook programs. However, there are substantial spatial and temporal gaps to both catch estimation and CWT collection. For example, remote areas provide challenges to implementing overflights and access to head depots. Furthermore, bad weather during winter months prevents overflights and therefore creel surveys tend to occur only during the busiest summer months. Finally, since fisher behaviour is regionally divided, voluntary programs may have differing success in different regions. All this variability leads to uncertainties in the CWT estimates. We aim to improve the Canadian CWT estimates by two main pathways: 1. Incorporating data from iREC survey to resolve spatial and temporal gaps in catch estimation, and 2. Grouping CWT regions and months to reduce uncertainty in CWT estimates.
+  Recreational catch estimation of Chinook salmon in the Pacific Region has historically been accomplished using a combination of creel surveys and logbook programs. However, there are substantial spatial and temporal gaps in the creel and logbook data, which targets the most heavily fished areas and months. A mandatory Internet Recreational Effort and Catch (iREC) survey has been implemented since July 2012 to resolve these gaps and contribute to recreational catch information. These data have been variably incorporated into the Chinook recreational catch since 2013 in most regions domestically, but this incorporation has not occurred in a standardized way. Furthermore, iREC has not be incorporated in catch estimates prior to 2013, creating difficultly in comparing pre-2013 catch to post-2013 catch, a requirement for some aspects of the Pacific Salmon Treaty for Iddividual Stock Based Management (ISBM) fisheries. Here, we present:
+  1.	Revised catch estimates from 2013-2023, methods to be used for future catch estimates. 
+  2.	Revised catch estimates from 2005-2012. 
+  3.	Incorporation of both sets of revised estimates in Chinook Technical Commitee (CTC) reports
+  4.	Incorporation of both sets of revised estimates in inputs to annual CTC processes 
+
 french_abstract: |
-  Voici le résumé. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-# `show_continued_text` is a logical which, if `true`, places
-# "Continued on the next page..." and "...Continued from the previous page" or
-# the french equivalents (if `french` = `true`) on all long tables created
-# with `csas_table()` that cross page boundaries. If `false`, these will
-# both be absent from all tables. If it is missing or any other value than
-# `false`, it will be assumed to be `true`
+  L’estimation des prises récréatives de saumon Chinook dans la région du Pacifique a toujours été réalisée à l’aide d’une combinaison de relevés de pêcheurs et de programmes de journaux de bord. Cependant, il existe d’importantes lacunes spatiales et temporelles dans les données des pêcheurs et des journaux de bord, qui ciblent les zones et les mois les plus exploités. Depuis juillet 2012, une programme de déclaration de l’effort et des prises de la pêche récréative sur Internet (iREC) a été mis en œuvre afin de combler ces lacunes et de contribuer à l’information sur les prises récréatives. Depuis 2013, ces données ont été intégrées de façon variable dans les prises récréatives de saumon Chinook dans la plupart des zones, mais cette intégration ne s’est pas faite de manière normalisée. De plus, l’iREC n’a pas été intégré dans les estimations des prises avant 2013, ce qui rend difficile la comparaison des prises d’avant 2013 avec celles d’après 2013 et une exigence pour certains aspects du Traité sur le saumon du Pacifique (PST) pour les pêches de gestion individuelle des stocks (ISBM). Nous vous présentons ici
+  1. Estimations révisées des prises de 2013 à 2023, méthodes à utiliser pour les estimations futures des prises. 
+  2. Estimations révisées des prises de 2005 à 2012. 
+  3. Intégration des deux ensembles d’estimations révisées dans les rapports du Comité technique du saumon Chinook (CTC)
+  4. Intégration des deux séries d’estimations révisées dans les intrants des processus annuels du CTC 
+
 show_continued_text: true
 output:
  csasdown::techreport_pdf:
