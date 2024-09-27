@@ -25,6 +25,8 @@ models_combined <- pacRecCatch::model_rec_catch(Sport_mark_rate_finescale_combin
 
 Unsurprisingly, we found that catch estimates that included iREC data were generally higher than previous estimates that didn't include iREC information. As an example, Figure \@ref(fig:fig-jdf-catch-revised-1) shows the effect of the summed and revised kept catch estimates for 2013-2023 for Juan de Fuca (solid line) compared to the previous estimates without iREC inclusion (dashed line). In 2023, the revised estimates were 19% higher than the estimates without iREC included. However, in 2019, the revised estimates were smaller than the previous estimates, likely due to the creel filtration process removing a biased creel estimate. The revised kept catch plots for the remaining fisheries can be found in Appendix A \@ref(fig-catch-revised-1-appendix).
 
+*Note: should this be by ERA fishery instead? who is this for?*
+
 ```{r example summer m plots, results='asis', echo=FALSE}
 #| label: fig-jdf-catch-revised-1
 #| fig-cap: "Juan de Fuca revised yearly catch estimates"
