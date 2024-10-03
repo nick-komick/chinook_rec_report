@@ -1,6 +1,6 @@
 # Results
 
-```{r loading data, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
+```{r results loading data, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 
 library(ROracle)
 library(pacRecCatch)
@@ -17,7 +17,13 @@ library(MuMIn)
 
 Sport_mark_rate_finescale_combined<-wrangle_rec_catch("pacRecCatch_db.yaml", by="fishery")
 
+Sport_mark_rate_finescale<-wrangle_rec_catch("pacRecCatch_db.yaml", by="area")
+
+
 models_combined <- pacRecCatch::model_rec_catch(Sport_mark_rate_finescale_combined)
+
+
+Sport_mark_rate_mrr_corrected<-get_release_rates(models_combined, Sport_mark_rate_finescale)
 
 ```
 
@@ -27,7 +33,7 @@ Unsurprisingly, we found that catch estimates that included iREC data were gener
 
 *Note: should this be by ERA fishery instead? who is this for?*
 
-```{r example summer m plots, results='asis', echo=FALSE}
+```{r results example summer m plots, results='asis', echo=FALSE}
 #| label: fig-jdf-catch-revised-1
 #| fig-cap: "Juan de Fuca revised yearly catch estimates"
 
@@ -73,7 +79,7 @@ creel.summer:status + status:finescale.fishery                                  
 
 Figure \@ref(fig:fig-south-sum-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. Figure \@ref(fig:fig-jdf-summer-model) shows an example of the Summer model results in Juan de Fuca. The model fit plots for the remaining southern BC fisheries can be found in Appendix B.
 
-```{r example seasonal summer, results='asis', echo=FALSE}
+```{r results example seasonal summer, results='asis', echo=FALSE}
 #| label: fig-jdf-summer-model
 #| fig-cap: "Juan de Fuca Summer fishery modelled relationship between concentrated summertime unfiltered creel estimate (months 7 and 8) and total catch estimate including iREC in summer months (5-9). Data points are yearly estimates from 2013 to 2023."
 
@@ -164,7 +170,7 @@ $$ catch = historic.summer+status + historic.summer:status                      
 
 Figure \@ref(fig:fig-nbcaabm-sum-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. Figure \@ref(fig:fig-nbcaabm-summer-model) shows the summer model results in NBC AABM.
 
-```{r NBC AABM summer, results='asis', echo=FALSE}
+```{r results NBC AABM summer, results='asis', echo=FALSE}
 #| label: fig-nbcaabm-summer-model
 #| fig-cap: "NBC AABM modelled results for Summer fishery"
 
@@ -258,7 +264,7 @@ $$ catch = historic.summer+status                                           $$
 
 Figure \@ref(fig:fig-nbcisbm-sum-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. Figure \@ref(fig:fig-nbcisbm-summer-model) shows the summer model results in NBC ISBM.
 
-```{r NBC ISBM summer, results='asis', echo=FALSE}
+```{r results NBC ISBM summer, results='asis', echo=FALSE}
 #| label: fig-nbcisbm-summer-model
 #| fig-cap: "NBC ISBM modelled results for Summer fishery"
 
@@ -352,7 +358,7 @@ $$ catch = creel.summer+finescale.fishery+season+status+                        
 
 Figure \@ref(fig:fig-south-sf-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. Figure \@ref(fig:fig-jdf-fall-model) shows an example of the Spring/Fall model results in Juan de Fuca Fall fisheries.
 
-```{r example seasonal spring and fall, results='asis', echo=FALSE}
+```{r results example seasonal spring and fall, results='asis', echo=FALSE}
 #| label: fig-jdf-fall-model
 #| fig-cap: "Juan de Fuca modelled results for Fall fishery"
 
@@ -441,7 +447,7 @@ $$ catch = historic.summer+season+status+                                       
 
 Figure \@ref(fig:fig-nbcaabm-sf-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. Figure \@ref(fig:fig-nbcaabm-fall-model) shows an example of the Fall model results in NBC AABM.
 
-```{r example NBC AABM seasonal spring and fall, results='asis', echo=FALSE}
+```{r results example NBC AABM seasonal spring and fall, results='asis', echo=FALSE}
 #| label: fig-nbcaabm-fall-model
 #| fig-cap: "NBC AABM modelled results for Fall fishery"
 
@@ -530,7 +536,7 @@ $$ catch = historic.summer+season+status+                                       
 
 Figure \@ref(fig:fig-nbcisbm-sf-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. Figure \@ref(fig:fig-nbcisbm-fall-model) shows an example of the Fall model results in NBC ISBM.
 
-```{r example NBC ISBM seasonal spring and fall, results='asis', echo=FALSE}
+```{r results example NBC ISBM seasonal spring and fall, results='asis', echo=FALSE}
 #| label: fig-nbcisbm-fall-model
 #| fig-cap: "NBC ISBM modelled results for Fall fishery"
 
@@ -618,7 +624,7 @@ $$ catch = historic.summer+status                                          $$
 
 Figure \@ref(fig:fig-cbc-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. Figure \@ref(fig:fig-cbc-model) shows the CBC model results.
 
-```{r CBC model, results='asis', echo=FALSE}
+```{r results CBC model, results='asis', echo=FALSE}
 #| label: fig-cbc-model
 #| fig-cap: "CBC modelled results for year round fishery"
 
@@ -698,7 +704,7 @@ print(g)
 
 We used the sport head recovery program to validate the model results.
 
-```{r Loading packages, useful functions, echo=FALSE}
+```{r results Loading packages, useful functions, echo=FALSE}
 #load packages
 library(dplyr)
 library(readr)
@@ -707,8 +713,7 @@ library(ROracle)
 
 #utils
 "%notin%" <- Negate("%in%")
-sport_catch <- pacRecCatch::wrangle_rec_catch("pacRecCatch_db.yaml")
-models_combined <- pacRecCatch::model_rec_catch(sport_catch)
+sport_catch <- Sport_mark_rate_finescale_combined
 head_df <-  pacRecCatch::get_head_totals()
 
 lm_eqn <- function(df){
@@ -722,7 +727,7 @@ lm_eqn <- function(df){
   as.character(as.expression(eq));
 }
 
-models_combined <-
+models_combined2 <-
   models_combined |>
   mutate(finescale_fishery = if_else(grepl("NWCVI|SWCVI", finescale_fishery), 
                                      trimws(gsub(" ISBM|AABM", "", finescale_fishery)),
@@ -741,7 +746,7 @@ head_df <-
             .groups = "drop")
 
 head_catch_df <-
-  models_combined |>
+  models_combined2 |>
   filter(status == "marked_Kept_total") |>
   full_join(head_df, c(YEAR="year", finescale_fishery = "region")) |>
   mutate(YEAR = as.integer(YEAR),
@@ -756,7 +761,7 @@ head_catch_model_df <-
 
 ```
 
-```{r Head to Kept Mark Catch, echo=FALSE}
+```{r results Head to Kept Mark Catch, echo=FALSE}
 
 ggplot(data = head_catch_model_df, aes(x=catch_estimate_predicted,
                                        y=head_total)) +
@@ -770,7 +775,7 @@ ggplot(data = head_catch_model_df, aes(x=catch_estimate_predicted,
 
 ```
 
-```{r Pre iRec Head to Kept Mark Catch, echo=FALSE}
+```{r results Pre iRec Head to Kept Mark Catch, echo=FALSE}
 
 pre_irec_catch_model_df <- 
   head_catch_model_df |>
@@ -789,7 +794,7 @@ ggplot(data = pre_irec_catch_model_df,
 
 ```
 
-```{r Post iRec Head to Kept Mark Catch, echo=FALSE}
+```{r results Post iRec Head to Kept Mark Catch, echo=FALSE}
 
 post_irec_catch_model_df <- 
   head_catch_model_df |>
@@ -808,14 +813,14 @@ ggplot(data = post_irec_catch_model_df,
 
 ```
 
-```{r Fishery Rates, echo=FALSE}
+```{r results Fishery Rates, echo=FALSE}
 
 ggplot(data = head_catch_model_df, aes(x=YEAR, y=submit_rate, color=finescale_fishery)) +
   geom_line(linewidth = 2)
 
 ```
 
-```{r pre IRec Fishery Rates, echo=FALSE}
+```{r results pre IRec Fishery Rates, echo=FALSE}
 
 ggplot(data = pre_irec_catch_model_df, aes(x=YEAR, y=submit_rate, color=finescale_fishery)) +
   geom_line(linewidth = 2)
@@ -830,6 +835,78 @@ ggplot(data = pre_irec_catch_model_df, aes(x=YEAR, y=submit_rate, color=finescal
 
 -   *C&E Report results here (Fig 3 and 4 of the memo)*
 
+```{r results CandEkept, results='asis', echo=FALSE}
+#| label: fig-cande-kept
+#| fig-cap: "Revised (blue) and previously reported (green) kept catch estimates from 2005-2023. Revised estimates prior to 2012 (vertical line) are from modelled data, whereas 2013 onwards is observed data. "
+
+
+cnr_canada_sport<-read.csv("data/cnr_canada_sport.csv") %>% as_tibble() %>% filter(year>2004)
+
+fishery_map<-models_combined %>% dplyr::select(finescale_fishery_old, finescale_fishery) %>%
+  mutate(erafishery = case_when(
+    finescale_fishery_old %in% c("NWCVI S AABM", "SWCVI S AABM") ~ "WCVI AABM S",
+    finescale_fishery_old %in% c("NGS S", "SGS S") ~  "GEO ST S",
+    finescale_fishery_old == "CA JDF S" ~ "BC JF S",
+    finescale_fishery_old %in%  c("NWCVI S ISBM", "SWCVI S ISBM") ~ "WCVI ISBM S",
+    TRUE ~ finescale_fishery_old
+  )) %>% unique()
+
+cnr_canada_sport<-cnr_canada_sport %>% left_join(fishery_map) %>% rename(YEAR=year)
+
+Sport_mark_rate_mrr<- Sport_mark_rate_mrr_corrected %>% left_join(cnr_canada_sport)
+Sport_mark_rate_mrr<-Sport_mark_rate_mrr %>% mutate(Kept_total = marked_Kept_total + unmarked_Kept_total,
+                                                    Released_total = marked_Released_total + unmarked_Released_total)
+
+
+cnr_canada_sport_short<- cnr_canada_sport %>% dplyr::select(-finescale_fishery, -finescale_fishery_old) %>% unique()
+
+Sport_mark_rate_mrr_sum<-Sport_mark_rate_mrr %>% dplyr::select(-Kept, -Released, -Release_rate) %>% group_by(erafishery, YEAR) %>%   summarise_if(is.numeric, sum, na.rm = TRUE)
+Sport_mark_rate_mrr_sum<-Sport_mark_rate_mrr_sum  %>% left_join(cnr_canada_sport_short)
+
+rec_summary<-read.csv("data/rec_summary_2005-2023.csv") %>% as_tibble()
+Sport_mark_rate_mrr_sum<-Sport_mark_rate_mrr_sum  %>% left_join(rec_summary)
+Sport_mark_rate_mrr_sum<-Sport_mark_rate_mrr_sum %>% filter(!is.na(erafishery))
+
+## Kept only
+k<-ggplot() +
+  geom_point(data=Sport_mark_rate_mrr_sum, aes(y=Kept_total, x=YEAR, col="lightblue4")) + geom_line(data=Sport_mark_rate_mrr_sum, aes(y=Kept_total, x=YEAR, col="lightblue4"))+
+  geom_point(data=Sport_mark_rate_mrr_sum, aes(y=total_kept, x=YEAR, col="lightgreen")) + geom_line(data=Sport_mark_rate_mrr_sum, aes(y=total_kept, x=YEAR, col="lightgreen"))+
+ # geom_point(data=Sport_mark_rate_mrr_sum, aes(y=Kept, x=YEAR, col="darkgreen")) + geom_line(data=Sport_mark_rate_mrr_sum, aes(y=Kept, x=YEAR, col="darkgreen"))+
+
+  scale_color_manual(values=c("lightblue4", "lightgreen"),  labels = c("Revised estimates", "2024 C&E Report"))+
+  theme(legend.position="bottom")+
+  ylab("Kept Catch")+
+  facet_wrap(~erafishery, scales = "free", ncol=4)+
+  theme_bw()+ geom_vline(xintercept = 2012)+
+  labs(col = "Data source")
+
+print(k)
+
+```
+
+Released
+
+```{r results CandEreleased, results='asis', echo=FALSE}
+#| label: fig-cande-released
+#| fig-cap: "Revised (blue) and previously reported (green) released catch estimates from 2005-2023. Revised estimates prior to 2012 (vertical line) are from modelled data, whereas 2013 onwards is observed data. "
+
+
+## Released only
+r<-ggplot() +
+  geom_point(data=Sport_mark_rate_mrr_sum, aes(y=Released_total, x=YEAR, col="lightblue4")) + geom_line(data=Sport_mark_rate_mrr_sum, aes(y=Released_total, x=YEAR, col="lightblue4"))+
+  geom_point(data=Sport_mark_rate_mrr_sum, aes(y=legal_releases, x=YEAR, col="lightgreen")) + geom_line(data=Sport_mark_rate_mrr_sum, aes(y=legal_releases, x=YEAR, col="lightgreen"))+
+ # geom_point(data=Sport_mark_rate_mrr_sum, aes(y=Released, x=YEAR, col="darkgreen")) + geom_line(data=Sport_mark_rate_mrr_sum, aes(y=Released, x=YEAR, col="darkgreen"))+
+
+  scale_color_manual(values=c( "lightblue4", "lightgreen"),  labels = c("Revised estimates", "2024 C&E Report"))+
+  theme(legend.position="bottom")+
+  ylab("Released Catch")+
+  facet_wrap(~erafishery, scales = "free", ncol=4)+
+  theme_bw()+ geom_vline(xintercept = 2012)+
+  labs(col = "Data source")
+
+print(r)
+```
+
 ### Updating CWT estimates
 
 -   *CWT results here*
@@ -837,3 +914,25 @@ ggplot(data = pre_irec_catch_model_df, aes(x=YEAR, y=submit_rate, color=finescal
 ### Updating Chinook non-retention (release) estimates
 
 -   *MRR/UKR results here compared to CNR file (Fig 5 of the memo)*
+
+```{r results mrrukr, results='asis', echo=FALSE}
+#| label: fig-mrrukr
+#| fig-cap: "Release rates at the finescale fishery level, over time from 2005 to 2023. Light blue lines are release rates of unmarked fish and dark blue lines are release rates of marked fish, from revised data. Green lines are release rates (regardless of mark status) used in the 2024 CNR files to the ERA."
+
+
+Sport_mark_rate_mrr<-Sport_mark_rate_mrr %>% filter(!is.na(erafishery))
+
+mu<-ggplot() +
+  geom_point(data=Sport_mark_rate_mrr, aes(y=(1-ukr), x=YEAR, col="lightblue")) + geom_line(data=Sport_mark_rate_mrr, aes(y=1-ukr, x=YEAR, col="lightblue"))+
+  geom_point(data=Sport_mark_rate_mrr, aes(y=mrr, x=YEAR, col="lightblue4")) + geom_line(data=Sport_mark_rate_mrr, aes(y=mrr, x=YEAR, col="lightblue4"))+
+  geom_point(data=Sport_mark_rate_mrr, aes(y=Release_rate, x=YEAR, col="lightgreen")) + geom_line(data=Sport_mark_rate_mrr, aes(y=Release_rate, x=YEAR, col="lightgreen"))+
+  scale_color_manual(values=c("lightblue", "lightblue4", "lightgreen"),  labels = c("Revised Unmarked Release Rate", "Revised Marked Release Rate", "2024 CNR Release Rate"))+
+  theme(legend.position="bottom")+
+  ylab("Proportion")+
+  facet_wrap(~finescale_fishery)+
+  theme_bw()+ geom_vline(xintercept = 2012)+
+  labs(col="Data source")+
+  theme(legend.position = "bottom")
+
+print(mu)
+```
