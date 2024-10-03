@@ -6,10 +6,12 @@ year: 2024
 report_number: nnn
 author: |
   Norah E.M. Brown^1^, 
-  Nicholas Komick^1^, 
-  Rob Houtman^1^, and
+  Nicholas Komick^1^,
+  Kristopher Hein^1^,
+  Rob Houtman^1^, 
+  Catarina Wor^1^, and
   Antonio Velez-Espino ^1^
-author_list: "Brown, N.E.M., Komick, N., Houtman, R., and Velez-Espino, A."
+author_list: "Brown, N.E.M., Komick, N., Hein, K., Houtman, R., Wor, C., and Velez-Espino, A."
 region: Pacific Region
 french_region: Région du Pacifique
 isbn: ""
