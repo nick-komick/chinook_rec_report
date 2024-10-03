@@ -4,9 +4,15 @@
 
 ### Background on survey methods
 
-Here we first provide a brief background on the creel, logbook, and iREC surveys and currently how each contribute to the catch estimates in a given month. More details on each method can be found in the relevant technical reports for each method (Houtman et al. 2015, Creel report?). We note any improvements to the data quality assurance and control that may have occurred since original reporting. While all methods report on multiple species, here we are concerned only with data involving Chinook salmon.
+We first provide a brief background on the creel, logbook, and iREC surveys and how each contribute to Chinook catch estimates in a given month. More details on each method can be found in the relevant technical reports for each method (Houtman et al. 2015, Creel report?). We note any improvements to the data quality assurance and control that may have occurred since original reporting. While all methods report on multiple species, here we are concerned only with data involving Chinook salmon. The region of interest is all Pacific Fishery Management Areas (PFMAs, previously Stat Areas), more information and detailed maps can be found [here](https://www.pac.dfo-mpo.gc.ca/fm-gp/maps-cartes/areas-secteurs/index-eng.html).
 
-#### South Coast Creel Survey
+[![Pacific Fishery Management Areas](data/PFMA.png)](PFMA)
+
+#### South Coast Creel Survey <!--# Kris and Rob input here -->
+
+The South Coast Creel Survey program began in the early 1980s with a limited scope of Strait of Georgia recreational fisheries. It has since expanded its scope to mostly summertime sruveys (although some spring and fall surveys) of PFMAs 10 to 27, including offshore areas (start with a "1"). The survey involves dock-side fisher interviews and aerial surveys for effort counts. For more information about the SCCS, see the most recent program overview and bulletins, found [here](https://cat.fsl-bsf.scitech.gc.ca/record=b4125212~S1).
+
+Cite: South coast assessment bulletion, program overview
 
 *Note: Write a general paragraph here about the creel programs where they operate, how long have they been going on. Could include a coverage map by PFMA and month (heatmap).*
 
@@ -26,7 +32,7 @@ Since creel surveys vary in sampling intensity and spatial and temporal coverage
 
 The criteria failed 51% of all estimates since 2005 (Figure \@ref(fig:fig-creel-criteria)). Areas 15 and 16 had the highest proportion of failed criteria, followed by Area 29, 19 (GS) and 21, which all had over 80% of estimates fail the criteria. The core summer months July and August have the highest rate of criteria passing (more than 70% of estimates passing), whereas the winter months (October through February) have more than 75% failed criteria, likely due to weather making consistent overflights difficult.
 
-```{r Loading packages useful functions, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
+```{r methods Loading packages useful functions, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 
 library(ROracle)
 library(pacRecCatch)
@@ -58,7 +64,7 @@ colclear= "#1C00ff00"
 
 ```
 
-```{r plotting PFMA creel unfiltered, echo=FALSE, message=FALSE, warning=FALSE, fig.height=12, fig.width=15, out.width = "7in", fig.align = "left"}
+```{r methods plotting PFMA creel unfiltered, echo=FALSE, message=FALSE, warning=FALSE, fig.height=12, fig.width=15, out.width = "7in", fig.align = "left"}
 #| label: fig-creel-criteria
 #| fig-cap: "Creel estimates that passed (green) or failed (red) quality control criteria by month and PFMA."
 
@@ -134,7 +140,7 @@ $$iRec^*=\frac{(iRec)}{m}$$
 
 Use of JAGS
 
-```{r, echo=TRUE}
+```{r methods jags, echo=TRUE}
 model.jags <- function() {   for(i in 1:Ndata) {      
   #generate what true value may be based on se (notice that dnorm in jags      
   # uses 1/variance for second argument thus 1/SE^2)      
@@ -173,7 +179,7 @@ We pulled raw recreational catch data from the Catch and Release Estimates (CRES
 
 In Table\@ref(tab:strattab), we show the stratification of ERA fisheries to Finescale Fisheries to PFMAs and months.
 
-```{r strattab, echo=FALSE, message=FALSE, warning=FALSE}
+```{r methods strattab, echo=FALSE, message=FALSE, warning=FALSE}
 
 
 
@@ -256,7 +262,7 @@ In Figure \@ref(fig:fig-creel-irec-JDF) we demonstrate how iREC fills in the gap
 
 *Note: fix the scale of this plot - consider using an areas that's not JDF and doesn't have the weird 20 split*
 
-```{r pfma_month again, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
+```{r methods pfma_month again, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 
 Sport_mark_rate_finescale<-wrangle_rec_catch("pacRecCatch_db.yaml", by="area")
 
@@ -268,7 +274,7 @@ pfma_yearMonth_catch_estimate_1<-pfma_yearMonth  %>% filter(sum_catch_estimate!=
 pfma_yearMonth_irec_1<-pfma_yearMonth  %>% filter(sum_catch_estimate==sum_irec)
 ```
 
-```{r plotting PFMA - Juan de Fuca, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2, fig.width=10}
+```{r methods plotting PFMA - Juan de Fuca, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2, fig.width=10}
 #| label: fig-creel-irec-JDF
 #| fig-cap: "Creel estimates in Juan de Fuca by area and month and chosen best catch estimate between creel and iREC"
 
