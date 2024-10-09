@@ -4,6 +4,13 @@
 
 Discussion points:
 
-*Something here about subject to change based on:*
+-   *Something here about subject to change based on:*
 
-\-*irec calibration 2.0, irec QA/QC process not finalized*
+1.  *Changes to irec:*
+    -   *calibration 2.0,*
+
+    -   irec *QA/QC process not finalized*
+
+-   Modelling:
+
+    -   We would expect a non-linear relationship in the modeling of 2005-2012 iREC inclusion since the y axis involves filtered creel and the x axis is only unfiltered creel. The creel filtration process is likely non-linear since smaller estimates are more likely to not pass the quality control filter.
