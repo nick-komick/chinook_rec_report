@@ -11,7 +11,7 @@ author: |
   Rob Houtman^1^, 
   Catarina Wor^1^, and
   Antonio Velez-Espino ^1^
-author_list: "Brown, N.E.M., Komick, N., Hein, K., Houtman, R., Wor, C., and Velez-Espino, A."
+author_list: "Brown, N.E.M., Komick, N., Gill, L., Hein, K., Houtman, R., Swain, N., Tessier, L., Van Vliet, H., Wor, C., and Velez-Espino, A."
 region: Pacific Region
 french_region: Région du Pacifique
 isbn: ""
