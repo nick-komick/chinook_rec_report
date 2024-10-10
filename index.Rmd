@@ -7,8 +7,12 @@ report_number: nnn
 author: |
   Norah E.M. Brown^1^, 
   Nicholas Komick^1^,
+  Lauren Gill^1^,
   Kristopher Hein^1^,
   Rob Houtman^1^, 
+  Noel Swain^1^, 
+  Laura Tessier^1^, 
+  Heidi Van Vliet^1^, 
   Catarina Wor^1^, and
   Antonio Velez-Espino ^1^
 author_list: "Brown, N.E.M., Komick, N., Gill, L., Hein, K., Houtman, R., Swain, N., Tessier, L., Van Vliet, H., Wor, C., and Velez-Espino, A."
