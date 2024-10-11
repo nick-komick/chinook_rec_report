@@ -924,8 +924,6 @@ ggplot(data = pre_irec_catch_model_df, aes(x=YEAR, y=submit_rate, color=finescal
 
 ```
 
-## 
-
 \clearpage
 
 ## Incorporation of both sets of revised estimates in Chinook Technical Committee processes
