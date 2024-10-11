@@ -387,9 +387,9 @@ The best model for Southern BC Spring and Fall fisheries was one with a gamma di
 
 $$ catch = creel.summer+fishery+season+status+creel.summer:fishery+creel.summer:status+                                               fishery:season $$
 
-This model parameterization allows for filtered creel + calibrated iREC catch to be predicted both independently by the unfiltered creel and logbook catch in the limited creel summer period (months 7:8), by finescale fishery, by season (spring(months 1:4) or fall(10:12), and by status (marked kept, marked released, unmarked kept, unmarked released). In addition, the effect of the creel summer period on catch can be modified by finescale fishery and status and the effect of season on catch can be modified by finescale fishery. Figure \@ref(fig:fig-south-sf-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. There are some noticeable patterns in the residuals here that could be improved, however at this time this is the best model fit to the data.
+This model parameterization allows for filtered calibrated iREC catch to be predicted both independently by the unfiltered creel and logbook catch in the limited creel summer period (months 7:8), by finescale fishery, by season (spring(months 1:4) or fall(10:12), and by status (marked kept, marked released, unmarked kept, unmarked released). In addition, the effect of the creel summer period on catch can be modified by finescale fishery and status and the effect of season on catch can be modified by finescale fishery. Figure \@ref(fig:fig-south-sf-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. There are some noticeable patterns in the residuals here that could be improved, however at this time this is the best model fit to the data.
 
-Figure \@ref(fig:fig-jdf-fall-model) shows an example of the Spring/Fall model results in Juan de Fuca Fall fisheries. This particular example shows a poorer fit to the data than some of the other fisheries (see Appendix C). However, the catch estimated for the all months 10:12 is generally low, and without this model, it likely that the predicted catch in off-season fisheries would be 0 or close to zero if there was no creel during this period, which we know is not an accurate assessment.
+Figure \@ref(fig:fig-jdf-fall-model) shows an example of the Spring/Fall model results in Juan de Fuca Fall fisheries. This particular example shows a poorer fit to the data than some of the other fisheries (see Appendix C). However, the iREC catch estimated for the all months 10:12 is generally low, and without this model, it likely that the predicted catch in off-season fisheries would be 0 or close to zero if there was no creel during this period.
 
 ```{r results example seasonal spring and fall, results='asis', echo=FALSE}
 #| label: fig-jdf-fall-model
@@ -443,7 +443,7 @@ g1<-ggplot(Season_south_no_nas %>% filter(finescale_fishery==fishery_name_south[
   scale_size_continuous(range=c(1,3))+ scale_colour_manual(values=c("#440154"))+  scale_fill_manual(values=c("#440154"))+
   coord_cartesian(ylim = c(0,max(dataminmax_marked_kept$catch_estimate)), xlim = c(0,max(dataminmax_marked_kept$creel_plus_summer))) +  ggtitle(paste0("", fishery_name_south[fishery_name_south== fishery_name_south[i]], " "))+
   xlab("Creel summer catch estimate") + 
-  ylab("iREC-included catch estimate")
+  ylab("iREC-only catch estimate")
 
 g2<-ggplot(Season_south_no_nas %>% filter(finescale_fishery==fishery_name_south[i], status=="marked_Released_total"), aes(x=creel_plus_summer,  y= catch_estimate, col=status))+
   geom_point()+
@@ -453,7 +453,7 @@ g2<-ggplot(Season_south_no_nas %>% filter(finescale_fishery==fishery_name_south[
  scale_size_continuous(range=c(1,3))+ scale_colour_manual(values=c("#31688e"))+  scale_fill_manual(values=c("#31688e"))+
   coord_cartesian(ylim = c(0,max(dataminmax_marked_released$catch_estimate)), xlim = c(0,max(dataminmax_marked_released$creel_plus_summer)))+
   xlab("Creel summer catch estimate") + 
-  ylab("iREC-included catch estimate")
+  ylab("iREC-only catch estimate")
 
 g3<-ggplot(Season_south_no_nas %>% filter(finescale_fishery==fishery_name_south[i], status=="unmarked_Kept_total"), aes(x=creel_plus_summer,  y= catch_estimate, col=status))+
   geom_point()+
@@ -463,7 +463,7 @@ g3<-ggplot(Season_south_no_nas %>% filter(finescale_fishery==fishery_name_south[
   scale_size_continuous(range=c(1,3))+ scale_colour_manual(values=c("#35b779"))+  scale_fill_manual(values=c("#35b779"))+
   coord_cartesian(ylim = c(0,max(dataminmax_unmarked_kept$catch_estimate)), xlim = c(0,max(dataminmax_unmarked_kept$creel_plus_summer)))+
   xlab("Creel summer catch estimate") + 
-  ylab("iREC-included catch estimate")
+  ylab("iREC-only catch estimate")
 
 g4<-ggplot(Season_south_no_nas %>% filter(finescale_fishery==fishery_name_south[i], status=="unmarked_Released_total"), aes(x=creel_plus_summer,  y= catch_estimate, col=status))+
   geom_point()+
@@ -473,7 +473,7 @@ g4<-ggplot(Season_south_no_nas %>% filter(finescale_fishery==fishery_name_south[
   scale_size_continuous(range=c(1,3))+ scale_colour_manual(values=c("#d4be02"))+  scale_fill_manual(values=c("#d4be02"))+
     coord_cartesian(ylim = c(0,max(dataminmax_unmarked_released$catch_estimate)), xlim = c(0,max(dataminmax_unmarked_released$creel_plus_summer)))+
   xlab("Creel summer catch estimate") + 
-  ylab("iREC-included catch estimate")
+  ylab("iREC-only catch estimate")
 
 g<-g1+g2 + g3+g4 + plot_layout(guides = "collect") 
 print(g)
@@ -1022,4 +1022,3 @@ mu<-ggplot() +
 
 print(mu)
 ```
-

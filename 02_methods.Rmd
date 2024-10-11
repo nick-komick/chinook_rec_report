@@ -327,9 +327,7 @@ Following the rules for incorporating iREC, we split previous fisheries in sprin
 
 ### Identifying a summer creel period
 
-We identified a fishery specific consistently creeled or logbooked coverage period for the summer period where there is consistent data throughout the time series (from 2005 to 2023) from the creel + logbook data. The summer coverage period included all months within 7:8 that are consistent through the timeseries. This consistent chunk of data will be used to predict the estimated catch in the section of the time series where we don't have iREC. For South Coast regions this data is unfiltered South Coast creel + logbook catch estimates; for North and Central coast this data is referred to as "historical" but is logbook only for Central Coast and a combination of unfiltered creel and logbook catch estimates in the North Coast.
-
-*Note: include explanation figure here?*
+We identified a fishery specific consistently creeled or logbooked coverage period for the summer period where there is consistent data throughout the time series (from 2005 to 2023) from the creel + logbook data. The summer coverage period included all months within 7:8 that are consistent through the timeseries. This consistent chunk of data is then used to predict the estimated catch in the section of the time series where we don't have iREC. For South Coast regions this data is unfiltered South Coast creel + logbook catch estimates; for North and Central coast this data is referred to as "historical" but is logbook only for Central Coast and a combination of unfiltered Haida or Area 3/4 creel and logbook catch estimates in the North Coast.
 
 ### Modeling protocol
 
