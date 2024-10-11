@@ -389,7 +389,7 @@ $$ catch = creel.summer+fishery+season+status+creel.summer:fishery+creel.summer:
 
 This model parameterization allows for filtered creel + calibrated iREC catch to be predicted both independently by the unfiltered creel and logbook catch in the limited creel summer period (months 7:8), by finescale fishery, by season (spring(months 1:4) or fall(10:12), and by status (marked kept, marked released, unmarked kept, unmarked released). In addition, the effect of the creel summer period on catch can be modified by finescale fishery and status and the effect of season on catch can be modified by finescale fishery. Figure \@ref(fig:fig-south-sf-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. There are some noticeable patterns in the residuals here that could be improved, however at this time this is the best model fit to the data.
 
-Figure \@ref(fig:fig-jdf-fall-model) shows an example of the Spring/Fall model results in Juan de Fuca Fall fisheries.
+Figure \@ref(fig:fig-jdf-fall-model) shows an example of the Spring/Fall model results in Juan de Fuca Fall fisheries. This particular example shows a poorer fit to the data than some of the other fisheries (see Appendix C). However, the catch estimated for the all months 10:12 is generally low, and without this model, it likely that the predicted catch in off-season fisheries would be 0 or close to zero if there was no creel during this period, which we know is not an accurate assessment.
 
 ```{r results example seasonal spring and fall, results='asis', echo=FALSE}
 #| label: fig-jdf-fall-model
@@ -482,11 +482,13 @@ print(g)
 
 #### Northern BC AABM Spring and Fall Fisheries
 
-The best model was one with a gamma distribution with a log link which included summer creel, marked and kept status, finescale fishery, and various interactions of these terms:
+The best model for Northern BC AABM Spring and Fall Fisheries was one with a gamma distribution with a log link which included summer historic data (Haida creel + logbook), season, status, and an interaction of status and creel.
 
 $$ catch = historic.summer+season+status+                                                historic.summer:status                                            $$
 
-Figure \@ref(fig:fig-nbcaabm-sf-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. Figure \@ref(fig:fig-nbcaabm-fall-model) shows an example of the Fall model results in NBC AABM.
+This model parameterization allows for calibrated iREC catch to be predicted both independently by the unfiltered Haida creel and logbook catch in the limited creel summer period (months 7:8), by season, and by status. In addition, the effect of the creel and logbook (historic) summer period on catch is modified by status. Figure \@ref(fig:fig-nbcaabm-sf-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. There are noticeable patterns in the residuals, but this was the best model tested.
+
+Figure \@ref(fig:fig-nbcaabm-fall-model) shows an example of the Fall model results in NBC AABM. There is very little catch in Fall NBC AABM fisheries and therefore the models tend to predict a nominal small amount of additional fish in the fall, and a larger amount in the spring (see Appendix C).
 
 ```{r results example NBC AABM seasonal spring and fall, results='asis', echo=FALSE}
 #| label: fig-nbcaabm-fall-model
@@ -579,11 +581,13 @@ print(g)
 
 #### Northern BC ISBM Spring and Fall Fisheries
 
-The best model was one with a gamma distribution with a log link which included summer creel, marked and kept status, finescale fishery, and various interactions of these terms:
+The best model for Northern BC ISBM Spring and Fall Fisheries was one with a gamma distribution with a log link which included summer historic data (Area 3 and 4 creel + logbook), season, status, and an interaction of season and status.
 
 $$ catch = historic.summer+season+status+                                                season:status                                            $$
 
-Figure \@ref(fig:fig-nbcisbm-sf-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. Figure \@ref(fig:fig-nbcisbm-fall-model) shows an example of the Fall model results in NBC ISBM.
+This model parameterization allows for calibrated iREC catch to be predicted both independently by the unfiltered Area 3 and 4 creel and logbook catch in the limited creel summer period (months 7:8), by season and by status. The effect of season was modified by status. Figure \@ref(fig:fig-nbcisbm-sf-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals.
+
+Figure \@ref(fig:fig-nbcisbm-fall-model) shows an example of the model results in NBC ISBM fall fishery. The unmarked kept status fits the data the best since it has the largest catch. Generally, the iREC-only catch predcited in fall fisheries in NBC ISBM is fairly small.
 
 ```{r results example NBC ISBM seasonal spring and fall, results='asis', echo=FALSE}
 #| label: fig-nbcisbm-fall-model
@@ -673,11 +677,13 @@ print(g)
 
 #### Central BC annual fishery
 
-The best model was one with a gamma distribution with a log link which included historic estimates (logbook), marked and kept status.
+The best model for the Central BC annual fishery was one with a gamma distribution with a log link which included historic estimates (logbook only) and status.
 
 $$ catch = historic.summer+status                                          $$
 
-Figure \@ref(fig:fig-cbc-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. Figure \@ref(fig:fig-cbc-model) shows the CBC model results.
+This model parameterization allows for calibrated iREC catch to be predicted both independently by the logbook catch in the limited creel summer period (months 7:8) and by status. Figure \@ref(fig:fig-cbc-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. There were minimal patterns in the residuals.
+
+Figure \@ref(fig:fig-cbc-model) shows the CBC model results. Generally for low catch estimates a flat line is predicted, but for unmarked Kept fish, the iREC estimate is an increasing function of summertime logbook catch.
 
 ```{r results CBC model, results='asis', echo=FALSE}
 #| label: fig-cbc-model
@@ -762,6 +768,8 @@ g<-g1+g2 + g3+g4 + plot_layout(guides = "collect")
 print(g)
 
 ```
+
+\clearpage
 
 ### Model validation using sport head recoveries
 
@@ -1014,3 +1022,4 @@ mu<-ggplot() +
 
 print(mu)
 ```
+

@@ -19,7 +19,7 @@ knitr::include_graphics(c(fig1_path))
 
 *Note: references need to be added to bib and linked*
 
-#### South Coast Catch Estimation *Kris/Rob/Aswea to review this section*
+#### South Coast Catch Estimation *Kris/Rob to review this section*
 
 South Coast catch estimation is a combination of creel surveys and logbook and avid angler programs. The South Coast Creel Survey (SCCS), run by the department, began in the early 1980s with a limited scope of Strait of Georgia recreational fisheries. It has since expanded its scope to surveys in PFMAs 10 to 27, including offshore areas (start with a "1"). The surveys are generally concentrated in the summer months, however some spring and fall surveys occur in specific areas. The survey involves dock-side fisher interviews and aerial surveys for effort counts. Raw estimates and uncertainty are expanded to cover a given month and PFMA. Currently, this program produces separate catch estimates for marked and unmarked fish, for kept and released fish, and for legal and sublegal sized fish. In the past, unchecked kept fish were expanded to marked and unmarked using a monthly mark rate and to kept and released using a monthly release rate. For more information and methods about the SCCS, see the most recent program overview and bulletins, found [here](https://cat.fsl-bsf.scitech.gc.ca/record=b4125212~S1) (*Cite: South coast assessment bulletin, program overview 2024*). While the SCCS is the primary source of data for the South Coast, data from logbook and avid angler programs are provided on a voluntary basis and are detracted from area and month-specific estimates of the creel survey to avoid double-counting.
 
