@@ -17,12 +17,12 @@ library(bbmle)
 library(SuppDists)
 library(MuMIn)
 
-Sport_mark_rate_finescale_combined<-wrangle_rec_catch("pacRecCatch_db.yaml", by="fishery")
+Sport_mark_rate_finescale_combined<-wrangle_rec_catch("pacRecCatch_db.yaml", by="fishery", most_recent_data_year=2023)
 
-Sport_mark_rate_finescale<-wrangle_rec_catch("pacRecCatch_db.yaml", by="area")
+Sport_mark_rate_finescale<-wrangle_rec_catch("pacRecCatch_db.yaml", by="area", most_recent_data_year=2023)
 
 
-models_combined <- pacRecCatch::model_rec_catch(Sport_mark_rate_finescale_combined)
+models_combined <- pacRecCatch::model_rec_catch(Sport_mark_rate_finescale_combined, most_recent_data_year=2023)
 
 
 Sport_mark_rate_mrr_corrected<-get_release_rates(models_combined, Sport_mark_rate_finescale)
