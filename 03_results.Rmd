@@ -4,19 +4,6 @@
 
 ```{r results loading data, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 
-library(ROracle)
-library(pacRecCatch)
-library(tidyverse)
-library(odbc)
-library(lubridate)
-library(ggnewscale)
-library(patchwork)
-library(DHARMa)
-library(lme4)
-library(bbmle)
-library(SuppDists)
-library(MuMIn)
-
 Sport_mark_rate_finescale_combined<-wrangle_rec_catch("pacRecCatch_db.yaml", by="fishery", most_recent_data_year=2023)
 
 Sport_mark_rate_finescale<-wrangle_rec_catch("pacRecCatch_db.yaml", by="area", most_recent_data_year=2023)
@@ -181,7 +168,7 @@ print(g)
 
 The best model for Northern BC AABM Summer Fisheries was one with a gamma distribution with a log link which included summer historic data (Haida creel + logbook), status, and an interaction of these two terms:
 
-$$ catch = historic.summer+status + historic.summer:status                                            $$
+$$ catch = historic.summer+status + historic.summer:status $$
 
 This model parameterization allows for calibrated iREC catch in the whole summer period (months 5:9) to be predicted both independently by the unfiltered creel and logbook (historic) catch in the limited creel summer period (months 7:8) and by status. In addition, the effect of the creel and logbook (historic) summer period on catch is modified by status. Figure \@ref(fig:fig-nbcaabm-sum-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. There are some noticeable patterns in the residuals here that could be improved, however at this time this is the best model fit to the data.
 
@@ -484,7 +471,7 @@ print(g)
 
 The best model for Northern BC AABM Spring and Fall Fisheries was one with a gamma distribution with a log link which included summer historic data (Haida creel + logbook), season, status, and an interaction of status and creel.
 
-$$ catch = historic.summer+season+status+                                                historic.summer:status                                            $$
+$$ catch = historic.summer+season+status + historic.summer:status $$
 
 This model parameterization allows for calibrated iREC catch to be predicted both independently by the unfiltered Haida creel and logbook catch in the limited creel summer period (months 7:8), by season, and by status. In addition, the effect of the creel and logbook (historic) summer period on catch is modified by status. Figure \@ref(fig:fig-nbcaabm-sf-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. There are noticeable patterns in the residuals, but this was the best model tested.
 
@@ -583,11 +570,11 @@ print(g)
 
 The best model for Northern BC ISBM Spring and Fall Fisheries was one with a gamma distribution with a log link which included summer historic data (Area 3 and 4 creel + logbook), season, status, and an interaction of season and status.
 
-$$ catch = historic.summer+season+status+                                                season:status                                            $$
+$$ catch = historic.summer+season+status+season:status $$
 
 This model parameterization allows for calibrated iREC catch to be predicted both independently by the unfiltered Area 3 and 4 creel and logbook catch in the limited creel summer period (months 7:8), by season and by status. The effect of season was modified by status. Figure \@ref(fig:fig-nbcisbm-sf-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals.
 
-Figure \@ref(fig:fig-nbcisbm-fall-model) shows an example of the model results in NBC ISBM fall fishery. The unmarked kept status fits the data the best since it has the largest catch. Generally, the iREC-only catch predcited in fall fisheries in NBC ISBM is fairly small.
+Figure \@ref(fig:fig-nbcisbm-fall-model) shows an example of the model results in NBC ISBM fall fishery. The unmarked kept status fits the data the best since it has the largest catch. Generally, the iREC-only catch predicted in fall fisheries in NBC ISBM is fairly small.
 
 ```{r results example NBC ISBM seasonal spring and fall, results='asis', echo=FALSE}
 #| label: fig-nbcisbm-fall-model
@@ -679,7 +666,7 @@ print(g)
 
 The best model for the Central BC annual fishery was one with a gamma distribution with a log link which included historic estimates (logbook only) and status.
 
-$$ catch = historic.summer+status                                          $$
+$$ catch = historic.summer+status  $$
 
 This model parameterization allows for calibrated iREC catch to be predicted both independently by the logbook catch in the limited creel summer period (months 7:8) and by status. Figure \@ref(fig:fig-cbc-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. There were minimal patterns in the residuals.
 
@@ -934,7 +921,7 @@ Catch estimates are inputs to the exploitation rate analysis in two places. Firs
 
 -   *C&E Report results here (Fig 3 and 4 of the memo)*
 
-The revised estimates will be incorporated into CTC reports starting in 2025. Both kept and released catch estimates are typically reported in the Catch and Escapement report by ERA fishery. Here we plot the difference between the revised kept (Figure \@ref(fig:fig-cande-kept)) and released (Figure \@ref(fig:fig-cande-released)) catch estimates and those recently reported in the 2024 C&E report. Again, we see that the revised catch estimates were generally higher than previously reported estimates that didn\'t include iREC information. In some fisheries, iREC information has been included in recent years (e.g., since 2018 in Georgia Strait Sport), but our revised estimates incorporate iREC in a standardized way across all fisheries. The largest changes in kept catch occurred in Central BC where iREC has not been previously incorporated, but the inclusion of iREC more than doubles recent estimates. Other large changes occur in Georgia Strait sport before 2012 (post 2013 iREC has previously been incorporated in the reports) and NBC AABM sport in 2005-2009. In these last two cases, the revised catch is not better aligned with the number of sport head recoveries than previous estimates. We will be investigating these changes further before applying this data to CWT estimates.  
+The revised estimates will be incorporated into CTC reports starting in 2025. Both kept and released catch estimates are typically reported in the Catch and Escapement report by ERA fishery. Here we plot the difference between the revised kept (Figure \@ref(fig:fig-cande-kept)) and released (Figure \@ref(fig:fig-cande-released)) catch estimates and those recently reported in the 2024 C&E report. Again, we see that the revised catch estimates were generally higher than previously reported estimates that didn\'t include iREC information. In some fisheries, iREC information has been included in recent years (e.g., since 2018 in Georgia Strait Sport), but our revised estimates incorporate iREC in a standardized way across all fisheries. The largest changes in kept catch occurred in Central BC where iREC has not been previously incorporated, but the inclusion of iREC more than doubles recent estimates. Other large changes occur in Georgia Strait sport before 2012 (post 2013 iREC has previously been incorporated in the reports) and NBC AABM sport in 2005-2009. In these last two cases, the revised catch is not better aligned with the number of sport head recoveries than previous estimates. We will be investigating these changes further before applying this data to CWT estimates.
 
 ```{r results CandEkept, results='asis', echo=FALSE}
 #| label: fig-cande-kept

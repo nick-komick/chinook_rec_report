@@ -132,6 +132,26 @@ library(dplyr)
 library(ggplot2)
 library(readr)
 library(tibble)
+library(tidyr)
 library(rosettafish)
 library(csasdown)
+
+
+library(ROracle)
+library(pacRecCatch)
+
+library(odbc)
+library(lubridate)
+library(stringr)
+library(ggnewscale)
+library(patchwork)
+library(DHARMa)
+library(lme4)
+library(bbmle)
+library(SuppDists)
+library(MuMIn)
+
+#utils
+"%notin%" <- Negate("%in%")
+
 ```

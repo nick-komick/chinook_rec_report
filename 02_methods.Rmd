@@ -8,7 +8,7 @@ Since the introduction of iREC surveys in 2013, there has been different approac
 
 ### Background on survey methods
 
-We first provide a brief background on the regionally-specific creel and logbook, programs and the coast-wide iREC surveys in and how each contribute to Chinook catch estimates in a given month. More details on each method can be found in the relevant technical reports (@sturhahn2001, @english2002, @korman2005evaluation). We note any improvements to the data quality assurance and control that may have occurred in order to create the datasets used in this analysis. While all methods report on multiple species, here we are concerned only with data involving Chinook salmon. The coastal area of interest is all Pacific Fishery Management Areas (PFMAs, Figure \@ref(fig:fig-PFMA)) , more information and detailed maps can be found [here](https://www.pac.dfo-mpo.gc.ca/fm-gp/maps-cartes/areas-secteurs/index-eng.html).
+We first provide a brief background on the regionally-specific creel and logbook, programs and the coast-wide iREC surveys in and how each contribute to Chinook catch estimates in a given month. More details on each method can be found in the relevant technical reports (@sturhahn2001, @english2002, @korman2005evaluation). We note any improvements to the data quality assurance and control that may have occurred in order to create the datasets used in this analysis. While all methods report on multiple species, here we are concerned only with data involving Chinook salmon. The coastal area of interest is all Pacific Fishery Management Areas (PFMAs, Figure \@ref(fig:fig-PFMA)), more information and detailed maps can be found [here](https://www.pac.dfo-mpo.gc.ca/fm-gp/maps-cartes/areas-secteurs/index-eng.html).
 
 ```{r myfigure, echo=FALSE, message=FALSE, warning=FALSE, out.width="70%"}
 #| label: fig-PFMA
@@ -21,13 +21,13 @@ knitr::include_graphics(c(fig1_path))
 
 *Note: references need to be added to bib and linked*
 
-#### South Coast Catch Estimation *Kris/Rob to review this section*
+#### South Coast Catch Estimation (Kris/Rob to review this section)
 
-South Coast catch estimation is a combination of creel surveys and logbook and avid angler programs. The South Coast Creel Survey (SCCS), run by the department, began in the early 1980s with a limited scope of Strait of Georgia recreational fisheries. It has since expanded its scope to surveys in PFMAs 10 to 27, including offshore areas (start with a "1"). The surveys are generally concentrated in the summer months, however some spring and fall surveys occur in specific areas. The survey involves dock-side fisher interviews and aerial surveys for effort counts. Raw estimates and uncertainty are expanded to cover a given month and PFMA. Currently, this program produces separate catch estimates for marked and unmarked fish, for kept and released fish, and for legal and sublegal sized fish. In the past, unchecked kept fish were expanded to marked and unmarked using a monthly mark rate and to kept and released using a monthly release rate. For more information and methods about the SCCS, see the most recent program overview and bulletins, found [here](https://cat.fsl-bsf.scitech.gc.ca/record=b4125212~S1) (*Cite: South coast assessment bulletin, program overview 2024*). While the SCCS is the primary source of data for the South Coast, data from logbook and avid angler programs are provided on a voluntary basis and are detracted from area and month-specific estimates of the creel survey to avoid double-counting.
+South Coast catch estimation is a combination of creel surveys and logbooks from both guides and avid angler programs. The South Coast Creel Survey (SCCS), run by the DFO, began in the early 1980s was limited to Strait of Georgia recreational fisheries. It has since expanded in scope to survey PFMAs 10 to 27, including offshore areas (start with a "1"). The surveys are conducted in the summer months, however some spring and fall surveys occur in specific areas. The survey involves dock-side fisher interviews to capture catch rates and aerial surveys for effort counts. Raw estimates and uncertainty are expanded to cover a given month and area (typically PFMA). Currently, this program produces separate kept and released catch estimates for adipose-clipped (ie marked) and unclipped (ie unmarked) fish, based on both legal and sublegal size. In the past, kept fish with unknown adipose clip status were expanded to marked and unmarked using a monthly mark rate and to kept and released using a monthly release rate. For more information and methods about the SCCS, see the most recent program overview and bulletins, found [here](https://cat.fsl-bsf.scitech.gc.ca/record=b4125212~S1) (*Cite: South coast assessment bulletin, program overview 2024*). While the SCCS is the primary source of data for the South Coast, logbook data from guides and avid angler programs are provided on a voluntary basis and are removed from area and month-specific estimates of the creel survey to avoid double-counting.
 
 ##### South Coast Creel Survey quality control
 
-Since the South Coast creel surveys vary in sampling intensity and spatial and temporal coverage, we have introduced a systematic quality control of these estimates. Following the method used for iREC calibration to creel (*cite DFO iREC report - is this already published or is this the first time creel quality control published?*), we filtered the creel data based on quality criteria in a given area and month. These quality control criteria are designed to avoid uncertainty where a monthly estimate was generated by expanding from only a small number of days or bias when generated only from a certain type of day (e.g. weekends). Each area and monthly creel estimate included in our data was required to meet each of the following criteria:
+Since the South Coast creel surveys vary in sampling intensity and spatial/temporal coverage, we have introduced a systematic quality control of these estimates. Following the method used for iREC calibration to creel (*cite DFO iREC report - is this already published or is this the first time creel quality control published?*), we filtered the creel data based on quality criteria in a given area and month. These quality control criteria are designed to avoid uncertainty associated with monthly estimate based on only a small number of days or biases when estimates based on only a certain type of day (e.g. weekends). Each area and monthly creel estimate included in our data was required to meet each of the following criteria:
 
 *Note: Kris and Rob to flesh out these bullet points .... Why was at least 3 flights for each type of day chosen? Is that because in a month you typically get x amount of flights? Need to flesh out each bullet point with context.*
 
@@ -37,23 +37,9 @@ Since the South Coast creel surveys vary in sampling intensity and spatial and t
 -   At least 15 day spread in flights
 -   At least 15 day spread in interviews
 
-The criteria failed 51% of all estimates since 2005 (Figure \@ref(fig:fig-creel-criteria)). Areas 15 and 16 had the highest proportion of failed criteria, followed by Area 29, 19 (GS) and 21, which all had over 80% of estimates fail the criteria. The core summer months July and August have the highest rate of criteria passing (more than 70% of estimates passing), whereas the winter months (October through February) have more than 75% failed criteria, likely due to weather making consistent overflights difficult.
+The criteria failed 51% of all estimates since 2005 (Figure \@ref(fig:fig-creel-criteria)). PFMA 15 and 16 had the highest proportion of failed criteria, followed by Area 29, 19 (GS) and 21, which all had over 80% of estimates fail the criteria. The core summer months of July and August have the highest rate of criteria passing (more than 70% of estimates passing), whereas the winter months (October through February) have more than 75% failed criteria, likely due to weather making consistent overflights difficult.
 
 ```{r methods Loading packages useful functions, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
-
-library(ROracle)
-library(pacRecCatch)
-
-library(tidyverse)
-library(odbc)
-library(lubridate)
-library(ggnewscale)
-library(patchwork)
-library(DHARMa)
-library(lme4)
-library(bbmle)
-library(SuppDists)
-library(MuMIn)
 
 col1 = "#d8e1cf"
 col2 = "#438484"
@@ -65,21 +51,18 @@ col7 = "purple"
 col8 = "purple4"
 colclear= "#1C00ff00"
 
-#utils
-"%notin%" <- Negate("%in%")
-
-
 ```
 
 ```{r methods plotting PFMA creel unfiltered, echo=FALSE, message=FALSE, warning=FALSE, fig.height=12, fig.width=15, out.width = "7in", fig.align = "left"}
 #| label: fig-creel-criteria
 #| fig-cap: "South Coast creel estimates that passed (green) or failed (red) quality control criteria by month and PFMA."
 
-creel_month_PFMA<-filter_creel_catch("pacRecCatch_db.yaml")
-Creel_month_PFMA_failed<-creel_month_PFMA %>% filter(criteria == "failed")
-Creel_month_PFMA_passed<-creel_month_PFMA %>% filter(criteria == "passed")
+creel_month_PFMA <- filter_creel_catch("pacRecCatch_db.yaml")
+Creel_month_PFMA_failed <- filter(creel_month_PFMA, criteria == "failed")
+Creel_month_PFMA_passed <- filter(creel_month_PFMA, criteria == "passed")
 
-g<-ggplot()+
+g <- 
+  ggplot() +
   geom_tile(data=Creel_month_PFMA_passed %>% mutate(across(where(is.numeric), ~na_if(., 0)))  %>%  filter(AREA %notin% c("Area 3", "Area 4")), aes(x=YEAR, y=as.factor(MONTH), fill = VAL),colour = "white") +
   scale_fill_gradient(low = col1, high = col2,  na.value = colclear, limits=c(0,20000)) +
   scale_y_discrete(limits=rev)+
@@ -121,17 +104,15 @@ The mandatory internet recreational effort and catch (iREC) survey is a recent m
 
 ##### Survey License Selection
 
-When the iRec survey initially began in 2012, survey participants were selected from a provided subset of licence holders that purchased through a web based license purchasing system. This subset excluded any paper-based licences that were issued outside the web-based system and typically consisted of approximately XX% of all recreational licence holders. This subset of licence holders were contacted by email with instructions on how to ....
+When the iRec survey initially began in 2012, survey participants were selected from a provided subset of licence holders that purchased through a web based license purchasing system. This subset excluded any paper-based licences that were issued outside the web-based system and typically consisted of approximately XX% of all recreational licence holders. This subset of licence holders were contacted by email with notification that they had been selected for the survey and provided instructions on how to report their fishing activity.
 
-*Note: this sentence sort of just cut off - Nick?*
-
-In more recent years (since 2018??) the iREC survey takes advantage of the web based purchasing of recreational licences to communicate survey selection and creating a sampling frame. Random selections of fishers with licences active in a given month are invited, via email, to provide details about their fishing activity and catch through a web-based survey tool. This fishing information from survey respondents is expanded to estimate total effort and catch following the methods described by Houtman et al. (2015).
+In more recent years (since 2018??) the iREC survey takes advantage of the web based purchasing of recreational licences to automatically select an licence holder to a survey and communicate what month they are to respond for. Random selections of fishers with licences active in a given month are obligated to provide details about their fishing activity and catch through a web-based survey tool. This fishing information from survey respondents is expanded to estimate total effort and catch following the methods described by Houtman et al. (2015).
 
 The iRec survey is designed to provide month recreational catch estimates for every area within DFO's Pacific Region. When the survey was initially designed, the survey used the legal definition of Pacific Fishery Management Areas (PFMA) within the @pfma_2007.
 
 ##### License Stratification
 
-When assessing survey responses, annual licences are unique compared to term licences as they can potentially fish any date after the licence purchase date and may be selected for one of several survey months within the licence year. To improve the representativeness of annual licence holders and provide a more consistent precision across months within the year, the licence selection process has used different stratification methods over the years the iRec has operated. Over the years, the approach to stratification has be adjusted to better align to improvements the in licence selection process and the increased number of selected licenses.
+When assessing survey responses, annual licences are unique compared to term licences as they can potentially fish any date after the licence purchase date and may be selected for one of several survey months within the licence year. To improve the representativeness of annual licence holders and provide more consistent precision across months within the year, the iRec licence selection process has used different stratification methods over the years. Over the years, the approach to stratification was adjusted to better align to improvements in the licence selection process and the increased number of selected licenses.
 
 At the beginning of the iRec survey in 2012, licences were selected monthly, after the licence was purchased. Based on whether the annual licence was selected to respond to the survey for the month it was purchased in or for a survey month and were stratified into pre- and post-selection strata based on the licence purchase date. While nearly all term licences fished near the licence purchase date, the were all stratified as post-selection. However, annual licences may be selected for either a month they purchased the licence in or a future survey month. Selected annual licences purchased date was during the survey month, the licence was estimated in the post-selection strata for the survey month. For example if a licence was purchased on August 15th and they were selected for the August survey, the licence was stratified as a post-selection licence they in relation to their selected survey period. If the licence was purchased during the ...
 
@@ -165,7 +146,7 @@ model.jags <- function() {   for(i in 1:Ndata) {
   #derived variables   
   sigma <- 1/sqrt(tau) 
   #std deviation about the regression line 
-  }
+}
 ```
 
 *Notes to add:*
@@ -186,7 +167,7 @@ We pulled raw recreational catch data from the Catch and Release Estimates (CRES
 
 #### Stratification
 
-In Table \@ref(tab:strattab), we show the stratification of fisheries to PFMAs and months. In order to complete this work and to fufill Treaty obligations to incorporate Mark Selective Fisheries, we recently reogranzied the fishery stratification levels used by the CTC. PFMAs are used domestically to collect the data, while finescale and exploitation rate analysis fisheries are groupings of fisheries used for CTC analyses. New Finescale Fisheries are a grouping of PFMAs under a given season, they were introduced recently and are the level at which marked release rates and unmarked release rates are generated. The Old Finescale Fisheries were the previously used groupings by the CTC and are shown for consistency. The ERA fisheries are the exploitation rate analysis fisheries and are the level at which CTC reporting happens and exploitation rate calculations happen.
+In Table \@ref(tab:strattab), we show the stratification of fisheries to PFMAs and months. In order to complete this work and to fulfill Treaty obligations to incorporate Mark Selective Fisheries, we recently reorganized the fishery stratification levels used by the CTC. PFMAs are used domestically to collect the data, while finescale and exploitation rate analysis fisheries are groupings of fisheries used for CTC analyses. New Finescale Fisheries are a grouping of PFMAs under a given season, they were introduced recently and are the level at which marked release rates and unmarked release rates are generated. The Old Finescale Fisheries were the previously used groupings by the CTC and are shown for consistency. The ERA fisheries are the exploitation rate analysis fisheries and are the level at which CTC reporting happens and exploitation rate calculations happen.
 
 *Notes:*
 
@@ -201,34 +182,45 @@ In Table \@ref(tab:strattab), we show the stratification of fisheries to PFMAs a
 
 Sport_mark_rate_finescale<-wrangle_rec_catch("pacRecCatch_db.yaml", by="area")
 
-Strat_table<-Sport_mark_rate_finescale %>% dplyr::select(finescale_fishery_old, finescale_fishery, AREA, MONTH) %>% unique() %>% arrange(finescale_fishery_old, finescale_fishery,  AREA, MONTH)
+Strat_table <- 
+  Sport_mark_rate_finescale %>% 
+  dplyr::select(finescale_fishery_old, finescale_fishery, AREA, MONTH) %>% 
+  unique() %>% 
+  arrange(finescale_fishery_old, finescale_fishery,  AREA, MONTH)
 
-fishery_map<-Sport_mark_rate_finescale %>% dplyr::select(finescale_fishery_old, finescale_fishery) %>%
+fishery_map <-
+  Sport_mark_rate_finescale %>% 
+  dplyr::select(finescale_fishery_old, finescale_fishery) %>%
   mutate(erafishery = case_when(
     finescale_fishery_old %in% c("NWCVI S AABM", "SWCVI S AABM") ~ "WCVI AABM S",
     finescale_fishery_old %in% c("NGS S", "SGS S") ~  "GEO ST S",
     finescale_fishery_old == "CA JDF S" ~ "BC JF S",
     finescale_fishery_old %in%  c("NWCVI S ISBM", "SWCVI S ISBM") ~ "WCVI ISBM S",
-    TRUE ~ finescale_fishery_old
-  )) %>% unique()
+    TRUE ~ finescale_fishery_old)) %>% 
+  unique()
 
-Strat_table<-Strat_table %>% left_join(fishery_map) %>% arrange(erafishery) %>% relocate(erafishery) %>%                group_by(finescale_fishery) %>% 
-             mutate(month_category = case_when(
-              finescale_fishery == "CBC S" ~ "1:12",
-              finescale_fishery == "NWCVI S SUMMER AABM" & AREA %in% c("Area 25", "Area 26", "Area 27") ~ "5:6",
-              finescale_fishery == "NWCVI S SUMMER ISBM"  ~ "7:9",
-               finescale_fishery == "SWCVI S SUMMER AABM" & AREA %in% c("Area 21", "Area 23", "Area 23 (Alberni Canal)", "Area 23 (Barkley)", "Area 24") ~ "5:7",
-              finescale_fishery == "SWCVI S SUMMER ISBM"  ~ "8:9",
-              MONTH %in% c(10,11,12) ~ "10:12", 
-              MONTH %in% c(1:4) ~ "1:4", 
-              MONTH %in% c(5:9) ~ "5:9",
-              MONTH %in% c(7:8) ~ "7:8",
-              TRUE ~ "NA"
-             )) %>% 
-             dplyr::select(-MONTH) %>% unique() %>% drop_na() %>% 
-             rename("ERA Fishery" = "erafishery", "Finescale Fishery Old" = "finescale_fishery_old", 
-                    "Finescale Fishery New" ="finescale_fishery", "PFMA" ="AREA","Months" ="month_category")
-              
+Strat_table <- 
+  Strat_table %>% 
+  left_join(fishery_map) %>% 
+  arrange(erafishery) %>% 
+  relocate(erafishery) %>%
+  group_by(finescale_fishery) %>% 
+  mutate(month_category = case_when(
+    finescale_fishery == "CBC S" ~ "1:12",
+    finescale_fishery == "NWCVI S SUMMER AABM" & AREA %in% c("Area 25", "Area 26", "Area 27") ~ "5:6",
+    finescale_fishery == "NWCVI S SUMMER ISBM"  ~ "7:9",
+    finescale_fishery == "SWCVI S SUMMER AABM" & AREA %in% c("Area 21", "Area 23", "Area 23 (Alberni Canal)", "Area 23 (Barkley)", "Area 24") ~ "5:7",
+    finescale_fishery == "SWCVI S SUMMER ISBM"  ~ "8:9",
+    MONTH %in% c(10,11,12) ~ "10:12", 
+    MONTH %in% c(1:4) ~ "1:4", 
+    MONTH %in% c(5:9) ~ "5:9",
+    MONTH %in% c(7:8) ~ "7:8",
+    TRUE ~ "NA"
+  )) %>% 
+  dplyr::select(-MONTH) %>% unique() %>% drop_na() %>% 
+  rename("ERA Fishery" = "erafishery", "Finescale Fishery Old" = "finescale_fishery_old", 
+         "Finescale Fishery New" ="finescale_fishery", "PFMA" ="AREA","Months" ="month_category")
+
 
 
 csasdown::csas_table(Strat_table, caption = "Stratification mapping") %>% 
@@ -289,7 +281,7 @@ In Figure \@ref(fig:fig-creel-irec-JDF) we demonstrate how iREC fills in the gap
 Sport_mark_rate_finescale<-wrangle_rec_catch("pacRecCatch_db.yaml", by="area", most_recent_data_year=2023)
 
 pfma_yearMonth <- plyr::ddply(Sport_mark_rate_finescale, c( "YEAR", "MONTH", "AREA", "finescale_fishery_old"), summarise,
-                         sum_creel = sum(creel, na.rm = TRUE), sum= sum(creel_plus, na.rm = TRUE), sum_historic= sum(historic_plus, na.rm = TRUE), sum_catch_estimate = sum(catch_estimate, na.rm = TRUE), sum_irec = sum(irec_calibrated, na.rm = TRUE)) %>% mutate(across(where(is.numeric), ~na_if(., 0))) %>% filter(finescale_fishery_old!="NA")
+                              sum_creel = sum(creel, na.rm = TRUE), sum= sum(creel_plus, na.rm = TRUE), sum_historic= sum(historic_plus, na.rm = TRUE), sum_catch_estimate = sum(catch_estimate, na.rm = TRUE), sum_irec = sum(irec_calibrated, na.rm = TRUE)) %>% mutate(across(where(is.numeric), ~na_if(., 0))) %>% filter(finescale_fishery_old!="NA")
 
 pfma_yearMonth_catch_estimate_1<-pfma_yearMonth  %>% filter(sum_catch_estimate!=sum,sum_catch_estimate!=sum_historic, sum_catch_estimate!=sum_irec)
 
@@ -353,9 +345,9 @@ The order of comparisons was as follows:
 
 -   First we compared three distributions: normal (gaussian), poisson, and Gamma distribution to see which fit our data the best on the full model. These distributions are all consistent with our positive, continuous data
 
-    $$
-    catch = creel.summer * status * finescale.fishery * season 
-    $$
+$$
+catch = creel.summer * status * finescale.fishery * season 
+$$
 
 -   Next, using the chosen distribution, we compared the full model with all terms to models with each of the terms dropped sequentially except for creel.summer which was our main interest. We did this first by dropping out full terms from the full interaction model, then used the dredge function in MuMIn to sequentially drop out the various sub-interactions
 
