@@ -4,9 +4,11 @@
 
 ## Revised Chinook catch estimates from 2013-present
 
+Since the introduction of iREC surveys in 2013, there has been different approaches to combining Chinook catch estimates from the survey with creel and log books recreational catch estimates.  The primary purpose of revising recreational catch estimates is to incorporate the different sources of catch into a single standardized set of recreational catch for all Pacific Region marine waters.
+
 ### Background on survey methods
 
-We first provide a brief background on the regionally-specific creel and logbook, programs and the coast-wide iREC surveys in and how each contribute to Chinook catch estimates in a given month. More details on each method can be found in the relevant technical reports (*Cite: Houtman et al. 2015, English et al. 2002, Korman et al. 2005, Sturhahn and Nagtegaal 2001*). We note any improvements to the data quality assurance and control that may have occurred in order to create the datasets used in this analysis. While all methods report on multiple species, here we are concerned only with data involving Chinook salmon. The coastal area of interest is all Pacific Fishery Management Areas (PFMAs, Figure \@ref(fig:fig-PFMA)) , more information and detailed maps can be found [here](https://www.pac.dfo-mpo.gc.ca/fm-gp/maps-cartes/areas-secteurs/index-eng.html).
+We first provide a brief background on the regionally-specific creel and logbook, programs and the coast-wide iREC surveys in and how each contribute to Chinook catch estimates in a given month. More details on each method can be found in the relevant technical reports (@sturhahn2001, @english2002, @korman2005evaluation). We note any improvements to the data quality assurance and control that may have occurred in order to create the datasets used in this analysis. While all methods report on multiple species, here we are concerned only with data involving Chinook salmon. The coastal area of interest is all Pacific Fishery Management Areas (PFMAs, Figure \@ref(fig:fig-PFMA)) , more information and detailed maps can be found [here](https://www.pac.dfo-mpo.gc.ca/fm-gp/maps-cartes/areas-secteurs/index-eng.html).
 
 ```{r myfigure, echo=FALSE, message=FALSE, warning=FALSE}
 #| label: fig-PFMA
