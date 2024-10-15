@@ -10,7 +10,7 @@ Since the introduction of iREC surveys in 2013, there has been different approac
 
 We first provide a brief background on the regionally-specific creel and logbook, programs and the coast-wide iREC surveys in and how each contribute to Chinook catch estimates in a given month. More details on each method can be found in the relevant technical reports (@sturhahn2001, @english2002, @korman2005evaluation). We note any improvements to the data quality assurance and control that may have occurred in order to create the datasets used in this analysis. While all methods report on multiple species, here we are concerned only with data involving Chinook salmon. The coastal area of interest is all Pacific Fishery Management Areas (PFMAs, Figure \@ref(fig:fig-PFMA)) , more information and detailed maps can be found [here](https://www.pac.dfo-mpo.gc.ca/fm-gp/maps-cartes/areas-secteurs/index-eng.html).
 
-```{r myfigure, echo=FALSE, message=FALSE, warning=FALSE}
+```{r myfigure, echo=FALSE, message=FALSE, warning=FALSE, out.width="70%"}
 #| label: fig-PFMA
 #| fig-cap: "Pacific Fishery Management Areas"
 
@@ -73,7 +73,7 @@ colclear= "#1C00ff00"
 
 ```{r methods plotting PFMA creel unfiltered, echo=FALSE, message=FALSE, warning=FALSE, fig.height=12, fig.width=15, out.width = "7in", fig.align = "left"}
 #| label: fig-creel-criteria
-#| fig-cap: "Creel estimates that passed (green) or failed (red) quality control criteria by month and PFMA."
+#| fig-cap: "South Coast creel estimates that passed (green) or failed (red) quality control criteria by month and PFMA."
 
 creel_month_PFMA<-filter_creel_catch("pacRecCatch_db.yaml")
 Creel_month_PFMA_failed<-creel_month_PFMA %>% filter(criteria == "failed")
@@ -286,7 +286,7 @@ In Figure \@ref(fig:fig-creel-irec-JDF) we demonstrate how iREC fills in the gap
 
 ```{r methods pfma_month again, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 
-Sport_mark_rate_finescale<-wrangle_rec_catch("pacRecCatch_db.yaml", by="area")
+Sport_mark_rate_finescale<-wrangle_rec_catch("pacRecCatch_db.yaml", by="area", most_recent_data_year=2023)
 
 pfma_yearMonth <- plyr::ddply(Sport_mark_rate_finescale, c( "YEAR", "MONTH", "AREA", "finescale_fishery_old"), summarise,
                          sum_creel = sum(creel, na.rm = TRUE), sum= sum(creel_plus, na.rm = TRUE), sum_historic= sum(historic_plus, na.rm = TRUE), sum_catch_estimate = sum(catch_estimate, na.rm = TRUE), sum_irec = sum(irec_calibrated, na.rm = TRUE)) %>% mutate(across(where(is.numeric), ~na_if(., 0))) %>% filter(finescale_fishery_old!="NA")
