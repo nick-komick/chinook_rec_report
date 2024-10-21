@@ -126,11 +126,11 @@ Total annual catch estimates of boat-based angling would thus be equal to the su
 
 *moved this section back to under the "irec" section*
 
-Where absolute estimates of effort and catch are demanded, such as for allocation decisions, stock assessments and catch reporting requirements, calibration of iREC estimates would be required. Calibrated iREC estimates for boat-based angling would be achieved by scaling iREC to creel estimates using the regression parameters (slope [m]) of iREC -- creel regressions for equivalent month -- area pairs. The calibrated iREC point estimates of boat-based angling effort or species specific catch (iREC\*) would be simply:
+Where absolute estimates of effort and catch are demanded, such as for allocation decisions, stock assessments and catch reporting requirements, calibration of iREC estimates would be required. Calibrated iREC estimates for boat-based angling would be achieved by scaling iREC to creel estimates using the regression parameters (slope $m$) of iREC -- creel regressions for equivalent month -- area pairs. The calibrated iREC point estimates of boat-based angling effort or species specific catch (iREC\*) would be simply:
 
-$$iRec^*=\frac{(iRec)}{m}$$
+$$iRec^*= creel = \frac{(iRec)}{m}$$
 
-Use of JAGS
+The calibration coefficient $m$ is estimated annually using all area and month estimates of creel that are appropriate quality based on the criteria identified in the "South Coast Creel Survey quality control" section of this document.  Separate calibration factors are estimated for total kept and released catch, by species, for angling by boat.  As both the creel and iREC estimates have uncertainty associated with them, an error-in-variables approach is used to estimate $m$ using JAGS (@plummer2003jags) through the rJAGs R package (@rjags). The specific model code used is provided below, with `creel.obs` representing the creel estimate, `creel.se` representing the standard error of the creel estimate, and `iRec.obs` representing the iREC uncalibrated catch estimate for the same area and time as the creel estimate.
 
 ```{r methods jags, echo=TRUE}
 model.jags <- function() {   for(i in 1:Ndata) {      
@@ -151,11 +151,7 @@ model.jags <- function() {   for(i in 1:Ndata) {
 
 *Notes to add:*
 
--   *irec calibrated using south coast creel only*
-
 -   *Forced through the origin (need background?)*
-
--   *Discuss separate calibration from kept and released?*
 
 ### Combining survey methods for best catch estimates (2013 - present)
 

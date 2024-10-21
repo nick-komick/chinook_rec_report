@@ -4,13 +4,19 @@
 
 Discussion points:
 
+-   *irec calibrated using south coast creel only* (develop diversity in calibration data)
+
+
+
 -   *Something here about subject to change based on:*
 
 1.  *Changes to irec:*
     -   *calibration 2.0,*
 
-    -   irec *QA/QC process not finalized*
+    -   irec *QA/QC process not finalized* (improving and standardize QC processes on both, not anticipated to result in substantial changes)
 
 -   Modelling:
 
     -   We would expect a non-linear relationship in the modeling of 2005-2012 iREC inclusion since the y axis involves filtered creel and the x axis is only unfiltered creel. The creel filtration process is likely non-linear since smaller estimates are more likely to not pass the quality control filter.
+
+- CYER leverages 2009 to 2009 as the base period, which is the more limited based on time
