@@ -63,6 +63,8 @@ These models are used to develop a relationship between filtered creel + iREC ca
 
 #### Southern BC Summer Fisheries
 
+*Note: the math inline is not rendering properly in the pdf*
+
 The best model for Southern BC Summer Fisheries was one with a gamma distribution with a log link which included summer South Coast creel, marked and kept status, finescale fishery, and an interaction between summer creel and finescale fishery, creel summer and status, and status and finescale fishery:
 
 $$
@@ -919,9 +921,9 @@ Catch estimates are inputs to the exploitation rate analysis in two places. Firs
 
 ### Catch and Escapement Reporting Kept and Released Catch
 
--   *C&E Report results here (Fig 3 and 4 of the memo)*
+-   *Note: this text is from the memo - see parts about NBC and Georgia strait ... maybe take out???*
 
-The revised estimates will be incorporated into CTC reports starting in 2025. Both kept and released catch estimates are typically reported in the Catch and Escapement report by ERA fishery. Here we plot the difference between the revised kept (Figure \@ref(fig:fig-cande-kept)) and released (Figure \@ref(fig:fig-cande-released)) catch estimates and those recently reported in the 2024 C&E report. Again, we see that the revised catch estimates were generally higher than previously reported estimates that didn\'t include iREC information. In some fisheries, iREC information has been included in recent years (e.g., since 2018 in Georgia Strait Sport), but our revised estimates incorporate iREC in a standardized way across all fisheries. The largest changes in kept catch occurred in Central BC where iREC has not been previously incorporated, but the inclusion of iREC more than doubles recent estimates. Other large changes occur in Georgia Strait sport before 2012 (post 2013 iREC has previously been incorporated in the reports) and NBC AABM sport in 2005-2009. In these last two cases, the revised catch is not better aligned with the number of sport head recoveries than previous estimates. We will be investigating these changes further before applying this data to CWT estimates.
+The revised estimates will be incorporated into CTC reports starting in 2025. Both kept and released catch estimates are typically reported in the Catch and Escapement report by ERA fishery. Here we plot the difference between the revised kept (Figure \@ref(fig:fig-cande-kept)) and released (Figure \@ref(fig:fig-cande-released)) catch estimates and those recently reported in the 2024 C&E report. Again, we see that the revised catch estimates were generally higher than previously reported estimates that didn't include iREC information. In some fisheries, iREC information has been included in recent years (e.g., since 2018 in Georgia Strait Sport), but our revised estimates incorporate iREC in a standardized way across all fisheries. The largest changes in kept catch occurred in Central BC where iREC has not been previously incorporated, but the inclusion of iREC more than doubles recent estimates. Other large changes occur in Georgia Strait sport before 2012 (post 2013 iREC has previously been incorporated in the reports) and NBC AABM sport in 2005-2009. In these last two cases, the revised catch is not better aligned with the number of sport head recoveries than previous estimates. We will be investigating these changes further before applying this data to CWT estimates.
 
 ```{r results CandEkept, results='asis', echo=FALSE}
 #| label: fig-cande-kept
