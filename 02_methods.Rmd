@@ -8,7 +8,7 @@ Since the introduction of iREC surveys in 2013, there has been different approac
 
 ### Background on survey methods
 
-We first provide a brief background on the regionally-specific creel and logbook, programs and the coast-wide iREC surveys in and how each contribute to Chinook catch estimates in a given month. More details on each method can be found in the relevant technical reports (@sturhahn2001, @english2002, @korman2005evaluation). We note any improvements to the data quality assurance and control that may have occurred in order to create the datasets used in this analysis. While all methods report on multiple species, here we are concerned only with data involving Chinook salmon. The coastal area of interest is all Pacific Fishery Management Areas (PFMAs, Figure \@ref(fig:fig-PFMA)), more information and detailed maps can be found [here](https://www.pac.dfo-mpo.gc.ca/fm-gp/maps-cartes/areas-secteurs/index-eng.html).
+We first provide a brief background on the regionally-specific creel and logbook, programs and the coast-wide iREC surveys in and how each contribute to Chinook catch estimates in a given month. More details on each method can be found in the relevant technical reports (@sturhahn2001, @english2002, @korman2005evaluation). We note any improvements to the data quality assurance and control that may have occurred in order to create the datasets used in this analysis. While all methods report on multiple species, here we are concerned only with data involving Chinook salmon. The coastal area of interest is all Pacific Fishery Management Areas (PFMAs, Figure \@ref(fig:fig-PFMA), @pfma_2007), more information and detailed maps can be found on the [DFO website](https://www.pac.dfo-mpo.gc.ca/fm-gp/maps-cartes/areas-secteurs/index-eng.html).
 
 ```{r myfigure, echo=FALSE, message=FALSE, warning=FALSE, out.width="70%"}
 #| label: fig-PFMA
@@ -17,9 +17,7 @@ We first provide a brief background on the regionally-specific creel and logbook
 fig1_path <- paste0("data/PFMA.png")
 
 knitr::include_graphics(c(fig1_path))
-```
-
-*Note: references need to be added to bib and linked*
+```    
 
 #### South Coast Catch Estimation (Kris/Rob to review this section)
 
@@ -118,8 +116,6 @@ When assessing survey responses, annual licences are unique compared to term lic
 
 At the beginning of the iRec survey in 2012, licences were selected monthly after the licence was purchased. Selected licences were separated into a pre-selection and a post-selection strata based on whether they were selected for previous month or a future month. As nearly all term licences fish near the licence purchase date, which is before the selection date, they were all stratified as post-selection. However, annual licences may be selected for either the month they purchased in or a future survey month. Selected annual licences that were purchased during the survey month were put into the post-selection strata.  If the survey month was for future month, then the licence is stratified as a post-selection strata. For example, if a licence was purchased on August 15th and they were selected for the August survey, the licence was stratified as a post-selection licence.  However, if that same licence was selected for the October survey, the licence would be stratified as pre-selection.
 
-
-
 Total annual catch estimates of boat-based angling would thus be equal to the sum of estimates from creel surveys for all months and areas where they occurred plus the iREC\* estimates for all months and areas where they did not. Despite the apparent simplicity of this calibration approach, there are outstanding issues regarding the use of creel survey estimates to calibrate iREC estimates; three of which we address here. First, creel surveys vary in sampling intensity and spatial and temporal coverage even with a particular month -- area estimate strata. This variability in the 'quality' of creel estimates (both in terms of accuracy and precision) may adversely affect calibration of iREC estimates. Second, variability in the relative strength and direction of "response bias" may influence the spatial or temporal patterns of bias in iREC estimates, with important implications for calibration. Finally, we combine information about the previous two issues to make recommendations about where, when and how to conduct relatively costly creel surveys to maximize their calibration value.
 
 ##### iRec to Creel Calibration
@@ -133,19 +129,21 @@ $$iRec^*= creel = \frac{(iRec)}{m}$$
 The calibration coefficient $m$ is estimated annually using all area and month estimates of creel that are appropriate quality based on the criteria identified in the "South Coast Creel Survey quality control" section of this document.  Separate calibration factors are estimated for total kept and released catch, by species, for angling by boat.  As both the creel and iREC estimates have uncertainty associated with them, an error-in-variables approach is used to estimate $m$ using JAGS (@plummer2003jags) through the rJAGs R package (@rjags). The specific model code used is provided below, with `creel.obs` representing the creel estimate, `creel.se` representing the standard error of the creel estimate, and `iRec.obs` representing the iREC uncalibrated catch estimate for the same area and time as the creel estimate.
 
 ```{r methods jags, echo=TRUE}
-model.jags <- function() {   for(i in 1:Ndata) {      
-  #generate what true value may be based on se (notice that dnorm in jags      
-  # uses 1/variance for second argument thus 1/SE^2)      
-  creel.true[i] ~ dnorm(creel.obs[i], 1/creel.se[i]*1/creel.se[i])            
-  #now for the actual regression equation     
-  mu[i] <- beta1 * creel.true[i]      
-  iRec.obs[i] ~ dnorm(mu[i], tau)   }      
+model.jags <- function() {   
+  for(i in 1:Ndata) {      
+    #generate what true value may be based on se (notice that dnorm in jags      
+    # uses 1/variance for second argument thus 1/SE^2)      
+    creel.true[i] ~ dnorm(creel.obs[i], 1/creel.se[i]*1/creel.se[i])            
+    #now for the actual regression equation     
+    mu[i] <- beta1 * creel.true[i]      
+    iRec.obs[i] ~ dnorm(mu[i], tau)   
+  }      
   beta1 ~ dnorm(0, 0.0001)   
   tau ~ dgram(0.01, 0.01) 
   #a common prior for a variance term in vertical direction     
   #derived variables   
   sigma <- 1/sqrt(tau) 
-  #std deviation about the regression line 
+  #std deviation about the regression line
 }
 ```
 
@@ -163,66 +161,11 @@ We pulled raw recreational catch data from the Catch and Release Estimates (CRES
 
 #### Stratification
 
-In Table \@ref(tab:strattab), we show the stratification of fisheries to PFMAs and months. In order to complete this work and to fulfill Treaty obligations to incorporate Mark Selective Fisheries, we recently reorganized the fishery stratification levels used by the CTC. PFMAs are used domestically to collect the data, while finescale and exploitation rate analysis fisheries are groupings of fisheries used for CTC analyses. New Finescale Fisheries are a grouping of PFMAs under a given season, they were introduced recently and are the level at which marked release rates and unmarked release rates are generated. The Old Finescale Fisheries were the previously used groupings by the CTC and are shown for consistency. The ERA fisheries are the exploitation rate analysis fisheries and are the level at which CTC reporting happens and exploitation rate calculations happen.
+In Appendix \@ref(tab:strattab), we show the stratification of fisheries to PFMAs and months. In order to complete this work and to fulfill Treaty obligations to incorporate Mark Selective Fisheries, we recently reorganized the fishery stratification levels used by the CTC. PFMAs are used domestically to collect the data, while finescale and exploitation rate analysis fisheries are groupings of fisheries used for CTC analyses. New Finescale Fisheries are a grouping of PFMAs under a given season, they were introduced recently and are the level at which marked release rates and unmarked release rates are generated. The Old Finescale Fisheries were the previously used groupings by the CTC and are shown for consistency. The ERA fisheries are the exploitation rate analysis fisheries and are the level at which CTC reporting happens and exploitation rate calculations happen.
 
 *Notes:*
 
 -   *may want to have detailed description of fisheries - like ERA level BC Juan de Fuca ....*
-
--   *May want to put this in an appendix instead, it takes up 3 pages.*
-
--   *May want to drop left-hand levels ... should be able to do this with Kable extra group but couldn't quite get it to work.*
-
-```{r methods strattab, echo=FALSE, message=FALSE, warning=FALSE}
-#| label: strattab
-
-Sport_mark_rate_finescale<-wrangle_rec_catch("pacRecCatch_db.yaml", by="area")
-
-Strat_table <- 
-  Sport_mark_rate_finescale %>% 
-  dplyr::select(finescale_fishery_old, finescale_fishery, AREA, MONTH) %>% 
-  unique() %>% 
-  arrange(finescale_fishery_old, finescale_fishery,  AREA, MONTH)
-
-fishery_map <-
-  Sport_mark_rate_finescale %>% 
-  dplyr::select(finescale_fishery_old, finescale_fishery) %>%
-  mutate(erafishery = case_when(
-    finescale_fishery_old %in% c("NWCVI S AABM", "SWCVI S AABM") ~ "WCVI AABM S",
-    finescale_fishery_old %in% c("NGS S", "SGS S") ~  "GEO ST S",
-    finescale_fishery_old == "CA JDF S" ~ "BC JF S",
-    finescale_fishery_old %in%  c("NWCVI S ISBM", "SWCVI S ISBM") ~ "WCVI ISBM S",
-    TRUE ~ finescale_fishery_old)) %>% 
-  unique()
-
-Strat_table <- 
-  Strat_table %>% 
-  left_join(fishery_map) %>% 
-  arrange(erafishery) %>% 
-  relocate(erafishery) %>%
-  group_by(finescale_fishery) %>% 
-  mutate(month_category = case_when(
-    finescale_fishery == "CBC S" ~ "1:12",
-    finescale_fishery == "NWCVI S SUMMER AABM" & AREA %in% c("Area 25", "Area 26", "Area 27") ~ "5:6",
-    finescale_fishery == "NWCVI S SUMMER ISBM"  ~ "7:9",
-    finescale_fishery == "SWCVI S SUMMER AABM" & AREA %in% c("Area 21", "Area 23", "Area 23 (Alberni Canal)", "Area 23 (Barkley)", "Area 24") ~ "5:7",
-    finescale_fishery == "SWCVI S SUMMER ISBM"  ~ "8:9",
-    MONTH %in% c(10,11,12) ~ "10:12", 
-    MONTH %in% c(1:4) ~ "1:4", 
-    MONTH %in% c(5:9) ~ "5:9",
-    MONTH %in% c(7:8) ~ "7:8",
-    TRUE ~ "NA"
-  )) %>% 
-  dplyr::select(-MONTH) %>% unique() %>% drop_na() %>% 
-  rename("ERA Fishery" = "erafishery", "Finescale Fishery Old" = "finescale_fishery_old", 
-         "Finescale Fishery New" ="finescale_fishery", "PFMA" ="AREA","Months" ="month_category")
-
-
-
-csasdown::csas_table(Strat_table, caption = "Stratification mapping") %>% 
-  kableExtra::collapse_rows(columns = 1:3)
-
-```
 
 #### Alignment issues
 
@@ -359,7 +302,7 @@ We validated the modelling output with the sport head recovery program by regres
 
 ## Incorporation of both sets of revised estimates in bilateral PST processes
 
-The Chinook Technical Committee (CTC) of the Pacific Salmon Commission (PSC) has several annual analyses and reports. Notably, the Catch and Escapement Report which details catch and escapement across all fisheries. The Exploitation Rate Analysis and accompanying report which uses a cohort analysis on hatchery stocks with Coded Wire Tags (CWTs) to calculate Calendar Year Exploitation Rates on a stock-specific basis. Finally, the Calibration Report, which reportd on the annual Chinook model calibration which takes output from the ERA and other sources.
+The Chinook Technical Committee (CTC) of the Pacific Salmon Commission (PSC) has several annual analyses and reports. Notably, the Catch and Escapement Report which details catch and escapement across all fisheries. The Exploitation Rate Analysis and accompanying report which uses a cohort analysis on hatchery stocks with Coded Wire Tags (CWTs) to calculate Calendar Year Exploitation Rates on a stock-specific basis. Finally, the Calibration Report, which are reported on the annual Chinook model calibration which takes output from the ERA and other sources.
 
 The revised Chinook catch estimates from modeled data from 2005 to 2012 and from improved data from 2013-2023 will be incorporated into a number of CTC process starting in 2025. Notably, the total number of Kept and Released Chinook will be updated in the Annual Catch and Escapement Report. Next, catch estimates are used as inputs to the annual exploitation rate analysis (ERA) in two places. First, kept and marked catch estimates are used to expand Coded Wire Tag (CWT) observations from the Sport Head Recovery Program to CWT estimates uploaded to the Regional Mark Information System ([RMIS](https://www.rmpc.org/#:~:text=This%20data%20system%2C%20named%20the%20Regional%20Mark%20Information,Commission%E2%80%99s%20information%20needs%20under%20the%20Pacific%20Salmon%20Treaty.)) and ultimately used in the ERA analysis. Second, kept and released catch estimates are incorporated for most sport fisheries into the Chinook non-retention process in the ERA.
 
@@ -368,6 +311,17 @@ The revised Chinook catch estimates from modeled data from 2005 to 2012 and from
 *Nick fill in here details about how marked kept catch estimates are used to create cwt estimates*
 
 -   *caveats about if there is no data you use a regional average etc...*
+
+
+
+```{r myfigure, echo=FALSE, message=FALSE, warning=FALSE, out.width="70%"}
+#| label: fig-NewCWTRegion
+#| fig-cap: "CWT Region Stratification"
+
+fig_cwt_region_path <- "data/Both BC CWT Regions.png"
+
+knitr::include_graphics(fig_cwt_region_path)
+```   
 
 ### Updating Chinook non-retention (release) estimates
 
