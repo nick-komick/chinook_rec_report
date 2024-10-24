@@ -980,26 +980,69 @@ The largest changes in released catch occurred in Central BC where previously ve
 #| label: fig-cande-released
 #| fig-cap: "Revised (blue) and previously reported (green) released catch estimates from 2005-2023. Revised estimates prior to 2012 (vertical line) are from modelled data, whereas 2013 onwards is observed data. "
 
+cwt_est_filename <- "data/cwt_est_by_fishery.sql"
+cwt_est_sql <- readChar(cwt_est_filename, file.info(cwt_est_filename)$size)
+
+local_camp <- ctcUtil::open_camp_connection("camp_local.yaml")
+server_camp <- ctcUtil::open_camp_connection("camp_server.yaml")
+
+local_cwt_est <- 
+  dbGetQuery(local_camp, cwt_est_sql) |>
+  mutate(fishery = paste(fishery_id, " - ", fishery_name))
+
+server_cwt_est <- 
+  dbGetQuery(server_camp, cwt_est_sql) |>
+  mutate(fishery = paste(fishery_id, " - ", fishery_name))
+
+dbDisconnect(local_camp)
+dbDisconnect(server_camp)
+
 
 ## Released only
-r<-ggplot() +
-  geom_point(data=Sport_mark_rate_mrr_sum, aes(y=Released_total, x=YEAR, col="lightblue4")) + geom_line(data=Sport_mark_rate_mrr_sum, aes(y=Released_total, x=YEAR, col="lightblue4"))+
-  geom_point(data=Sport_mark_rate_mrr_sum, aes(y=legal_releases, x=YEAR, col="lightgreen")) + geom_line(data=Sport_mark_rate_mrr_sum, aes(y=legal_releases, x=YEAR, col="lightgreen"))+
- # geom_point(data=Sport_mark_rate_mrr_sum, aes(y=Released, x=YEAR, col="darkgreen")) + geom_line(data=Sport_mark_rate_mrr_sum, aes(y=Released, x=YEAR, col="darkgreen"))+
-
-  scale_color_manual(values=c( "lightblue4", "lightgreen"),  labels = c("Revised estimates", "2024 C&E Report"))+
+ggplot() +
+  geom_point(data=local_cwt_est, aes(y=cwt_estimate, x=run_year, col="lightblue4")) + 
+  geom_line(data=local_cwt_est, aes(y=cwt_estimate, x=run_year, col="lightblue4"))+
+  geom_point(data=server_cwt_est, aes(y=cwt_estimate, x=run_year, col="lightgreen")) + 
+  geom_line(data=server_cwt_est, aes(y=cwt_estimate, x=run_year, col="lightgreen"))+
+  scale_color_manual(values=c( "lightblue4", "lightgreen"),  labels = c("Revised estimates", "2024 CWT Estimates"))+
   theme(legend.position="bottom")+
-  ylab("Released Catch")+
-  facet_wrap(~erafishery, scales = "free", ncol=4)+
-  theme_bw()+ geom_vline(xintercept = 2012)+
+  ylab("CWT Estimate (All Indicators)")+
+  xlab("Run Year")+
+  facet_wrap(~fishery, scales = "free", ncol=4)+
+  theme_bw() + 
+  geom_vline(xintercept = 2012)+
   labs(col = "Data source")
 
-print(r)
 ```
 
 ### Updating CWT estimates
 
 -   *CWT results here*
+
+
+```{r results indcwtest, results='asis', echo=FALSE}
+#| label: fig-indcwtest
+#| fig-cap: "Release rates at the finescale fishery level, over time from 2005 to 2023. Light blue lines are release rates of unmarked fish and dark blue lines are release rates of marked fish, from revised data. Green lines are release rates (regardless of mark status) used in the 2024 CNR files to the ERA."
+
+
+
+Sport_mark_rate_mrr<-Sport_mark_rate_mrr %>% filter(!is.na(erafishery))
+
+mu<-ggplot() +
+  geom_point(data=Sport_mark_rate_mrr, aes(y=(1-ukr), x=YEAR, col="lightblue")) + geom_line(data=Sport_mark_rate_mrr, aes(y=1-ukr, x=YEAR, col="lightblue"))+
+  geom_point(data=Sport_mark_rate_mrr, aes(y=mrr, x=YEAR, col="lightblue4")) + geom_line(data=Sport_mark_rate_mrr, aes(y=mrr, x=YEAR, col="lightblue4"))+
+  geom_point(data=Sport_mark_rate_mrr, aes(y=Release_rate, x=YEAR, col="lightgreen")) + geom_line(data=Sport_mark_rate_mrr, aes(y=Release_rate, x=YEAR, col="lightgreen"))+
+  scale_color_manual(values=c("lightblue", "lightblue4", "lightgreen"),  labels = c("Revised Unmarked Release Rate", "Revised Marked Release Rate", "2024 CNR Release Rate"))+
+  theme(legend.position="bottom")+
+  ylab("Proportion")+
+  facet_wrap(~finescale_fishery)+
+  theme_bw()+ geom_vline(xintercept = 2012)+
+  labs(col="Data source")+
+  theme(legend.position = "bottom")
+
+print(mu)
+```
+
 
 ### Updating Chinook non-retention (release) estimates
 
