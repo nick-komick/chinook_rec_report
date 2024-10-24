@@ -323,6 +323,72 @@ fig_cwt_region_path <- "data/Both BC CWT Regions.png"
 knitr::include_graphics(fig_cwt_region_path)
 ```   
 
+```{r cwtmap, echo=FALSE, message=FALSE, warning=FALSE, out.width="70%"}
+#| label: fig-CwtMap
+#| fig-cap: "CWT New area map"
+
+bc_polygon <- read_sf("data/map/bc_polygon_simple.shp")
+cwt_region <- read_sf("data/map/CWT_Region_simple.shp")
+us_polygon <- read_sf("data/map/US_Polygon_5.shp")
+
+#select only geometry column from both us and bc map
+bc_polygon_geo <- bc_polygon %>%
+  select(geometry)
+
+us_polygon_geo <- us_polygon %>%
+  select(geometry)
+
+#transformiong us map to match up crs with canada map
+us_polygon_geo <- st_transform(us_polygon_geo, st_crs(bc_polygon_geo))
+
+
+combined_map <- rbind(bc_polygon_geo, us_polygon_geo)
+
+#crop the map so it shows the bc coast
+whole_coast_cropped <- st_crop(combined_map, 
+                         xmin = -990416 , 
+                         xmax = 1400416 ,
+                         ymin = 299418, 
+                         ymax = 1149418 )
+
+#set pallete
+num_regions <- length(unique(cwt_region$cwt_region))
+palette <- RColorBrewer::brewer.pal(n = num_regions, name = "Set3")
+
+cwt_region_centroids <- cwt_region %>%
+  mutate(label_x = st_coordinates(st_centroid(geometry))[, 1],
+         label_y = st_coordinates(st_centroid(geometry))[, 2]) %>%
+  #move the label down and right a bit
+  mutate(label_y_adjusted = label_y - 40000,
+         label_x_adjusted = label_x + 40000)
+
+#make the map
+whole_bc_map_gg <- ggplot() +
+  geom_sf(data = whole_coast_cropped, fill = "lightgreen", color = "black") +
+  # Adjust borders of the land masses
+  geom_sf(data = cwt_region, aes(fill = cwt_region), color = "black", size = 0.5) +
+  # Set the color palette for cwt_region
+  scale_fill_manual(values = palette, na.value = "white") +
+  # Add labels
+  geom_label(data = cwt_region_centroids, 
+             aes(x = label_x_adjusted, 
+                 y = label_y_adjusted, 
+                 label = cwt_region),
+             size = 3,
+             fill = "white", 
+             color = "black", 
+             label.size = 0,  # No border around label
+             check_overlap = TRUE) +
+  # Add a theme
+  theme_void() +
+  theme(legend.position = "none") 
+
+whole_bc_map_gg
+
+```   
+
+
+
 ### Updating Chinook non-retention (release) estimates
 
 In 2025, in an attempt to account for mark-selective fisheries, the ERA is switching from a model that only accounts Chinook non-retention without selectively to non-retention by mark status. Therefore, the applicable rates in the ERA that are affected by the revised catch estimates are the marked released rate (MRR) and unmarked kept rate (UKR) (See more detail in the CYER Technical Report - 53). In a given PFMA and month, MRR and UKR are calculated as follows:
