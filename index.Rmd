@@ -150,6 +150,7 @@ library(lme4)
 library(bbmle)
 library(SuppDists)
 library(MuMIn)
+library(sf)
 
 #utils
 "%notin%" <- Negate("%in%")
