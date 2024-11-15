@@ -837,7 +837,8 @@ ggplot(data = head_catch_model_df, aes(x=catch_estimate_predicted,
   geom_text(x = 500, y = 5000, label = lm_eqn(head_catch_model_df), parse = TRUE, hjust=0, vjust=0) +
   ggtitle("Chinook Head to Clipped Catch") +
   xlab("Chinook Kept Adclipped Catch") + 
-  ylab("Chinook Head Recoveries")+theme_bw()
+  ylab("Chinook Head Recoveries")+
+  theme_bw()
 
 
 ```

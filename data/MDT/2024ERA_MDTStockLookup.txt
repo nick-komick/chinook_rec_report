@@ -1,0 +1,68 @@
+StockNum	Stock	StockName	TAM	BYER
+1	ATN	Atnarko River		Total
+2	BQR	Big Qualicum River Fall		Total
+3	CHI	Chilliwack River Fall		Total
+4	CHK	Chilkat River		Total
+5	COW	Cowichan River Fall		Total
+6	CWF	Cowlitz Fall Tule		Ocean
+7	DOM	Dome Creek Spring		Total
+8	ELK	Elk River		Ocean
+9	South Umpqua	South Umpqua	Elk River (ELK)	Total
+10	Coquille	Coquille	Elk River (ELK)	Total
+11	ELW	Elwha River		Ocean
+12	GAD	George Adams Fall Fingerling		Ocean
+13	GRN	Green River		Ocean
+14	HAN	Hanford Wild Brights		Total
+15	HAR	Harrison River		Total
+16	HOK	Hoko Fall Fingerling		Total
+17	KLM	Kitsumkalum River Summer		Total
+18	KLY	Kitsumkalum Yearling		Total
+19	LRH	Lower River Hatchery Tule		Total
+20	LRW	Lewis River Wild		Total
+21	LYF	Lyons Ferry		Total
+22	LYY	Lyons Ferry Yearling		Total
+23	MSH	Middle Shuswap River Summer		Total
+24	NAN	Nanaimo River Fall		Total
+25	NIC	Nicola River Spring		Total
+26	NIS	Nisqually Fall Fingerling		Ocean
+27	NKS	Nooksack Spring Yearling		Ocean
+28	NSF	Nooksack Spring Fingerling		Ocean
+29	NSA	Northern Southeast Alaska Spring		Ocean
+30	PHI	Phillips River Fall		Total
+31	PPS	Puntledge River Summer		Total
+32	QUE	Queets Fall Fingerling		Total
+33	Grays Harbor	Grays Harbor	Queets River (QUE)	Total
+34	Hoh	Hoh	Queets River (QUE)	Total
+35	Quillayute	Quillayute	Queets River (QUE)	Total
+36	QUI	Quinsam River Fall		Total
+37	EVIN	East Vancouver Island North	Quisam River Fall (QUI)	Total
+38	RBT	Robertson Creek Fall		Ocean
+39	NWVI	Northwest Vancouver Island	Robertson Creek Fall (RBT)	Total
+40	SWVI	Southwest Vancouver Island	Robertson Creek Fall (RBT)	Total
+41	SAM	Samish Fall Fingerling		Ocean
+42	SHU	Lower Shuswap River Summer		Total
+43	SKF	Skagit Spring Fingerling		Ocean
+44	SKS	Skagit Spring Yearling		Ocean
+45	SKY	Skykomish Fall Fingerling		Ocean
+46	SMK	Similkameen Summer Yearling		Total
+47	SOO	Tsoo-Yess Fall Fingerling		Total
+48	SPR	Spring Creek Tule		Total
+49	SPS	South Puget Sound Fall Fingerling		Ocean
+50	SQP	Squaxin Pens Fall Yearling		Ocean
+51	SRH	Salmon River		Ocean
+52	Nehalem	Nehalem	Salmon River Hatchery (SRH)	Total
+53	Siletz	Siletz	Salmon River Hatchery (SRH)	Total
+54	Siuslaw	Siuslaw	Salmon River Hatchery (SRH)	Total
+55	SSA	Northern Southeast Alaska Spring		Ocean
+56	SSF	Skagit Summer Fingerling		Ocean
+57	STI	Stikine River		Total
+58	STL	Stillaguamish Fall Fingerling		Ocean
+59	SUM	Columbia River Summers		Total
+60	TAK	Taku River		Total
+61	TST	Taku And Stikine Rivers		Total
+62	UNU	Unuk River		Total
+63	URB	Columbia River Upriver Bright		Total
+64	WRY	White River Spring Yearling		Ocean
+65	WSH	Willamette Spring		Ocean
+66	NSF adj	Nooksack Spring Fingerling Adjusted	Nooksack Spring Fingerling (NSF)	Total
+
