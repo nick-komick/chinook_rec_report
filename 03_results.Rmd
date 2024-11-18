@@ -673,8 +673,11 @@ Figure \@ref(fig:fig-fishery-rates) shows ...
 #| label: fig-fishery-rates
 #| fig-cap: "Fishery Rates"
 
-ggplot(data = head_catch_model_df, aes(x=YEAR, y=submit_rate, color=finescale_fishery)) +
-  geom_line(linewidth = 2)
+ggplot(data = head_catch_model_df, 
+       aes(x=YEAR, y=submit_rate, color=finescale_fishery)) +
+  geom_line(linewidth = 1.5) +
+  labs(x = "Year", y = "Chinook Head Submission Rate", color = "Finescale Fishery")+
+  theme_bw()
 
 ```
 
@@ -682,12 +685,13 @@ Figure \@ref(fig:fig-fishery-rates-preirec) shows ...
 
 ```{r results pre IRec Fishery Rates, echo=FALSE}
 #| label: fig-fishery-rates-preirec
-#| fig-cap: "pre Irec Fishery Rates"
+#| fig-cap: "Pre Irec Fishery Rates"
 
 
 ggplot(data = pre_irec_catch_model_df, aes(x=YEAR, y=submit_rate, color=finescale_fishery)) +
-  geom_line(linewidth = 2)
-
+    geom_line(linewidth = 1.5) +
+  labs(x = "Year", y = "Chinook Head Submission Rate", color = "Finescale Fishery")+
+  theme_bw()
 ```
 
 \clearpage
