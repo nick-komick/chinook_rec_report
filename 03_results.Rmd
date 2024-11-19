@@ -674,15 +674,15 @@ Figure \@ref(fig:fig-fishery-rates) shows ...
 #| fig-cap: "Chinook Head Submission Rates"
 
 region_labels <- c(
-  "CA JDF" = "Juan de Fuca",
-  "CBC S" = "Central BC",
-  "JNST S" = "Johnstone Strait",
-  "NBC AABM" = "Northern BC AABM",
-  "NBC ISBM" = "Nothern BC ISBM",
-  "NGS S" = "Georgia Strait (North)",
-  "NWCVI S" = "West Coast Vancouver Island (North)",
-  "SGS S" = "Georgia Strait (South)",
-  "SWCVI S" = "West Coast Vancouver Island (South)"
+  "CA JDF" = "Juan de Fuca Sport",
+  "CBC S" = "Central BC Sport",
+  "JNST S" = "Johnstone Strait Sport",
+  "NBC AABM" = "Northern BC AABM Sport",
+  "NBC ISBM" = "Nothern BC ISBM Sport",
+  "NGS S" = "Georgia Strait Sport (North)",
+  "NWCVI S" = "West Coast Vancouver Island Sport (North)",
+  "SGS S" = "Georgia Strait Sport (South)",
+  "SWCVI S" = "West Coast Vancouver Island Sport (South)"
 )
 
 region_df <- head_catch_model_df %>%
@@ -721,17 +721,6 @@ Figure \@ref(fig:fig-fishery-rates-preirec) shows ...
 #| label: fig-fishery-rates-preirec
 #| fig-cap: "Before Irec Chinook Head Submission Rates"
 
-region_labels <- c(
-  "CA JDF" = "Juan de Fuca",
-  "CBC S" = "Central BC",
-  "JNST S" = "Johnstone Strait",
-  "NBC AABM" = "Northern BC AABM",
-  "NBC ISBM" = "Nothern BC ISBM",
-  "NGS S" = "Georgia Strait (North)",
-  "NWCVI S" = "West Coast Vancouver Island (North)",
-  "SGS S" = "Georgia Strait (South)",
-  "SWCVI S" = "West Coast Vancouver Island (South)"
-)
 
 region_df <- pre_irec_catch_model_df %>%
   #extract the first + second word in the fishery column so I can facet by "general" region
@@ -792,14 +781,22 @@ fishery_map<-models_combined %>% dplyr::select(finescale_fishery_old, finescale_
 
 cnr_canada_sport<-cnr_canada_sport %>% left_join(fishery_map) %>% rename(YEAR=year)
 
-Sport_mark_rate_mrr<- Sport_mark_rate_mrr_corrected %>% left_join(cnr_canada_sport)
-Sport_mark_rate_mrr<-Sport_mark_rate_mrr %>% mutate(Kept_total = marked_Kept_total + unmarked_Kept_total,
-                                                    Released_total = marked_Released_total + unmarked_Released_total)
+Sport_mark_rate_mrr<- Sport_mark_rate_mrr_corrected %>% 
+  left_join(cnr_canada_sport)
+Sport_mark_rate_mrr<-Sport_mark_rate_mrr %>% 
+  mutate(Kept_total = marked_Kept_total + unmarked_Kept_total,
+         Released_total = marked_Released_total + unmarked_Released_total)
 
 
-cnr_canada_sport_short<- cnr_canada_sport %>% dplyr::select(-finescale_fishery, -finescale_fishery_old) %>% unique()
+cnr_canada_sport_short<- cnr_canada_sport %>% 
+  dplyr::select(-finescale_fishery, -finescale_fishery_old) %>% 
+  unique()
 
-Sport_mark_rate_mrr_sum<-Sport_mark_rate_mrr %>% dplyr::select(-Kept, -Released, -Release_rate) %>% group_by(erafishery, YEAR) %>%   summarise_if(is.numeric, sum, na.rm = TRUE)
+Sport_mark_rate_mrr_sum<-Sport_mark_rate_mrr %>% 
+  dplyr::select(-Kept, -Released, -Release_rate) %>% 
+  group_by(erafishery, YEAR) %>% 
+  summarise_if(is.numeric, sum, na.rm = TRUE)
+
 Sport_mark_rate_mrr_sum<-Sport_mark_rate_mrr_sum  %>% left_join(cnr_canada_sport_short)
 
 rec_summary<-read.csv("data/rec_summary_2005-2023.csv") %>% as_tibble()
@@ -812,12 +809,17 @@ k<-ggplot() +
   geom_point(data=Sport_mark_rate_mrr_sum, aes(y=total_kept, x=YEAR, col="lightgreen")) + geom_line(data=Sport_mark_rate_mrr_sum, aes(y=total_kept, x=YEAR, col="lightgreen"))+
  # geom_point(data=Sport_mark_rate_mrr_sum, aes(y=Kept, x=YEAR, col="darkgreen")) + geom_line(data=Sport_mark_rate_mrr_sum, aes(y=Kept, x=YEAR, col="darkgreen"))+
 
-  scale_color_manual(values=c("lightblue4", "lightgreen"),  labels = c("Revised estimates", "2024 C&E Report"))+
-  theme(legend.position="bottom")+
-  ylab("Kept Catch")+
-  facet_wrap(~erafishery, scales = "free", ncol=4)+
-  theme_bw()+ geom_vline(xintercept = 2012)+
-  labs(col = "Data source")
+  scale_color_manual(values=c("lightblue4", "lightgreen"),  
+                     labels = c("Revised estimates", "2024 C&E Report"))+
+  facet_wrap(~erafishery, 
+             scales = "free", 
+             ncol=4)+
+  geom_vline(xintercept = 2012)+
+  labs(col = "Data source",
+       y = "Kept Catch",
+       x = "Year") +
+  theme_bw() +
+   theme(legend.position="bottom")
 
 print(k)
 
@@ -854,11 +856,11 @@ ggplot() +
   geom_point(data=server_cwt_est, aes(y=cwt_estimate, x=run_year, col="lightgreen")) + 
   geom_line(data=server_cwt_est, aes(y=cwt_estimate, x=run_year, col="lightgreen"))+
   scale_color_manual(values=c( "lightblue4", "lightgreen"),  labels = c("Revised estimates", "2024 CWT Estimates"))+
-  theme(legend.position="bottom")+
   ylab("CWT Estimate (All Indicators)")+
   xlab("Run Year")+
   facet_wrap(~fishery, scales = "free", ncol=4)+
   theme_bw() + 
+  theme(legend.position="bottom")+
   geom_vline(xintercept = 2012)+
   labs(col = "Data source")
 
@@ -869,24 +871,26 @@ ggplot() +
 -   *CWT results here*
 
 
-```{r results indcwtest, results='asis', echo=FALSE}
+```{r results indcwtest, results='asis', echo=FALSE, fig.height = 8}
 #| label: fig-indcwtest
 #| fig-cap: "Release rates at the finescale fishery level, over time from 2005 to 2023. Light blue lines are release rates of unmarked fish and dark blue lines are release rates of marked fish, from revised data. Green lines are release rates (regardless of mark status) used in the 2024 CNR files to the ERA."
 
 
 
-Sport_mark_rate_mrr<-Sport_mark_rate_mrr %>% filter(!is.na(erafishery))
+Sport_mark_rate_mrr<-Sport_mark_rate_mrr %>% 
+  filter(!is.na(erafishery))
 
 mu<-ggplot() +
   geom_point(data=Sport_mark_rate_mrr, aes(y=(1-ukr), x=YEAR, col="lightblue")) + geom_line(data=Sport_mark_rate_mrr, aes(y=1-ukr, x=YEAR, col="lightblue"))+
   geom_point(data=Sport_mark_rate_mrr, aes(y=mrr, x=YEAR, col="lightblue4")) + geom_line(data=Sport_mark_rate_mrr, aes(y=mrr, x=YEAR, col="lightblue4"))+
   geom_point(data=Sport_mark_rate_mrr, aes(y=Release_rate, x=YEAR, col="lightgreen")) + geom_line(data=Sport_mark_rate_mrr, aes(y=Release_rate, x=YEAR, col="lightgreen"))+
-  scale_color_manual(values=c("lightblue", "lightblue4", "lightgreen"),  labels = c("Revised Unmarked Release Rate", "Revised Marked Release Rate", "2024 CNR Release Rate"))+
-  theme(legend.position="bottom")+
-  ylab("Proportion")+
+  scale_color_manual(values=c("lightblue", "lightblue4", "lightgreen"),  
+                     labels = c("Revised Unmarked Release Rate", "Revised Marked Release Rate", "2024 CNR Release Rate"))+
   facet_wrap(~finescale_fishery)+
   theme_bw()+ geom_vline(xintercept = 2012)+
-  labs(col="Data source")+
+  labs(col="Data source",
+       x = "Year",
+       y = "Proportion")+
   theme(legend.position = "bottom")
 
 print(mu)
@@ -901,7 +905,7 @@ Kept and released catch estimates are incorporated for most sport fisheries into
 
 We can see that some fisheries have been accounting for releases since 2005, while other fisheries only more recently incorporated release information . With the exception of Juan de Fuca, which did have mark-selective fisheries before 2012, all other sport fisheries were non-selective before 2013. Since the data is modelled, we did not want to bias the previous non-selective fisheries by allowing for selectivity, therefore we have fixed the MRR and URR rates to be equal in the modelled data, by calculating a single release rate for marked and unmarked fish combined. After 2013, the data is observed and therefore allowed to vary selectively even if no specific mark selective fishery was imposed. When MRR and URR are identical, this indicates non-selectivity. If MRR is higher than URR, this indicates marked fish are released at a higher rate than unmarked fish, which would be indicative of selecting for unmarked fish. If URR is higher than MRR, then marked fish are released at a lower rate than unmarked fish, indicating mark selectivity. Generally, the MRR and URR results suggest that releases are occurring but there is no strong, consistent mark selectivity to the releases. This aligns with MSF regulations that are very limited in space and time and are only beginning to be rolled out across a small number of sport fisheries.
 
-```{r results mrrukr, results='asis', echo=FALSE}
+```{r results mrrukr, results='asis', echo=FALSE, fig.height = 8}
 #| label: fig-mrrukr
 #| fig-cap: "Release rates at the finescale fishery level, over time from 2005 to 2023. Light blue lines are release rates of unmarked fish and dark blue lines are release rates of marked fish, from revised data. Green lines are release rates (regardless of mark status) used in the 2024 CNR files to the ERA."
 
@@ -913,11 +917,11 @@ mu<-ggplot() +
   geom_point(data=Sport_mark_rate_mrr, aes(y=mrr, x=YEAR, col="lightblue4")) + geom_line(data=Sport_mark_rate_mrr, aes(y=mrr, x=YEAR, col="lightblue4"))+
   geom_point(data=Sport_mark_rate_mrr, aes(y=Release_rate, x=YEAR, col="lightgreen")) + geom_line(data=Sport_mark_rate_mrr, aes(y=Release_rate, x=YEAR, col="lightgreen"))+
   scale_color_manual(values=c("lightblue", "lightblue4", "lightgreen"),  labels = c("Revised Unmarked Release Rate", "Revised Marked Release Rate", "2024 CNR Release Rate"))+
-  theme(legend.position="bottom")+
-  ylab("Proportion")+
   facet_wrap(~finescale_fishery)+
   theme_bw()+ geom_vline(xintercept = 2012)+
-  labs(col="Data source")+
+    labs(col="Data source",
+       x = "Year",
+       y = "Proportion")+
   theme(legend.position = "bottom")
 
 print(mu)
