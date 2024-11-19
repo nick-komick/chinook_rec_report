@@ -89,20 +89,39 @@ models_combined_old<-models_combined %>% group_by(YEAR,kept_status,pred_cat, fin
 
 fishery_name_south<- sort(unique(models_combined_old$finescale_fishery_old))
 
+
 for (i in 1:length(fishery_name_south)){
 
- m<-ggplot(models_combined_old  %>% filter(finescale_fishery_old==fishery_name_south[i], YEAR %in% c(2013:2023), kept_status=="Kept")) +
-    geom_point(size=2.5,  aes(y=creel_unfiltered_plus, x=YEAR,col=kept_status, fill=kept_status, shape=pred_cat))+
-    geom_line(aes(y=creel_unfiltered_plus, x=YEAR,col=kept_status, linetype = " Unfiltered creel and logbook"))+
-    scale_shape_manual(values=c(1,1), guide="none")+
-    scale_x_continuous(breaks = c(2013, 2015, 2017, 2019, 2021, 2023))+
-    new_scale("shape")+
-    scale_colour_viridis_d()+
-    geom_point(size=2.5, aes(y=catch_estimate_predicted, x=YEAR,col=kept_status, fill=kept_status, shape=pred_cat))+
-    geom_line(aes(y=catch_estimate_predicted, x=YEAR,col=kept_status, linetype = "iREC included"))+
-    scale_shape_manual(values=c(16,17), guide="none")+
-    scale_linetype_manual(values=c(2,1))+
-   ggtitle(paste(fishery_name_south[i])) + theme_bw() + scale_x_continuous(breaks = c(2013, 2015, 2017, 2019, 2021, 2023))+ ylab("Kept catch estimate") + xlab("Year")
+ m<-ggplot(graph_data <- models_combined_old  %>% 
+             filter(finescale_fishery_old == fishery_name_south[i],
+                    YEAR %in% c(2013:2023),
+                    kept_status == "Kept") %>%
+  ungroup() %>%
+  select(YEAR, creel_unfiltered_plus, catch_estimate_predicted) %>%
+  pivot_longer(c(creel_unfiltered_plus, catch_estimate_predicted),
+               names_to = "estimate_type",
+               values_to = "catch_estimate"))
+ 
+m <- ggplot(graph_data, aes(y = catch_estimate,
+           x = YEAR,
+           shape = estimate_type,
+           linetype = estimate_type))+
+  geom_point(size = 2.5,
+             colour = "#440154")+
+  geom_line(colour = "#440154") +
+  scale_shape_manual(values = c(1, 16),
+                     labels = c("iREC included", "Unfiltered creel and logbook")
+                     ) +
+  scale_linetype_manual(values = c(2, 1),
+                      labels = c("iREC included", "Unfiltered creel and logbook")
+                      ) +
+  scale_x_continuous(breaks = c(2013, 2015, 2017, 2019, 2021, 2023)) +
+  ggtitle(paste(fishery_name_south[i])) + 
+  theme_bw() + 
+  ylab("Kept catch estimate") + 
+  xlab("Year") +
+  labs(linetype = "Catch Estimate", shape = "Catch Estimate")
+ 
  
  
  print(m)
