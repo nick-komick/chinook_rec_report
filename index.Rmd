@@ -4,6 +4,7 @@ title: |
 french_title: Titre ici (*Nom latin de l'espèce*)
 year: 2024
 report_number: nnn
+report_DOI: ???
 author: |
   Norah E.M. Brown^1^, 
   Nicholas Komick^1^,
@@ -32,6 +33,7 @@ french_address: |
      Une autre galaxie
 phone: "(555) 555-5555"
 author_footnote: "Email: norah.brown@dfo-mpo.gc.ca | telephone: "
+citation_french: "Not provided yet"
 abstract: |
   Recreational catch estimation of Chinook salmon in the Pacific Region has historically been accomplished using a combination of creel surveys and logbook programs. However, there are substantial spatial and temporal gaps in the creel and logbook data, which targets the most heavily fished areas and months. A mandatory Internet Recreational Effort and Catch (iREC) survey has been implemented since July 2012 to resolve these gaps and contribute to recreational catch information. These data have been variably incorporated into the Chinook recreational catch since 2013 in most regions domestically, but this incorporation has not occurred in a standardized way. Furthermore, iREC has not be incorporated in catch estimates prior to 2013, creating difficultly in comparing pre-2013 catch to post-2013 catch, a requirement for some aspects of the Pacific Salmon Treaty for Iddividual Stock Based Management (ISBM) fisheries. Here, we present:
   1.	Revised catch estimates from 2013-2023, methods to be used for future catch estimates. 
