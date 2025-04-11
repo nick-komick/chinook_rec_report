@@ -834,27 +834,27 @@ The largest changes in released catch occurred in Central BC where previously ve
 cwt_est_filename <- "data/cwt_est_by_fishery.sql"
 cwt_est_sql <- readChar(cwt_est_filename, file.info(cwt_est_filename)$size)
 
-local_camp <- ctcUtil::open_camp_connection("camp_local.yaml")
-server_camp <- ctcUtil::open_camp_connection("camp_server.yaml")
+new_camp <- ctcUtil::open_camp_connection("camp_2025.yaml")
+prev_camp <- ctcUtil::open_camp_connection("camp_2024.yaml")
 
-local_cwt_est <- 
-  dbGetQuery(local_camp, cwt_est_sql) |>
+new_cwt_est <- 
+  dbGetQuery(new_camp, cwt_est_sql) |>
   mutate(fishery = paste(fishery_id, " - ", fishery_name))
 
-server_cwt_est <- 
-  dbGetQuery(server_camp, cwt_est_sql) |>
+prev_cwt_est <- 
+  dbGetQuery(prev_camp, cwt_est_sql) |>
   mutate(fishery = paste(fishery_id, " - ", fishery_name))
 
-dbDisconnect(local_camp)
-dbDisconnect(server_camp)
+dbDisconnect(prev_camp)
+dbDisconnect(new_camp)
 
 
 ## Released only
 ggplot() +
-  geom_point(data=local_cwt_est, aes(y=cwt_estimate, x=run_year, col="lightblue4")) + 
-  geom_line(data=local_cwt_est, aes(y=cwt_estimate, x=run_year, col="lightblue4"))+
-  geom_point(data=server_cwt_est, aes(y=cwt_estimate, x=run_year, col="lightgreen")) + 
-  geom_line(data=server_cwt_est, aes(y=cwt_estimate, x=run_year, col="lightgreen"))+
+  geom_point(data=new_cwt_est, aes(y=cwt_estimate, x=run_year, col="lightblue4")) + 
+  geom_line(data=new_cwt_est, aes(y=cwt_estimate, x=run_year, col="lightblue4"))+
+  geom_point(data=prev_cwt_est, aes(y=cwt_estimate, x=run_year, col="lightgreen")) + 
+  geom_line(data=prev_cwt_est, aes(y=cwt_estimate, x=run_year, col="lightgreen"))+
   scale_color_manual(values=c( "lightblue4", "lightgreen"),  labels = c("Revised estimates", "2024 CWT Estimates"))+
   ylab("CWT Estimate (All Indicators)")+
   xlab("Run Year")+

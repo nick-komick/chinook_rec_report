@@ -1,13 +1,12 @@
-select rc.runyear as run_year, fe.FisheryERAID as fishery_id, fe.Name as fishery_name,sum(AdjustedEstimatedNumber) as cwt_estimate
-from ((((CWDBRecovery rc 
-inner join WireTagCode rl on rc.TagCode = rl.TagCode)
-inner join CAMPFisheryFine ff on rc.Fishery = ff.FisheryFineID)
-inner join CAMPFisheryCoarse fc on ff.FisheryCoarseID = fc.FisheryCoarseID)
-inner join CAMPFisheryERA fe on fc.FisheryERAID = fe.FisheryERAID)
-where RunYear > 2004 and RunYear < 2024
-and rc.CWDBFishery = '40'
-and rc.Agency = 'CDFO'
+select rc.run_year as run_year, fe.fishery_era_id as fishery_id, fe.Name as fishery_name,sum(rc.adjusted_estimated_number) as cwt_estimate
+from (((camp_cwt_recovery rc 
+inner join camp_cwt_release rl on rc.tag_code = rl.tag_code)
+inner join camp_fishery_fine ff on rc.fishery_fine_id = ff.fishery_fine_id)
+inner join camp_fishery_era fe on ff.fishery_era_id = fe.fishery_era_id)
+where run_year > 2004 and run_year < 2024
+and rc.fishery = '40'
+and rc.reporting_agency = 'CDFO'
 and rl.Included = 1
 and rl.Auxiliary = 0
-group by rc.runyear, fe.FisheryERAID, fe.Name
-order by runyear, fe.FisheryERAID
+group by rc.run_year, fe.fishery_era_id, fe.Name
+order by run_year, fe.fishery_era_id

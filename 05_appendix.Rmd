@@ -46,17 +46,18 @@ Strat_table <-
   )) %>% 
   dplyr::select(-MONTH) %>% unique() %>% drop_na() %>% 
   rename("ERA Fishery" = "erafishery", "Finescale Fishery Old" = "finescale_fishery_old", 
-         "Finescale Fishery New" ="finescale_fishery", "PFMA" ="AREA","Months" ="month_category")
+         "Finescale Fishery New" ="finescale_fishery", "PFMA" ="AREA","Months" ="month_category") |> 
+  mutate(across(everything(), function(.) { gsub(":", "to", .)}))
 
 
-Strat_table %>%
-  kableExtra::kable("html", 
-                    escape = FALSE,
-                    caption = "Stratification mapping",
-                    align = "l") %>%
-  kableExtra::kable_classic(full_width = F, html_font = "Cambria") %>%
-  kableExtra::kable_styling(bootstrap_options = c("bordered")) %>%
-  kableExtra::collapse_rows(columns = 1:3, valign = "middle")
+#Strat_table %>%
+#  kableExtra::kable("latex", 
+#                    escape = FALSE,
+#                    caption = "Stratification mapping",
+#                    align = "l") %>%
+#  kableExtra::kable_classic(full_width = F, html_font = "Cambria") %>%
+#  kableExtra::kable_styling(bootstrap_options = c("bordered")) %>%
+#  kableExtra::collapse_rows(columns = 1:3, valign = "middle")
 
 
 ```
@@ -320,7 +321,7 @@ res_gam_drop_kept_spec <- simulateResiduals(cbc_isbm_model_full_gamma_spec, plot
 
 # MODEL OUTPUT {#app:third-appendix}
 
-```{r plotting_function, include = FALSE}
+```{r appendix_plotting_function, include = FALSE}
 #plotting function that will be used for the next few sections
 create_facet_plot <- function(finescale_fishery_name, x_var, plot_data, model_data) {
   # Labels for facets

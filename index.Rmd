@@ -84,6 +84,7 @@ type:
 knit: (function(input, ...) csasdown::render())
 site: bookdown::bookdown_site
 link-citations: true
+always_allow_html: true
 bibliography: bib/refs.bib
 # Any extra LaTeX code for the header:
 header-includes:
