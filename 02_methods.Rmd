@@ -1,14 +1,14 @@
-\clearpage
+ \clearpage
 
 # Methods
 
 ## Revised Chinook catch estimates from 2013-present
 
-Since the introduction of iREC surveys in 2013, there has been different approaches to combining Chinook catch estimates from the survey with creel and log books recreational catch estimates. The primary purpose of revising recreational catch estimates is to incorporate the different sources of catch into a single standardized set of recreational catch for all Pacific Region marine waters.
+Since the introduction of iREC in 2013, there has been different methods to combining Chinook catch estimates from the survey with creel and log books recreational catch estimates. The primary purpose of revising recreational catch estimates is to incorporate the different sources of catch into a single standardized set of recreational catch for all Pacific Region marine waters.
 
 ### Background on survey methods
 
-We first provide a brief background on the regionally-specific creel and logbook, programs and the coast-wide iREC surveys in and how each contribute to Chinook catch estimates in a given month. More details on each method can be found in the relevant technical reports (@sturhahn2001, @english2002, @korman2005evaluation). We note any improvements to the data quality assurance and control that may have occurred in order to create the datasets used in this analysis. While all methods report on multiple species, here we are concerned only with data involving Chinook salmon. The coastal area of interest is all Pacific Fishery Management Areas (PFMAs, Figure \@ref(fig:fig-PFMA), @pfma_2007), more information and detailed maps can be found on the [DFO website](https://www.pac.dfo-mpo.gc.ca/fm-gp/maps-cartes/areas-secteurs/index-eng.html).
+We first provide a brief background on the regionally-specific creel and logbook programs, coast-wide iREC reporting, and how each contribute to Chinook catch estimates in a given month. More details on each method can be found in the relevant technical reports (@sturhahn2001, @english2002, @korman2005evaluation). We note any improvements to the data quality assurance and control that may have occurred in order to create the data sets used in this analysis. While all methods report on multiple species, here we are concerned only with data involving Chinook salmon. The coastal area of interest is all Pacific Fishery Management Areas (PFMAs, Figure \@ref(fig:fig-PFMA), @pfma_2007), more information and detailed maps can be found on the [DFO website](https://www.pac.dfo-mpo.gc.ca/fm-gp/maps-cartes/areas-secteurs/index-eng.html).
 
 ```{r myfigure, echo=FALSE, message=FALSE, warning=FALSE, out.width="70%"}
 #| label: fig-PFMA
@@ -21,7 +21,14 @@ knitr::include_graphics(c(fig1_path))
 
 #### South Coast Catch Estimation (Kris/Rob to review this section)
 
-South Coast catch estimation is a combination of creel surveys and logbooks from both guides and avid angler programs. The South Coast Creel Survey (SCCS), run by the DFO, began in the early 1980s was limited to Strait of Georgia recreational fisheries. It has since expanded in scope to survey PFMAs 10 to 27, including offshore areas (start with a "1"). The surveys are conducted in the summer months, however some spring and fall surveys occur in specific areas. The survey involves dock-side fisher interviews to capture catch rates and aerial surveys for effort counts. Raw estimates and uncertainty are expanded to cover a given month and area (typically PFMA). Currently, this program produces separate kept and released catch estimates for adipose-clipped (ie marked) and unclipped (ie unmarked) fish, based on both legal and sublegal size. In the past, kept fish with unknown adipose clip status were expanded to marked and unmarked using a monthly mark rate and to kept and released using a monthly release rate. For more information and methods about the SCCS, see the most recent program overview and bulletins, found [here](https://cat.fsl-bsf.scitech.gc.ca/record=b4125212~S1) (*Cite: South coast assessment bulletin, program overview 2024*). While the SCCS is the primary source of data for the South Coast, logbook data from guides and avid angler programs are provided on a voluntary basis and are removed from area and month-specific estimates of the creel survey to avoid double-counting.
+South Coast catch estimation is a combination of creel surveys and logbooks from both guides and avid angler programs. The South Coast Creel Survey (SCCS), run by the DFO, began in the early 1980s was limited to Strait of Georgia recreational fisheries. It has since expanded in scope to survey PFMAs 10 to 27, including offshore areas (those with IDs in the 100s). The surveys are conducted in the summer months, however some spring and fall surveys occur in specific areas. The survey involves dock-side fisher interviews to capture catch rates and aerial surveys for effort counts. Raw estimates and uncertainty are expanded to cover a given month and area (typically PFMA). Currently, this program estimates
+  
+  * Sub-legal sized release catch
+  * Legal sized released catch based on adipose-clip status (e.g clipped/marked and unclipped/unmarked)
+  * Legal sized kept catch based on adipose-clip status (e.g clipped/marked and unclipped/unmarked)
+  
+  
+  and unclipped (ie unmarked) fish. In the past, kept fish with unknown adipose clip status were expanded to marked and unmarked using a monthly mark rate and to kept and released using a monthly release rate. For more information and methods about the SCCS, see the most recent program overview and bulletins, found [here](https://cat.fsl-bsf.scitech.gc.ca/record=b4125212~S1) (*Cite: South coast assessment bulletin, program overview 2024*). While the SCCS is the primary source of data for the South Coast, logbook data from guides and avid angler programs are provided on a voluntary basis and are removed from area and month-specific estimates of the creel survey to avoid double-counting.
 
 ##### South Coast Creel Survey quality control
 
