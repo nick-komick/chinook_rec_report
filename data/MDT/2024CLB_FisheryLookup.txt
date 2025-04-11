@@ -1,0 +1,49 @@
+FisheryNumber	FisheryName	CYER	MDT	CMB
+1	ALASKA T	AABM US	AABM SEAK Troll	AABM US
+2	TAK YAK N	AABM US	Terminal SEAK Net	AABM US
+3	NORTH T	AABM Canada	AABM NBC Troll	AABM Canada
+4	CENTRL T	ISBM Canada	ISBM NBC&CBC Troll	ISBM Canada
+5	WCVI T	AABM Canada	AABM WCVI Troll	AABM Canada
+6	N FALCON T	ISBM US	ISBM North of Falcon Troll	ISBM US
+7	S FALCON T	ISBM US	ISBM North of Falcon Troll	ISBM US
+8	GEO ST T	ISBM Canada	ISBM Southern BC Net	ISBM Canada
+9	ALASKA N	AABM US	AABM SEAK Net	AABM US
+10	NORTH N	ISBM Canada	ISBM NBC&CBC Net	ISBM Canada
+11	CENTRL N	ISBM Canada	ISBM NBC&CBC Net	ISBM Canada
+12	WCVI N	ISBM Canada	ISBM Southern BC Net	ISBM Canada
+13	J DE F N	ISBM Canada	ISBM Southern BC Net	ISBM Canada
+14	PGSDN N	ISBM US	ISBM Puget Sound Net	ISBM US
+15	PGSDO N	ISBM US	ISBM Puget Sound Net	ISBM US
+16	WASH CST N	ISBM US	ISBM WA Coast Net	ISBM US
+17	TCOL R N	ISBM US	Terminal Southern US Net	ISBM US
+18	TAK TBR N	AABM US	Terminal SEAK Net	AABM US
+19	TBC TBR FN	ISBM Canada	Terminal Canada Net	ISBM Canada
+20	TCENTRAL FN	ISBM Canada	Terminal Canada Net	ISBM Canada
+21	TGEO ST FN	ISBM Canada	Terminal Canada Net	ISBM Canada
+22	TFRAS FN	ISBM Canada	Terminal Canada Net	ISBM Canada
+23	TPS FN	ISBM US	Terminal Southern US Net	ISBM US
+24	TWAC FN	ISBM US	Terminal Southern US Net	ISBM US
+25	JNST N	ISBM Canada	ISBM Southern BC Net	ISBM Canada
+26	FRASER N	ISBM Canada	ISBM Southern BC Net	ISBM Canada
+27	ALASKA S	AABM US	AABM SEAK Sport	AABM US
+28	CBC S	ISBM Canada	ISBM NBC&CBC Sport	ISBM Canada
+29	NBC AABM S	AABM Canada	AABM NBC Sport	AABM Canada
+30	NBC ISBM S	ISBM Canada	ISBM NBC&CBC Sport	ISBM Canada
+31	WCVI AABM S	AABM Canada	AABM WCVI Sport	AABM Canada
+32	WCVI ISBM S	ISBM Canada	ISBM Southern BC Sport	ISBM Canada
+33	N FALCON S	ISBM US	ISBM North of Falcon Sport	ISBM US
+34	S FALCON S	ISBM US	ISBM South of Falcon Sport	ISBM US
+35	PGSDN S	ISBM US	ISBM Puget Sound Sport	ISBM US
+36	PGSDO S	ISBM US	ISBM Puget Sound Sport	ISBM US
+37	TYK YAK FN	ISBM Canada	Terminal Canada Net	ISBM Canada
+38	GEO ST S	ISBM Canada	ISBM Southern BC Sport	ISBM Canada
+39	BC JF S	ISBM Canada	ISBM Southern BC Sport	ISBM Canada
+40	TCOL R S	ISBM US	Terminal Southern US Net	ISBM US
+41	TAK TBR S	AABM US	Terminal SEAK Sport	AABM US
+42	TNORTH FS	ISBM Canada	Terminal Canada Sport	ISBM Canada
+43	TCENTRAL FS	ISBM Canada	Terminal Canada Sport	ISBM Canada
+44	TWCVI FS	ISBM Canada	Terminal Canada Sport	ISBM Canada
+45	TFRASER FS	ISBM Canada	Terminal Canada Sport	ISBM Canada
+46	TGS FS	ISBM Canada	Terminal Canada Sport	ISBM Canada
+47	TPS FS	ISBM US	Terminal Southern US Sport	ISBM US
+48	TSF FS	ISBM US	Terminal Southern US Sport	ISBM US

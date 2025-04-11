@@ -4,8 +4,6 @@
 
 # Stratification Mapping
 
--   *May want to drop left-hand levels ... should be able to do this with Kable extra group but couldn't quite get it to work.*
-
 ```{r methods strattab, echo=FALSE, message=FALSE, warning=FALSE}
 #| label: strattab
 
@@ -51,9 +49,15 @@ Strat_table <-
          "Finescale Fishery New" ="finescale_fishery", "PFMA" ="AREA","Months" ="month_category")
 
 
+Strat_table %>%
+  kableExtra::kable("html", 
+                    escape = FALSE,
+                    caption = "Stratification mapping",
+                    align = "l") %>%
+  kableExtra::kable_classic(full_width = F, html_font = "Cambria") %>%
+  kableExtra::kable_styling(bootstrap_options = c("bordered")) %>%
+  kableExtra::collapse_rows(columns = 1:3, valign = "middle")
 
-csasdown::csas_table(Strat_table, caption = "Stratification mapping") %>% 
-  kableExtra::collapse_rows(columns = 1:3)
 
 ```
 
@@ -85,20 +89,39 @@ models_combined_old<-models_combined %>% group_by(YEAR,kept_status,pred_cat, fin
 
 fishery_name_south<- sort(unique(models_combined_old$finescale_fishery_old))
 
+
 for (i in 1:length(fishery_name_south)){
 
- m<-ggplot(models_combined_old  %>% filter(finescale_fishery_old==fishery_name_south[i], YEAR %in% c(2013:2023), kept_status=="Kept")) +
-    geom_point(size=2.5,  aes(y=creel_unfiltered_plus, x=YEAR,col=kept_status, fill=kept_status, shape=pred_cat))+
-    geom_line(aes(y=creel_unfiltered_plus, x=YEAR,col=kept_status, linetype = " Unfiltered creel and logbook"))+
-    scale_shape_manual(values=c(1,1), guide="none")+
-    scale_x_continuous(breaks = c(2013, 2015, 2017, 2019, 2021, 2023))+
-    new_scale("shape")+
-    scale_colour_viridis_d()+
-    geom_point(size=2.5, aes(y=catch_estimate_predicted, x=YEAR,col=kept_status, fill=kept_status, shape=pred_cat))+
-    geom_line(aes(y=catch_estimate_predicted, x=YEAR,col=kept_status, linetype = "iREC included"))+
-    scale_shape_manual(values=c(16,17), guide="none")+
-    scale_linetype_manual(values=c(2,1))+
-   ggtitle(paste(fishery_name_south[i])) + theme_bw() + scale_x_continuous(breaks = c(2013, 2015, 2017, 2019, 2021, 2023))+ ylab("Kept catch estimate") + xlab("Year")
+ m<-ggplot(graph_data <- models_combined_old  %>% 
+             filter(finescale_fishery_old == fishery_name_south[i],
+                    YEAR %in% c(2013:2023),
+                    kept_status == "Kept") %>%
+  ungroup() %>%
+  select(YEAR, creel_unfiltered_plus, catch_estimate_predicted) %>%
+  pivot_longer(c(creel_unfiltered_plus, catch_estimate_predicted),
+               names_to = "estimate_type",
+               values_to = "catch_estimate"))
+ 
+m <- ggplot(graph_data, aes(y = catch_estimate,
+           x = YEAR,
+           shape = estimate_type,
+           linetype = estimate_type))+
+  geom_point(size = 2.5,
+             colour = "#440154")+
+  geom_line(colour = "#440154") +
+  scale_shape_manual(values = c(1, 16),
+                     labels = c("iREC included", "Unfiltered creel and logbook")
+                     ) +
+  scale_linetype_manual(values = c(2, 1),
+                      labels = c("iREC included", "Unfiltered creel and logbook")
+                      ) +
+  scale_x_continuous(breaks = c(2013, 2015, 2017, 2019, 2021, 2023)) +
+  ggtitle(paste(fishery_name_south[i])) + 
+  theme_bw() + 
+  ylab("Kept catch estimate") + 
+  xlab("Year") +
+  labs(linetype = "Catch Estimate", shape = "Catch Estimate")
+ 
  
  
  print(m)
@@ -116,23 +139,42 @@ models_combined_old2<-models_combined %>% group_by(YEAR,kept_status,pred_cat, fi
 
 fishery_name_north<- sort(unique(models_combined_old2$finescale_fishery_old))
 
+
 for (i in 1:length(fishery_name_north)){
 
- m2<-ggplot(models_combined_old2  %>% filter(finescale_fishery_old==fishery_name_north[i], YEAR %in% c(2013:2023), kept_status=="Kept")) +
-    geom_point(size=2.5,  aes(y=historic_plus, x=YEAR,col=kept_status, fill=kept_status, shape=pred_cat))+
-    geom_line(aes(y=historic_plus, x=YEAR,col=kept_status, linetype = "Historic"))+
-    scale_shape_manual(values=c(1,1), guide="none")+
-    scale_x_continuous(breaks = c(2013, 2015, 2017, 2019, 2021, 2023))+
-    new_scale("shape")+
-    scale_colour_viridis_d()+
-    geom_point(size=2.5, aes(y=catch_estimate_predicted, x=YEAR,col=kept_status, fill=kept_status, shape=pred_cat))+
-    geom_line(aes(y=catch_estimate_predicted, x=YEAR,col=kept_status, linetype = "iREC included"))+
-    scale_shape_manual(values=c(16,17), guide="none")+
-    scale_linetype_manual(values=c(2,1))+
-   ggtitle(paste(fishery_name_north[i])) + theme_bw() + scale_x_continuous(breaks = c(2013, 2015, 2017, 2019, 2021, 2023))+ ylab("Kept catch estimate") + xlab("Year")
+ m<-ggplot(graph_data <- models_combined_old2  %>% 
+             filter(finescale_fishery_old == fishery_name_north[i],
+                    YEAR %in% c(2013:2023),
+                    kept_status == "Kept") %>%
+  ungroup() %>%
+  select(YEAR, historic_plus, catch_estimate_predicted) %>%
+  pivot_longer(c(historic_plus, catch_estimate_predicted),
+               names_to = "estimate_type",
+               values_to = "catch_estimate"))
+ 
+m <- ggplot(graph_data, aes(y = catch_estimate,
+           x = YEAR,
+           shape = estimate_type,
+           linetype = estimate_type))+
+  geom_point(size = 2.5,
+             colour = "#440154")+
+  geom_line(colour = "#440154") +
+  scale_shape_manual(values = c(1, 16),
+                     labels = c("iREC included", "Historic")
+                     ) +
+  scale_linetype_manual(values = c(2, 1),
+                      labels = c("iREC included", "Historic")
+                      ) +
+  scale_x_continuous(breaks = c(2013, 2015, 2017, 2019, 2021, 2023)) +
+  ggtitle(paste(fishery_name_north[i])) + 
+  theme_bw() + 
+  ylab("Kept catch estimate") + 
+  xlab("Year") +
+  labs(linetype = "Catch Estimate", shape = "Catch Estimate")
  
  
- print(m2)
+ 
+ print(m)
 }
 ```
 
@@ -140,7 +182,7 @@ for (i in 1:length(fishery_name_north)){
 
 # MODEL RESIDUALS {#app:second-appendix}
 
-### Southern BC Summer fisheries
+### Southern BC Summer fisheries <br/>
 
 ```{r Modelling summer subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 #| label: fig-south-sum-residuals
@@ -161,7 +203,7 @@ finescale_fishery_old:status + 1 + creel_plus_summer,  family=Gamma(link = "log"
 res_gam <- simulateResiduals(Summer_model, plot = T, quantreg=T)
 ```
 
-### Northern BC AABM Summer fisheries
+### Northern BC AABM Summer fisheries <br/>
 
 ```{r Modelling summer nbc aabm subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 #| label: fig-nbcaabm-sum-residuals
@@ -182,7 +224,7 @@ res_gam <- simulateResiduals(Summer_north_aabm_model_gamma_spec, plot = T, quant
 
 ```
 
-### Northern BC ISBM Summer fisheries
+### Northern BC ISBM Summer fisheries <br/>
 
 ```{r Modelling summer nbc isbm subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 #| label: fig-nbcisbm-sum-residuals
@@ -200,7 +242,7 @@ res_spec <- simulateResiduals(Summer_north_isbm_model_full_gamma_spec, plot = T,
 
 ```
 
-### Southern BC Spring and Fall fisheries
+### Southern BC Spring and Fall fisheries <br/>
 
 ```{r Modelling spring and fall subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 #| label: fig-south-sf-residuals
@@ -220,7 +262,7 @@ Spring_fall_model<-  glm(formula =catch_estimate + 3 ~ finescale_fishery_old + s
 res_gam <- simulateResiduals(Spring_fall_model, plot = T, quantreg=T)
 ```
 
-### Northern BC AABM Spring and Fall fisheries
+### Northern BC AABM Spring and Fall fisheries <br/>
 
 ```{r Modelling NBC AABM spring and fall subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 #| label: fig-nbcaabm-sf-residuals
@@ -237,7 +279,7 @@ North_aabm_model<- glm(formula = catch_estimate + 1 ~ season + status + historic
 res_gam <- simulateResiduals(North_aabm_model, plot = T, quantreg=T)
 ```
 
-### Northern BC ISBM Spring and Fall fisheries
+### Northern BC ISBM Spring and Fall fisheries <br/>
 
 ```{r Modelling NBC ISBM spring and fall subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 #| label: fig-nbcisbm-sf-residuals
@@ -257,7 +299,7 @@ res_gam_drop_kept_spec <- simulateResiduals(nbc_isbm_model_full_gamma_spec, plot
 
 ```
 
-### Central BC All seasons fisheries
+### Central BC All seasons fisheries <br/>
 
 ```{r Modelling CBCsubsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 #| label: fig-cbc-residuals
@@ -277,6 +319,64 @@ res_gam_drop_kept_spec <- simulateResiduals(cbc_isbm_model_full_gamma_spec, plot
 \clearpage
 
 # MODEL OUTPUT {#app:third-appendix}
+
+```{r plotting_function, include = FALSE}
+#plotting function that will be used for the next few sections
+create_facet_plot <- function(finescale_fishery_name, x_var, plot_data, model_data) {
+  # Labels for facets
+  status_labels <- c(
+    "marked_Kept_total" = "Marked Kept Total",
+    "marked_Released_total" = "Marked Released Total",
+    "unmarked_Kept_total" = "Unmarked Kept Total",
+    "unmarked_Released_total" = "Unmarked Released Total"
+  )
+  
+  # Colors for status
+  status_colors <- c(
+    "marked_Kept_total" = "#440154", 
+    "marked_Released_total" = "#31688e",
+    "unmarked_Kept_total" = "#35b779",
+    "unmarked_Released_total" = "#d4be02"
+  )
+  
+  # Filter data for the specific finescale fishery
+  filtered_data <- plot_data %>% filter(finescale_fishery == finescale_fishery_name)
+  filtered_model_data <- model_data %>% filter(finescale_fishery == finescale_fishery_name)
+  
+  #check if all catch_estimate values are zero for each status
+  #wont want ribbon and line if all data are 0 like in figure 10
+  has_nonzero <- filtered_data %>%
+    group_by(status) %>%
+    summarize(has_nonzero = any(catch_estimate != 0), .groups = "drop")
+  
+  # Create the plot
+  facet_plot <- ggplot(filtered_data, aes_string(x = x_var, y = "catch_estimate", col = "status", fill = "status")) +
+    geom_point() +
+    theme_bw() +
+    scale_size_continuous(range = c(1, 3)) +
+    scale_colour_manual(values = status_colors, guide = "none") +
+    scale_fill_manual(values = status_colors, guide = "none") +
+    xlab("Creel summer catch estimate") +
+    ylab("iREC-only catch estimate") +
+    facet_wrap(~status,
+               labeller = labeller(status = status_labels),
+               scales = "free")
+  
+  # Conditionally add geom_line and geom_ribbon for statuses with non-zero data
+  for (status in unique(filtered_data$status)) {
+    if (has_nonzero %>% filter(status == !!status) %>% pull(has_nonzero)) {
+      facet_plot <- facet_plot +
+        geom_line(data = filtered_model_data %>% filter(status == !!status),
+                  aes_string(y = "fit", x = x_var, col = "status")) +
+        geom_ribbon(data = filtered_model_data %>% filter(status == !!status),
+                    aes_string(y = "fit", x = x_var, ymin = "right_lwr", ymax = "right_upr", fill = "status"), 
+                    alpha = 0.10)
+    }
+  }
+  
+  return(facet_plot)
+}
+```
 
 ### Southern BC Summer fisheries
 
@@ -304,55 +404,15 @@ fishery_name_south<- sort(unique(Summer_south_no_nas$finescale_fishery))
 
 for (i in 1:length(fishery_name_south)){
 
+plot <- create_facet_plot(finescale_fishery_name = fishery_name_south[i], 
+                          x_var = "creel_plus_summer", 
+                          plot_data = Summer_south_no_nas, 
+                          model_data = ndata) +
+  ggtitle(paste(fishery_name_south[i])) + 
+  #changing the y lab
+  ylab("IREC-included catch estimate")
 
-dataminmax_marked_kept<- Summer_south_no_nas %>% filter(finescale_fishery==fishery_name_south[i], status=="marked_Kept_total")
-dataminmax_marked_released<- Summer_south_no_nas %>% filter(finescale_fishery==fishery_name_south[i], status=="marked_Released_total")
-dataminmax_unmarked_kept<- Summer_south_no_nas %>% filter(finescale_fishery==fishery_name_south[i], status=="unmarked_Kept_total")
-dataminmax_unmarked_released<- Summer_south_no_nas %>% filter(finescale_fishery==fishery_name_south[i], status=="unmarked_Released_total")
-
-
-g1<-ggplot(Summer_south_no_nas %>% filter(finescale_fishery==fishery_name_south[i], status=="marked_Kept_total"), aes(x=creel_plus_summer,  y= catch_estimate, col=status))+
-  geom_point()+
-  geom_line(ndata %>% filter(finescale_fishery==fishery_name_south[i], status=="marked_Kept_total"), mapping=aes(y= fit, x=creel_plus_summer, col=status))+
-  geom_ribbon(ndata %>% filter(finescale_fishery==fishery_name_south[i], status=="marked_Kept_total"), mapping=aes(y= fit,x=creel_plus_summer, ymin = right_lwr, ymax = right_upr, fill=status), alpha = 0.10)+
-   theme_bw() +
-  scale_size_continuous(range=c(1,3))+ scale_colour_manual(values=c("#440154"))+  scale_fill_manual(values=c("#440154"))+
-  coord_cartesian(ylim = c(0,max(dataminmax_marked_kept$catch_estimate)), xlim = c(0,max(dataminmax_marked_kept$creel_plus_summer))) + ggtitle( paste0("", fishery_name_south[fishery_name_south== fishery_name_south[i]], " "))+
-  xlab("Creel summer catch estimate") + 
-  ylab("iREC-included catch estimate")
-
-g2<-ggplot(Summer_south_no_nas %>% filter(finescale_fishery==fishery_name_south[i], status=="marked_Released_total"), aes(x=creel_plus_summer,  y= catch_estimate, col=status))+
-  geom_point()+
-  geom_line(ndata %>% filter(finescale_fishery==fishery_name_south[i], status=="marked_Released_total"), mapping=aes(y= fit, x=creel_plus_summer, col=status))+
-  geom_ribbon(ndata %>% filter(finescale_fishery==fishery_name_south[i], status=="marked_Released_total"), mapping=aes(y= fit,x=creel_plus_summer, ymin = right_lwr, ymax = right_upr, fill=status), alpha = 0.10)+
-  theme_bw() +
- scale_size_continuous(range=c(1,3))+ scale_colour_manual(values=c("#31688e"))+  scale_fill_manual(values=c("#31688e"))+
-  coord_cartesian(ylim = c(0,max(dataminmax_marked_released$catch_estimate)), xlim = c(0,max(dataminmax_marked_released$creel_plus_summer)))+
-  xlab("Creel summer catch estimate") + 
-  ylab("iREC-included catch estimate")
-
-g3<-ggplot(Summer_south_no_nas %>% filter(finescale_fishery==fishery_name_south[i], status=="unmarked_Kept_total"), aes(x=creel_plus_summer,  y= catch_estimate, col=status))+
-  geom_point()+
-  geom_line(ndata %>% filter(finescale_fishery==fishery_name_south[i], status=="unmarked_Kept_total"), mapping=aes(y= fit, x=creel_plus_summer, col=status))+
-  geom_ribbon(ndata %>% filter(finescale_fishery==fishery_name_south[i], status=="unmarked_Kept_total"), mapping=aes(y= fit,x=creel_plus_summer, ymin = right_lwr, ymax = right_upr, fill=status), alpha = 0.10)+
-  theme_bw() +
-  scale_size_continuous(range=c(1,3))+ scale_colour_manual(values=c("#35b779"))+  scale_fill_manual(values=c("#35b779"))+
-  coord_cartesian(ylim = c(0,max(dataminmax_unmarked_kept$catch_estimate)), xlim = c(0,max(dataminmax_unmarked_kept$creel_plus_summer)))+
-  xlab("Creel summer catch estimate") + 
-  ylab("iREC-included catch estimate")
-
-g4<-ggplot(Summer_south_no_nas%>% filter(finescale_fishery==fishery_name_south[i], status=="unmarked_Released_total"), aes(x=creel_plus_summer,  y= catch_estimate, col=status))+
-  geom_point()+
-  geom_line(ndata %>% filter(finescale_fishery==fishery_name_south[i], status=="unmarked_Released_total"), mapping=aes(y= fit, x=creel_plus_summer, col=status))+
-  geom_ribbon(ndata %>% filter(finescale_fishery==fishery_name_south[i], status=="unmarked_Released_total"), mapping=aes(y= fit,x=creel_plus_summer, ymin = right_lwr, ymax = right_upr, fill=status, col=status), alpha = 0.10)+
-   theme_bw() +
-  scale_size_continuous(range=c(1,3))+ scale_colour_manual(values=c("#d4be02"))+  scale_fill_manual(values=c("#d4be02"))+
-    coord_cartesian(ylim = c(0,max(dataminmax_unmarked_released$catch_estimate)), xlim = c(0,max(dataminmax_unmarked_released$creel_plus_summer)))+
-  xlab("Creel summer catch estimate") + 
-  ylab("iREC-included catch estimate")
-
-g<-g1+g2 + g3+g4 + plot_layout(guides = "collect") 
-print(g)
+print(plot)
 }
 ```
 
@@ -381,58 +441,17 @@ ndata <- mutate(ndata,
 
 fishery_name_south<- sort(unique(Season_south_no_nas$finescale_fishery))
 
-  
 for (i in 1:length(fishery_name_south)){
- 
-dataminmax_marked_kept<- Season_south_no_nas %>% filter(finescale_fishery==fishery_name_south[i], status=="marked_Kept_total")
-dataminmax_marked_released<- Season_south_no_nas %>% filter(finescale_fishery==fishery_name_south[i], status=="marked_Released_total")
-dataminmax_unmarked_kept<- Season_south_no_nas %>% filter(finescale_fishery==fishery_name_south[i], status=="unmarked_Kept_total")
-dataminmax_unmarked_released<- Season_south_no_nas %>% filter(finescale_fishery==fishery_name_south[i], status=="unmarked_Released_total")
 
+plot <- create_facet_plot(finescale_fishery_name = fishery_name_south[i], 
+                          x_var = "creel_plus_summer", 
+                          plot_data = Season_south_no_nas, 
+                          model_data = ndata) +
+  ggtitle(paste(fishery_name_south[i]))
 
-g1<-ggplot(Season_south_no_nas %>% filter(finescale_fishery==fishery_name_south[i], status=="marked_Kept_total"), aes(x=creel_plus_summer,  y= catch_estimate, col=status))+
-  geom_point()+
-  geom_line(ndata %>% filter(finescale_fishery==fishery_name_south[i], status=="marked_Kept_total"), mapping=aes(y= fit, x=creel_plus_summer, col=status))+
-  geom_ribbon(ndata %>% filter(finescale_fishery==fishery_name_south[i], status=="marked_Kept_total"), mapping=aes(y= fit,x=creel_plus_summer, ymin = right_lwr, ymax = right_upr, fill=status), alpha = 0.10)+
-   theme_bw() +
-  scale_size_continuous(range=c(1,3))+ scale_colour_manual(values=c("#440154"))+  scale_fill_manual(values=c("#440154"))+
-  coord_cartesian(ylim = c(0,max(dataminmax_marked_kept$catch_estimate)), xlim = c(0,max(dataminmax_marked_kept$creel_plus_summer))) + ggtitle( paste0("", fishery_name_south[fishery_name_south== fishery_name_south[i]], " "))+
-  xlab("Creel summer catch estimate") + 
-  ylab("iREC-only catch estimate")
-
-g2<-ggplot(Season_south_no_nas %>% filter(finescale_fishery==fishery_name_south[i], status=="marked_Released_total"), aes(x=creel_plus_summer,  y= catch_estimate, col=status))+
-  geom_point()+
-  geom_line(ndata %>% filter(finescale_fishery==fishery_name_south[i], status=="marked_Released_total"), mapping=aes(y= fit, x=creel_plus_summer, col=status))+
-  geom_ribbon(ndata %>% filter(finescale_fishery==fishery_name_south[i], status=="marked_Released_total"), mapping=aes(y= fit,x=creel_plus_summer, ymin = right_lwr, ymax = right_upr, fill=status), alpha = 0.10)+
-  theme_bw() +
- scale_size_continuous(range=c(1,3))+ scale_colour_manual(values=c("#31688e"))+  scale_fill_manual(values=c("#31688e"))+
-  coord_cartesian(ylim = c(0,max(dataminmax_marked_released$catch_estimate)), xlim = c(0,max(dataminmax_marked_released$creel_plus_summer)))+
-  xlab("Creel summer catch estimate") + 
-  ylab("iREC-only catch estimate")
-
-g3<-ggplot(Season_south_no_nas %>% filter(finescale_fishery==fishery_name_south[i], status=="unmarked_Kept_total"), aes(x=creel_plus_summer,  y= catch_estimate, col=status))+
-  geom_point()+
-  geom_line(ndata %>% filter(finescale_fishery==fishery_name_south[i], status=="unmarked_Kept_total"), mapping=aes(y= fit, x=creel_plus_summer, col=status))+
-  geom_ribbon(ndata %>% filter(finescale_fishery==fishery_name_south[i], status=="unmarked_Kept_total"), mapping=aes(y= fit,x=creel_plus_summer, ymin = right_lwr, ymax = right_upr, fill=status), alpha = 0.10)+
-  theme_bw() +
-  scale_size_continuous(range=c(1,3))+ scale_colour_manual(values=c("#35b779"))+  scale_fill_manual(values=c("#35b779"))+
-  coord_cartesian(ylim = c(0,max(dataminmax_unmarked_kept$catch_estimate)), xlim = c(0,max(dataminmax_unmarked_kept$creel_plus_summer)))+
-  xlab("Creel summer catch estimate") + 
-  ylab("iREC-only catch estimate")
-
-g4<-ggplot(Season_south_no_nas %>% filter(finescale_fishery==fishery_name_south[i], status=="unmarked_Released_total"), aes(x=creel_plus_summer,  y= catch_estimate, col=status))+
-  geom_point()+
-  geom_line(ndata %>% filter(finescale_fishery==fishery_name_south[i], status=="unmarked_Released_total"), mapping=aes(y= fit, x=creel_plus_summer, col=status))+
-  geom_ribbon(ndata %>% filter(finescale_fishery==fishery_name_south[i], status=="unmarked_Released_total"), mapping=aes(y= fit,x=creel_plus_summer, ymin = right_lwr, ymax = right_upr, fill=status, col=status), alpha = 0.10)+
-   theme_bw() +
-  scale_size_continuous(range=c(1,3))+ scale_colour_manual(values=c("#d4be02"))+  scale_fill_manual(values=c("#d4be02"))+
-    coord_cartesian(ylim = c(0,max(dataminmax_unmarked_released$catch_estimate)), xlim = c(0,max(dataminmax_unmarked_released$creel_plus_summer)))+
-  xlab("Creel summer catch estimate") + 
-  ylab("iREC-only catch estimate")
-
-g<-g1+g2 + g3+g4 + plot_layout(guides = "collect") 
-print(g)
+print(plot)
 }
+
 ```
 
 ### Northern BC AABM Spring and Fall fisheries
@@ -460,62 +479,16 @@ ndata <- mutate(ndata,
 
 fishery_name_north_aabm<- sort(unique(Season_north_aabm_no_nas$finescale_fishery))
 
+
 for (i in 1:length(fishery_name_north_aabm)){
 
+plot <- create_facet_plot(finescale_fishery_name = fishery_name_north_aabm[i], 
+                          x_var = "historic_summer", 
+                          plot_data = Season_north_aabm_no_nas, 
+                          model_data = ndata) +
+  ggtitle(paste(fishery_name_north_aabm[i]))
 
-
-dataminmax_marked_kept<- Season_north_aabm_no_nas %>% filter(finescale_fishery==fishery_name_north_aabm[i], status=="marked_Kept_total")
-dataminmax_marked_released<- Season_north_aabm_no_nas %>% filter(finescale_fishery==fishery_name_north_aabm[i], status=="marked_Released_total")
-dataminmax_unmarked_kept<- Season_north_aabm_no_nas %>% filter(finescale_fishery==fishery_name_north_aabm[i], status=="unmarked_Kept_total")
-dataminmax_unmarked_released<- Season_north_aabm_no_nas %>% filter(finescale_fishery==fishery_name_north_aabm[i], status=="unmarked_Released_total")
-
-dataminmax_marked_kept<- Season_north_aabm_no_nas %>% filter(finescale_fishery==fishery_name_north_aabm[i], status=="marked_Kept_total")
-dataminmax_marked_released<- Season_north_aabm_no_nas %>% filter(finescale_fishery==fishery_name_north_aabm[i], status=="marked_Released_total")
-dataminmax_unmarked_kept<- Season_north_aabm_no_nas %>% filter(finescale_fishery==fishery_name_north_aabm[i], status=="unmarked_Kept_total")
-dataminmax_unmarked_released<- Season_north_aabm_no_nas %>% filter(finescale_fishery==fishery_name_north_aabm[i], status=="unmarked_Released_total")
-
-g1<-ggplot(Season_north_aabm_no_nas %>% filter(finescale_fishery==fishery_name_north_aabm[i], status=="marked_Kept_total"), aes(x=historic_summer,  y= catch_estimate, col=status))+
-  geom_point()+
-  geom_line(ndata %>% filter(finescale_fishery==fishery_name_north_aabm[i], status=="marked_Kept_total"), mapping=aes(y= fit, x=historic_summer, col=status))+
-  geom_ribbon(ndata %>% filter(finescale_fishery==fishery_name_north_aabm[i], status=="marked_Kept_total"), mapping=aes(y= fit,x=historic_summer, ymin = right_lwr, ymax = right_upr, fill=status), alpha = 0.10)+
-   theme_bw() +
-  scale_size_continuous(range=c(1,3))+ scale_colour_manual(values=c("#440154"))+  scale_fill_manual(values=c("#440154"))+
-  coord_cartesian(ylim = c(0,max(dataminmax_marked_kept$catch_estimate)), xlim = c(0,max(dataminmax_marked_kept$historic_summer))) + ggtitle(paste0(fishery_name_north_aabm[fishery_name_north_aabm== fishery_name_north_aabm[i]], " "))+
-  xlab("Creel summer catch estimate") + 
-  ylab("iREC-only catch estimate")
-
-g2<-ggplot(Season_north_aabm_no_nas %>% filter(finescale_fishery==fishery_name_north_aabm[i], status=="marked_Released_total"), aes(x=historic_summer,  y= catch_estimate, col=status))+
-  geom_point()+
-  geom_line(ndata %>% filter(finescale_fishery==fishery_name_north_aabm[i], status=="marked_Released_total"), mapping=aes(y= fit, x=historic_summer, col=status))+
-  geom_ribbon(ndata %>% filter(finescale_fishery==fishery_name_north_aabm[i], status=="marked_Released_total"), mapping=aes(y= fit,x=historic_summer, ymin = right_lwr, ymax = right_upr, fill=status), alpha = 0.10)+
-  theme_bw() +
- scale_size_continuous(range=c(1,3))+ scale_colour_manual(values=c("#31688e"))+  scale_fill_manual(values=c("#31688e"))+
-  coord_cartesian(ylim = c(0,max(dataminmax_marked_released$catch_estimate)), xlim = c(0,max(dataminmax_marked_released$historic_summer)))+
-  xlab("Creel summer catch estimate") + 
-  ylab("iREC-only catch estimate")
-
-g3<-ggplot(Season_north_aabm_no_nas %>% filter(finescale_fishery==fishery_name_north_aabm[i], status=="unmarked_Kept_total"), aes(x=historic_summer,  y= catch_estimate, col=status))+
-  geom_point()+
-  geom_line(ndata %>% filter(finescale_fishery==fishery_name_north_aabm[i], status=="unmarked_Kept_total"), mapping=aes(y= fit, x=historic_summer, col=status))+
-  geom_ribbon(ndata %>% filter(finescale_fishery==fishery_name_north_aabm[i], status=="unmarked_Kept_total"), mapping=aes(y= fit,x=historic_summer, ymin = right_lwr, ymax = right_upr, fill=status), alpha = 0.10)+
-  theme_bw() +
-  scale_size_continuous(range=c(1,3))+ scale_colour_manual(values=c("#35b779"))+  scale_fill_manual(values=c("#35b779"))+
-  coord_cartesian(ylim = c(0,max(dataminmax_unmarked_kept$catch_estimate)), xlim = c(0,max(dataminmax_unmarked_kept$historic_summer)))+
-  xlab("Creel summer catch estimate") + 
-  ylab("iREC-only catch estimate")
-
-g4<-ggplot(Season_north_aabm_no_nas %>% filter(finescale_fishery==fishery_name_north_aabm[i], status=="unmarked_Released_total"), aes(x=historic_summer,  y= catch_estimate, col=status))+
-  geom_point()+
-  geom_line(ndata %>% filter(finescale_fishery==fishery_name_north_aabm[i], status=="unmarked_Released_total"), mapping=aes(y= fit, x=historic_summer, col=status))+
-  geom_ribbon(ndata %>% filter(finescale_fishery==fishery_name_north_aabm[i], status=="unmarked_Released_total"), mapping=aes(y= fit,x=historic_summer, ymin = right_lwr, ymax = right_upr, fill=status, col=status), alpha = 0.10)+
-   theme_bw() +
-  scale_size_continuous(range=c(1,3))+ scale_colour_manual(values=c("#d4be02"))+  scale_fill_manual(values=c("#d4be02"))+
-    coord_cartesian(ylim = c(0,max(dataminmax_unmarked_released$catch_estimate)), xlim = c(0,max(dataminmax_unmarked_released$historic_summer)))+
-  xlab("Creel summer catch estimate") + 
-  ylab("iREC-only catch estimate")
-
-g<-g1+g2 + g3+g4 + plot_layout(guides = "collect") 
-print(g)
+print(plot)
 }
 ```
 
@@ -546,55 +519,13 @@ fishery_name_north_isbm<- sort(unique(Season_north_isbm_no_nas$finescale_fishery
 
 for (i in 1:length(fishery_name_north_isbm)){
 
- 
-dataminmax_marked_kept<- Season_north_isbm_no_nas %>% filter(finescale_fishery==fishery_name_north_isbm[i], status=="marked_Kept_total")
-dataminmax_marked_released<- Season_north_isbm_no_nas %>% filter(finescale_fishery==fishery_name_north_isbm[i], status=="marked_Released_total")
-dataminmax_unmarked_kept<- Season_north_isbm_no_nas %>% filter(finescale_fishery==fishery_name_north_isbm[i], status=="unmarked_Kept_total")
-dataminmax_unmarked_released<- Season_north_isbm_no_nas %>% filter(finescale_fishery==fishery_name_north_isbm[i], status=="unmarked_Released_total")
+plot <- create_facet_plot(finescale_fishery_name = fishery_name_north_isbm[i], 
+                          x_var = "historic_summer", 
+                          plot_data = Season_north_isbm_no_nas, 
+                          model_data = ndata) +
+  ggtitle(paste(fishery_name_north_isbm[i]))
 
-
-g1<-ggplot(Season_north_isbm_no_nas %>% filter(finescale_fishery==fishery_name_north_isbm[i], status=="marked_Kept_total"), aes(x=historic_summer,  y= catch_estimate, col=status))+
-  geom_point()+
-  geom_line(ndata %>% filter(finescale_fishery==fishery_name_north_isbm[i], status=="marked_Kept_total"), mapping=aes(y= fit, x=historic_summer, col=status))+
-  geom_ribbon(ndata %>% filter(finescale_fishery==fishery_name_north_isbm[i], status=="marked_Kept_total"), mapping=aes(y= fit,x=historic_summer, ymin = right_lwr, ymax = right_upr, fill=status), alpha = 0.10)+
-   theme_bw() +
-  scale_size_continuous(range=c(1,3))+ scale_colour_manual(values=c("#440154"))+  scale_fill_manual(values=c("#440154"))+
-  coord_cartesian(ylim = c(0,max(dataminmax_marked_kept$catch_estimate)), xlim = c(0,max(dataminmax_marked_kept$historic_summer))) + ggtitle(paste0(fishery_name_north_isbm[fishery_name_north_isbm== fishery_name_north_isbm[i]], " "))+
-  xlab("Creel summer catch estimate") + 
-  ylab("iREC-only catch estimate")
-
-g2<-ggplot(Season_north_isbm_no_nas %>% filter(finescale_fishery==fishery_name_north_isbm[i], status=="marked_Released_total"), aes(x=historic_summer,  y= catch_estimate, col=status))+
-  geom_point()+
-  geom_line(ndata %>% filter(finescale_fishery==fishery_name_north_isbm[i], status=="marked_Released_total"), mapping=aes(y= fit, x=historic_summer, col=status))+
-  geom_ribbon(ndata %>% filter(finescale_fishery==fishery_name_north_isbm[i], status=="marked_Released_total"), mapping=aes(y= fit,x=historic_summer, ymin = right_lwr, ymax = right_upr, fill=status), alpha = 0.10)+
-  theme_bw() +
- scale_size_continuous(range=c(1,3))+ scale_colour_manual(values=c("#31688e"))+  scale_fill_manual(values=c("#31688e"))+
-  coord_cartesian(ylim = c(0,max(dataminmax_marked_released$catch_estimate)), xlim = c(0,max(dataminmax_marked_released$historic_summer)))+
-  xlab("Creel summer catch estimate") + 
-  ylab("iREC-only catch estimate")
-
-g3<-ggplot(Season_north_isbm_no_nas %>% filter(finescale_fishery==fishery_name_north_isbm[i], status=="unmarked_Kept_total"), aes(x=historic_summer,  y= catch_estimate, col=status))+
-  geom_point()+
-  geom_line(ndata %>% filter(finescale_fishery==fishery_name_north_isbm[i], status=="unmarked_Kept_total"), mapping=aes(y= fit, x=historic_summer, col=status))+
-  geom_ribbon(ndata %>% filter(finescale_fishery==fishery_name_north_isbm[i], status=="unmarked_Kept_total"), mapping=aes(y= fit,x=historic_summer, ymin = right_lwr, ymax = right_upr, fill=status), alpha = 0.10)+
-  theme_bw() +
-  scale_size_continuous(range=c(1,3))+ scale_colour_manual(values=c("#35b779"))+  scale_fill_manual(values=c("#35b779"))+
-  coord_cartesian(ylim = c(0,max(dataminmax_unmarked_kept$catch_estimate)), xlim = c(0,max(dataminmax_unmarked_kept$historic_summer)))+
-  xlab("Creel summer catch estimate") + 
-  ylab("iREC-only catch estimate")
-
-g4<-ggplot(Season_north_isbm_no_nas %>% filter(finescale_fishery==fishery_name_north_isbm[i], status=="unmarked_Released_total"), aes(x=historic_summer,  y= catch_estimate, col=status))+
-  geom_point()+
-  geom_line(ndata %>% filter(finescale_fishery==fishery_name_north_isbm[i], status=="unmarked_Released_total"), mapping=aes(y= fit, x=historic_summer, col=status))+
-  geom_ribbon(ndata %>% filter(finescale_fishery==fishery_name_north_isbm[i], status=="unmarked_Released_total"), mapping=aes(y= fit,x=historic_summer, ymin = right_lwr, ymax = right_upr, fill=status, col=status), alpha = 0.10)+
-   theme_bw() +
-  scale_size_continuous(range=c(1,3))+ scale_colour_manual(values=c("#d4be02"))+  scale_fill_manual(values=c("#d4be02"))+
-    coord_cartesian(ylim = c(0,max(dataminmax_unmarked_released$catch_estimate)), xlim = c(0,max(dataminmax_unmarked_released$historic_summer)))+
-  xlab("Creel summer catch estimate") + 
-  ylab("iREC-only catch estimate")
-
-g<-g1+g2 + g3+g4 + plot_layout(guides = "collect") 
-print(g)
+print(plot)
 }
 ```
 

@@ -1,6 +1,6 @@
 ---
 title: |
-  "Chinook Recreational Catch Data Revisions"
+  "Chinook Marine Recreational Catch Data Revisions"
 french_title: Titre ici (*Nom latin de l'espèce*)
 year: 2024
 report_number: nnn
@@ -152,6 +152,7 @@ library(lme4)
 library(bbmle)
 library(SuppDists)
 library(MuMIn)
+library(sf)
 
 #utils
 "%notin%" <- Negate("%in%")

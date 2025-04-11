@@ -1,0 +1,42 @@
+StockNum	Stock	EIS_StockName	EIS_Region	Smsy	S85	Umsy	LowerGoal	RateType	ERIS	ERIS_StartAge	MRE_StartAge	Strays	CYER_Management_Objective	CYER_ISBM_US	CYER_ISBM_Canada	CYER_ISBM_US_type	CYER_ISBM_Canada_type
+1	Situk	Situk	SEAK	NA	NA	0.81008208	500	2	SitukAux			omit					
+2	Alsek	Alsek	TBR	NA	NA	0.58137892	3500	2	AlsekAux			omit					
+3	Taku	Taku	TBR	NA	NA	0.5925	19000	2	TakuAux			omit					
+4	Chilkat	Chilkat	SEAK	NA	NA	0.399374157	1750	2	ChilkatAux			omit					
+5	Stikine	Stikine	TBR	NA	NA	0.415250411	14000	2	StikineAux			omit					
+6	Unuk	Unuk	SEAK	NA	NA	0.600630302	1800	2	UnukAux			omit					
+7	Kitsumkalum	Kitsumkalum	BC	5235	4449.75	0.626	NA	1	KLM	3	4	omit					
+8	Skeena	Skeena	BC	NA	NA	NA	NA	1	KLM	3	4	omit			1		1
+9	Atnarko	AtnarkoWild	BC	5009	4257.65	0.768768	NA	1	ATN	2	3	omit	5009		1		1
+10	NWVI Natural	NWVI	BC	NA	NA	NA	NA	1	NWVI	2	3	omit			0.95		1
+11	SWVI Natural	SWVI	BC	NA	NA	NA	NA	1	SWVI	2	3	omit			0.95		1
+12	East Coast Vancouver Island	EVIN	BC	NA	NA	NA	NA	1	EVIN	2	3	omit			0.95		1
+13	Phillips	Phillips	BC	NA	NA	NA	NA	1	PHI	2	3	omit			1		1
+14	Cowichan	Cowichan	BC	6514	5536.9	0.690217	NA	1	COW	2	3	omit	6500	0.95	0.95	1	1
+15	Nicola	Nicola12	BC	6600	5600	0.6	NA	1	NIC	3	4	omit		0.95	0.95	1	1
+16	Lower Shuswap	L.Shuswap	BC	12339	10488.15	0.73442577	NA	1	SHU	2	3	omit	12300		1		1
+17	Harrison	Harrison	BC	75072.3386	63811.48781	0.56764608	NA	1	HAR	2	3	omit	75100	0.95	0.95	1	1
+18	Nooksack Spring	NooksackSp	WA/OR	NA	NA	NA	NA	1	NSF	2	3	omit		1	0.875	1	1
+19	Skagit Spring	SkagitSp	WA/OR	NA	NA	NA	NA	1	SKF	2	3	omit	690	0.95	0.875	1	1
+20	Skagit Summer-Fall	SkagitSF	WA/OR	NA	NA	NA	NA	1	SSF	2	3	omit	9202	0.95	0.875	1	1
+21	Stillaguamish	Stillaguamish	WA/OR	NA	NA	NA	NA	1	STL	2	3	omit		1	0.875	1	1
+22	Snohomish	Snohomish	WA/OR	NA	NA	NA	NA	1	SKY	2	3	omit		1	0.875	1	1
+23	Hoko	Hoko	WA/OR	NA	NA	NA	NA	1	HOK	2	3	omit		0.1		2	
+24	Grays Harbor Fall	GraysHbrFall	WA/OR	13326	11327.1	0.673	NA	1	Grays Harbor	2	3	omit	13326	0.85		1	
+25	Queets Fall	QueetsFa	WA/OR	2500	2125	0.87	NA	1	QUE	2	3	omit	2500	0.85		1	
+26	Quillayute Fall	QuillFall	WA/OR	3000	2550	0.87	NA	1	Quillayute	2	3	omit	3000	0.85		1	
+27	Hoh Fall	HohFall	WA/OR	1200	1020	0.9	NA	1	Hoh	2	3	omit	1200	0.85		1	
+28	Upriver Brights	ColRURB	Columbia	40000	34000	0.5628	NA	1	URB	2	3	omit	40000	0.85		1	
+29	Upriver Brights	ColRURB	Columbia	40000	34000	0.5628	NA	1	HAN	2	3	omit	40000	0.85		1	
+30	Lewis	Lewis	Columbia	5791	4922.35	0.759118235	NA	1	LRW	2	3	omit	5700	0.85		1	
+31	Coweeman	Coweeman	Columbia	NA	NA	NA	NA	1	CWF	2	3	omit		1		1	
+32	Mid-Columbia Summers	ColRSum	Columbia	12143	10321.55	0.751743221	NA	1	SUM	2	3	omit	12143	0.85		1	
+33	Nehalem Hab	Nehalem.Hab	WA/OR	6989	5940.65	0.69211812	NA	1	Nehalem Hab	2	3	omit	6989	0.85		1	
+34	Siletz Hab	Siletz.Hab	WA/OR	2944	2502.4	0.81144657	NA	1	Siletz Hab	2	3	omit	2944	0.85		1	
+35	Siuslaw Hab	Siuslaw.Hab	WA/OR	12925	10986.25	0.61441497	NA	1	Siuslaw Hab	2	3	omit	12925	0.85		1	
+36	South Umpqua	Umpqua	WA/OR	NA	NA	NA	NA	1	South Umpqua	2	3	omit		0.85		1	
+37	Coquille	Coquille	WA/OR	NA	NA	NA	NA	1	Coquille	2	3	omit		0.85		1	
+38	Nooksack Spring	NooksackSp	WA/OR	NA	NA	NA	NA	1	NSF adj	2	3	omit		1	0.875	1	1
+39	Nehalem MR	Nehalem.MR	WA/OR	6989	5940.65	0.69211812	NA	1	Nehalem MR	2	3	omit	6989	0.85		1	
+40	Siletz MR	Siletz.MR	WA/OR	2944	2502.4	0.81144657	NA	1	Siletz MR	2	3	omit	2944	0.85		1	
+41	Siuslaw MR	Siuslaw.MR	WA/OR	12925	10986.25	0.61441497	NA	1	Siuslaw MR	2	3	omit	12925	0.85		1	

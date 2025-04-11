@@ -1,0 +1,56 @@
+StockNum	Stock	EIS_StockName	EIS_CleanStockName	EIS_Region	Smsy	S85	Umsy	LowerGoal	RateType	ERIS	CleanERIS	ERIS_StartAge	MRE_StartAge	Strays	CYER_Management_Objective	CYER_ISBM_US	CYER_ISBM_Canada	CYER_ISBM_US_type	CYER_ISBM_Canada_type
+1	South SEAK	-	-	SEAK	NA	NA	NA	NA	2	SSA	SSA	3	4	omit					
+2	North SEAK	-	-	SEAK	NA	NA	NA	NA	2	NSA	NSA	3	4	omit					
+3	Chilkat	Chilkat	Chilkat	SEAK	NA	NA	0.399374157	1750	2	CHK	CHK	3	4	omit					
+4	Stikine	Stikine	Stikine	TBR	NA	NA	0.415250411	14000	2	STI	STI	3	4	omit					
+5	Taku	Taku	Taku	TBR	NA	NA	0.5925	19000	2	TAK	TAK	3	4	omit					
+6	Taku and Stikine	-	-	TBR	NA	NA	NA	NA	2	TST	TST	3	4	omit					
+7	Unuk	Unuk	Unuk	SEAK	NA	NA	0.600630302	1800	2	UNU	UNU	3	4	omit					
+8	Kitsumkalum	Kitsumkalum	Kitsumkalum	BC	5235	4449.75	0.626	NA	1	KLM	KLM	3	4	omit					
+9	Atnarko	AtnarkoWild	Atnarko Wild	BC	5009	4257.65	0.768768	NA	1	ATN	ATN	2	3	omit	5009		1		1
+10	Robertson Creek	-	-	BC	NA	NA	NA	NA	1	RBT	RBT	2	3	omit					
+11	NWVI Natural	NWVI	NWVI	BC	NA	NA	NA	NA	1	NWVI	RBT adj	2	3	omit			0.95		1
+12	SWVI Natural	SWVI	SWVI	BC	NA	NA	NA	NA	1	SWVI	RBT adj	2	3	omit			0.95		1
+13	Big Qualicum	-	-	BC	NA	NA	NA	NA	1	BQR	BQR	2	3	omit					
+14	Cowichan	Cowichan	Cowichan	BC	6514	5536.9	0.690217	NA	1	COW	COW	2	3	omit	6500	0.95	0.95	1	1
+15	Puntledge Summers	-	-	BC	NA	NA	NA	NA	1	PPS	PPS	2	3	omit					
+16	Quinsam	-	-	BC	NA	NA	NA	NA	1	QUI	QUI	2	3	omit					
+17	East Coast Vancouver Island	EVIN	EVIN	BC	NA	NA	NA	NA	1	EVIN	QUI adj	2	3	omit			0.95		1
+18	Phillips	Phillips	Phillips	BC	NA	NA	NA	NA	1	PHI	PHI	2	3	omit			1		1
+19	Chilliwack	-	-	BC	NA	NA	NA	NA	1	CHI	CHI	2	3	omit					
+20	Harrison	Harrison	Harrison	BC	75072.3386	63811.48781	0.56764608	NA	1	HAR	HAR	2	3	omit	75100	0.95	0.95	1	1
+21	Nicola	Nicola12	Nicola	BC	6600	5600	0.6	NA	1	NIC	NIC	3	4	omit		0.95	0.95	1	1
+22	Lower Shuswap	L.Shuswap	Lower Shuswap	BC	12339	10488.15	0.73442577	NA	1	SHU	SHU	2	3	omit	12300		1		1
+23	Hoko	Hoko	Hoko	WA/OR	NA	NA	NA	NA	1	HOK	HOK	2	3	omit		0.1		2	
+24	Grays Harbor Fall	GraysHbrFall	Grays Harbor Fall	WA/OR	13326	11327.1	0.673	NA	1	Grays Harbor	QUE adj	2	3	omit	13326	0.85		1	
+25	Queets Fall	QueetsFa	Queets Fall	WA/OR	2500	2125	0.87	NA	1	QUE	QUE	2	3	omit	2500	0.85		1	
+26	Quillayute Fall	QuillFall	Quillayute Fall	WA/OR	3000	2550	0.87	NA	1	Quillayute	QUE adj	2	3	omit	3000	0.85		1	
+27	Hoh Fall	HohFall	Hoh Fall	WA/OR	1200	1020	0.9	NA	1	Hoh	QUE adj	2	3	omit	1200	0.85		1	
+28	Tsoo-Yess Fall	-	-	WA/OR	NA	NA	NA	NA	1	SOO	SOO	2	3	omit					
+29	Elwha	-	-	WA/OR	NA	NA	NA	NA	1	ELW	ELW	2	3	omit					
+30	Nooksack Spring	NooksackSp	Nooksack Spring	WA/OR	NA	NA	NA	NA	1	NSF adj	NSF adj	2	3	omit		1	0.875	1	1
+31	Samish Fall	-	-	WA/OR	NA	NA	NA	NA	1	SAM	SAM	2	3	omit					
+32	Skagit Spring	SkagitSp	Skagit Spring	WA/OR	NA	NA	NA	NA	1	SKF	SKF	2	3	omit	690	0.95	0.875	1	1
+33	Skagit Summer-Fall	SkagitSF	Skagit Summer/Fall	WA/OR	NA	NA	NA	NA	1	SSF	SSF	2	3	omit	9202	0.95	0.875	1	1
+34	Stillaguamish	Stillaguamish	Stillaguamish	WA/OR	NA	NA	NA	NA	1	STL	STL	2	3	omit		1	0.875	1	1
+35	Snohomish	Snohomish	Snohomish	WA/OR	NA	NA	NA	NA	1	SKY	SKY	2	3	omit		1	0.875	1	1
+36	South Puget Sound	-	-	WA/OR	NA	NA	NA	NA	1	SPS	SPS	2	3	omit					
+37	Nisqually	-	-	WA/OR	NA	NA	NA	NA	1	NIS	NIS	2	3	omit					
+38	Coweeman	Coweeman	Coweeman	Columbia	NA	NA	NA	NA	1	CWF	CWF	2	3	omit		1		1	
+39	Upriver Brights	ColRURB	Upriver Brights	Columbia	40000	34000	0.5628	NA	1	HAN	HAN	2	3	omit	40000	0.85		1	
+40	Lower River Hatchery	-	-	WA/OR	NA	NA	NA	NA	1	LRH	LRH	2	3	omit					
+41	Lewis	Lewis	Lewis	Columbia	5791	4922.35	0.759118235	NA	1	LRW	LRW	2	3	omit	5700	0.85		1	
+42	Lyons Ferry Fingerling	-	-	WA/OR	NA	NA	NA	NA	1	LYF	LYF	2	3	omit					
+43	Lyons Ferry Yearling	-	-	WA/OR	NA	NA	NA	NA	1	LYY	LYY	3	4	omit					
+44	Similkameen	-	-	WA/OR	NA	NA	NA	NA	1	SMK	SMK	3	4	omit					
+45	Spring Creek	-	-	WA/OR	NA	NA	NA	NA	1	SPR	SPR	2	3	omit					
+46	Mid-Columbia Summers	ColRSum	Mid Columbia Summers	Columbia	12143	10321.55	0.751743221	NA	1	SUM	SUM	2	3	omit	12143	0.85		1	
+47	Upriver Brights	ColRURB	Upriver Brights	Columbia	40000	34000	0.5628	NA	1	URB	URB	2	3	omit	40000	0.85		1	
+48	Willamette Spring	-	-	WA/OR	NA	NA	NA	NA	1	WSH	WSH	2	3	omit					
+49	Elk River	-	-	WA/OR	NA	NA	NA	NA	1	ELK	ELK	2	3	omit					
+50	South Umpqua	Umpqua	Umpqua	WA/OR	NA	NA	NA	NA	1	South Umpqua	South Umpqua	2	3	omit		0.85		1	
+51	Coquille	Coquille	Coquille	WA/OR	NA	NA	NA	NA	1	Coquille	Coquille	2	3	omit		0.85		1	
+52	Salmon River	-	-	WA/OR	NA	NA	NA	NA	1	SRH	SRH	2	3	omit					
+53	Nehalem	Nehalem	Nehalem	WA/OR	6989	5940.65	0.69211812	NA	1	Nehalem	Nehalem	2	3	omit	6989	0.85		1	
+54	Siletz	Siletz	Siletz	WA/OR	2944	2502.4	0.81144657	NA	1	Siletz	Siletz	2	3	omit	2944	0.85		1	
+55	Siuslaw	Siuslaw	Siuslaw	WA/OR	12925	10986.25	0.61441497	NA	1	Siuslaw	Siuslaw	2	3	omit	12925	0.85		1	

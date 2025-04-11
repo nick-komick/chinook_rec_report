@@ -25,4 +25,8 @@ techreport.tex
 *.sty
 *.upa
 *.utf8.md
-pacRecCatch_db.yaml
+*.yaml
+*.laccdb
+*.accdb
+cwt-report/
+ream_output/
