@@ -20,3 +20,17 @@ Discussion points:
     -   We would expect a non-linear relationship in the modeling of 2005-2012 iREC inclusion since the y axis involves filtered creel and the x axis is only unfiltered creel. The creel filtration process is likely non-linear since smaller estimates are more likely to not pass the quality control filter.
 
 - CYER leverages 2009 to 2009 as the base period, which is the more limited based on time
+
+## Future Improvements
+
+The focus of this work has been to develop a consistent post-season recreational catch and CWT estimation framework. In the future, several potential approaches to further improving this framework have been identified and may further alter the past estimates. Future improvements may include: 
+
+ * Data quality review processes to improve iREC and Creel data
+ * Improved iREC-creel calibration process
+ * Review of CWT submission rate stratification and indirect catch estimation methods
+ 
+The complexity of recreational catch monitoring and the vast extent of the fishery lends itself to further exploration on how to better use the data Canada collects within this sector.
+
+# Conclusion
+ 
+The objective of this work is to incorporate direct catch estimates in an more standards method and improve CWT estimates to better represent Canadian marine recreational fisheries. In the past, different methods were inconsistently applied to incorporate data from different sources. This most recent update standardizes how the data is integrated into a recreational CWT estimate and how inconsistencies between sampling and catch estimates are handled. These updates leverage direct measurements and consistent methods to better reflect the recreational impacts on CWT indicator stocks since 2005.
