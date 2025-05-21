@@ -39,19 +39,19 @@ The criteria failed 51% of all estimates since 2005 (Figure \@ref(fig:fig-creel-
 
 ```{r methods Loading packages useful functions, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 
-col1 = "#d8e1cf"
-col2 = "#438484"
+col1 = "#e0ecf4"
+col2 = "#0570b0"
 col3 = "lightblue"
 col4 = "lightblue4"
-col5 = "pink"
-col6 = "darkred"
+col5 = "#fddbc7"
+col6 = "#cb181d"
 col7 = "purple"
 col8 = "purple4"
 colclear= "#1C00ff00"
 
 ```
 
-```{r methods plotting PFMA creel unfiltered, echo=FALSE, message=FALSE, warning=FALSE, fig.height=12, fig.width=15, out.width = "7in", fig.align = "left"}
+```{r methods plotting PFMA creel unfiltered, echo=FALSE, message=FALSE, warning=FALSE, fig.height=18, fig.width=15, fig.align="left", out.width="7in"}
 #| label: fig-creel-criteria
 #| fig-cap: "South Coast creel estimates that passed (green) or failed (red) quality control criteria by month and PFMA."
 
@@ -68,11 +68,22 @@ g <-
   new_scale_fill() +
   geom_tile(data=Creel_month_PFMA_failed %>% mutate(across(where(is.numeric), ~na_if(., 0))) %>%  filter(AREA %notin% c("Area 3", "Area 4")), aes(x=YEAR, y=as.factor(MONTH), fill = VAL),colour = "white") +
   scale_fill_gradient(low = col5, high = col6,  na.value = colclear, limits=c(0,20000))+
-  facet_wrap(~AREA)+
+  facet_wrap(~AREA, ncol = 6)+
   guides(fill=guide_legend(title="Creel estimates that failed criteria")) +
   labs(title = "Coverage by PFMA",
        x = "Year", y = "Month") +
-  theme_bw() + theme_minimal() + theme(legend.position="bottom")
+  theme_bw() + theme_minimal() + theme(legend.position="bottom") + 
+  #making the text bigger
+  theme(
+    strip.text = element_text(size = 12), #facet wrap labels
+    plot.title = element_text(size = 18, face = "bold"),
+    axis.title.x = element_text(size = 14), # x-axis title
+    axis.title.y = element_text(size = 17),  # y-axis title
+    legend.text = element_text(size = 13),
+    axis.text.y = element_text(size = 8),# make y axis bigger,
+    plot.margin = margin(2, 2, 2, 2)
+  )
+
 
 g
 ```
