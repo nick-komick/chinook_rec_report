@@ -224,7 +224,8 @@ These rules prioritize quality-controlled creel estimates during months where th
 
 In Figure \@ref(fig:fig-creel-irec-JDF) we demonstrate how iREC fills in the gaps in each PFMA for a given finescale fishery (Juan De Fuca shown as an example).
 
-*Note: fix the scale of this plot - consider using an areas that's not JDF and doesn't have the weird 20 split*
+*Note: fix the scale of this plot - consider using an areas that's not JDF and doesn't have the weird 20 split* 
+*LG - May 2025 - added colour blind friendly palette, changed to NGS S to avoid the area 20 split, stacked legend so it doesn't get cut off*
 
 ```{r methods pfma_month again, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 
