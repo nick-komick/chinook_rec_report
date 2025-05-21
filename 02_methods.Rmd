@@ -242,20 +242,25 @@ pfma_yearMonth_irec_1<-pfma_yearMonth  %>% filter(sum_catch_estimate==sum_irec)
 #| label: fig-creel-irec-JDF
 #| fig-cap: "Creel estimates in Juan de Fuca by area and month and chosen best catch estimate between creel and iREC"
 
+fishery_of_interest <- "NGS S"
+
 g<-ggplot()+
-  geom_tile(data=pfma_yearMonth %>% filter(finescale_fishery_old=="CA JDF S"), aes(x=YEAR, y=as.factor(MONTH), fill = sum_catch_estimate),colour = "white") +
+  geom_tile(data=pfma_yearMonth %>% filter(finescale_fishery_old== fishery_of_interest), aes(x=YEAR, y=as.factor(MONTH), fill = sum_catch_estimate),colour = "white") +
   scale_fill_gradient(low = col1, high = col2,  na.value = colclear, limits=c(0,90000)) +
   scale_y_discrete(limits=rev)+
-  guides(fill=guide_legend(title="creel or logbook estimates")) +
+  guides(fill=guide_legend(title="Creel or logbook estimates")) +
   new_scale_fill() +
-  geom_tile(data=pfma_yearMonth_irec_1 %>% filter(finescale_fishery_old=="CA JDF S"), aes(x=YEAR, y=as.factor(MONTH), fill = sum_catch_estimate),colour = "white") +
+  geom_tile(data=pfma_yearMonth_irec_1 %>% filter(finescale_fishery_old== fishery_of_interest), aes(x=YEAR, y=as.factor(MONTH), fill = sum_catch_estimate),colour = "white") +
   scale_fill_gradient(low = col5, high = col6,  na.value = colclear, limits=c(0,90000))+
-  facet_wrap(~finescale_fishery_old+AREA, nrow=1)+
+  #facet_wrap(~finescale_fishery_old+AREA, nrow=1)+
+  facet_grid(finescale_fishery_old ~ AREA, space = "free") +
   guides(fill=guide_legend(title="iREC estimates")) +
-  labs(title = "Coverage by PFMA",
+  labs(title = paste0("Coverage by PFMA for ", fishery_of_interest),
        x = "Year", y = "Month") +
-  theme_bw() + theme_minimal() + geom_vline(xintercept = 2013)+ theme(legend.position="bottom")
-
+  theme_bw() + theme_minimal() + geom_vline(xintercept = 2013)+
+  theme(legend.position="bottom",
+        legend.box = "vertical",
+        legend.box.just = "left")
 g
 ```
 
