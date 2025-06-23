@@ -46,19 +46,19 @@ The criteria failed 51% of all estimates since 2005 (Figure \@ref(fig:fig-creel-
 
 ```{r methods Loading packages useful functions, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 
-col1 = "#d8e1cf"
-col2 = "#438484"
+col1 = "#e0ecf4"
+col2 = "#0570b0"
 col3 = "lightblue"
 col4 = "lightblue4"
-col5 = "pink"
-col6 = "darkred"
+col5 = "#fddbc7"
+col6 = "#cb181d"
 col7 = "purple"
 col8 = "purple4"
 colclear= "#1C00ff00"
 
 ```
 
-```{r methods plotting PFMA creel unfiltered, echo=FALSE, message=FALSE, warning=FALSE, fig.height=12, fig.width=15, out.width = "7in", fig.align = "left"}
+```{r methods plotting PFMA creel unfiltered, echo=FALSE, message=FALSE, warning=FALSE, fig.height=18, fig.width=15, fig.align="left", out.width="7in"}
 #| label: fig-creel-criteria
 #| fig-cap: "South Coast creel estimates that passed (green) or failed (red) quality control criteria by month and PFMA."
 
@@ -75,11 +75,22 @@ g <-
   new_scale_fill() +
   geom_tile(data=Creel_month_PFMA_failed %>% mutate(across(where(is.numeric), ~na_if(., 0))) %>%  filter(AREA %notin% c("Area 3", "Area 4")), aes(x=YEAR, y=as.factor(MONTH), fill = VAL),colour = "white") +
   scale_fill_gradient(low = col5, high = col6,  na.value = colclear, limits=c(0,20000))+
-  facet_wrap(~AREA)+
+  facet_wrap(~AREA, ncol = 6)+
   guides(fill=guide_legend(title="Creel estimates that failed criteria")) +
   labs(title = "Coverage by PFMA",
        x = "Year", y = "Month") +
-  theme_bw() + theme_minimal() + theme(legend.position="bottom")
+  theme_bw() + theme_minimal() + theme(legend.position="bottom") + 
+  #making the text bigger
+  theme(
+    strip.text = element_text(size = 12), #facet wrap labels
+    plot.title = element_text(size = 18, face = "bold"),
+    axis.title.x = element_text(size = 14), # x-axis title
+    axis.title.y = element_text(size = 17),  # y-axis title
+    legend.text = element_text(size = 13),
+    axis.text.y = element_text(size = 8),# make y axis bigger,
+    plot.margin = margin(2, 2, 2, 2)
+  )
+
 
 g
 ```
@@ -218,9 +229,10 @@ For Northern and Central BC:
 
 These rules prioritize quality-controlled creel estimates during months where the most creel effort is concentrated, and then prioritizes calibrated iREC data during shoulder seasons and anywhere there is a gap in creel coverage. Northern and Central BC do not have standardized creel, and therefore the iREC data is preferred over logbook-only data. iREC took longer to become adopted in Northern BC and therefore data from 2015 onwards is used.
 
-In Figure \@ref(fig:fig-creel-irec-JDF) we demonstrate how iREC fills in the gaps in each PFMA for a given finescale fishery (Juan De Fuca shown as an example).
+In Figure \@ref(fig:fig-creel-irec-JDF) we demonstrate how iREC fills in the gaps in each PFMA for a given finescale fishery (North Georgia Strait is shown as an example).
 
-*Note: fix the scale of this plot - consider using an areas that's not JDF and doesn't have the weird 20 split*
+*Note: fix the scale of this plot - consider using an areas that's not JDF and doesn't have the weird 20 split* 
+*LG - May 2025 - added colour blind friendly palette, changed to NGS S to avoid the area 20 split, stacked legend so it doesn't get cut off*
 
 ```{r methods pfma_month again, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 Sport_mark_rate_finescale <- wrangle_rec_catch("pacRecCatch_db.yaml", by="area", most_recent_data_year=2023)
@@ -237,20 +249,25 @@ pfma_yearMonth_irec_1<-pfma_yearMonth  %>% filter(sum_catch_estimate==sum_irec)
 #| label: fig-creel-irec-JDF
 #| fig-cap: "Creel estimates in Juan de Fuca by area and month and chosen best catch estimate between creel and iREC"
 
+fishery_of_interest <- "NGS S"
+
 g<-ggplot()+
-  geom_tile(data=pfma_yearMonth %>% filter(finescale_fishery_old=="CA JDF S"), aes(x=YEAR, y=as.factor(MONTH), fill = sum_catch_estimate),colour = "white") +
+  geom_tile(data=pfma_yearMonth %>% filter(finescale_fishery_old== fishery_of_interest), aes(x=YEAR, y=as.factor(MONTH), fill = sum_catch_estimate),colour = "white") +
   scale_fill_gradient(low = col1, high = col2,  na.value = colclear, limits=c(0,90000)) +
   scale_y_discrete(limits=rev)+
-  guides(fill=guide_legend(title="creel or logbook estimates")) +
+  guides(fill=guide_legend(title="Creel or logbook estimates")) +
   new_scale_fill() +
-  geom_tile(data=pfma_yearMonth_irec_1 %>% filter(finescale_fishery_old=="CA JDF S"), aes(x=YEAR, y=as.factor(MONTH), fill = sum_catch_estimate),colour = "white") +
+  geom_tile(data=pfma_yearMonth_irec_1 %>% filter(finescale_fishery_old== fishery_of_interest), aes(x=YEAR, y=as.factor(MONTH), fill = sum_catch_estimate),colour = "white") +
   scale_fill_gradient(low = col5, high = col6,  na.value = colclear, limits=c(0,90000))+
-  facet_wrap(~finescale_fishery_old+AREA, nrow=1)+
+  #facet_wrap(~finescale_fishery_old+AREA, nrow=1)+
+  facet_grid(finescale_fishery_old ~ AREA, space = "free") +
   guides(fill=guide_legend(title="iREC estimates")) +
-  labs(title = "Coverage by PFMA",
+  labs(title = paste0("Coverage by PFMA for ", fishery_of_interest),
        x = "Year", y = "Month") +
-  theme_bw() + theme_minimal() + geom_vline(xintercept = 2013)+ theme(legend.position="bottom")
-
+  theme_bw() + theme_minimal() + geom_vline(xintercept = 2013)+
+  theme(legend.position="bottom",
+        legend.box = "vertical",
+        legend.box.just = "left")
 g
 ```
 
