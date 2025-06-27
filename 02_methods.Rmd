@@ -1,4 +1,9 @@
- \clearpage
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+\clearpage
 
 # Methods
 
@@ -22,13 +27,13 @@ knitr::include_graphics(c(fig1_path))
 #### South Coast Catch Estimation (Kris/Rob to review this section)
 
 South Coast catch estimation is a combination of creel surveys and logbooks from both guides and avid angler programs. The South Coast Creel Survey (SCCS), run by the DFO, began in the early 1980s was limited to Strait of Georgia recreational fisheries. It has since expanded in scope to survey PFMAs 10 to 27, including offshore areas (those with IDs in the 100s). The surveys are conducted in the summer months, however some spring and fall surveys occur in specific areas. The survey involves dock-side fisher interviews to capture catch rates and aerial surveys for effort counts. Raw estimates and uncertainty are expanded to cover a given month and area (typically PFMA). Currently, this program estimates
-  
-  * Sub-legal sized release catch
-  * Legal sized released catch based on adipose-clip status (e.g clipped/marked and unclipped/unmarked)
-  * Legal sized kept catch based on adipose-clip status (e.g clipped/marked and unclipped/unmarked)
-  
-  
-  and unclipped (ie unmarked) fish. In the past, kept fish with unknown adipose clip status were expanded to marked and unmarked using a monthly mark rate and to kept and released using a monthly release rate. For more information and methods about the SCCS, see the most recent program overview and bulletins, found [here](https://cat.fsl-bsf.scitech.gc.ca/record=b4125212~S1) (*Cite: South coast assessment bulletin, program overview 2024*). While the SCCS is the primary source of data for the South Coast, logbook data from guides and avid angler programs are provided on a voluntary basis and are removed from area and month-specific estimates of the creel survey to avoid double-counting.
+
+* Sub-legal sized release catch
+* Legal sized released catch based on adipose-clip status (e.g clipped/marked and unclipped/unmarked)
+* Legal sized kept catch based on adipose-clip status (e.g clipped/marked and unclipped/unmarked)
+
+
+and unclipped (ie unmarked) fish. In the past, kept fish with unknown adipose clip status were expanded to marked and unmarked using a monthly mark rate and to kept and released using a monthly release rate. For more information and methods about the SCCS, see the most recent program overview and bulletins, found [here](https://cat.fsl-bsf.scitech.gc.ca/record=b4125212~S1) (*Cite: South coast assessment bulletin, program overview 2024*). While the SCCS is the primary source of data for the South Coast, logbook data from guides and avid angler programs are provided on a voluntary basis and are removed from area and month-specific estimates of the creel survey to avoid double-counting.
 
 ##### South Coast Creel Survey quality control
 
@@ -36,11 +41,11 @@ Since the South Coast creel surveys vary in sampling intensity and spatial/tempo
 
 *Note: Kris and Rob to flesh out these bullet points .... Why was at least 3 flights for each type of day chosen? Is that because in a month you typically get x amount of flights? Need to flesh out each bullet point with context.*
 
--   At least 3 flights for each type of day (weekday or weekend)
--   At least 25 interviews mid week OR at least 10% of interviews from mid-week
--   At least 25 interviews on weekends OR at least 10% of interviews from weekend
--   At least 15 day spread in flights
--   At least 15 day spread in interviews
+- At least 3 flights for each type of day (weekday or weekend)
+- At least 25 interviews mid week OR at least 10% of interviews from mid-week
+- At least 25 interviews on weekends OR at least 10% of interviews from weekend
+- At least 15 day spread in flights
+- At least 15 day spread in interviews
 
 The criteria failed 51% of all estimates since 2005 (Figure \@ref(fig:fig-creel-criteria)). PFMA 15 and 16 had the highest proportion of failed criteria, followed by Area 29, 19 (GS) and 21, which all had over 80% of estimates fail the criteria. The core summer months of July and August have the highest rate of criteria passing (more than 70% of estimates passing), whereas the winter months (October through February) have more than 75% failed criteria, likely due to weather making consistent overflights difficult.
 
@@ -62,26 +67,37 @@ colclear= "#1C00ff00"
 #| label: fig-creel-criteria
 #| fig-cap: "South Coast creel estimates that passed (green) or failed (red) quality control criteria by month and PFMA."
 
-creel_month_PFMA <- filter_creel_catch("pacRecCatch_db.yaml")
-Creel_month_PFMA_failed <- filter(creel_month_PFMA, criteria == "failed")
-Creel_month_PFMA_passed <- filter(creel_month_PFMA, criteria == "passed")
+creel_month_PFMA <- pacRecCatch::filter_creel_catch("pacRecCatch_db.yaml")
+Creel_month_PFMA_failed <- 
+  creel_month_PFMA  |>
+  filter(criteria == "failed") |>
+  mutate(across(where(is.numeric), ~na_if(., 0))) |>  
+  filter(area %notin% c("3", "4"))
 
-g <- 
-  ggplot() +
-  geom_tile(data=Creel_month_PFMA_passed %>% mutate(across(where(is.numeric), ~na_if(., 0)))  %>%  filter(AREA %notin% c("Area 3", "Area 4")), aes(x=YEAR, y=as.factor(MONTH), fill = VAL),colour = "white") +
+
+Creel_month_PFMA_passed <- 
+  creel_month_PFMA |>
+  filter(criteria == "passed") |>
+  mutate(across(where(is.numeric), ~na_if(., 0))) |>
+  filter(area %notin% c("3", "4"))
+
+
+
+ggplot() +
+  geom_tile(data=Creel_month_PFMA_passed, aes(x=year, y=as.factor(month), fill = val),colour = "white") +
   scale_fill_gradient(low = col1, high = col2,  na.value = colclear, limits=c(0,20000)) +
   scale_y_discrete(limits=rev)+
   guides(fill=guide_legend(title="Creel estimates that passed criteria")) +
   new_scale_fill() +
-  geom_tile(data=Creel_month_PFMA_failed %>% mutate(across(where(is.numeric), ~na_if(., 0))) %>%  filter(AREA %notin% c("Area 3", "Area 4")), aes(x=YEAR, y=as.factor(MONTH), fill = VAL),colour = "white") +
+  geom_tile(data=Creel_month_PFMA_failed, aes(x=year, y=as.factor(month), fill = val),colour = "white") +
   scale_fill_gradient(low = col5, high = col6,  na.value = colclear, limits=c(0,20000))+
-  facet_wrap(~AREA, ncol = 6)+
+  facet_wrap(~area, ncol = 6)+
   guides(fill=guide_legend(title="Creel estimates that failed criteria")) +
-  labs(title = "Coverage by PFMA",
-       x = "Year", y = "Month") +
-  theme_bw() + theme_minimal() + theme(legend.position="bottom") + 
+  labs(title = "Coverage by PFMA", x = "Year", y = "Month") +
+  theme_minimal() + 
   #making the text bigger
   theme(
+    legend.position="bottom",
     strip.text = element_text(size = 12), #facet wrap labels
     plot.title = element_text(size = 18, face = "bold"),
     axis.title.x = element_text(size = 14), # x-axis title
@@ -91,8 +107,6 @@ g <-
     plot.margin = margin(2, 2, 2, 2)
   )
 
-
-g
 ```
 
 #### Central Coast Catch Estimation - *Chelsea to review/expand this section*
@@ -220,7 +234,6 @@ We used the following rules to choose the best catch estimate between creel (aug
 For Southern BC:
 
 -   In months May-September (5-9) use creel+ logbook, otherwise use calibrated iREC
-
 -   In months outside of 5-9, use calibrated iREC
 
 For Northern and Central BC:
@@ -235,34 +248,53 @@ In Figure \@ref(fig:fig-creel-irec-JDF) we demonstrate how iREC fills in the gap
 *LG - May 2025 - added colour blind friendly palette, changed to NGS S to avoid the area 20 split, stacked legend so it doesn't get cut off*
 
 ```{r methods pfma_month again, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
-Sport_mark_rate_finescale <- wrangle_rec_catch("pacRecCatch_db.yaml", by="area", most_recent_data_year=2023)
+sport_mark_rate_finescale <- wrangle_rec_catch2("pacRecCatch_db.yaml", by="area", most_recent_data_year=2023)
 
-pfma_yearMonth <- plyr::ddply(Sport_mark_rate_finescale, c( "YEAR", "MONTH", "AREA", "finescale_fishery_old"), summarise,
-                              sum_creel = sum(creel, na.rm = TRUE), sum= sum(creel_plus, na.rm = TRUE), sum_historic= sum(historic_plus, na.rm = TRUE), sum_catch_estimate = sum(catch_estimate, na.rm = TRUE), sum_irec = sum(irec_calibrated, na.rm = TRUE)) %>% mutate(across(where(is.numeric), ~na_if(., 0))) %>% filter(finescale_fishery_old!="NA")
+pfma_yearMonth <- 
+  sport_mark_rate_finescale |>
+  group_by(year, month, area, region, finescale_fishery) |>
+  summarise(sum_creel = sum(creel, na.rm = TRUE), 
+            sum = sum(creel_plus, na.rm = TRUE), 
+            sum_historic = sum(historic_plus, na.rm = TRUE), 
+            sum_catch_estimate = sum(catch_estimate, na.rm = TRUE), 
+            sum_irec = sum(irec_calibrated, na.rm = TRUE)) |>
+  mutate(across(where(is.double), ~na_if(., 0)))
 
-pfma_yearMonth_catch_estimate_1<-pfma_yearMonth  %>% filter(sum_catch_estimate!=sum,sum_catch_estimate!=sum_historic, sum_catch_estimate!=sum_irec)
+pfma_yearMonth_catch_estimate_1 <- 
+  pfma_yearMonth  |>
+  filter(sum_catch_estimate != sum, sum_catch_estimate != sum_historic, sum_catch_estimate != sum_irec)
 
-pfma_yearMonth_irec_1<-pfma_yearMonth  %>% filter(sum_catch_estimate==sum_irec)
+pfma_yearMonth_irec_1 <-
+  pfma_yearMonth |> 
+  filter(sum_catch_estimate == sum_irec)
 ```
 
 ```{r methods plotting PFMA - Juan de Fuca, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2, fig.width=8}
 #| label: fig-creel-irec-JDF
 #| fig-cap: "Creel estimates in Juan de Fuca by area and month and chosen best catch estimate between creel and iREC"
 
-fishery_of_interest <- "NGS S"
+jdf_catch <-
+  pfma_yearMonth |>
+  filter(region == "NGS")
 
-g<-ggplot()+
-  geom_tile(data=pfma_yearMonth %>% filter(finescale_fishery_old== fishery_of_interest), aes(x=YEAR, y=as.factor(MONTH), fill = sum_catch_estimate),colour = "white") +
+jdf_irec_catch <-
+  pfma_yearMonth_irec_1|>
+  filter(region == "NGS")
+
+
+g <-
+  ggplot()+
+  geom_tile(data=jdf_catch, aes(x=year, y=as.factor(month), fill = sum_catch_estimate),colour = "white") +
   scale_fill_gradient(low = col1, high = col2,  na.value = colclear, limits=c(0,90000)) +
   scale_y_discrete(limits=rev)+
   guides(fill=guide_legend(title="Creel or logbook estimates")) +
   new_scale_fill() +
-  geom_tile(data=pfma_yearMonth_irec_1 %>% filter(finescale_fishery_old== fishery_of_interest), aes(x=YEAR, y=as.factor(MONTH), fill = sum_catch_estimate),colour = "white") +
+  geom_tile(data=jdf_irec_catch, aes(x=year, y=as.factor(month), fill = sum_catch_estimate),colour = "white") +
   scale_fill_gradient(low = col5, high = col6,  na.value = colclear, limits=c(0,90000))+
   #facet_wrap(~finescale_fishery_old+AREA, nrow=1)+
-  facet_grid(finescale_fishery_old ~ AREA, space = "free") +
+  facet_grid(finescale_fishery ~ area, space = "free") +
   guides(fill=guide_legend(title="iREC estimates")) +
-  labs(title = paste0("Coverage by PFMA for ", fishery_of_interest),
+  labs(title = paste0("Coverage by PFMA for Northern Strait of Georgia"),
        x = "Year", y = "Month") +
   theme_bw() + theme_minimal() + geom_vline(xintercept = 2013)+
   theme(legend.position="bottom",
@@ -327,7 +359,7 @@ We validated the modelling output with the sport head recovery program by regres
 
 The Chinook Technical Committee (CTC) of the Pacific Salmon Commission (PSC) has several annual analyses and reports. Notably, the Catch and Escapement Report which details catch and escapement across all fisheries. The Exploitation Rate Analysis and accompanying report which uses a cohort analysis on hatchery stocks with Coded Wire Tags (CWTs) to calculate Calendar Year Exploitation Rates on a stock-specific basis. Finally, the Calibration Report, which are reported on the annual Chinook model calibration which takes output from the ERA and other sources.
 
-The revised Chinook catch estimates from modeled data from 2005 to 2012 and from improved data from 2013-2023 will be incorporated into a number of CTC process starting in 2025. Notably, the total number of Kept and Released Chinook will be updated in the Annual Catch and Escapement Report. Next, catch estimates are used as inputs to the annual exploitation rate analysis (ERA) in two places. First, kept and marked catch estimates are used to expand Coded Wire Tag (CWT) observations from the Sport Head Recovery Program to CWT estimates uploaded to the Regional Mark Information System ([RMIS](https://www.rmpc.org/#:~:text=This%20data%20system%2C%20named%20the%20Regional%20Mark%20Information,Commission%E2%80%99s%20information%20needs%20under%20the%20Pacific%20Salmon%20Treaty.)) and ultimately used in the ERA analysis. Second, kept and released catch estimates are incorporated for most sport fisheries into the Chinook non-retention process in the ERA.
+The revised Chinook catch estimates from modelled data from 2005 to 2012 and from improved data from 2013-2023 will be incorporated into a number of CTC process starting in 2025. Notably, the total number of Kept and Released Chinook will be updated in the Annual Catch and Escapement Report. Next, catch estimates are used as inputs to the annual exploitation rate analysis (ERA) in two places. First, kept and marked catch estimates are used to expand Coded Wire Tag (CWT) observations from the Sport Head Recovery Program to CWT estimates uploaded to the Regional Mark Information System ([RMIS](https://www.rmpc.org/#:~:text=This%20data%20system%2C%20named%20the%20Regional%20Mark%20Information,Commission%E2%80%99s%20information%20needs%20under%20the%20Pacific%20Salmon%20Treaty.)) and ultimately used in the ERA analysis. Second, kept and released catch estimates are incorporated for most sport fisheries into the Chinook non-retention process in the ERA.
 
 ### Updating CWT estimates
 
@@ -374,10 +406,10 @@ combined_map <- rbind(bc_polygon_geo, us_polygon_geo)
 
 #crop the map so it shows the bc coast
 whole_coast_cropped <- st_crop(combined_map, 
-                         xmin = -990416 , 
-                         xmax = 1400416 ,
-                         ymin = 299418, 
-                         ymax = 1149418 )
+                               xmin = -990416 , 
+                               xmax = 1400416 ,
+                               ymin = 299418, 
+                               ymax = 1149418 )
 
 #set pallete
 num_regions <- length(unique(cwt_region$cwt_region))
@@ -430,10 +462,10 @@ The updated indirect methods can be grouped in three different categories based 
 **Method 1:** When a time period (i.e., season) within a region has an outlier submission rate ($s$), the first option is to use an annual average of all the time periods (i) within the region weighted by the number of heads ($h$) in each period using the equation below. This should weight the annual average submission rate ($\bar{s}$) used for the outlier period to a rate that has the lowest uncertainty, based on the assumption that periods with the lowest uncertainty will have the highest number of heads contributed to the program (Equation~\eqref{eq:cwt_wght_avg}).
 
 $$
-   \bar{s} = \frac{\sigma_i h_i s_i}{\sigma_i h_i}
-   \label{eq:cwt_wght_avg}
+\bar{s} = \frac{\sigma_i h_i s_i}{\sigma_i h_i}
+\label{eq:cwt_wght_avg}
 $$
-	
+
 **Method 2:** In some circumstances, the annual average submission rate may result in an outlier estimate. This typically occurs in the Strait of Georgia with catch estimate before iREC reporting (i.e. before 2013). To better represent the submission rate of these regions and years, a weighted average is used based on the annual submission rates 2 years before and 2 years after the outlier year. The moving window average should better represent average submission rate of fishers in a region, as the knowledge and implementation of the SHRP is not expected to vary substantially across years within a region (e.g. head depots operations are generally consistent).
 
 **Method 3:** When there are annual gaps in adipose clipped catch, such as in the Prince Rupert region from 2005 to 2007, the weighted annual average for the northern portion of BC (including Haida Gwaii and Central BC) was used based on Equation~\eqref{eq:cwt_wght_avg}. This will weight the average submission rate to regions and time periods with the most effort.

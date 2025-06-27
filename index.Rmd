@@ -89,6 +89,9 @@ bibliography: bib/refs.bib
 # Any extra LaTeX code for the header:
 header-includes:
  - \usepackage{float}
+ 
+execute:
+  echo: false
 ---
 
 ```{r setup, echo=FALSE, cache=FALSE, message=FALSE, results='hide', warning=FALSE}

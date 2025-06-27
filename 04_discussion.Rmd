@@ -1,3 +1,9 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
 \clearpage
 
 # Discussion
@@ -6,7 +12,7 @@ Discussion points:
 
 -   *irec calibrated using south coast creel only* (develop diversity in calibration data)
 
-
+- *ranked model approach* 
 
 -   *Something here about subject to change based on:*
 

@@ -7,47 +7,57 @@
 ```{r methods strattab, echo=FALSE, message=FALSE, warning=FALSE}
 #| label: strattab
 
-Sport_mark_rate_finescale<-wrangle_rec_catch("pacRecCatch_db.yaml", by="area")
+sport_mark_rate_finescale <- wrangle_rec_catch2("pacRecCatch_db.yaml", by="area")
 
-Strat_table <- 
-  Sport_mark_rate_finescale %>% 
-  dplyr::select(finescale_fishery_old, finescale_fishery, AREA, MONTH) %>% 
+strat_table <- 
+  sport_mark_rate_finescale %>% 
+  select(finescale_fishery, area, month) %>% 
   unique() %>% 
-  arrange(finescale_fishery_old, finescale_fishery,  AREA, MONTH)
+  arrange(finescale_fishery,  area, month)
 
 fishery_map <-
-  Sport_mark_rate_finescale %>% 
-  dplyr::select(finescale_fishery_old, finescale_fishery) %>%
+  sport_mark_rate_finescale %>% 
+  distinct(region, management, finescale_fishery) %>%
   mutate(erafishery = case_when(
-    finescale_fishery_old %in% c("NWCVI S AABM", "SWCVI S AABM") ~ "WCVI AABM S",
-    finescale_fishery_old %in% c("NGS S", "SGS S") ~  "GEO ST S",
-    finescale_fishery_old == "CA JDF S" ~ "BC JF S",
-    finescale_fishery_old %in%  c("NWCVI S ISBM", "SWCVI S ISBM") ~ "WCVI ISBM S",
-    TRUE ~ finescale_fishery_old)) %>% 
-  unique()
+    region %in% c("SWCVI", "NWCVI") & management == "AABM" ~ "WCVI AABM S",
+    region %in% c("NGS", "SGS") ~  "GEO ST S",
+    region == "JDF" ~ "BC JF S",
+    region == "CBC" ~ "CENTRAL S",
+    region == "JNST" ~ "JNST S",
+    region %in% c("SWCVI", "NWCVI") & management == "ISBM" ~ "WCVI ISBM S",
+    region == "NC" & management == "ISBM" ~ "NBC ISBM S",
+    region == "NC" & management == "AABM" ~ "NBC AABM S",
+    region == "TSWCVI" ~ "SWCVI TERMINAL",
+    .default = NA_character_)) |>
+  select(finescale_fishery, erafishery) |>
+  distinct()
 
-Strat_table <- 
-  Strat_table %>% 
+strat_table <- 
+  strat_table %>% 
   left_join(fishery_map) %>% 
   arrange(erafishery) %>% 
   relocate(erafishery) %>%
   group_by(finescale_fishery) %>% 
   mutate(month_category = case_when(
     finescale_fishery == "CBC S" ~ "1:12",
-    finescale_fishery == "NWCVI S SUMMER AABM" & AREA %in% c("Area 25", "Area 26", "Area 27") ~ "5:6",
+    finescale_fishery == "NWCVI S SUMMER AABM" & area %in% c("Area 25", "Area 26", "Area 27") ~ "5:6",
     finescale_fishery == "NWCVI S SUMMER ISBM"  ~ "7:9",
-    finescale_fishery == "SWCVI S SUMMER AABM" & AREA %in% c("Area 21", "Area 23", "Area 23 (Alberni Canal)", "Area 23 (Barkley)", "Area 24") ~ "5:7",
+    finescale_fishery == "SWCVI S SUMMER AABM" & area %in% c("Area 21", "Area 23", "Area 23 (Alberni Canal)", "Area 23 (Barkley)", "Area 24") ~ "5:7",
     finescale_fishery == "SWCVI S SUMMER ISBM"  ~ "8:9",
-    MONTH %in% c(10,11,12) ~ "10:12", 
-    MONTH %in% c(1:4) ~ "1:4", 
-    MONTH %in% c(5:9) ~ "5:9",
-    MONTH %in% c(7:8) ~ "7:8",
+    month %in% c(10,11,12) ~ "10:12", 
+    month %in% c(1:4) ~ "1:4", 
+    month %in% c(5:9) ~ "5:9",
+    month %in% c(7:8) ~ "7:8",
     TRUE ~ "NA"
   )) %>% 
-  dplyr::select(-MONTH) %>% unique() %>% drop_na() %>% 
-  rename("ERA Fishery" = "erafishery", "Finescale Fishery Old" = "finescale_fishery_old", 
-         "Finescale Fishery New" ="finescale_fishery", "PFMA" ="AREA","Months" ="month_category") |> 
-  mutate(across(everything(), function(.) { gsub(":", "to", .)}))
+  dplyr::select(-month) %>% 
+  unique() %>% 
+  drop_na() %>% 
+  rename("ERA Fishery" = erafishery,  
+         "Finescale Fishery" = finescale_fishery, 
+         "PFMA" = area,
+         "Months" = month_category) |> 
+  mutate(across(everything(), function(.) { gsub(":", " to ", .)}))
 
 
 #Strat_table %>%
@@ -69,63 +79,56 @@ Strat_table <-
 #| fig-cap: "Revised yearly kept catch estimates"
 
 
-library(ROracle)
-library(pacRecCatch)
-library(tidyverse)
-library(odbc)
-library(lubridate)
-library(ggnewscale)
-library(patchwork)
-library(DHARMa)
-library(lme4)
-library(bbmle)
-library(SuppDists)
-library(MuMIn)
-
-models_combined <- pacRecCatch::model_rec_catch(Sport_mark_rate_finescale_combined)
+models_combined <- pacRecCatch::model_rec_catch2(sport_mark_rate_finescale_combined)
 
 
 ### make this by finescale fishery old... sum up. 
-models_combined_old<-models_combined %>% group_by(YEAR,kept_status,pred_cat, finescale_fishery_old) %>% summarise_if(is.numeric, sum, na.rm = TRUE) %>% filter(!str_detect(finescale_fishery_old, "CBC|NBC"))
+models_combined_old<-
+  models_combined$model_catch |>
+  filter(region %notin% c("CBC", "NC")) |>
+  mutate(region_mgmt = if_else(region %in% c("SWCVI", "NWCVI"),
+                               paste(region, management),
+                               region)) |>
+  group_by(year, kept_status, pred_cat, region_mgmt) |> 
+  summarise(across(where(is.double), sum, na.rm = TRUE), .groups = "drop")
 
-fishery_name_south<- sort(unique(models_combined_old$finescale_fishery_old))
+
+fishery_name_south <- sort(unique(models_combined_old$region_mgmt))
 
 
 for (i in 1:length(fishery_name_south)){
-
- m<-ggplot(graph_data <- models_combined_old  %>% 
-             filter(finescale_fishery_old == fishery_name_south[i],
-                    YEAR %in% c(2013:2023),
-                    kept_status == "Kept") %>%
-  ungroup() %>%
-  select(YEAR, creel_unfiltered_plus, catch_estimate_predicted) %>%
-  pivot_longer(c(creel_unfiltered_plus, catch_estimate_predicted),
-               names_to = "estimate_type",
-               values_to = "catch_estimate"))
- 
-m <- ggplot(graph_data, aes(y = catch_estimate,
-           x = YEAR,
-           shape = estimate_type,
-           linetype = estimate_type))+
-  geom_point(size = 2.5,
-             colour = "#440154")+
-  geom_line(colour = "#440154") +
-  scale_shape_manual(values = c(1, 16),
-                     labels = c("iREC included", "Unfiltered creel and logbook")
-                     ) +
-  scale_linetype_manual(values = c(2, 1),
-                      labels = c("iREC included", "Unfiltered creel and logbook")
-                      ) +
-  scale_x_continuous(breaks = c(2013, 2015, 2017, 2019, 2021, 2023)) +
-  ggtitle(paste(fishery_name_south[i])) + 
-  theme_bw() + 
-  ylab("Kept catch estimate") + 
-  xlab("Year") +
-  labs(linetype = "Catch Estimate", shape = "Catch Estimate")
- 
- 
- 
- print(m)
+  graph_data <- models_combined_old  %>% 
+    filter(region_mgmt == fishery_name_south[i],
+           year %in% c(2013:2023),
+           kept_status == "Kept") %>%
+    select(year, creel_unfiltered_plus, catch_estimate_predicted) %>%
+    pivot_longer(c(creel_unfiltered_plus, catch_estimate_predicted),
+                 names_to = "estimate_type",
+                 values_to = "catch_estimate")
+  
+  m <- ggplot(graph_data, aes(y = catch_estimate,
+                              x = year,
+                              shape = estimate_type,
+                              linetype = estimate_type))+
+    geom_point(size = 2.5,
+               colour = "#440154")+
+    geom_line(colour = "#440154") +
+    scale_shape_manual(values = c(1, 16),
+                       labels = c("iREC included", "Unfiltered creel and logbook")
+    ) +
+    scale_linetype_manual(values = c(2, 1),
+                          labels = c("iREC included", "Unfiltered creel and logbook")
+    ) +
+    scale_x_continuous(breaks = c(2013, 2015, 2017, 2019, 2021, 2023)) +
+    ggtitle(paste(fishery_name_south[i])) + 
+    theme_bw() + 
+    ylab("Kept catch estimate") + 
+    xlab("Year") +
+    labs(linetype = "Catch Estimate", shape = "Catch Estimate")
+  
+  
+  
+  print(m)
 }
 ```
 
@@ -136,46 +139,50 @@ m <- ggplot(graph_data, aes(y = catch_estimate,
 
 
 ### make this by finescale fishery old... sum up. 
-models_combined_old2<-models_combined %>% group_by(YEAR,kept_status,pred_cat, finescale_fishery_old) %>% summarise_if(is.numeric, sum, na.rm = TRUE) %>% filter(str_detect(finescale_fishery_old, "CBC|NBC"))
+models_combined_old2 <-
+  models_combined$model_catch |>
+  filter(region %in% c("CBC", "NC")) |>
+  mutate(region_mgmt = if_else(region == "NC",
+                               paste(region, management),
+                               region)) |>
+  group_by(year, kept_status, pred_cat, region_mgmt) |> 
+  summarise(across(where(is.double), sum, na.rm = TRUE), .groups = "drop")
 
-fishery_name_north<- sort(unique(models_combined_old2$finescale_fishery_old))
+fishery_name_north<- sort(unique(models_combined_old2$region_mgmt))
 
 
-for (i in 1:length(fishery_name_north)){
-
- m<-ggplot(graph_data <- models_combined_old2  %>% 
-             filter(finescale_fishery_old == fishery_name_north[i],
-                    YEAR %in% c(2013:2023),
-                    kept_status == "Kept") %>%
-  ungroup() %>%
-  select(YEAR, historic_plus, catch_estimate_predicted) %>%
-  pivot_longer(c(historic_plus, catch_estimate_predicted),
-               names_to = "estimate_type",
-               values_to = "catch_estimate"))
- 
-m <- ggplot(graph_data, aes(y = catch_estimate,
-           x = YEAR,
-           shape = estimate_type,
-           linetype = estimate_type))+
-  geom_point(size = 2.5,
-             colour = "#440154")+
-  geom_line(colour = "#440154") +
-  scale_shape_manual(values = c(1, 16),
-                     labels = c("iREC included", "Historic")
-                     ) +
-  scale_linetype_manual(values = c(2, 1),
-                      labels = c("iREC included", "Historic")
-                      ) +
-  scale_x_continuous(breaks = c(2013, 2015, 2017, 2019, 2021, 2023)) +
-  ggtitle(paste(fishery_name_north[i])) + 
-  theme_bw() + 
-  ylab("Kept catch estimate") + 
-  xlab("Year") +
-  labs(linetype = "Catch Estimate", shape = "Catch Estimate")
- 
- 
- 
- print(m)
+for (i in 1:length(fishery_name_north)) {
+  graph_data <- 
+    models_combined_old2  %>% 
+    filter(region_mgmt == fishery_name_north[i],
+           year %in% c(2013:2023),
+           kept_status == "Kept") %>%
+    select(year, historic_plus, catch_estimate_predicted) %>%
+    pivot_longer(c(historic_plus, catch_estimate_predicted),
+                 names_to = "estimate_type",
+                 values_to = "catch_estimate")
+  
+  m <- ggplot(graph_data, aes(y = catch_estimate,
+                              x = year,
+                              shape = estimate_type,
+                              linetype = estimate_type)) +
+    geom_point(size = 2.5,
+               colour = "#440154")+
+    geom_line(colour = "#440154") +
+    scale_shape_manual(values = c(1, 16),
+                       labels = c("iREC included", "Historic")
+    ) +
+    scale_linetype_manual(values = c(2, 1),
+                          labels = c("iREC included", "Historic")
+    ) +
+    scale_x_continuous(breaks = c(2013, 2015, 2017, 2019, 2021, 2023)) +
+    ggtitle(paste(fishery_name_north[i])) + 
+    theme_bw() + 
+    ylab("Kept catch estimate") + 
+    xlab("Year") +
+    labs(linetype = "Catch Estimate", shape = "Catch Estimate")
+  
+  print(m)
 }
 ```
 
@@ -189,19 +196,7 @@ m <- ggplot(graph_data, aes(y = catch_estimate,
 #| label: fig-south-sum-residuals
 #| fig-cap: "Validation plots for BC South Summer model"
 
-
-Summer_south<-Sport_mark_rate_finescale_combined %>%
-  filter(YEAR %in% c(2013:2023))%>%
-  filter(!str_detect(finescale_fishery, "CBC|NBC")) %>%
-  filter(season %in% c("summer"))
-
-Summer_south_no_nas<-Summer_south %>% drop_na(any_of(c("creel_plus_summer", "status", "finescale_fishery_old")))
-write_rds(Summer_south_no_nas, "Summer_south_no_nas.RDS")
-
-Summer_model<- glm(formula = catch_estimate ~ finescale_fishery_old + status + creel_plus_summer:finescale_fishery_old + creel_plus_summer:status +
-finescale_fishery_old:status + 1 + creel_plus_summer,  family=Gamma(link = "log"), data = Summer_south_no_nas)
-
-res_gam <- simulateResiduals(Summer_model, plot = T, quantreg=T)
+res_gam <- simulateResiduals(models_combined$model_list$south_summer, plot = T, quantreg=T)
 ```
 
 ### Northern BC AABM Summer fisheries <br/>
@@ -210,18 +205,7 @@ res_gam <- simulateResiduals(Summer_model, plot = T, quantreg=T)
 #| label: fig-nbcaabm-sum-residuals
 #| fig-cap: "Validation plots for NBC AABM Summer model"
 
-Summer_north_aabm<-Sport_mark_rate_finescale_combined%>%
-  filter(YEAR %in% c(2015:2023)) %>%
-  filter(finescale_fishery_old == "NBC AABM S")%>%
-  filter( season=="summer")
-
-#Modelling comparisons need to be done on models with same # of NAs - so drop nas
-Summer_north_aabm_no_nas<-Summer_north_aabm %>% drop_na(any_of(c("historic_summer", "status", "finescale_fishery_old", "season", "historic_effort")))
-
-###Chosen model
-Summer_north_aabm_model_gamma_spec<- glm(formula = catch_estimate + 1 ~ status + historic_summer:status + 1 + historic_summer,  family=Gamma(link = "log"), data = Summer_north_aabm_no_nas)
-
-res_gam <- simulateResiduals(Summer_north_aabm_model_gamma_spec, plot = T, quantreg=T)
+res_gam <- simulateResiduals(models_combined$model_list$north_aabm_summer, plot = T, quantreg=T)
 
 ```
 
@@ -231,15 +215,7 @@ res_gam <- simulateResiduals(Summer_north_aabm_model_gamma_spec, plot = T, quant
 #| label: fig-nbcisbm-sum-residuals
 #| fig-cap: "Validation plots for NBC ISBM Summer model"
 
-Summer_north_isbm<-Sport_mark_rate_finescale_combined%>% filter(YEAR %in% c(2015:2023)) %>% filter(finescale_fishery_old == "NBC ISBM S")%>%
-  filter(season %in% c("summer"))
-Summer_north_isbm_no_nas<-Summer_north_isbm %>% drop_na(any_of(c("historic_summer", "status", "finescale_fishery_old", "season", "historic_effort")))
-write_rds(Summer_north_isbm_no_nas, "Summer_north_isbm_no_nas.RDS")
-
-#Chosen model
-Summer_north_isbm_model_full_gamma_spec<- glm(formula = catch_estimate + 1 ~ status + 1 + historic_summer,  family=Gamma(link = "log"), data = Summer_north_isbm_no_nas)
-res_spec <- simulateResiduals(Summer_north_isbm_model_full_gamma_spec, plot = T, quantreg=T)
-
+res_gam <- simulateResiduals(models_combined$model_list$north_isbm_summer, plot = T, quantreg=T)
 
 ```
 
@@ -249,18 +225,8 @@ res_spec <- simulateResiduals(Summer_north_isbm_model_full_gamma_spec, plot = T,
 #| label: fig-south-sf-residuals
 #| fig-cap: "Validation plots for BC South Spring and Fall model"
 
-### Data needed
-Season_south_sf<-Sport_mark_rate_finescale_combined %>%
-  filter(YEAR %in% c(2013:2023))%>%
-  filter(!str_detect(finescale_fishery, "CBC|NBC")) %>%
-  filter(season %in% c("spring", "fall"))
+res_gam <- simulateResiduals(models_combined$model_list$south_season, plot = T, quantreg=T)
 
-#Modelling comparisons need to be done on models with same # of NAs - so drop nas
-Season_south_no_nas<-Season_south_sf %>% drop_na(any_of(c("creel_plus_summer", "status", "finescale_fishery_old", "season")))
-
-Spring_fall_model<-  glm(formula =catch_estimate + 3 ~ finescale_fishery_old + season +   status + creel_plus_summer:finescale_fishery_old + creel_plus_summer:status +  finescale_fishery_old:season + 1 + creel_plus_summer,  family=Gamma(link = "log"), data = Season_south_no_nas)
-
-res_gam <- simulateResiduals(Spring_fall_model, plot = T, quantreg=T)
 ```
 
 ### Northern BC AABM Spring and Fall fisheries <br/>
@@ -269,15 +235,8 @@ res_gam <- simulateResiduals(Spring_fall_model, plot = T, quantreg=T)
 #| label: fig-nbcaabm-sf-residuals
 #| fig-cap: "Validation plots for NBC AABM Spring and Fall model"
 
-Season_north_aabm<-Sport_mark_rate_finescale_combined%>% filter(YEAR %in% c(2015:2023)) %>% filter(finescale_fishery_old == "NBC AABM S") %>%
-  filter(season %in% c("spring", "fall"))
-Season_north_aabm_no_nas<-Season_north_aabm %>% drop_na(any_of(c("historic_summer", "status", "finescale_fishery_old", "season", "historic_effort")))
+res_gam <- simulateResiduals(models_combined$model_list$south_season, plot = T, quantreg=T)
 
-
-###Chosen model
-North_aabm_model<- glm(formula = catch_estimate + 1 ~ season + status + historic_summer:season + 1 + historic_summer,  family=Gamma(link = "log"), data = Season_north_aabm_no_nas)
-
-res_gam <- simulateResiduals(North_aabm_model, plot = T, quantreg=T)
 ```
 
 ### Northern BC ISBM Spring and Fall fisheries <br/>
@@ -286,17 +245,7 @@ res_gam <- simulateResiduals(North_aabm_model, plot = T, quantreg=T)
 #| label: fig-nbcisbm-sf-residuals
 #| fig-cap: "Validation plots for NBC ISBM Spring and Fall model"
 
-
-Season_nbc_isbm<-Sport_mark_rate_finescale_combined%>% filter(YEAR %in% c(2015:2023)) %>% filter(finescale_fishery_old == "NBC ISBM S")%>%
-  filter(season %in% c("spring", "fall"))
-Season_nbc_isbm_no_nas<-Season_nbc_isbm %>% drop_na(any_of(c("historic_summer", "status", "finescale_fishery_old", "season", "historic_effort")))
-
-
-###Chosen model
-nbc_isbm_model_full_gamma_spec<- glm(formula = catch_estimate + 1 ~ season + status + season:status + 1 + historic_summer,  family=Gamma(link = "log"), data = Season_nbc_isbm_no_nas)
-
-res_gam_drop_kept_spec <- simulateResiduals(nbc_isbm_model_full_gamma_spec, plot = T, quantreg=T)
-
+res_gam <- simulateResiduals(models_combined$model_list$north_isbm_season, plot = T, quantreg=T)
 
 ```
 
@@ -306,15 +255,8 @@ res_gam_drop_kept_spec <- simulateResiduals(nbc_isbm_model_full_gamma_spec, plot
 #| label: fig-cbc-residuals
 #| fig-cap: "Validation plots for CBC model"
 
-Season_cbc_isbm<-Sport_mark_rate_finescale_combined%>% filter(YEAR %in% c(2015:2023)) %>% filter(finescale_fishery_old == "CBC S")
+res_gam <- simulateResiduals(models_combined$model_list$central_isbm, plot = T, quantreg=T)
 
-#Modelling comparisons need to be done on models with same # of NAs - so drop nas
-Season_cbc_isbm_no_nas<-Season_cbc_isbm %>% drop_na(any_of(c("historic_summer", "status")))
-
-#Chosen model:
-cbc_isbm_model_full_gamma_spec<- glm(formula = catch_estimate + 1 ~  status + 1 + historic_summer,  family=Gamma(link = "log"), data = Season_cbc_isbm_no_nas)
-
-res_gam_drop_kept_spec <- simulateResiduals(cbc_isbm_model_full_gamma_spec, plot = T, quantreg=T)
 ```
 
 \clearpage
@@ -326,16 +268,16 @@ res_gam_drop_kept_spec <- simulateResiduals(cbc_isbm_model_full_gamma_spec, plot
 create_facet_plot <- function(finescale_fishery_name, x_var, plot_data, model_data) {
   # Labels for facets
   status_labels <- c(
-    "marked_Kept_total" = "Marked Kept Total",
-    "marked_Released_total" = "Marked Released Total",
+    "marked_kept_total" = "Marked Kept Total",
+    "marked_released_total" = "Marked Released Total",
     "unmarked_Kept_total" = "Unmarked Kept Total",
     "unmarked_Released_total" = "Unmarked Released Total"
   )
   
   # Colors for status
   status_colors <- c(
-    "marked_Kept_total" = "#440154", 
-    "marked_Released_total" = "#31688e",
+    "marked_kept_total" = "#440154", 
+    "marked_released_total" = "#31688e",
     "unmarked_Kept_total" = "#35b779",
     "unmarked_Released_total" = "#d4be02"
   )
@@ -382,38 +324,44 @@ create_facet_plot <- function(finescale_fishery_name, x_var, plot_data, model_da
 ### Southern BC Summer fisheries
 
 ```{r forloop seasonal summer appendix, results='asis', echo=FALSE}
+south_summer_model <- models_combined$model_list$south_summer
+south_summer_no_nas <- south_summer_model$data
 
-family.set <- family(Summer_model)
-ilink.family.set<- family.set$linkinv
+family_set <- family(south_summer_model)
+ilink_family_set<- family_set$linkinv
 
-mod<-Summer_model
 
-ndata<-Summer_south_no_nas %>% group_by(status, finescale_fishery_old, finescale_fishery, season) %>%  tidyr::expand(creel_plus_summer = seq(0, max(creel_plus_summer), length=100))
+ndata <-
+  summer_south_no_nas %>% 
+  group_by(status, finescale_fishery, season) %>%  
+  tidyr::expand(creel_plus_summer = seq(0, max(creel_plus_summer), length=100)) %>%
   
+  
+  ## add the fitted values by predicting from the model for the new data
+  add_column(fit = predict(south_summer_model, 
+                           newdata = ., 
+                           type = 'response')) %>%
+  bind_cols(setNames(as_tibble(predict(south_summer_model, 
+                                       ., 
+                                       se.fit = TRUE)[1:2]),
+                     c('fit_link','se_link'))) %>%
+  mutate(fit_resp  = ilink_family_set(fit_link),
+         right_upr = ilink_family_set(fit_link + (2 * se_link)),
+         right_lwr = ilink_family_set(fit_link - (2 * se_link)))
 
-## add the fitted values by predicting from the model for the new data
-ndata<- add_column(ndata, fit = predict(mod, newdata = ndata, type = 'response'))
-ndata<- bind_cols(ndata, setNames(as_tibble(predict(mod, ndata, se.fit = TRUE)[1:2]),
-                                                   c('fit_link','se_link')))
-
-ndata <- mutate(ndata,
-                fit_resp  = ilink.family.set(fit_link),
-                right_upr = ilink.family.set(fit_link + (2 * se_link)),
-                right_lwr = ilink.family.set(fit_link - (2 * se_link)))
-
-fishery_name_south<- sort(unique(Summer_south_no_nas$finescale_fishery))
+fishery_name_south <- sort(unique(summer_south_no_nas$finescale_fishery))
 
 for (i in 1:length(fishery_name_south)){
-
-plot <- create_facet_plot(finescale_fishery_name = fishery_name_south[i], 
-                          x_var = "creel_plus_summer", 
-                          plot_data = Summer_south_no_nas, 
-                          model_data = ndata) +
-  ggtitle(paste(fishery_name_south[i])) + 
-  #changing the y lab
-  ylab("IREC-included catch estimate")
-
-print(plot)
+  
+  plot <- create_facet_plot(finescale_fishery_name = fishery_name_south[i], 
+                            x_var = "creel_plus_summer", 
+                            plot_data = summer_south_no_nas, 
+                            model_data = ndata) +
+    ggtitle(paste(fishery_name_south[i])) + 
+    #changing the y lab
+    ylab("IREC-included catch estimate")
+  
+  print(plot)
 }
 ```
 
@@ -421,36 +369,36 @@ print(plot)
 
 ```{r forloop seasonal spring and fall appendix, results='asis', echo=FALSE}
 
-family.set <- family(Spring_fall_model)
-ilink.family.set<- family.set$linkinv
+south_season_model <- models_combined$model_list$south_season
+south_season_no_nas <- south_season_model$data
 
-mod<-Spring_fall_model
+family_set <- family(south_season_model)
+ilink_family_set<- family_set$linkinv
 
-ndata<-Season_south_no_nas %>% group_by(status, finescale_fishery_old, finescale_fishery, season) %>%  tidyr::expand(creel_plus_summer = seq(0, max(creel_plus_summer), length=100))
-  
+ndata <-
+  south_season_no_nas %>% 
+  group_by(status, region_mgmt, finescale_fishery, season) %>%  
+  tidyr::expand(creel_plus_summer = seq(0, max(creel_plus_summer), length=100)) %>%
+  ## add the fitted values by predicting from the model for the new data
+  add_column(fit = predict(south_season_model, newdata = ., type = 'response')) %>%
+  bind_cols(setNames(as_tibble(predict(south_season_model, ., se.fit = TRUE)[1:2]),
+                     c('fit_link','se_link'))) %>%
+  mutate(fit_resp  = ilink_family_set(fit_link),
+         right_upr = ilink_family_set(fit_link + (2 * se_link)),
+         right_lwr = ilink_family_set(fit_link - (2 * se_link)))
 
-## add the fitted values by predicting from the model for the new data
-ndata<- add_column(ndata, fit = predict(mod, newdata = ndata, type = 'response'))
-ndata<- bind_cols(ndata, setNames(as_tibble(predict(mod, ndata, se.fit = TRUE)[1:2]),
-                                                   c('fit_link','se_link')))
 
-ndata <- mutate(ndata,
-                fit_resp  = ilink.family.set(fit_link),
-                right_upr = ilink.family.set(fit_link + (2 * se_link)),
-                right_lwr = ilink.family.set(fit_link - (2 * se_link)))
-
-
-fishery_name_south<- sort(unique(Season_south_no_nas$finescale_fishery))
+fishery_name_south<- sort(unique(season_south_no_nas$finescale_fishery))
 
 for (i in 1:length(fishery_name_south)){
-
-plot <- create_facet_plot(finescale_fishery_name = fishery_name_south[i], 
-                          x_var = "creel_plus_summer", 
-                          plot_data = Season_south_no_nas, 
-                          model_data = ndata) +
-  ggtitle(paste(fishery_name_south[i]))
-
-print(plot)
+  
+  plot <- create_facet_plot(finescale_fishery_name = fishery_name_south[i], 
+                            x_var = "creel_plus_summer", 
+                            plot_data = south_season_no_nas, 
+                            model_data = ndata) +
+    ggtitle(paste(fishery_name_south[i]))
+  
+  print(plot)
 }
 
 ```
@@ -459,37 +407,42 @@ print(plot)
 
 ```{r forloop NBC AABM seasonal spring and fall appendix, results='asis', echo=FALSE}
 
-family.set <- family(North_aabm_model)
-ilink.family.set<- family.set$linkinv
+north_aabm_season_model <- models_combined$model_list$north_aabm_season
+north_aabm_season_no_nas <- north_aabm_season_model$data
 
-mod<-North_aabm_model
+family_set <- family(north_aabm_season_model)
+ilink_family_set<- family_set$linkinv
 
-ndata<-Season_north_aabm_no_nas %>% group_by(status, finescale_fishery_old, finescale_fishery, season) %>%  tidyr::expand(historic_summer = seq(0, max(historic_summer), length=100))
+ndata <-
+  north_aabm_season_no_nas %>% 
+  group_by(status, finescale_fishery, season) %>%  
+  tidyr::expand(historic_summer = seq(0, max(historic_summer), length=100)) %>%
+  ## add the fitted values by predicting from the model for the new data
+  add_column(fit = predict(north_aabm_season_model, 
+                           newdata = ., 
+                           type = 'response')) %>%
+  bind_cols(setNames(as_tibble(predict(north_aabm_season_model, 
+                                       ., 
+                                       se.fit = TRUE)[1:2]),
+                     c('fit_link','se_link'))) %>%
+  
+  mutate(fit_resp  = ilink_family_set(fit_link),
+         right_upr = ilink_family_set(fit_link + (2 * se_link)),
+         right_lwr = ilink_family_set(fit_link - (2 * se_link)))
 
 
-## add the fitted values by predicting from the model for the new data
-ndata<- add_column(ndata, fit = predict(mod, newdata = ndata, type = 'response'))
-ndata<- bind_cols(ndata, setNames(as_tibble(predict(mod, ndata, se.fit = TRUE)[1:2]),
-                                                   c('fit_link','se_link')))
-
-ndata <- mutate(ndata,
-                fit_resp  = ilink.family.set(fit_link),
-                right_upr = ilink.family.set(fit_link + (2 * se_link)),
-                right_lwr = ilink.family.set(fit_link - (2 * se_link)))
-
-
-fishery_name_north_aabm<- sort(unique(Season_north_aabm_no_nas$finescale_fishery))
+fishery_name_north_aabm<- sort(unique(north_aabm_season_no_nas$finescale_fishery))
 
 
 for (i in 1:length(fishery_name_north_aabm)){
-
-plot <- create_facet_plot(finescale_fishery_name = fishery_name_north_aabm[i], 
-                          x_var = "historic_summer", 
-                          plot_data = Season_north_aabm_no_nas, 
-                          model_data = ndata) +
-  ggtitle(paste(fishery_name_north_aabm[i]))
-
-print(plot)
+  
+  plot <- create_facet_plot(finescale_fishery_name = fishery_name_north_aabm[i], 
+                            x_var = "historic_summer", 
+                            plot_data = north_aabm_season_no_nas, 
+                            model_data = ndata) +
+    ggtitle(paste(fishery_name_north_aabm[i]))
+  
+  print(plot)
 }
 ```
 
@@ -498,35 +451,42 @@ print(plot)
 ```{r forloop NBC ISBM seasonal spring and fall appendix, results='asis', echo=FALSE}
 
 
-family.set <- family(nbc_isbm_model_full_gamma_spec)
-ilink.family.set<- family.set$linkinv
+north_isbm_season_model <- models_combined$model_list$north_isbm_season
+north_isbm_season_no_nas <- north_isbm_season_model$data
 
-mod<-nbc_isbm_model_full_gamma_spec
+family_set <- family(north_isbm_season_model)
+ilink_family_set<- family_set$linkinv
 
-ndata<-Season_north_isbm_no_nas %>% group_by(status, finescale_fishery_old, finescale_fishery, season) %>%  tidyr::expand(historic_summer = seq(0, max(historic_summer), length=100))
+ndata <-
+  north_isbm_season_no_nas %>% 
+  group_by(status, finescale_fishery, season) %>%  
+  tidyr::expand(historic_summer = seq(0, max(historic_summer), length=100)) %>%
+  ## add the fitted values by predicting from the model for the new data
+  add_column(fit = predict(north_isbm_season_model, 
+                           newdata = ., 
+                           type = 'response')) %>%
+  bind_cols(setNames(as_tibble(predict(north_isbm_season_model, 
+                                       ., 
+                                       se.fit = TRUE)[1:2]),
+                     c('fit_link','se_link'))) %>%
+  
+  mutate(fit_resp  = ilink_family_set(fit_link),
+         right_upr = ilink_family_set(fit_link + (2 * se_link)),
+         right_lwr = ilink_family_set(fit_link - (2 * se_link)))
 
-## add the fitted values by predicting from the model for the new data
-ndata<- add_column(ndata, fit = predict(mod, newdata = ndata, type = 'response'))
-ndata<- bind_cols(ndata, setNames(as_tibble(predict(mod, ndata, se.fit = TRUE)[1:2]),
-                                                   c('fit_link','se_link')))
 
-ndata <- mutate(ndata,
-                fit_resp  = ilink.family.set(fit_link),
-                right_upr = ilink.family.set(fit_link + (2 * se_link)),
-                right_lwr = ilink.family.set(fit_link - (2 * se_link)))
+fishery_name_north_isbm<- sort(unique(north_isbm_season_no_nas$finescale_fishery))
 
-
-fishery_name_north_isbm<- sort(unique(Season_north_isbm_no_nas$finescale_fishery))
 
 for (i in 1:length(fishery_name_north_isbm)){
-
-plot <- create_facet_plot(finescale_fishery_name = fishery_name_north_isbm[i], 
-                          x_var = "historic_summer", 
-                          plot_data = Season_north_isbm_no_nas, 
-                          model_data = ndata) +
-  ggtitle(paste(fishery_name_north_isbm[i]))
-
-print(plot)
+  
+  plot <- create_facet_plot(finescale_fishery_name = fishery_name_north_isbm[i], 
+                            x_var = "historic_summer", 
+                            plot_data = north_isbm_season_no_nas, 
+                            model_data = ndata) +
+    ggtitle(paste(fishery_name_north_isbm[i]))
+  
+  print(plot)
 }
 ```
 
