@@ -7,17 +7,14 @@
 ```{r methods strattab, echo=FALSE, message=FALSE, warning=FALSE}
 #| label: strattab
 
-sport_mark_rate_finescale <- wrangle_rec_catch2("pacRecCatch_db.yaml", by="area")
-
 strat_table <- 
-  sport_mark_rate_finescale %>% 
-  select(finescale_fishery, area, month) %>% 
-  unique() %>% 
+  sport_catch_area |> 
+  distinct(finescale_fishery, area, month) |>
   arrange(finescale_fishery,  area, month)
 
 fishery_map <-
-  sport_mark_rate_finescale %>% 
-  distinct(region, management, finescale_fishery) %>%
+  sport_catch_area |>
+  distinct(region, management, finescale_fishery) |>
   mutate(erafishery = case_when(
     region %in% c("SWCVI", "NWCVI") & management == "AABM" ~ "WCVI AABM S",
     region %in% c("NGS", "SGS") ~  "GEO ST S",
@@ -33,16 +30,16 @@ fishery_map <-
   distinct()
 
 strat_table <- 
-  strat_table %>% 
-  left_join(fishery_map) %>% 
-  arrange(erafishery) %>% 
-  relocate(erafishery) %>%
-  group_by(finescale_fishery) %>% 
+  strat_table |>
+  left_join(fishery_map) |>
+  arrange(erafishery) |> 
+  relocate(erafishery) |>
+  group_by(finescale_fishery) |>
   mutate(month_category = case_when(
     finescale_fishery == "CBC S" ~ "1:12",
-    finescale_fishery == "NWCVI S SUMMER AABM" & area %in% c("Area 25", "Area 26", "Area 27") ~ "5:6",
+    finescale_fishery == "NWCVI S SUMMER AABM" & area %in% c("25", "26", "27") ~ "5:6",
     finescale_fishery == "NWCVI S SUMMER ISBM"  ~ "7:9",
-    finescale_fishery == "SWCVI S SUMMER AABM" & area %in% c("Area 21", "Area 23", "Area 23 (Alberni Canal)", "Area 23 (Barkley)", "Area 24") ~ "5:7",
+    finescale_fishery == "SWCVI S SUMMER AABM" & area %in% c("21", "23", "23 (Alberni Canal)", "23 (Barkley)", "24") ~ "5:7",
     finescale_fishery == "SWCVI S SUMMER ISBM"  ~ "8:9",
     month %in% c(10,11,12) ~ "10:12", 
     month %in% c(1:4) ~ "1:4", 
@@ -50,7 +47,7 @@ strat_table <-
     month %in% c(7:8) ~ "7:8",
     TRUE ~ "NA"
   )) %>% 
-  dplyr::select(-month) %>% 
+  select(-month) %>% 
   unique() %>% 
   drop_na() %>% 
   rename("ERA Fishery" = erafishery,  
@@ -78,13 +75,9 @@ strat_table <-
 #| label: fig-catch-revised-1-appendix
 #| fig-cap: "Revised yearly kept catch estimates"
 
-
-models_combined <- pacRecCatch::model_rec_catch2(sport_mark_rate_finescale_combined)
-
-
 ### make this by finescale fishery old... sum up. 
 models_combined_old<-
-  models_combined$model_catch |>
+  sport_catch_models$model_catch |>
   filter(region %notin% c("CBC", "NC")) |>
   mutate(region_mgmt = if_else(region %in% c("SWCVI", "NWCVI"),
                                paste(region, management),
@@ -97,7 +90,8 @@ fishery_name_south <- sort(unique(models_combined_old$region_mgmt))
 
 
 for (i in 1:length(fishery_name_south)){
-  graph_data <- models_combined_old  %>% 
+  graph_data <- 
+    models_combined_old  %>% 
     filter(region_mgmt == fishery_name_south[i],
            year %in% c(2013:2023),
            kept_status == "Kept") %>%
@@ -125,9 +119,7 @@ for (i in 1:length(fishery_name_south)){
     ylab("Kept catch estimate") + 
     xlab("Year") +
     labs(linetype = "Catch Estimate", shape = "Catch Estimate")
-  
-  
-  
+
   print(m)
 }
 ```
@@ -140,7 +132,7 @@ for (i in 1:length(fishery_name_south)){
 
 ### make this by finescale fishery old... sum up. 
 models_combined_old2 <-
-  models_combined$model_catch |>
+  sport_catch_models$model_catch |>
   filter(region %in% c("CBC", "NC")) |>
   mutate(region_mgmt = if_else(region == "NC",
                                paste(region, management),
@@ -149,7 +141,6 @@ models_combined_old2 <-
   summarise(across(where(is.double), sum, na.rm = TRUE), .groups = "drop")
 
 fishery_name_north<- sort(unique(models_combined_old2$region_mgmt))
-
 
 for (i in 1:length(fishery_name_north)) {
   graph_data <- 
@@ -196,7 +187,7 @@ for (i in 1:length(fishery_name_north)) {
 #| label: fig-south-sum-residuals
 #| fig-cap: "Validation plots for BC South Summer model"
 
-res_gam <- simulateResiduals(models_combined$model_list$south_summer, plot = T, quantreg=T)
+res_gam <- simulateResiduals(sport_catch_models$model_list$south_summer, plot = T, quantreg=T)
 ```
 
 ### Northern BC AABM Summer fisheries <br/>
@@ -205,7 +196,7 @@ res_gam <- simulateResiduals(models_combined$model_list$south_summer, plot = T, 
 #| label: fig-nbcaabm-sum-residuals
 #| fig-cap: "Validation plots for NBC AABM Summer model"
 
-res_gam <- simulateResiduals(models_combined$model_list$north_aabm_summer, plot = T, quantreg=T)
+res_gam <- simulateResiduals(sport_catch_models$model_list$north_aabm_summer, plot = T, quantreg=T)
 
 ```
 
@@ -215,7 +206,7 @@ res_gam <- simulateResiduals(models_combined$model_list$north_aabm_summer, plot 
 #| label: fig-nbcisbm-sum-residuals
 #| fig-cap: "Validation plots for NBC ISBM Summer model"
 
-res_gam <- simulateResiduals(models_combined$model_list$north_isbm_summer, plot = T, quantreg=T)
+res_gam <- simulateResiduals(sport_catch_models$model_list$north_isbm_summer, plot = T, quantreg=T)
 
 ```
 
@@ -225,7 +216,7 @@ res_gam <- simulateResiduals(models_combined$model_list$north_isbm_summer, plot 
 #| label: fig-south-sf-residuals
 #| fig-cap: "Validation plots for BC South Spring and Fall model"
 
-res_gam <- simulateResiduals(models_combined$model_list$south_season, plot = T, quantreg=T)
+res_gam <- simulateResiduals(sport_catch_models$model_list$south_season, plot = T, quantreg=T)
 
 ```
 
@@ -235,7 +226,7 @@ res_gam <- simulateResiduals(models_combined$model_list$south_season, plot = T, 
 #| label: fig-nbcaabm-sf-residuals
 #| fig-cap: "Validation plots for NBC AABM Spring and Fall model"
 
-res_gam <- simulateResiduals(models_combined$model_list$south_season, plot = T, quantreg=T)
+res_gam <- simulateResiduals(sport_catch_models$model_list$north_aabm_season, plot = T, quantreg=T)
 
 ```
 
@@ -245,7 +236,7 @@ res_gam <- simulateResiduals(models_combined$model_list$south_season, plot = T, 
 #| label: fig-nbcisbm-sf-residuals
 #| fig-cap: "Validation plots for NBC ISBM Spring and Fall model"
 
-res_gam <- simulateResiduals(models_combined$model_list$north_isbm_season, plot = T, quantreg=T)
+res_gam <- simulateResiduals(sport_catch_models$model_list$north_isbm_season, plot = T, quantreg=T)
 
 ```
 
@@ -255,7 +246,7 @@ res_gam <- simulateResiduals(models_combined$model_list$north_isbm_season, plot 
 #| label: fig-cbc-residuals
 #| fig-cap: "Validation plots for CBC model"
 
-res_gam <- simulateResiduals(models_combined$model_list$central_isbm, plot = T, quantreg=T)
+res_gam <- simulateResiduals(sport_catch_models$model_list$central_isbm, plot = T, quantreg=T)
 
 ```
 
@@ -324,7 +315,7 @@ create_facet_plot <- function(finescale_fishery_name, x_var, plot_data, model_da
 ### Southern BC Summer fisheries
 
 ```{r forloop seasonal summer appendix, results='asis', echo=FALSE}
-south_summer_model <- models_combined$model_list$south_summer
+south_summer_model <- sport_catch_models$model_list$south_summer
 south_summer_no_nas <- south_summer_model$data
 
 family_set <- family(south_summer_model)
@@ -332,7 +323,7 @@ ilink_family_set<- family_set$linkinv
 
 
 ndata <-
-  summer_south_no_nas %>% 
+  south_summer_no_nas %>% 
   group_by(status, finescale_fishery, season) %>%  
   tidyr::expand(creel_plus_summer = seq(0, max(creel_plus_summer), length=100)) %>%
   
@@ -349,13 +340,13 @@ ndata <-
          right_upr = ilink_family_set(fit_link + (2 * se_link)),
          right_lwr = ilink_family_set(fit_link - (2 * se_link)))
 
-fishery_name_south <- sort(unique(summer_south_no_nas$finescale_fishery))
+fishery_name_south <- sort(unique(south_summer_no_nas$finescale_fishery))
 
 for (i in 1:length(fishery_name_south)){
   
   plot <- create_facet_plot(finescale_fishery_name = fishery_name_south[i], 
                             x_var = "creel_plus_summer", 
-                            plot_data = summer_south_no_nas, 
+                            plot_data = south_summer_no_nas, 
                             model_data = ndata) +
     ggtitle(paste(fishery_name_south[i])) + 
     #changing the y lab
@@ -369,7 +360,7 @@ for (i in 1:length(fishery_name_south)){
 
 ```{r forloop seasonal spring and fall appendix, results='asis', echo=FALSE}
 
-south_season_model <- models_combined$model_list$south_season
+south_season_model <- sport_catch_models$model_list$south_season
 south_season_no_nas <- south_season_model$data
 
 family_set <- family(south_season_model)
@@ -388,7 +379,7 @@ ndata <-
          right_lwr = ilink_family_set(fit_link - (2 * se_link)))
 
 
-fishery_name_south<- sort(unique(season_south_no_nas$finescale_fishery))
+fishery_name_south<- sort(unique(south_season_no_nas$finescale_fishery))
 
 for (i in 1:length(fishery_name_south)){
   
@@ -407,7 +398,7 @@ for (i in 1:length(fishery_name_south)){
 
 ```{r forloop NBC AABM seasonal spring and fall appendix, results='asis', echo=FALSE}
 
-north_aabm_season_model <- models_combined$model_list$north_aabm_season
+north_aabm_season_model <- sport_catch_models$model_list$north_aabm_season
 north_aabm_season_no_nas <- north_aabm_season_model$data
 
 family_set <- family(north_aabm_season_model)
@@ -451,7 +442,7 @@ for (i in 1:length(fishery_name_north_aabm)){
 ```{r forloop NBC ISBM seasonal spring and fall appendix, results='asis', echo=FALSE}
 
 
-north_isbm_season_model <- models_combined$model_list$north_isbm_season
+north_isbm_season_model <- sport_catch_models$model_list$north_isbm_season
 north_isbm_season_no_nas <- north_isbm_season_model$data
 
 family_set <- family(north_isbm_season_model)

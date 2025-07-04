@@ -4,15 +4,6 @@
 
 ```{r results loading data, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 
-sport_mark_rate_finescale_combined <- wrangle_rec_catch2("pacRecCatch_db.yaml", by="fishery", most_recent_data_year=2023)
-
-sport_mark_rate_finescale <- wrangle_rec_catch2("pacRecCatch_db.yaml", by="area", most_recent_data_year=2023)
-
-
-models_combined <- model_rec_catch2(sport_mark_rate_finescale_combined, most_recent_data_year=2023)
-
-
-sport_mark_rate_mrr_corrected <- get_release_rates(models_combined, sport_mark_rate_finescale)
 
 ```
 
@@ -27,7 +18,7 @@ We found that catch estimates that included iREC data were broadly higher than p
 
 ### make this by finescale fishery old... sum up. 
 jdf_graph_data <-   
-  models_combined$model_catch |> 
+  sport_catch_models$model_catch |> 
   filter(region == "JDF",
          between(year, 2013, 2023),
          kept_status == "kept") |>
@@ -151,7 +142,7 @@ Figure \@ref(fig:fig-jdf-summer-model) shows an example of the Summer model resu
 #| fig-cap: "Southern BC Summer fishery modelled relationship between concentrated summertime unfiltered creel estimate (months 7 and 8) and total catch estimate including iREC in summer months (5-9). Data points are yearly estimates from 2013 to 2023."
 
 
-summer_model<- models_combined$model_list$south_summer
+summer_model<- sport_catch_models$model_list$south_summer
 summer_south_no_nas <- summer_model$data
 
 
@@ -208,7 +199,7 @@ Figure \@ref(fig:fig-nbcaabm-summer-model) shows the summer model results in NBC
 
 
 ###Chosen model
-summer_north_aabm_model <- models_combined$model_list$north_aabm_summer
+summer_north_aabm_model <- sport_catch_models$model_list$north_aabm_summer
 
 family_set <- family(summer_north_aabm_model)
 ilink_family_set <- family_set$linkinv
@@ -256,7 +247,7 @@ Figure \@ref(fig:fig-nbcisbm-summer-model) shows the summer model results in NBC
 #| fig-cap: "NBC ISBM modelled results for Summer fishery"
 
 #Chosen model
-summer_north_isbm_model <- models_combined$model_list$north_isbm_summer
+summer_north_isbm_model <- sport_catch_models$model_list$north_isbm_summer
 
 family_set <- family(summer_north_isbm_model)
 ilink_family_set<- family_set$linkinv
@@ -304,7 +295,7 @@ Figure \@ref(fig:fig-jdf-fall-model) shows an example of the Spring/Fall model r
 #| label: fig-jdf-fall-model
 #| fig-cap: "Southern BC modelled results for Spring/Fall fishery"
 
-spring_fall_model <- models_combined$model_list$south_season
+spring_fall_model <- sport_catch_models$model_list$south_season
 season_south_no_nas <- spring_fall_model$data
 
 family_set <- family(spring_fall_model)
@@ -353,7 +344,7 @@ Figure \@ref(fig:fig-nbcaabm-fall-model) shows an example of the Fall model resu
 #| fig-cap: "NBC AABM modelled results for Spring/Fall fishery"
 
 ###Chosen model
-season_north_aabm_model <- models_combined$model_list$north_aabm_season
+season_north_aabm_model <- sport_catch_models$model_list$north_aabm_season
 season_north_aabm_no_nas <- season_north_aabm_model$data
 
 
@@ -404,7 +395,7 @@ Figure \@ref(fig:fig-nbcisbm-fall-model) shows an example of the model results i
 #| fig-cap: "NBC ISBM modelled results for Fall fishery"
 
 
-season_nbc_isbm_model <- models_combined$model_list$north_isbm_season
+season_nbc_isbm_model <- sport_catch_models$model_list$north_isbm_season
 season_north_isbm_no_nas <- season_nbc_isbm_model$data
 
 family_set <- family(season_nbc_isbm_model)
@@ -453,7 +444,7 @@ Figure \@ref(fig:fig-cbc-model) shows the CBC model results. Generally for low c
 #| fig-cap: "CBC modelled results for year round fishery"
 
 
-season_cbc_isbm_model <- models_combined$model_list$central_isbm
+season_cbc_isbm_model <- sport_catch_models$model_list$central_isbm
 
 #Modelling comparisons need to be done on models with same # of NAs - so drop nas
 season_cbc_isbm_no_nas <- season_cbc_isbm_model$data
@@ -499,7 +490,6 @@ We used the sport head recovery program to validate the model results.
 ```{r results Loading packages, useful functions, echo=FALSE}
 
 #utils
-sport_catch <- sport_mark_rate_finescale_combined
 head_df <-  pacRecCatch::get_head_totals()
 
 lm_eqn <- function(df){
@@ -510,13 +500,13 @@ lm_eqn <- function(df){
                         b = format(unname(coef(m)[2]), digits = 3),
                         r2 = format(summary(m)$r.squared, digits = 3),
                         df_n = nrow(df)))
-  as.character(as.expression(eq));
+  as.character(as.expression(eq))
 }
 
 models_combined2 <-
-  models_combined$model_catch |>
+  sport_catch_models$model_catch |>
   mutate(finescale_fishery = if_else(grepl("NWCVI|SWCVI", finescale_fishery), 
-                                     trimws(gsub(" ISBM|AABM", "", finescale_fishery)),
+                                     trimws(gsub(" ISBM| AABM", "", finescale_fishery)),
                                      finescale_fishery)) |>
   group_by(year, status, finescale_fishery, season, mark_status, kept_status) |>
   summarize(catch_estimate_predicted = sum(catch_estimate_predicted, na.rm=TRUE),
@@ -525,7 +515,7 @@ models_combined2 <-
 head_df <-
   head_df |>
   mutate(region = if_else(grepl("NWCVI|SWCVI", region), 
-                          trimws(gsub(" ISBM|AABM", "", region)),
+                          trimws(gsub(" ISBM| AABM", "", region)),
                           region)) |>
   group_by(year, region) |>
   summarize(head_total = sum(head_total, na.rm=TRUE),
@@ -548,6 +538,8 @@ head_catch_model_df <-
 ```
 
 *Note: sentence here about what the plots show*
+
+As CWT stratification is based on (CWT map reference)
 
 Figure \@ref(fig:fig-heads-kept-current) shows ...
 
@@ -583,10 +575,13 @@ ggplot(data = pre_irec_catch_model_df,
        aes(x=catch_estimate_predicted, y=head_total)) +
   geom_point(size=2) +
   geom_smooth(method='lm', formula= y~x + 0) +
-  geom_text(x = 500, y = eq_y_pos, label = lm_eqn(pre_irec_catch_model_df), parse = TRUE, hjust=0, vjust=0) +
+  geom_text(x = 500, 
+            y = eq_y_pos, 
+            label = lm_eqn(pre_irec_catch_model_df), parse = TRUE, hjust=0, vjust=0) +
   ggtitle("Before iRec Chinook Head to Clipped Catch") +
   xlab("Chinook Kept Adclipped Catch") + 
-  ylab("Chinook Head Recoveries")+theme_bw()
+  ylab("Chinook Head Recoveries")+
+  theme_bw()
 
 
 ```
@@ -602,16 +597,19 @@ post_irec_catch_model_df <-
   head_catch_model_df |>
   filter(year >= 2013)
 
-eq_y_pos <- max(post_irec_catch_model_df$head_total, na.rm=0) * 0.9
+eq_y_pos <- max(post_irec_catch_model_df$head_total, na.rm= TRUE) * 0.9
 
 ggplot(data = post_irec_catch_model_df,
        aes(x=catch_estimate_predicted, y=head_total)) +
   geom_point(size=2) +
   geom_smooth(method='lm', formula= y~x + 0) +
-  geom_text(x = 500, y = eq_y_pos, label = lm_eqn(post_irec_catch_model_df), parse = TRUE, hjust=0, vjust=0) +
+  geom_text(x = 500, 
+            y = eq_y_pos, 
+            label = lm_eqn(post_irec_catch_model_df), parse = TRUE, hjust=0, vjust=0) +
   ggtitle("iRec Chinook Head to Clipped Catch") +
   xlab("Chinook Kept Adclipped Catch") + 
-  ylab("Chinook Head Recoveries")+theme_bw()
+  ylab("Chinook Head Recoveries")+
+  theme_bw()
 
 ```
 
@@ -671,7 +669,8 @@ Figure \@ref(fig:fig-fishery-rates-preirec) shows ...
 #| fig-cap: "Before Irec Chinook Head Submission Rates"
 
 
-region_df <- pre_irec_catch_model_df %>%
+region_df <-
+  pre_irec_catch_model_df %>%
   #extract the first + second word in the fishery column so I can facet by "general" region
   mutate(region_ish = word(finescale_fishery, 1, 2)) %>%
   #season is the last word
@@ -720,10 +719,10 @@ The revised estimates will be incorporated into CTC reports starting in 2025. Bo
 cnr_canada_sport <- 
   read.csv("data/cnr_canada_sport.csv") %>% 
   as_tibble() %>% 
-  filter(year>2004)
+  filter(year > 2004)
 
 fishery_map <-
-  models_combined$model_catch %>% 
+  sport_catch_models$model_catch %>% 
   select(region, management) %>%
   mutate(erafishery = case_when(
     region %in% c("SWCVI", "NWCVI") & management == "AABM" ~ "WCVI AABM S",
@@ -743,7 +742,7 @@ cnr_canada_sport <-
   full_join(fishery_map, by= "erafishery", relationship = "many-to-many")
 
 sport_mark_rate_mrr <- 
-  sport_mark_rate_mrr_corrected %>% 
+  sport_release_rates %>% 
   left_join(cnr_canada_sport) %>%
   mutate(kept_total = marked_kept_total + unmarked_kept_total,
          released_total = marked_released_total + unmarked_released_total)
@@ -829,7 +828,8 @@ ggplot() +
   geom_line(data=new_cwt_est, aes(y=cwt_estimate, x=run_year, col="lightblue4"))+
   geom_point(data=prev_cwt_est, aes(y=cwt_estimate, x=run_year, col="lightgreen")) + 
   geom_line(data=prev_cwt_est, aes(y=cwt_estimate, x=run_year, col="lightgreen"))+
-  scale_color_manual(values=c( "lightblue4", "lightgreen"),  labels = c("Revised estimates", "2024 CWT Estimates"))+
+  scale_color_manual(values=c( "lightblue4", "lightgreen"),
+                     labels = c("Revised estimates", "2024 CWT Estimates"))+
   ylab("CWT Estimate (All Indicators)")+
   xlab("Run Year")+
   facet_wrap(~fishery, scales = "free", ncol=4)+

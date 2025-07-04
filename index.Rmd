@@ -161,4 +161,16 @@ library(sf)
 #utils
 "%notin%" <- Negate("%in%")
 
+
+sport_catch_area <- 
+  wrangle_rec_catch2("pacRecCatch_db.yaml", by="area", most_recent_data_year=2023)
+
+sport_catch_finescale <- 
+  wrangle_rec_catch2("pacRecCatch_db.yaml", by="fishery", most_recent_data_year=2023)
+
+sport_catch_models <- model_rec_catch2(sport_catch_finescale, most_recent_data_year=2023)
+
+sport_release_rates <- get_release_rates(sport_catch_models, sport_catch_area)
+
+
 ```

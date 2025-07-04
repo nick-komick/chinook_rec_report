@@ -9,7 +9,7 @@ output:
 
 ## Revised Chinook catch estimates from 2013-present
 
-Since the introduction of iREC in 2013, there has been different methods to combining Chinook catch estimates from the survey with creel and log books recreational catch estimates. The primary purpose of revising recreational catch estimates is to incorporate the different sources of catch into a single standardized set of recreational catch for all Pacific Region marine waters.
+Since the introduction of iREC in 2013, there has been different methods to combining Chinook catch estimates from the survey with creel and log books recreational catch estimates. The primary purpose of revising recreational catch estimates is to incorporate the different sources of catch into a single standardized set of recreational catch estimates for all Pacific Region marine waters.
 
 ### Background on survey methods
 
@@ -19,21 +19,20 @@ We first provide a brief background on the regionally-specific creel and logbook
 #| label: fig-PFMA
 #| fig-cap: "Pacific Fishery Management Areas"
 
-fig1_path <- paste0("data/PFMA.png")
+fig1_path <- "data/PFMA.png"
 
 knitr::include_graphics(c(fig1_path))
 ```    
 
 #### South Coast Catch Estimation (Kris/Rob to review this section)
 
-South Coast catch estimation is a combination of creel surveys and logbooks from both guides and avid angler programs. The South Coast Creel Survey (SCCS), run by the DFO, began in the early 1980s was limited to Strait of Georgia recreational fisheries. It has since expanded in scope to survey PFMAs 10 to 27, including offshore areas (those with IDs in the 100s). The surveys are conducted in the summer months, however some spring and fall surveys occur in specific areas. The survey involves dock-side fisher interviews to capture catch rates and aerial surveys for effort counts. Raw estimates and uncertainty are expanded to cover a given month and area (typically PFMA). Currently, this program estimates
+South Coast catch estimation is a combination of creel surveys and logbooks from both guides and avid angler programs. The South Coast Creel Survey (SCCS), run by the DFO, began in the early 1980s and was limited to Strait of Georgia recreational fisheries. It has since expanded in scope to survey PFMAs 10 to 27, including offshore areas (those with PFMA IDs in the 100s). The surveys are conducted in the summer months, however some spring and fall surveys occur in specific areas. The survey involves dock-side fisher interviews to capture catch rates and aerial surveys for effort counts. Raw estimates and uncertainty are expanded to cover a given month and area (typically PFMA). Currently, this program estimates the following:
 
 * Sub-legal sized release catch
 * Legal sized released catch based on adipose-clip status (e.g clipped/marked and unclipped/unmarked)
 * Legal sized kept catch based on adipose-clip status (e.g clipped/marked and unclipped/unmarked)
 
-
-and unclipped (ie unmarked) fish. In the past, kept fish with unknown adipose clip status were expanded to marked and unmarked using a monthly mark rate and to kept and released using a monthly release rate. For more information and methods about the SCCS, see the most recent program overview and bulletins, found [here](https://cat.fsl-bsf.scitech.gc.ca/record=b4125212~S1) (*Cite: South coast assessment bulletin, program overview 2024*). While the SCCS is the primary source of data for the South Coast, logbook data from guides and avid angler programs are provided on a voluntary basis and are removed from area and month-specific estimates of the creel survey to avoid double-counting.
+In the past, kept catch with unknown adipose clip status were split to marked and unmarked using a monthly mark rate and to kept and released using a monthly release rate. For more information and methods about the SCCS, see the most recent program overview and bulletins, found [here](https://cat.fsl-bsf.scitech.gc.ca/record=b4125212~S1) (*Cite: South coast assessment bulletin, program overview 2024*). While the SCCS is the primary source of data for the South Coast, logbook data from guides and avid angler programs are provided on a voluntary basis and are removed from area and month-specific estimates of the creel survey to avoid double-counting.
 
 ##### South Coast Creel Survey quality control
 
@@ -81,8 +80,6 @@ Creel_month_PFMA_passed <-
   mutate(across(where(is.numeric), ~na_if(., 0))) |>
   filter(area %notin% c("3", "4"))
 
-
-
 ggplot() +
   geom_tile(data=Creel_month_PFMA_passed, aes(x=year, y=as.factor(month), fill = val),colour = "white") +
   scale_fill_gradient(low = col1, high = col2,  na.value = colclear, limits=c(0,20000)) +
@@ -111,7 +108,7 @@ ggplot() +
 
 #### Central Coast Catch Estimation - *Chelsea to review/expand this section*
 
-Central Coast catch estimation is exclusively logbook data from lodges. The PFMAs included in central coast are 6, 7, 8, 9 and their outer counterparts 106, 107, 108, 109. This data is typically not by marked and kept status so those distinctions need to be reconstructed using mark rate and release rates.
+Central Coast catch estimation is exclusively logbook data from lodges. The PFMAs included in central coast are 6, 7, 8, 9, 10 and their outer counterparts 106, 107, 108, 109, 110. This data is typically not by marked and kept status so those distinctions need to be reconstructed using mark rate and release rates.
 
 -   *Do they adjust the catch for like 80% of lodges reported for eg. I.e. is this NOT an expanded estimate?*
 
@@ -119,7 +116,7 @@ Central Coast catch estimation is exclusively logbook data from lodges. The PFMA
 
 #### North Coast Catch Estimation - *Chelsea and Jessica to review/expand*
 
-The North Coast catch estimation is a combination of independently-run creel programs and logbook data. Northern BC Abundance Based Fishery is comprised of PFMAs 1, 2 (East and West), 101, 102, 142. It is a combination of the Haida creel program and lodge-submitted logbooks. NBC ISBM is comprised of the Skeena creel program and logbooks run in PFMAs 3 and 4 (and 103, 104). Technically PFMA 5 and 105 is included in this category but there is no data from Area 5. Data for before 2008 is not available. As in Central coast, typically this data is typically not collected by marked and kept status so those distinctions need to be reconstructed using mark rates and release rates.
+The North Coast catch estimation is a combination of independently-run creel programs and logbook data. Northern BC (NBC) Abundance Based Fishery is comprised of PFMAs 1, 2 (East and West), 101, 102, 142. It is a combination of the Haida creel program and lodge-submitted logbooks. NBC ISBM is comprised of the Skeena creel program and logbooks run in PFMAs 3 and 4 (and 103, 104). Technically PFMA 5 and 105 is included in this category but there is no data from Area 5. Data for before 2008 is not available. As in Central coast, typically this data is typically not collected by marked and kept status so those distinctions need to be reconstructed using mark rates and release rates.
 
 -   *North coast description of standalone programs - expand on the Haida creel and the 3/4 creel details, who are they run by, when the programs were started, when are they typically run (time of year).*
 -   *description of how creel and logbook are combined*
@@ -132,7 +129,7 @@ The North Coast catch estimation is a combination of independently-run creel pro
 
 The mandatory internet recreational effort and catch (iREC) survey is a recent method for estimating recreational fishing effort and catch in Pacific Region tidal waters. The iREC survey annually provides catch estimates and associated precision across all tidal water Pacific Fishery Management Areas (PFMA's), licenced fishing methods, species and fates (retained or released) at a monthly resolution (Houtman et al, 2015). For all fishing methods besides boat-based angling -- specifically angling from shore, shellfish trapping from boat or shore, beach collecting, hand picking, diving, and other methods -- these are the first estimates available.
 
-Despite this potential bias, the iREC estimates are currently used, in a relative way, to prioritize the allocation of resources of creel surveys. Creel surveys are funded through contributions from Science (Salmon Stock Assessment) and Fisheries Management branches of Fisheries and Oceans Canada, ostensibly for the estimation of recreational salmon and Halibut catches although estimates for other finfish species are made. The iREC estimates of catch of these two species, along with boat-based recreational angling effort, are used to rank the most important month and area combinations for creel survey allocation purposes. Currently, creel surveys are focused on only those month -- area combinations contributing the highest combined retained catches of Chinook Salmon and Halibut. In times and locations where fishing effort and catch of these important species are low, creel surveys are not currently conducted (Houtman et al. 2015). In fact, for many month -- PFMA combinations, creel surveys or other recreational monitoring approaches have never been used to estimate recreational fishing effort or catch. The apparent bias in iREC estimates could result from numerous sources. With an invitational fisher-dependent survey of this type, there is potential that the respondents to the survey are not representative of all licenced fishers. Such 'response bias' could result from differential response rates by successful or unsuccessful fishers, active or inactive fishers, people who tend to inaccurately report their catch for prestige or strategic reasons as well as problems with recalling the details of their fishing activity. The survey is designed to minimize bias where possible, but not all sources of bias can be completely addressed through design or education. Without a source of alternative estimates of high accuracy, the overall magnitude and direction of bias is difficult to quantify.
+Despite this potential bias, the iREC estimates are currently used, in a relative way, to prioritize the allocation of resources of creel surveys. Creel surveys are funded through contributions from Science (Salmon Stock Assessment) and Fisheries Management branches of Fisheries and Oceans Canada, ostensibly for the estimation of recreational salmon and Halibut catches although estimates for other finfish species are made. The iREC estimates of salmon and halibut catch, along with boat-based recreational angling effort, are used to rank the most important month and area combinations for creel survey allocation purposes. Currently, creel surveys are focused on month -- area combinations contributing the highest combined retained catches of Chinook Salmon and Halibut. In times and locations where fishing effort and catch of these important species are low, creel surveys are not currently conducted (Houtman et al. 2015). In fact, for many month -- PFMA combinations, creel surveys or other recreational monitoring approaches have never been used to estimate recreational fishing effort or catch. 
 
 ##### Survey License Selection
 
@@ -151,6 +148,8 @@ At the beginning of the iRec survey in 2012, licences were selected monthly afte
 Total annual catch estimates of boat-based angling would thus be equal to the sum of estimates from creel surveys for all months and areas where they occurred plus the iREC\* estimates for all months and areas where they did not. Despite the apparent simplicity of this calibration approach, there are outstanding issues regarding the use of creel survey estimates to calibrate iREC estimates; three of which we address here. First, creel surveys vary in sampling intensity and spatial and temporal coverage even with a particular month -- area estimate strata. This variability in the 'quality' of creel estimates (both in terms of accuracy and precision) may adversely affect calibration of iREC estimates. Second, variability in the relative strength and direction of "response bias" may influence the spatial or temporal patterns of bias in iREC estimates, with important implications for calibration. Finally, we combine information about the previous two issues to make recommendations about where, when and how to conduct relatively costly creel surveys to maximize their calibration value.
 
 ##### iRec to Creel Calibration
+
+The apparent bias in iREC estimates could result from numerous sources. With an invitational fisher-dependent survey of this type, there is potential that the respondents to the survey are not representative of all licenced fishers. Such 'response bias' could result from differential response rates by successful or unsuccessful fishers, active or inactive fishers, people who tend to inaccurately report their catch for prestige or strategic reasons as well as problems with recalling the details of their fishing activity. The survey is designed to minimize bias where possible, but not all sources of bias can be completely addressed through design or education. Without a source of alternative estimates of high accuracy, the overall magnitude and direction of bias is difficult to quantify.
 
 *moved this section back to under the "irec" section*
 
@@ -183,17 +182,21 @@ model.jags <- function() {
 
 -   *Forced through the origin (need background?)*
 
-### Combining survey methods for best catch estimates (2013 - present)
+### Combining survey methods for best catch estimates
 
-In the past, iREC has been incorporated into domestic catch estimation products in various ways, though an infilling method (not described here) for South Coast products, and at a high stratification level for the CTC's catch and escapement report. Neither of these methods were robust or systematic approaches to incorporating iREC at the finest scale possible. Here, we outline a systematic method for combining survey methods to obtain the best catch estimate in a given month and PFMA.
+In the past, iREC was incorporated into domestic catch estimation products in various ways, was an infilling method for South Coast products, and at a high stratification level for the CTC's catch and escapement report. Neither of these methods were robust or systematic approaches to incorporating iREC at the finest scale possible. Here, we outline a systematic method for combining survey methods to obtain the best catch estimate in a given month and PFMA.
+
+We pulled raw recreational catch data from the Catch and Release Estimates (CREST) database, which stores creel, logbook, and iREC data for both marine and freshwater regions. The data it filtered to only marine estimates of legal-sized marked and unmarked fish that were kept or released. Northern BC (creel and logbook estimates 2005-2023) and Central BC (logbook only estimates 2022-2023) catch estimates were incomplete in CREST for these regions. We filtered CREST catch data to only south coast creel, as described, above to only include high quality creel estimates. These estimates (which don't include submissions from logbooks) were then augmented with logbook data where available (logbook and creel estimates were summed).
 
 We assembled and combined recreational Chinook catch data by developing the [pacRecCatch](https://github.com/nick-komick/pacRecCatch) R package. This package has several functions to pull data from the Catch and Released Estimates (CREST) database and load in other sources manually. The package has functions that will then clean, filter, align, and combine the various survey methods to the final dataset as described below.
 
-We pulled raw recreational catch data from the Catch and Release Estimates (CREST) database. This database stores creel, logbook, and iREC data for both marine and freshwater regions. We filtered the data to contain only marine estimates for legal-sized marked and unmarked fish that were kept and released. We loaded in data from Northern BC (creel and logbook estimates 2005-2023) and Central BC (logbook only estimates 2022-2023) separately since the information in CREST is incomplete for these regions. We filtered the south coast creel data as described above to only include high quality creel estimates. These estimates (which don't include submissions from logbooks) were then augmented with logbook data where available (logbook and creel estimates were summed).
-
 #### Catch Stratification
 
-In Appendix \@ref(tab:strattab), we show the stratification of fisheries to PFMAs and months used for catch estimation. In order to complete this work and to fulfill Treaty obligations to incorporate Mark Selective Fisheries, we recently reorganized the fishery stratification levels used by the CTC. PFMAs are used domestically to collect the data, while finescale and exploitation rate analysis fisheries are groupings of fisheries used for CTC analyses. New Finescale Fisheries are a grouping of PFMAs under a given season, they were introduced recently and are the level at which marked release rates and unmarked release rates are generated. The Old Finescale Fisheries were the previously used groupings by the CTC and are shown for consistency. The ERA fisheries are the exploitation rate analysis fisheries and are the level at which CTC reporting happens and exploitation rate calculations happen.
+*Notes:*
+
+-   *work on the language to simplfy the linkage between finescale and ERA fishery ....*
+
+In Appendix \@ref(tab:strattab), we show the stratification of fisheries to PFMAs and months used for catch estimation. In order to provide consolidated recreational catch estimates and to fulfill Treaty obligations to incorporate Mark Selective Fisheries, we recently reorganized the fishery stratification levels used by the CTC. PFMAs are used domestically to collect the data, while finescale and exploitation rate analysis fisheries are groupings of fisheries used for CTC analyses. New Finescale Fisheries are a grouping of PFMAs under a given season, they were introduced recently and are the level at which marked release rates and unmarked release rates are generated. The CTC ERA fisheries are the exploitation rate analysis fisheries and are the level at which CTC reporting happens and exploitation rate calculations happen.
 
 *Notes:*
 
@@ -201,7 +204,7 @@ In Appendix \@ref(tab:strattab), we show the stratification of fisheries to PFMA
 
 #### Alignment issues
 
-iREC and creel both operate on the Pacific Fisheries Management Area system. However, there are a few areas that were initially not split by the iREC system into their component parts, as done in the creel database. These include areas 2, 19, 20, and 23. We therefore combined data from 2013 until the split was successfully incorporated into iREC (licence year 2014 for Areas 2,19, and 23; licence year 2020 for Area 20).
+iREC and creel both operate on the Pacific Fisheries Management Area system. However, there are a few areas that were initially not split by the iREC system into their component parts, as done in the creel database. These include areas 2, 19, 20, and 23. We therefore combined creel data from 2013 until the split was successfully incorporated into iREC (licence year 2014 for Areas 2,19, and 23; licence year 2020 for Area 20).
 
 *Note:*
 
@@ -209,25 +212,23 @@ iREC and creel both operate on the Pacific Fisheries Management Area system. How
 
 -   *Kris Hein has a good explanation for the alignment problem (creel surveys aerial need to be not on PFMA boundaries where a lot of people fish) ---- creel sub areas vs. pfma sub-areas*
 
-#### Extrapolating unchecked catch by mark rate
+### Extrapolating unchecked catch by mark rate
 
-*Note: this section could be moved above to the data sources section ... this essentially is appliued to south coast creel data but we did a similar thing to the north and central data just by hand using mark rates from MRP and release rates estimated by the programs.*
+All data is typically collected in number of marked and unmarked fish kept and released. However, when mark status is unknown, catch estimates can be provided as unchecked kept and unchecked released catch. We extrapolated these unchecked estimates to marked and unmarked catch using mark rate.
 
-All data is typically collected in number of marked and unmarked fish kept and released. However, when mark status is unknown, the catch estimates can be provided as unchecked kept and unchecked released catch. We extrapolated these unchecked estimates to marked and unmarked catch using mark rate.
-
-*Note: add in Nick's MRP mark rate data to this list. Is it preferred? Is it from biodata?*
+The creel data estimates only started estimating catch by adipose clip status in 2009.  Before 2009, Chinook catch was estimated only for kept and release.  To utilize the mark rate data collected by creel surveys from 2005 to 2008, the sample data were specifically loaded for south coast areas and used to both kept and release catch by mark status for each year, month, and area combination.
 
 We calculated mark rate in a number of different ways and prioritize the assignment of mark rate in the following order:
 
-1.  Monthly area calculation - Mark rate calculated for a given source (iREC, creel, or logbook) within a given year, month, and area
-2.  Monthly average by source - Mark rate calculated within a given year, month, and area, averaged across sources
-3.  Monthly regional average - Mark rate calculated for a given source within a given year, month, and region (averaged across areas within a region)
-4.  Seasonal area average - Mark rate calculated for a given source (iREC, creel, or logbook) within a given year, season, and area
-5.  Seasonal regional average -Mark rate calculated for a given source within a given year, season, and region
-6.  Monthly area average across years - Mark rate calculated for a given source within a given month, area, and across years
-7.  Monthly regional average across years- Mark rate calculated for a given source within a given month, region, and across years
+ 1. Monthly area calculation - Mark rate calculated for a given source (iREC, creel, or logbook) within a given year, month, and area
+ 2. Monthly average by source - Mark rate calculated within a given year, month, and area, averaged across sources
+ 3. Monthly regional average - Mark rate calculated for a given source within a given year, month, and region (averaged across areas within a region)
+ 4. Seasonal area average - Mark rate calculated for a given source (iREC, creel, or logbook) within a given year, season, and area
+ 5. Seasonal regional average -Mark rate calculated for a given source within a given year, season, and region
+ 6. Monthly area average across years - Mark rate calculated for a given source within a given month, area, and across years
+ 7. Monthly regional average across years- Mark rate calculated for a given source within a given month, region, and across years
 
-#### Choosing best monthly catch estimate per PFMA
+### Choosing best monthly catch estimate per PFMA
 
 We used the following rules to choose the best catch estimate between creel (augmented with logbook data) and calibrated iREC:
 
@@ -247,49 +248,58 @@ In Figure \@ref(fig:fig-creel-irec-JDF) we demonstrate how iREC fills in the gap
 *Note: fix the scale of this plot - consider using an areas that's not JDF and doesn't have the weird 20 split* 
 *LG - May 2025 - added colour blind friendly palette, changed to NGS S to avoid the area 20 split, stacked legend so it doesn't get cut off*
 
+\begin{landscapepage}
+
 ```{r methods pfma_month again, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
-sport_mark_rate_finescale <- wrangle_rec_catch2("pacRecCatch_db.yaml", by="area", most_recent_data_year=2023)
 
 pfma_yearMonth <- 
-  sport_mark_rate_finescale |>
+  sport_catch_area |>
   group_by(year, month, area, region, finescale_fishery) |>
   summarise(sum_creel = sum(creel, na.rm = TRUE), 
             sum = sum(creel_plus, na.rm = TRUE), 
             sum_historic = sum(historic_plus, na.rm = TRUE), 
             sum_catch_estimate = sum(catch_estimate, na.rm = TRUE), 
-            sum_irec = sum(irec_calibrated, na.rm = TRUE)) |>
+            sum_irec = sum(irec_calibrated, na.rm = TRUE),
+            .groups == "drop") |>
   mutate(across(where(is.double), ~na_if(., 0)))
 
 pfma_yearMonth_catch_estimate_1 <- 
   pfma_yearMonth  |>
-  filter(sum_catch_estimate != sum, sum_catch_estimate != sum_historic, sum_catch_estimate != sum_irec)
+  filter(sum_catch_estimate != sum, 
+         sum_catch_estimate != sum_historic, 
+         sum_catch_estimate != sum_irec)
 
 pfma_yearMonth_irec_1 <-
   pfma_yearMonth |> 
   filter(sum_catch_estimate == sum_irec)
 ```
 
-```{r methods plotting PFMA - Juan de Fuca, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2, fig.width=8}
-#| label: fig-creel-irec-JDF
-#| fig-cap: "Creel estimates in Juan de Fuca by area and month and chosen best catch estimate between creel and iREC"
 
-jdf_catch <-
+```{r methods plotting PFMA - Northern Strait of Georgia, echo=FALSE, message=FALSE, warning=FALSE, fig.width = 11}
+#| label: fig-creel-irec-NGS
+#| fig-cap: "Creel estimates in Northern Strait of Georgia by area and month and chosen best catch estimate between creel and iREC"
+
+ngs_catch <-
   pfma_yearMonth |>
   filter(region == "NGS")
 
-jdf_irec_catch <-
+ngs_irec_catch <-
   pfma_yearMonth_irec_1|>
   filter(region == "NGS")
 
 
 g <-
   ggplot()+
-  geom_tile(data=jdf_catch, aes(x=year, y=as.factor(month), fill = sum_catch_estimate),colour = "white") +
+  geom_tile(data = ngs_catch, 
+            aes(x=year, y=as.factor(month), fill = sum_catch_estimate), 
+            colour = "white") +
   scale_fill_gradient(low = col1, high = col2,  na.value = colclear, limits=c(0,90000)) +
-  scale_y_discrete(limits=rev)+
+  scale_y_discrete(limits = rev)+
   guides(fill=guide_legend(title="Creel or logbook estimates")) +
   new_scale_fill() +
-  geom_tile(data=jdf_irec_catch, aes(x=year, y=as.factor(month), fill = sum_catch_estimate),colour = "white") +
+  geom_tile(data = ngs_irec_catch, 
+            aes(x=year, y=as.factor(month), fill = sum_catch_estimate), 
+            colour = "white") +
   scale_fill_gradient(low = col5, high = col6,  na.value = colclear, limits=c(0,90000))+
   #facet_wrap(~finescale_fishery_old+AREA, nrow=1)+
   facet_grid(finescale_fishery ~ area, space = "free") +
@@ -303,7 +313,7 @@ g <-
 g
 ```
 
-\clearpage
+\end{landscapepage}
 
 ## Revised Chinook catch estimates from 2005-2012
 
@@ -370,9 +380,6 @@ In order to estimate each recovered CWT to a total "estimated number", an estima
 Historically there have been various gaps and higher uncertainty in recreational catch estimates for periods and regions that typically have lower fishing effort. Various methods were used to estimate submission rates in these lower effort regions and time periods. The most common approach was to use the average submission rate of other regions and time periods with creel survey-based catch estimates as an indirect estimate for lower effort regions (e.g., summer submission rates used for winter recoveries). The implementation of the internet Recreational Effort and Catch program (iREC) provides complete representation of recreational catch in the Pacific Region (DFO 2015). Using these iREC estimates, in combination with ongoing creel based estimates from high effort periods, allows a change to directly estimate submission rates for most strata. As discussed in CYER WG (2021), such a transition from indirect to direct methods will improve the accuracy of the resulting estimates.
 
 Submission rates for recreational catch can vary for various reasons (e.g., the proportion of guided catch, the presence of creel surveyors, availability of head depots in an area, fisher awareness of and buy-in to the program). As submission rates may vary both spatially and temporally, Canada splits BC marine waters into smaller regions that may better represent different recreational fisher communities. To better align the CWT estimates with updated recreational catch estimates, Chinook CWT regions were redefined for 2005 to present (as shown in Figure 1).
-
-
-
 
 ```{r myfigure, echo=FALSE, message=FALSE, warning=FALSE, out.width="70%"}
 #| label: fig-NewCWTRegion
