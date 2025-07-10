@@ -1,13 +1,16 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
 \clearpage
 
 # Results
 
-```{r results loading data, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
+In the following section we present the results of revising Chinook catch using both the combined iREC and creel method for more recent years and modelling to revise pre-iREC years back to 2005.  In addition to revising catch, the relationship between mark kept Chinook catch and CWT sampling through the SHRP is discussed.  This includes the sample rates across all regions and time series of CWT regions.  
 
-
-```
-
-## Revised Chinook catch estimates from 2013 to present
+## Revised Chinook catch estimates (with iREC)
 
 We found that catch estimates that included iREC data were broadly higher than previous estimates that didn't include iREC information. As an example, Figure \@ref(fig:fig-jdf-catch-revised-1) shows the effect of the summed and revised kept catch estimates for 2013-2023 for Juan de Fuca finescale fishery (dashed line) compared to the previous estimates without iREC inclusion (solid line). In 2023, the revised estimates were 19% higher than the estimates without iREC included. However, in 2019, the revised estimates were smaller than the previous estimates, likely due to the creel filtration process removing a biased creel estimate. The revised kept catch plots for the remaining fisheries can be found in Appendix A.
 
@@ -51,18 +54,26 @@ ggplot(jdf_graph_data,
   xlab("Year") +
   labs(linetype = "Catch Estimate", shape = "Catch Estimate")
 
-
 ```
 
 \clearpage
 
-## Revised Chinook catch estimates from 2005-2012
+## Revised Chinook catch estimates (before iREC)
 
 ### Model fit
 
-Separate models were developed for summer finescale fisheries than for the combined spring and fall fisheries (with season as a factor). Since Central BC did not have off-season fisheries, one year-round model was developed for CBC Sport. One summer model was developed for all southern BC fisheries, and a separate model each for NBC AABM and NBC ISBM since the input data is different. Overall, models that fit creel summer to creel + iREC summer were a better fit when compared to the models that fit summer creel to data from spring and fall seasons (see Appendix B for residual plots). All the models retained the variable "status" - which fits a different slope to each of the categories Marked Kept, Marked Released, Unmarked Kept and Unmarked Released.
+When revising Chinook catch estimates before iREC, the following separate models were fit to better represent fishery and catch monitoring dynamics.
 
-These models are used to develop a relationship between filtered creel + iREC catch in the a given time period (spring (months 1:4), summer (months 5:9), or fall (months 10:12)) and the unfiltered creel and logbook only (i.e. no iREC) catch in the limited creel summer period (months 7:8). This relationship is developed with each datapoint as a single year in the 2013-2023 timeseries (or 2015-2023 for NBC and CBC). The relationship is then used to predict an iREC-like estimate from the limited summertime creel in the years 2005-2012. Here we show the results of the modelling and the relationships developed. In the next section (incorporation of both sets of data), we use the predicted 2005-2012 values along with the observed 2013-2023 to show how PSC products may be changed from this analysis.
+ - Southern BC Summer (2013 to 2023)
+ - Southern BC Spring/Fall (2013 to 2023)
+ - Central BC (2005 to 2023)
+ - Northern BC AABM Summer (2005 to 2023)
+ - Northern BC AABM Spring/Fall (2005 to 2023)
+ - Northern BC ISBM (2005 to 2023) 
+
+Separate summer fisheries and the combined spring and fall fisheries (with season as a factor) model was developed for all southern BC regions. Since Central BC did not have off-season fisheries, one year-round model was developed for CBC Sport. One summer model was developed for all southern BC fisheries, and a separate model each for NBC AABM and NBC ISBM since the input data is different. Overall, models that fit creel summer to creel + iREC summer were a better fit when compared to the models that fit summer creel to data from spring and fall seasons (see Appendix B for residual plots). All the models retained the variable "status" - which fits a different slope to each of the categories marked kept, marked released, unmarked kept and unmarked released.
+
+These models are used to develop a relationship between filtered creel + iREC catch in the a given season (spring (months 1:4), summer (months 5:9), or fall (months 10:12)) and the unfiltered creel and logbook only (i.e. no iREC) catch in the limited creel summer period (months 7:8). This relationship is developed with each data point as a single year in the 2013-2023 time series (or 2015-2023 for NBC and CBC). The relationship is then used to predict a combined filtered creel and iREC estimate from the limited summertime creel in the years 2005-2012. Here we show the results of the modelling and the relationships developed. In the next section (incorporation of both sets of data), we use the predicted 2005-2012 values along with the observed 2013-2023 to show how PSC products may be changed from this analysis.
 
 ```{r plotting_function, include = FALSE}
 #plotting function that will be used for the next few sections
@@ -127,15 +138,15 @@ create_facet_plot <- function(finescale_fishery_name, x_var, plot_data, model_da
 
 *Note: the math inline is not rendering properly in the pdf*
 
-The best model for Southern BC Summer Fisheries was one with a gamma distribution with a log link which included summer South Coast creel, marked and kept status, finescale fishery, and an interaction between summer creel and finescale fishery, creel summer and status, and status and finescale fishery:
+The best model for Southern BC Summer fisheries was one with a gamma distribution using a log link that included summer South Coast creel, marked and kept status, finescale fishery, and an interaction between summer creel and finescale fishery, creel summer and status, and status and fishery:
 
 $$
 catch =creel.summer +fishery+status+creel.summer:fishery+ creel.summer:status + status:fishery
 $$
 
-This model parameterization allows for filtered creel + calibrated iREC catch in the whole summer period (months 5:9) to be predicted both independently by the unfiltered creel and logbook catch in the limited creel summer period (months 7:8), by finescale fishery, and by status (marked kept, marked released, unmarked kept, unmarked released). In addition, the effect of the creel summer period on catch can be modified by finescale fishery and status and the effect of status on catch can be modified by finescale fishery. Figure \@ref(fig:fig-south-sum-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. While not demonstrating a flawless fit, the qq plots and residual plots showed minimal patterns and were optimized by this best-fit model chosen by AIC. The model fit plots for all models can be found in Appendix B.
+This model parameterization allows for filtered creel + calibrated iREC catch in the whole summer period (months 5:9) to be predicted both independently by the unfiltered creel and logbook catch in the limited creel summer period (months 7:8), by fishery, and by status (marked kept, marked released, unmarked kept, unmarked released). In addition, the effect of the creel summer period on catch can be modified by finescale fishery and status and the effect of status on catch can be modified by finescale fishery. Figure \@ref(fig:fig-south-sum-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. While not demonstrating a flawless fit, the qq plots and residual plots showed minimal patterns and were optimized by this best-fit model chosen by AIC. The model fit plots for all models can be found in Appendix B.
 
-Figure \@ref(fig:fig-jdf-summer-model) shows an example of the Summer model results in Juan de Fuca. Generally, for any given finescale fishery and status, as unfiltered creel and logbook catch in the limited creel summer period increases, so does filtered creel + calibrated iREC catch in the whole summer period. The model results plots for the remaining southern BC fisheries can be found in Appendix C.
+Figure \@ref(fig:fig-jdf-summer-model) shows an example of the summer model results in Juan de Fuca. Generally, for any given finescale fishery and status, as unfiltered creel and logbook catch in the limited creel summer period increases, so does filtered creel + calibrated iREC catch in the whole summer period. The model results plots for the remaining southern BC fisheries can be found in Appendix C.
 
 ```{r results example seasonal summer, results='asis', echo=FALSE}
 #| label: fig-jdf-summer-model
@@ -178,6 +189,54 @@ plot <- create_facet_plot(finescale_fishery_name = fishery_name_south[i],
   #changing the y lab
   ylab("IREC-included catch estimate")
 
+plot
+
+```
+
+#### Southern BC Spring and Fall fisheries
+
+The best model for Southern BC Spring and Fall fisheries was one with a gamma distribution with a log link which included summer creel, status, finescale fishery, season, and various interactions of these terms:
+
+$$ catch = creel.summer + fishery + season+status + creel.summer:fishery + creel.summer:status + fishery:season $$
+
+This model parameterization allows for filtered calibrated iREC catch to be predicted both independently by the unfiltered creel and logbook catch in the limited creel summer period (months 7:8), by finescale fishery, by season (spring(months 1:4) or fall(10:12), and by status (marked kept, marked released, unmarked kept, unmarked released). In addition, the effect of the creel summer period on catch can be modified by finescale fishery and status and the effect of season on catch can be modified by finescale fishery. Figure \@ref(fig:fig-south-sf-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. There are some noticeable patterns in the residuals here that could be improved, however at this time this is the best model fit to the data.
+
+Figure \@ref(fig:fig-jdf-fall-model) shows an example of the Spring/Fall model results in Juan de Fuca Fall fisheries. This particular example shows a poorer fit to the data than some of the other fisheries (see Appendix C). However, the iREC catch estimated for the all months 10:12 is generally low, and without this model, it likely that the predicted catch in off-season fisheries would be 0 or close to zero if there was no creel during this period.
+
+```{r results example seasonal spring and fall, results='asis', echo=FALSE}
+#| label: fig-jdf-fall-model
+#| fig-cap: "Southern BC modelled results for Spring/Fall fishery"
+
+spring_fall_model <- sport_catch_models$model_list$south_season
+season_south_no_nas <- spring_fall_model$data
+
+family_set <- family(spring_fall_model)
+ilink_family_set<- family_set$linkinv
+
+mod<-spring_fall_model
+
+ndata <- 
+  season_south_no_nas %>%
+  group_by(status, region_mgmt, finescale_fishery, season) %>%
+  tidyr::expand(creel_plus_summer = seq(0, max(creel_plus_summer), length=100)) %>%
+  
+  ## add the fitted values by predicting from the model for the new data
+  add_column(fit = predict(mod, newdata = ., type = 'response')) %>%
+  bind_cols(setNames(as_tibble(predict(mod, ., se.fit = TRUE)[1:2]),
+                     c('fit_link','se_link'))) %>%
+  mutate(fit_resp  = ilink_family_set(fit_link),
+         right_upr = ilink_family_set(fit_link + (2 * se_link)),
+         right_lwr = ilink_family_set(fit_link - (2 * se_link)))
+
+
+fishery_name_south<- sort(unique(season_south_no_nas$finescale_fishery))
+
+i =1
+
+plot <- create_facet_plot(finescale_fishery_name = fishery_name_south[i], 
+                          x_var = "creel_plus_summer", 
+                          plot_data = season_south_no_nas, 
+                          model_data = ndata)
 plot
 
 ```
@@ -234,7 +293,7 @@ plot
 
 #### Northern BC ISBM Summer Fisheries
 
-The best model for Northern BC ISBM Summer Fisheries was one with a gamma distribution with a log link which included summer historic data (Area 3 and 4 Creel + logbook) and status, with no interaction of these terms.
+The best model for Northern BC ISBM Summer fisheries was one with a gamma distribution using a log link that included summer historic data (Area 3 and 4 Creel + logbook) and status, with no interaction of these terms.
 
 $$ catch = historic.summer+status                                           $$
 
@@ -281,54 +340,6 @@ plot <- create_facet_plot(finescale_fishery_name = fishery_name_north_isbm[i],
 plot
 ```
 
-#### Southern BC Spring and Fall fisheries
-
-The best model for Southern BC Spring and Fall fisheries was one with a gamma distribution with a log link which included summer creel, status, finescale fishery, season, and various interactions of these terms:
-
-$$ catch = creel.summer+fishery+season+status+creel.summer:fishery+creel.summer:status+                                               fishery:season $$
-
-This model parameterization allows for filtered calibrated iREC catch to be predicted both independently by the unfiltered creel and logbook catch in the limited creel summer period (months 7:8), by finescale fishery, by season (spring(months 1:4) or fall(10:12), and by status (marked kept, marked released, unmarked kept, unmarked released). In addition, the effect of the creel summer period on catch can be modified by finescale fishery and status and the effect of season on catch can be modified by finescale fishery. Figure \@ref(fig:fig-south-sf-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. There are some noticeable patterns in the residuals here that could be improved, however at this time this is the best model fit to the data.
-
-Figure \@ref(fig:fig-jdf-fall-model) shows an example of the Spring/Fall model results in Juan de Fuca Fall fisheries. This particular example shows a poorer fit to the data than some of the other fisheries (see Appendix C). However, the iREC catch estimated for the all months 10:12 is generally low, and without this model, it likely that the predicted catch in off-season fisheries would be 0 or close to zero if there was no creel during this period.
-
-```{r results example seasonal spring and fall, results='asis', echo=FALSE}
-#| label: fig-jdf-fall-model
-#| fig-cap: "Southern BC modelled results for Spring/Fall fishery"
-
-spring_fall_model <- sport_catch_models$model_list$south_season
-season_south_no_nas <- spring_fall_model$data
-
-family_set <- family(spring_fall_model)
-ilink_family_set<- family_set$linkinv
-
-mod<-spring_fall_model
-
-ndata <- 
-  season_south_no_nas %>%
-  group_by(status, region_mgmt, finescale_fishery, season) %>%
-  tidyr::expand(creel_plus_summer = seq(0, max(creel_plus_summer), length=100)) %>%
-  
-  ## add the fitted values by predicting from the model for the new data
-  add_column(fit = predict(mod, newdata = ., type = 'response')) %>%
-  bind_cols(setNames(as_tibble(predict(mod, ., se.fit = TRUE)[1:2]),
-                     c('fit_link','se_link'))) %>%
-  mutate(fit_resp  = ilink_family_set(fit_link),
-         right_upr = ilink_family_set(fit_link + (2 * se_link)),
-         right_lwr = ilink_family_set(fit_link - (2 * se_link)))
-
-
-fishery_name_south<- sort(unique(season_south_no_nas$finescale_fishery))
-
-i =1
-
-plot <- create_facet_plot(finescale_fishery_name = fishery_name_south[i], 
-                          x_var = "creel_plus_summer", 
-                          plot_data = season_south_no_nas, 
-                          model_data = ndata)
-plot
-
-```
-
 #### Northern BC AABM Spring and Fall Fisheries
 
 The best model for Northern BC AABM Spring and Fall Fisheries was one with a gamma distribution with a log link which included summer historic data (Haida creel + logbook), season, status, and an interaction of status and creel.
@@ -341,7 +352,7 @@ Figure \@ref(fig:fig-nbcaabm-fall-model) shows an example of the Fall model resu
 
 ```{r results example NBC AABM seasonal spring and fall, results='asis', echo=FALSE}
 #| label: fig-nbcaabm-fall-model
-#| fig-cap: "NBC AABM modelled results for Spring/Fall fishery"
+#| fig-cap: "NBC AABM modelled results for Spring fishery"
 
 ###Chosen model
 season_north_aabm_model <- sport_catch_models$model_list$north_aabm_season
@@ -485,11 +496,10 @@ plot
 
 ### Model validation using sport head recoveries
 
-We used the sport head recovery program to validate the model results.
+We used the sport head recovery program to validate the model results.  As the total number of heads collected by the Salmon Head Recovery is expected to be driven by the the total kept mark catch in recreational fisheries, the total kept marked catch and total heads collected by the SHRP should be correlated.  The Salmon Head Recovery program relies on several approaches to sampling (e.g. log sampling, public collection points, avid anglers) and should not necessarily be driven by creel survey coverage.  Furthermore, SHRP has generally consistently run over the transition time between the modelled catch (pre 2013) and iREC estimated catch periods. So, the linear relationship should be similar from both the 2005 to 2012 years with modelled catch and 2013 to 2023 years for creel and iRec combined catch.
 
-```{r results Loading packages, useful functions, echo=FALSE}
+```{r results cwt data loading, useful functions, echo=FALSE}
 
-#utils
 head_df <-  pacRecCatch::get_head_totals()
 
 lm_eqn <- function(df){
@@ -545,7 +555,7 @@ Figure \@ref(fig:fig-heads-kept-current) shows ...
 
 ```{r results Head to Kept Mark Catch, echo=FALSE}
 #| label: fig-heads-kept-current
-#| fig-cap: "Chinook Heads to Clipped Catch"
+#| fig-cap: "Chinook heads to mark kept catch based on combined creel and iREC.  Each point is a yearly CWT Region based on the seasonal time periods in the southern portion of BC and annual periods in the nothern portion of BC (ie NBC and CBC) from 2005 to 2023."
 
 ggplot(data = head_catch_model_df, 
        aes(x=catch_estimate_predicted, y=head_total)) +
@@ -563,7 +573,7 @@ Figure \@ref(fig:fig-heads-kept-preirec) shows ...
 
 ```{r results Pre iRec Head to Kept Mark Catch, echo=FALSE}
 #| label: fig-heads-kept-preirec
-#| fig-cap: "Before iREC Chinook Heads to Clipped Catch"
+#| fig-cap: "Chinook heads to mark kept catch based on combined creel and iREC.  Each point is a yearly CWT Region based on the seasonal time periods in the southern portion of BC and annual periods in the nothern portion of BC (ie NBC and CBC) from 2005 to 2012."
 
 pre_irec_catch_model_df <- 
   head_catch_model_df |>
@@ -590,7 +600,7 @@ Figure \@ref(fig:fig-heads-kept-postirec) shows ...
 
 ```{r results Post iRec Head to Kept Mark Catch, echo=FALSE}
 #| label: fig-heads-kept-postirec
-#| fig-cap: "iREC Chinook Heads to Clipped Catch"
+#| fig-cap: "Chinook heads to mark kept catch based on combined creel and iREC.  Each point is a yearly CWT Region based on the seasonal time periods in the southern portion of BC and annual periods in the nothern portion of BC (ie NBC and CBC) from 2013 to 2023."
 
 
 post_irec_catch_model_df <- 
@@ -713,75 +723,46 @@ The revised estimates will be incorporated into CTC reports starting in 2025. Bo
 
 ```{r results CandEkept, results='asis', echo=FALSE}
 #| label: fig-cande-kept
-#| fig-cap: "Revised (blue) and previously reported (green) kept catch estimates from 2005-2023. Revised estimates prior to 2012 (vertical line) are from modelled data, whereas 2013 onwards is observed data. "
+#| fig-cap: "Revised (blue) and previously reported (green) kept catch estimates from 2005-2023. Revised estimates prior to 2012 (vertical line) are from modelled data, whereas 2013 onwards is observed data."
 
-
-cnr_canada_sport <- 
-  read.csv("data/cnr_canada_sport.csv") %>% 
-  as_tibble() %>% 
-  filter(year > 2004)
-
-fishery_map <-
-  sport_catch_models$model_catch %>% 
-  select(region, management) %>%
-  mutate(erafishery = case_when(
-    region %in% c("SWCVI", "NWCVI") & management == "AABM" ~ "WCVI AABM S",
-    region %in% c("SWCVI", "NWCVI") & management == "ISBM" ~ "WCVI ISBM S",
-    region %in% c("NGS", "SGS") ~  "GEO ST S",
-    region == "JDF" ~ "BC JF S",
-    region == "CBC" ~ "CBC S",
-    region == "NC" & management == "AABM" ~ "NBC AABM S",
-    region == "NC" & management == "ISBM" ~ "NBC ISBM S",
-    region == "JNST" ~ "JNST S",
-    .default = "Unknown"
-  )) %>% 
-  distinct()
-
-cnr_canada_sport <- 
-  cnr_canada_sport %>% 
-  full_join(fishery_map, by= "erafishery", relationship = "many-to-many")
-
-sport_mark_rate_mrr <- 
+era_model_catch <- 
   sport_release_rates %>% 
-  left_join(cnr_canada_sport) %>%
+  mutate(erafishery = case_when(
+    grepl("CA JDF S", finescale_fishery) ~ "BC JF S",
+    grepl("NGS S|SGS S", finescale_fishery) ~ "GEO ST S",
+    grepl("WCVI AABM", finescale_fishery) ~  "WCVI AABM S",
+    grepl("WCVI ISBM", finescale_fishery) ~  "WCVI ISBM S",
+    grepl("NORTH AABM", finescale_fishery) ~  "NBC AABM S",
+    grepl("NBC ISBM|NORTH ISBM", finescale_fishery) ~  "NBC ISBM S",
+    grepl("CENTRAL", finescale_fishery) ~  "CBC S",
+    grepl("JOHN ST", finescale_fishery) ~  "JNST S",
+    .default = NA_character_
+  )) %>%
   mutate(kept_total = marked_kept_total + unmarked_kept_total,
-         released_total = marked_released_total + unmarked_released_total)
+         released_total = marked_released_total + unmarked_released_total) %>%
+  group_by(year, erafishery) %>%
+  summarize(updated_kept_total = sum(kept_total, na.rm=TRUE), 
+            updated_released_total = sum(released_total, na.rm=TRUE),
+            .groups = "drop")
 
-
-cnr_canada_sport_short <- 
-  cnr_canada_sport %>% 
-  unique()
-
-sport_mark_rate_mrr_sum <- 
-  sport_mark_rate_mrr %>% 
-  select(-Kept, -Released, -Release_rate) %>% 
-  group_by(erafishery, year) %>% 
-  summarise_if(is.numeric, sum, na.rm = TRUE)
-
-sport_mark_rate_mrr_sum <- 
-  sport_mark_rate_mrr_sum  %>% 
-  left_join(cnr_canada_sport_short)
 
 rec_summary <- 
   read.csv("data/rec_summary_2005-2023.csv") %>% 
-  as_tibble()
+  as_tibble() |>
+  rename_with(tolower)
 
-sport_mark_rate_mrr_sum <- 
-  sport_mark_rate_mrr_sum  %>% 
-  left_join(rec_summary)
+total_catch_compare <- 
+  era_model_catch  %>% 
+  left_join(rec_summary, by = c("erafishery", "year")) |>
+   filter(!is.na(erafishery))
 
-sport_mark_rate_mrr_sum <- 
-  sport_mark_rate_mrr_sum %>% 
-  filter(!is.na(erafishery))
 
 ## Kept only
 k<-ggplot() +
-  geom_point(data=sport_mark_rate_mrr_sum, aes(y=kept_total, x=year, col="lightblue4")) + 
-  geom_line(data=sport_mark_rate_mrr_sum, aes(y=kept_total, x=year, col="lightblue4"))+
-  geom_point(data=sport_mark_rate_mrr_sum, aes(y=total_kept, x=year, col="lightgreen")) + 
-  geom_line(data=sport_mark_rate_mrr_sum, aes(y=total_kept, x=year, col="lightgreen"))+
-  # geom_point(data=sport_mark_rate_mrr_sum, aes(y=Kept, x=year, col="darkgreen")) + geom_line(data=sport_mark_rate_mrr_sum, aes(y=Kept, x=year, col="darkgreen"))+
-  
+  geom_point(data=total_catch_compare, aes(y=updated_kept_total, x=year, col="lightblue4")) + 
+  geom_line(data=total_catch_compare, aes(y=updated_kept_total, x=year, col="lightblue4"))+
+  geom_point(data=total_catch_compare, aes(y=total_kept, x=year, col="lightgreen")) + 
+  geom_line(data=total_catch_compare, aes(y=total_kept, x=year, col="lightgreen"))+
   scale_color_manual(values=c("lightblue4", "lightgreen"),  
                      labels = c("Revised estimates", "2024 C&E Report"))+
   facet_wrap(~erafishery, 
@@ -800,9 +781,15 @@ print(k)
 
 The largest changes in released catch occurred in Central BC where previously very few releases were counted. This is because lodges in CBC do not report released catch, whereas iREC allows for released catch to be recorded. We also now predict releases prior to 2012 in Georgia Strait and NBC ISBM and BC Juan de Fuca, where previously very few releases were recorded. The other fisheries had recorded releases but the revised estimates which include iREC increase the number of these released fish.
 
-```{r results CandEreleased, results='asis', echo=FALSE}
-#| label: fig-cande-released
-#| fig-cap: "Revised (blue) and previously reported (green) released catch estimates from 2005-2023. Revised estimates prior to 2012 (vertical line) are from modelled data, whereas 2013 onwards is observed data. "
+
+
+### Updating CWT estimates
+
+**CWT results here**
+
+```{r results indcwtest, results='asis', echo=FALSE}
+#| label: fig-indcwtest
+#| fig-cap: "**Need to update this caption**"
 
 cwt_est_filename <- "data/cwt_est_by_fishery.sql"
 cwt_est_sql <- readChar(cwt_est_filename, file.info(cwt_est_filename)$size)
@@ -840,45 +827,6 @@ ggplot() +
 
 ```
 
-### Updating CWT estimates
-
--   *CWT results here*
-
-
-```{r results indcwtest, results='asis', echo=FALSE, fig.height = 8}
-#| label: fig-indcwtest
-#| fig-cap: "Release rates at the finescale fishery level, over time from 2005 to 2023. Light blue lines are release rates of unmarked fish and dark blue lines are release rates of marked fish, from revised data. Green lines are release rates (regardless of mark status) used in the 2024 CNR files to the ERA."
-
-
-
-sport_mark_rate_mrr <-
-  sport_mark_rate_mrr %>% 
-  filter(!is.na(erafishery))
-
-mu <- 
-  ggplot() +
-  geom_point(data=sport_mark_rate_mrr, aes(y=(1-ukr), x=year, col="lightblue")) +
-  geom_line(data=sport_mark_rate_mrr, aes(y=1-ukr, x=year, col="lightblue"))+
-  geom_point(data=sport_mark_rate_mrr, aes(y=mrr, x=year, col="lightblue4")) +
-  geom_line(data=sport_mark_rate_mrr, aes(y=mrr, x=year, col="lightblue4"))+
-  geom_point(data=sport_mark_rate_mrr, aes(y=Release_rate, x=year, col="lightgreen")) +
-  geom_line(data=sport_mark_rate_mrr, aes(y=Release_rate, x=year, col="lightgreen"))+
-  scale_color_manual(values=c("lightblue", "lightblue4", "lightgreen"),  
-                     labels = c("Revised Unmarked Release Rate", 
-                                "Revised Marked Release Rate", 
-                                "2024 CNR Release Rate"))+
-  facet_wrap(~finescale_fishery)+
-  theme_bw() + 
-  geom_vline(xintercept = 2012)+
-  labs(col="Data source",
-       x = "Year",
-       y = "Proportion")+
-  theme(legend.position = "bottom")
-
-print(mu)
-```
-
-
 ### Updating Chinook non-retention (release) estimates
 
 -   *MRR/UKR results here compared to CNR file (Fig 5 of the memo)*
@@ -887,29 +835,83 @@ Kept and released catch estimates are incorporated for most sport fisheries into
 
 We can see that some fisheries have been accounting for releases since 2005, while other fisheries only more recently incorporated release information . With the exception of Juan de Fuca, which did have mark-selective fisheries before 2012, all other sport fisheries were non-selective before 2013. Since the data is modelled, we did not want to bias the previous non-selective fisheries by allowing for selectivity, therefore we have fixed the MRR and URR rates to be equal in the modelled data, by calculating a single release rate for marked and unmarked fish combined. After 2013, the data is observed and therefore allowed to vary selectively even if no specific mark selective fishery was imposed. When MRR and URR are identical, this indicates non-selectivity. If MRR is higher than URR, this indicates marked fish are released at a higher rate than unmarked fish, which would be indicative of selecting for unmarked fish. If URR is higher than MRR, then marked fish are released at a lower rate than unmarked fish, indicating mark selectivity. Generally, the MRR and URR results suggest that releases are occurring but there is no strong, consistent mark selectivity to the releases. This aligns with MSF regulations that are very limited in space and time and are only beginning to be rolled out across a small number of sport fisheries.
 
+
+
 ```{r results mrrukr, results='asis', echo=FALSE, fig.height = 8}
 #| label: fig-mrrukr
 #| fig-cap: "Release rates at the finescale fishery level, over time from 2005 to 2023. Light blue lines are release rates of unmarked fish and dark blue lines are release rates of marked fish, from revised data. Green lines are release rates (regardless of mark status) used in the 2024 CNR files to the ERA."
 
+fishery_map <-
+  sport_catch_models$model_catch %>% 
+  select(region, management) %>%
+  mutate(erafishery = case_when(
+    region %in% c("SWCVI", "NWCVI") & management == "AABM" ~ "WCVI AABM S",
+    region %in% c("SWCVI", "NWCVI") & management == "ISBM" ~ "WCVI ISBM S",
+    region %in% c("NGS", "SGS") ~  "GEO ST S",
+    region == "JDF" ~ "BC JF S",
+    region == "CBC" ~ "CBC S",
+    region == "NC" & management == "AABM" ~ "NBC AABM S",
+    region == "NC" & management == "ISBM" ~ "NBC ISBM S",
+    region == "JNST" ~ "JNST S",
+    .default = "Unknown"
+  )) %>% 
+  distinct()
 
-sport_mark_rate_mrr <- 
-  sport_mark_rate_mrr %>% 
-  filter(!is.na(erafishery))
+cnr_canada_sport <- 
+  read.csv("data/cnr_canada_sport.csv") %>% 
+  as_tibble() %>% 
+  rename_with(tolower) %>%
+  filter(year > 2004) %>%
+  full_join(fishery_map, by= c("erafishery"), relationship = "many-to-many")
 
-mu <-
+
+finescale_fishery_map <- 
+  sport_catch_models$model_catch %>% 
+  select(finescale_fishery, region, management) %>% 
+  distinct()
+
+
+updated_relese_rates <-
+  sport_release_rates |>
+  inner_join(finescale_fishery_map, by = c("finescale_fishery")) |>
+  group_by(year, region, management) |>
+  summarize(marked_kept_total = sum(marked_kept_total, na.rm = TRUE),
+            marked_released_total = sum(marked_released_total, na.rm = TRUE),
+            unmarked_kept_total = sum(unmarked_kept_total, na.rm = TRUE),
+            unmarked_released_total = sum(unmarked_released_total, na.rm = TRUE),
+            .groups = "drop") |>
+  mutate(mark_total = if_else(marked_kept_total > 0 | marked_released_total > 0,
+                              marked_kept_total + marked_released_total,
+                              0.0000001), #small value to prevent divide by zero
+         unmark_total = if_else(unmarked_kept_total > 0 | unmarked_released_total > 0,
+                              unmarked_kept_total + unmarked_released_total,
+                              0.0000001), #small value to prevent divide by zero
+         mrr = marked_released_total / mark_total,
+         urr = unmarked_released_total / unmark_total) |>
+  select(year, region, management, mrr, urr)
+  
+
+sport_mark_rate_mrr <-
+  cnr_canada_sport |>
+  full_join(updated_relese_rates, by=c("year", "region", "management")) |>
+  mutate(across(c(mrr, urr), \(x) coalesce(x, 0)),
+         region = if_else(region == "NC", "NBC", region),
+         region_mgmt = paste(region, management))
+
+mu <- 
   ggplot() +
-  geom_point(data=sport_mark_rate_mrr, aes(y=(1-ukr), x=year, col="lightblue")) + 
-  geom_line(data=sport_mark_rate_mrr, aes(y=1-ukr, x=year, col="lightblue"))+
-  geom_point(data=sport_mark_rate_mrr, aes(y=mrr, x=year, col="lightblue4")) + 
+  geom_point(data=sport_mark_rate_mrr, aes(y=urr, x=year, col="lightblue")) +
+  geom_line(data=sport_mark_rate_mrr, aes(y=urr, x=year, col="lightblue"))+
+  geom_point(data=sport_mark_rate_mrr, aes(y=mrr, x=year, col="lightblue4")) +
   geom_line(data=sport_mark_rate_mrr, aes(y=mrr, x=year, col="lightblue4"))+
-  geom_point(data=sport_mark_rate_mrr, aes(y=Release_rate, x=year, col="lightgreen")) + 
-  geom_line(data=sport_mark_rate_mrr, aes(y=Release_rate, x=year, col="lightgreen"))+
+  geom_point(data=sport_mark_rate_mrr, aes(y=release_rate, x=year, col="lightgreen")) +
+  geom_line(data=sport_mark_rate_mrr, aes(y=release_rate, x=year, col="lightgreen"))+
   scale_color_manual(values=c("lightblue", "lightblue4", "lightgreen"),  
                      labels = c("Revised Unmarked Release Rate", 
                                 "Revised Marked Release Rate", 
                                 "2024 CNR Release Rate"))+
-  facet_wrap(~finescale_fishery)+
-  theme_bw()+ 
+  facet_wrap(~region_mgmt)+
+  theme_bw() + 
   geom_vline(xintercept = 2012)+
   labs(col="Data source",
        x = "Year",

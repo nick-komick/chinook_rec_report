@@ -196,7 +196,7 @@ We assembled and combined recreational Chinook catch data by developing the [pac
 
 -   *work on the language to simplfy the linkage between finescale and ERA fishery ....*
 
-In Appendix \@ref(tab:strattab), we show the stratification of fisheries to PFMAs and months used for catch estimation. In order to provide consolidated recreational catch estimates and to fulfill Treaty obligations to incorporate Mark Selective Fisheries, we recently reorganized the fishery stratification levels used by the CTC. PFMAs are used domestically to collect the data, while finescale and exploitation rate analysis fisheries are groupings of fisheries used for CTC analyses. New Finescale Fisheries are a grouping of PFMAs under a given season, they were introduced recently and are the level at which marked release rates and unmarked release rates are generated. The CTC ERA fisheries are the exploitation rate analysis fisheries and are the level at which CTC reporting happens and exploitation rate calculations happen.
+In Appendix \@ref(strattab), we show the stratification of fisheries to PFMAs and months used for catch estimation. In order to provide consolidated recreational catch estimates and to fulfill Treaty obligations to incorporate Mark Selective Fisheries, we recently reorganized the fishery stratification levels used by the CTC. PFMAs are used domestically to collect the data, while finescale and exploitation rate analysis fisheries are groupings of fisheries used for CTC analyses. New Finescale Fisheries are a grouping of PFMAs under a given season, they were introduced recently and are the level at which marked release rates and unmarked release rates are generated. The CTC ERA fisheries are the exploitation rate analysis fisheries and are the level at which CTC reporting happens and exploitation rate calculations happen.
 
 *Notes:*
 
@@ -234,16 +234,18 @@ We used the following rules to choose the best catch estimate between creel (aug
 
 For Southern BC:
 
--   In months May-September (5-9) use creel+ logbook, otherwise use calibrated iREC
--   In months outside of 5-9, use calibrated iREC
+ - In months May-September (5-9) use creel + logbook if creel passes quality control rules, otherwise use calibrated iREC
+ - In months outside of 5-9, use calibrated iREC
 
 For Northern and Central BC:
 
--   Use calibrated iREC from 2015 onwards
+ - Use calibrated iREC from 2015 onwards
 
-These rules prioritize quality-controlled creel estimates during months where the most creel effort is concentrated, and then prioritizes calibrated iREC data during shoulder seasons and anywhere there is a gap in creel coverage. Northern and Central BC do not have standardized creel, and therefore the iREC data is preferred over logbook-only data. iREC took longer to become adopted in Northern BC and therefore data from 2015 onwards is used.
+In Southern BC, these rules prioritize quality-controlled creel estimates during the summer months, when most creel survey effort is concentrated, and prioritizes calibrated iREC data during shoulder seasons and anywhere there is a gap in creel coverage. 
 
-In Figure \@ref(fig:fig-creel-irec-JDF) we demonstrate how iREC fills in the gaps in each PFMA for a given finescale fishery (North Georgia Strait is shown as an example).
+Northern and Central BC do not have standardized creel, and therefore the iREC data is preferred over logbook-only data. iREC took longer to achieve effective sample rates in Northern BC and therefore data from 2015 onwards is used.
+
+In Figure \@ref(fig:fig-creel-irec-NGS) we demonstrate how iREC fills in the gaps in each PFMA for a given finescale fishery (North Georgia Strait is shown as an example).
 
 *Note: fix the scale of this plot - consider using an areas that's not JDF and doesn't have the weird 20 split* 
 *LG - May 2025 - added colour blind friendly palette, changed to NGS S to avoid the area 20 split, stacked legend so it doesn't get cut off*
@@ -260,7 +262,7 @@ pfma_yearMonth <-
             sum_historic = sum(historic_plus, na.rm = TRUE), 
             sum_catch_estimate = sum(catch_estimate, na.rm = TRUE), 
             sum_irec = sum(irec_calibrated, na.rm = TRUE),
-            .groups == "drop") |>
+            .groups = "drop") |>
   mutate(across(where(is.double), ~na_if(., 0)))
 
 pfma_yearMonth_catch_estimate_1 <- 
@@ -275,7 +277,7 @@ pfma_yearMonth_irec_1 <-
 ```
 
 
-```{r methods plotting PFMA - Northern Strait of Georgia, echo=FALSE, message=FALSE, warning=FALSE, fig.width = 11}
+```{r methods plotting PFMA - Northern Strait of Georgia, echo=FALSE, message=FALSE, warning=FALSE, fig.height = 8}
 #| label: fig-creel-irec-NGS
 #| fig-cap: "Creel estimates in Northern Strait of Georgia by area and month and chosen best catch estimate between creel and iREC"
 
@@ -327,70 +329,59 @@ Following the rules for incorporating iREC, we split previous fisheries in sprin
 
 We identified a fishery specific consistently creeled or logbooked coverage period for the summer period where there is consistent data throughout the time series (from 2005 to 2023) from the creel + logbook data. The summer coverage period included all months within 7:8 that are consistent through the timeseries. This consistent chunk of data is then used to predict the estimated catch in the section of the time series where we don't have iREC. For South Coast regions this data is unfiltered South Coast creel + logbook catch estimates; for North and Central coast this data is referred to as "historical" but is logbook only for Central Coast and a combination of unfiltered Haida or Area 3/4 creel and logbook catch estimates in the North Coast.
 
-### Modeling protocol
+### Modelling protocol
 
 We investigated various models using a systematic approach:
 
--   One model for southern BC fisheries and separate models for Northern and Central BC since the data inputs are different
+ - Single model for southern BC fisheries and separate models for Northern and Central BC since the data inputs are different
+ - Single model for spring and fall pre-terminal sport fisheries since these are iREC-only data
 
--   One model for spring and fall pre-terminal sport fisheries since these are iREC-only data
+ - Single model for summer pre-terminal sport fisheries since these are iREC and creel combined data
 
--   One model for summer pre-terminal sport fisheries since these are iREC and creel combined data
+ - Same data set tested for each model - therefore done without missing values
 
--   Same dataset tested for each model - therefore done without NAs
+ - We didn't consider random effects models since we don't have enough levels of each factor to warrant random effects inclusion (need \>10 typically)
 
--   We didn't consider random effects models since we don't have enough levels of each factor to warrant random effects inclusion (need \>10 typically)
+ - For all candidate models we used the `DHARMa` package to create a qq-plot to detect deviations in observations from expected distribution and a plot of the residuals against predicted values to detect patterns in residuals. We visually assessed whether candidate models improved plots.
 
--   For all candidate models we used the DHARMa package to create a qq-plot to detect deviations in observations from expected distribution and a plot of the residuals against predicted values to detect patterns in residuals. We visually assessed whether candidate models improved plots.
-
--   We also compared candidate models using AIC, a lower AIC indicating a better model fit.
+ - We also compared candidate models using AIC, a lower AIC indicating a better model fit.
 
 The order of comparisons was as follows:
 
--   First we compared three distributions: normal (gaussian), poisson, and Gamma distribution to see which fit our data the best on the full model. These distributions are all consistent with our positive, continuous data
+ - First we compared three distributions: normal (Gaussian), poisson, and Gamma distribution to see which fit our data the best on the full model. These distributions are all consistent with our positive, continuous data
 
 $$
 catch = creel.summer * status * finescale.fishery * season 
 $$
 
--   Next, using the chosen distribution, we compared the full model with all terms to models with each of the terms dropped sequentially except for creel.summer which was our main interest. We did this first by dropping out full terms from the full interaction model, then used the dredge function in MuMIn to sequentially drop out the various sub-interactions
+-   Next, using the chosen distribution, we compared the full model with all terms to models with each of the terms dropped sequentially except for creel.summer which was our main interest. We did this first by dropping out full terms from the full interaction model, then used the dredge function in `MuMIn` to sequentially drop out the various sub-interactions
 
 -   In each case, we selected the model with the lowest AIC and best visual diagnostics.
 
 ### Model validation with Sport Head Recovery Program
 
-We validated the modelling output with the sport head recovery program by regressing both the observed catch (2013-2023) and the modelled catch (2005-2012) with heads recovered by the the sport head recovery program which receives voluntary head submissions for recovering CWT tags.
-
-*Note: More detail here. I.e. comparing the slopes of heads submitted with marked kept catch and the modelled catch, similar slopes = similar submission rates.*
+We validated the modelling output with the sport head recovery program by regressing both the observed catch (2013-2023) and the modelled catch (2005-2012) with heads recovered by the the sport head recovery program which collects head submissions of marked Chinook for recovering CWT tags.  The slope of the linear regression between the kept mark catch and the number of heads across all CWT regions and areas should provide the average submission rate across all recreational fisheries.  As there was no substantial changes to the SHRP between the modelled catch period and the period iRec was used, the slope of the linear regression between between the 2005 to 2012 period should generally be similar to the 2013 to 2023 period.
 
 \clearpage
 
 ## Incorporation of both sets of revised estimates in bilateral PST processes
 
-The Chinook Technical Committee (CTC) of the Pacific Salmon Commission (PSC) has several annual analyses and reports. Notably, the Catch and Escapement Report which details catch and escapement across all fisheries. The Exploitation Rate Analysis and accompanying report which uses a cohort analysis on hatchery stocks with Coded Wire Tags (CWTs) to calculate Calendar Year Exploitation Rates on a stock-specific basis. Finally, the Calibration Report, which are reported on the annual Chinook model calibration which takes output from the ERA and other sources.
+The Chinook Technical Committee (CTC) of the Pacific Salmon Commission (PSC) has several annual analyses and reports. Notably, the Catch and Escapement Report which details catch and escapement across all fisheries. The Exploitation Rate Analysis and accompanying report which uses a cohort analysis on Coded Wire Tagged (CWT) hatchery stock to calculate Calendar Year Exploitation Rates on a stock-specific basis. Finally, the Calibration Report, which are reported on the annual Chinook model calibration which takes output from the ERA and other sources.
 
 The revised Chinook catch estimates from modelled data from 2005 to 2012 and from improved data from 2013-2023 will be incorporated into a number of CTC process starting in 2025. Notably, the total number of Kept and Released Chinook will be updated in the Annual Catch and Escapement Report. Next, catch estimates are used as inputs to the annual exploitation rate analysis (ERA) in two places. First, kept and marked catch estimates are used to expand Coded Wire Tag (CWT) observations from the Sport Head Recovery Program to CWT estimates uploaded to the Regional Mark Information System ([RMIS](https://www.rmpc.org/#:~:text=This%20data%20system%2C%20named%20the%20Regional%20Mark%20Information,Commission%E2%80%99s%20information%20needs%20under%20the%20Pacific%20Salmon%20Treaty.)) and ultimately used in the ERA analysis. Second, kept and released catch estimates are incorporated for most sport fisheries into the Chinook non-retention process in the ERA.
 
 ### Updating CWT estimates
 
-Recreational fishery sampling of CWT in British Columbia is based on the collection of heads from adipose-clipped (“marked”) Chinook and Coho from recreational fishers. These heads are primarily obtained via the general public submitting heads to [Salmon Head Recovery Program (SHRP) depots](https://search.open.canada.ca/openmap/3cc03bbf-d59f-4812-996e-ddc52e0ba99e) distributed coastwide at landing sites, marinas, and tackle shops. Heads are also collected from creel surveyor interviews, fishing guides, and fishing lodges.
+Recreational fishery sampling of CWT in British Columbia is based on the collection of heads from marked Chinook and Coho from recreational fishers. These heads are obtained through numerous sources, including: general public submitting heads to [Salmon Head Recovery Program (SHRP) depots](https://search.open.canada.ca/openmap/3cc03bbf-d59f-4812-996e-ddc52e0ba99e) distributed coastwide at landing sites, marinas, and tackle shops, collected through creel surveyor interviews, and bio-sampling supported by avid anglers, guides, and lodges.
 
-In order to estimate each recovered CWT to a total "estimated number", an estimated sample rate (aka "submission rate") is required; sample rate is estimated as the total heads submitted in a spatio-temporal stratum divided by the estimated marked kept catch in that stratum. These sample rates are corrected for lost tags that happened during sampling processing when calculating the estimated number of the recovery.
+In order to estimate each recovered CWT to a total "estimated number", an estimated sample rate (aka "submission rate") is required; sample rate is estimated as the total heads submitted in a spatio-temporal stratum divided by the estimated marked kept catch in that stratum. These sample rates are corrected for lost tags that may occur during sampling processing when calculating the estimated number of the recovery.
 
-Historically there have been various gaps and higher uncertainty in recreational catch estimates for periods and regions that typically have lower fishing effort. Various methods were used to estimate submission rates in these lower effort regions and time periods. The most common approach was to use the average submission rate of other regions and time periods with creel survey-based catch estimates as an indirect estimate for lower effort regions (e.g., summer submission rates used for winter recoveries). The implementation of the internet Recreational Effort and Catch program (iREC) provides complete representation of recreational catch in the Pacific Region (DFO 2015). Using these iREC estimates, in combination with ongoing creel based estimates from high effort periods, allows a change to directly estimate submission rates for most strata. As discussed in CYER WG (2021), such a transition from indirect to direct methods will improve the accuracy of the resulting estimates.
+Historically there have been various gaps and higher uncertainty in recreational catch estimates for periods and regions that typically have lower fishing effort. Various methods were used to estimate submission rates in these lower effort regions and time periods. The most common approach was to use the average submission rate of other regions and time periods with creel survey-based catch estimates as an indirect estimate for lower effort regions (e.g., summer submission rates used for winter recoveries). The implementation of the internet Recreational Effort and Catch program (iREC) provides complete representation of recreational catch in the Pacific Region (@irec_sar_2015). Using these iREC estimates, in combination with ongoing creel based estimates from high effort periods allows a change to directly estimation submission rates for most strata. As discussed in @CYER2021, such a transition from indirect to direct methods will improve the accuracy of the resulting estimates.
 
-Submission rates for recreational catch can vary for various reasons (e.g., the proportion of guided catch, the presence of creel surveyors, availability of head depots in an area, fisher awareness of and buy-in to the program). As submission rates may vary both spatially and temporally, Canada splits BC marine waters into smaller regions that may better represent different recreational fisher communities. To better align the CWT estimates with updated recreational catch estimates, Chinook CWT regions were redefined for 2005 to present (as shown in Figure 1).
+Submission rates for recreational catch can vary for various reasons (e.g., the proportion of guided catch, the presence of creel surveyors, availability of head depots in an area, fisher awareness of and buy-in to the program). As submission rates may vary both spatially and temporally, Canada splits BC marine waters into smaller regions that may better represent different recreational fisher communities. To better align the CWT estimates with updated recreational catch estimates, Chinook CWT regions were redefined for 2005 to present (as shown in Figure \@ref(fig:fig-CwtMap)).
 
-```{r myfigure, echo=FALSE, message=FALSE, warning=FALSE, out.width="70%"}
-#| label: fig-NewCWTRegion
-#| fig-cap: "CWT Region Stratification"
 
-fig_cwt_region_path <- "data/Both BC CWT Regions.png"
-
-knitr::include_graphics(fig_cwt_region_path)
-```   
-
-```{r cwtmap, echo=FALSE, message=FALSE, warning=FALSE, out.width="70%"}
+```{r cwtmap, echo=FALSE, message=FALSE, warning=FALSE, fig.height = 8}
 #| label: fig-CwtMap
 #| fig-cap: "CWT New area map"
 
@@ -454,19 +445,19 @@ whole_bc_map_gg
 
 ```   
 
-In addition to redefining the spatial regions of CWT estimates, the temporal periods used for estimation were adjusted to align with the updated catch estimates. Similar to the updated catch estimates discussed in the September 9th, 2024 memo (Canadian recreational catch estimation revisions), submission rates and resulting CWT estimates are based on three primary seasonal periods: Spring (January to April), Summer (May to September), Fall (October to December). The exception is for some northern regions (e.g. Central BC) that are based on annual submission rates, as spring and fall fisheries are too small to separately estimate. 
+In addition to redefining the spatial regions of CWT estimates, the temporal periods used for estimation were adjusted to align with the updated catch estimates. Similar to the catch seasonal periods, submission rates and resulting CWT estimates are based on the same seasonal periods: Spring (January to April), Summer (May to September), Fall (October to December). The exception is northern regions (e.g. Central BC and Northern BC) that are based on annual submission rates, as spring and fall fisheries are too small to separately estimate. 
 
 In rare cases for certain strata, the combination of the marked catch estimate and submitted heads can lead to CWT estimates that are substantial outliers from most CWT estimates. Assuming that the underlying reason for the substantial outliers is more related to uncertainty in the marked clip catch estimate and not sudden substantial changes to the SHRP submission rate, various approaches to handle outliers have been developed; these are described in following sections. 
 
 #### Changes to CWT Estimation Methods
 
-As identified by the September 9, 2024 memo, past recreational catch estimates had gaps in coverage that need to be revised and updated. Before this update to CWT estimation methods, there were regions and time periods that had no marked catch estimates or had inconsistencies between the number of recoveries and estimated marked catch. To handle these issues, CWT estimates were based on several indirect methods. Indirect methods included using the average submission rate of the same region from other months (e.g. Strait of Georgia summer submission rates for winter months), the average of the submission rates in other regions (e.g. Southern BC submission rates for Central BC), or assumed maximum and minimum submission rates applied when estimated submission rates were unreasonably high or low, presumably resulting from uncertainty in the marked kept catch estimates.
+As previously identified in this report, past recreational catch estimates had gaps in coverage that need to be revised and updated. Before this update to CWT estimation methods, there were regions and time periods that had no marked catch estimates or had inconsistencies between the number of recoveries and estimated marked catch (e.g. more samples than marked catch). To handle these issues, CWT estimates were based on several indirect methods. Indirect methods included using the average submission rate of the same region from other months (e.g. Strait of Georgia summer submission rates for winter months), the average of the submission rates in other regions (e.g. Southern BC submission rates for Central BC), or assumed maximum and minimum submission rates applied when estimated submission rates were unreasonably high or low, presumably resulting from uncertainty in the marked kept catch estimates.
 
-Although the updated recreational catch provides complete coverage, approximately 2.5% of observed CWT recoveries are associated with regions and time periods with an estimated marked catch estimate of zero or result in extreme submission rates (i.e., less than 2% or greater than 40%). Most of these recoveries are associated with years before iREC (before 2013) when we rely on modelled catch. We developed updated and standardized algorithms to our indirect catch estimation methods leveraging the more extensive coverage of recreational catch estimates.
+Although the updated recreational catch provides complete coverage, approximately 2.5% of observed CWT recoveries are associated with regions and time periods with an estimated marked catch of zero or result in extreme submission rates (i.e., less than 2% or greater than 40%). Most of these recoveries are associated with years before iREC (before 2013) when we rely on modelled catch. We developed updated and standardized algorithms to our indirect catch estimation methods leveraging the more extensive coverage of recreational catch estimates.
 
-The updated indirect methods can be grouped in three different categories based on the approach used to compute the indirect method, as well as the CWT area and season for which the estimate was produced. 
+The updated indirect methods can be grouped in three different categories based on the approach used to compute each method, as well as the CWT area and season for which the estimate was produced. 
 
-**Method 1:** When a time period (i.e., season) within a region has an outlier submission rate ($s$), the first option is to use an annual average of all the time periods (i) within the region weighted by the number of heads ($h$) in each period using the equation below. This should weight the annual average submission rate ($\bar{s}$) used for the outlier period to a rate that has the lowest uncertainty, based on the assumption that periods with the lowest uncertainty will have the highest number of heads contributed to the program (Equation~\eqref{eq:cwt_wght_avg}).
+**Method 1:** When a time period (i.e., season) within a region has an outlier submission rate ($s$), the first option is to use an annual average of all the time periods (i) within the region weighted by the number of heads ($h$) in each period using the equation below. This should weight the annual average submission rate ($\bar{s}$) used for the outlier period to a rate that has the lowest uncertainty, based on the assumption that periods with the lowest uncertainty will have the highest number of heads contributed to the program (Equation \eqref{eq:cwt_wght_avg}).
 
 $$
 \bar{s} = \frac{\sigma_i h_i s_i}{\sigma_i h_i}
@@ -475,16 +466,16 @@ $$
 
 **Method 2:** In some circumstances, the annual average submission rate may result in an outlier estimate. This typically occurs in the Strait of Georgia with catch estimate before iREC reporting (i.e. before 2013). To better represent the submission rate of these regions and years, a weighted average is used based on the annual submission rates 2 years before and 2 years after the outlier year. The moving window average should better represent average submission rate of fishers in a region, as the knowledge and implementation of the SHRP is not expected to vary substantially across years within a region (e.g. head depots operations are generally consistent).
 
-**Method 3:** When there are annual gaps in adipose clipped catch, such as in the Prince Rupert region from 2005 to 2007, the weighted annual average for the northern portion of BC (including Haida Gwaii and Central BC) was used based on Equation~\eqref{eq:cwt_wght_avg}. This will weight the average submission rate to regions and time periods with the most effort.
+**Method 3:** When there are annual gaps in adipose clipped catch, such as in the Prince Rupert region from 2005 to 2007, the weighted annual average for the northern portion of BC (including Haida Gwaii and Central BC) was used based on Equation \eqref{eq:cwt_wght_avg}. This will weight the average submission rate to regions and time periods with the most effort.
 
 ### Updating Chinook non-retention (release) estimates
 
-In 2025, in an attempt to account for mark-selective fisheries, the ERA is switching from a model that only accounts Chinook non-retention without selectively to non-retention by mark status. Therefore, the applicable rates in the ERA that are affected by the revised catch estimates are the marked released rate (MRR) and unmarked kept rate (UKR) (See more detail in the CYER Technical Report - 53). In a given PFMA and month, MRR and UKR are calculated as follows:
+In 2025, in an attempt to account for mark-selective fisheries, the ERA is switching from a model that only accounts Chinook non-retention without selectively to a model that supports mark selective regulation. Therefore, the applicable rates in the ERA that are affected by the revised catch estimates are the marked released rate ($MRR$) and unmarked kept rate ($UKR$) (details provided in @CYER2024). In a given PFMA and month, MRR and UKR are calculated as follows:
 
-$Marked.release.rate = marked.released / (marked.released + marked.kept)$
+$MRR = marked.released / (marked.released + marked.kept)$
 
-$Unmarked.kept.rate = unmarked.kept/(unmarked.kept + unmarked.released)$
+$UKR = unmarked.kept / (unmarked.kept + unmarked.released)$
 
-We calculated the MR and UK rates at the PFMA and month level and then used a weighted average based on total catch estimate per area and month to generate an MR and UK rate for each finescale fishery.
+We calculated the $MRR$ and $UKR$ at the PFMA and month level and then used a weighted average based on total catch estimate per area and month to generate a finescale fishery specific $MRR$ and $UKR$.  Within the CTC ERA, these finescale fishery $MRR$ and $UKR$ values are combined into a ERA fishery value based on a cohort specific weighted average of each value.
 
-With the exception of Juan de Fuca, which did have mark-selective fisheries before 2012, all other sport fisheries were non-selective before 2013. Since the data is modelled, we did not want to bias the previous non-selective fisheries by allowing for selectivity, therefore we have fixed the MRR and URR rates to be equal in the modelled data, by calculating a single release rate for marked and unmarked fish combined. After 2013, the data is observed and therefore allowed to vary selectively even if no specific mark selective fishery was imposed. Terminal fisheries typically happen in the summer period, therefore they were assigned the same MRR and UKR rates as the equivalent summer seasonal fishery.
+With the exception of Juan de Fuca, which did have mark-selective fisheries before 2012, all other sport fisheries were non-selective before 2013. Since the data is modelled, we did not want to bias the previous non-selective fisheries by allowing for selectivity, therefore we have fixed the MRR and URR rates to be equal in the modelled data, by calculating a single release rate for marked and unmarked fish combined. After 2013, the data is observed and therefore allowed to vary mark selectivity even if no specific mark selective regulations were imposed. Terminal fisheries typically happen in the summer period, therefore they were assigned the same MRR and UKR rates as the equivalent summer fishery.
