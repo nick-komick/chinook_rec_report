@@ -31,40 +31,29 @@ fishery_map <-
 
 strat_table <- 
   strat_table |>
-  left_join(fishery_map) |>
+  left_join(fishery_map, by = "finescale_fishery") |>
   arrange(erafishery) |> 
   relocate(erafishery) |>
-  group_by(finescale_fishery) |>
-  mutate(month_category = case_when(
-    finescale_fishery == "CBC S" ~ "1:12",
-    finescale_fishery == "NWCVI S SUMMER AABM" & area %in% c("25", "26", "27") ~ "5:6",
-    finescale_fishery == "NWCVI S SUMMER ISBM"  ~ "7:9",
-    finescale_fishery == "SWCVI S SUMMER AABM" & area %in% c("21", "23", "23 (Alberni Canal)", "23 (Barkley)", "24") ~ "5:7",
-    finescale_fishery == "SWCVI S SUMMER ISBM"  ~ "8:9",
-    month %in% c(10,11,12) ~ "10:12", 
-    month %in% c(1:4) ~ "1:4", 
-    month %in% c(5:9) ~ "5:9",
-    month %in% c(7:8) ~ "7:8",
-    TRUE ~ "NA"
-  )) %>% 
-  select(-month) %>% 
-  unique() %>% 
-  drop_na() %>% 
+  group_by(erafishery, finescale_fishery, area) |>
+  summarize(month_category = paste0(min(month), " to ", max(month)),
+            .groups = "drop") |>
+  distinct() |> 
+  arrange(erafishery, finescale_fishery, area, month_category) |>
   rename("ERA Fishery" = erafishery,  
          "Finescale Fishery" = finescale_fishery, 
          "PFMA" = area,
-         "Months" = month_category) |> 
-  mutate(across(everything(), function(.) { gsub(":", " to ", .)}))
+         "Months" = month_category)
+  
 
-
-#Strat_table %>%
+csas_table(strat_table, format = "latex")
+#strat_table %>%
 #  kableExtra::kable("latex", 
 #                    escape = FALSE,
 #                    caption = "Stratification mapping",
-#                    align = "l") %>%
+#                    align = "l") #%>%
 #  kableExtra::kable_classic(full_width = F, html_font = "Cambria") %>%
 #  kableExtra::kable_styling(bootstrap_options = c("bordered")) %>%
-#  kableExtra::collapse_rows(columns = 1:3, valign = "middle")
+ # kableExtra::collapse_rows(columns = 1:3, valign = "middle")
 
 
 ```
@@ -93,8 +82,8 @@ for (i in 1:length(fishery_name_south)){
   graph_data <- 
     models_combined_old  %>% 
     filter(region_mgmt == fishery_name_south[i],
-           year %in% c(2013:2023),
-           kept_status == "Kept") %>%
+           between(year, 2013, 2023),
+           kept_status == "kept") %>%
     select(year, creel_unfiltered_plus, catch_estimate_predicted) %>%
     pivot_longer(c(creel_unfiltered_plus, catch_estimate_predicted),
                  names_to = "estimate_type",
@@ -146,8 +135,8 @@ for (i in 1:length(fishery_name_north)) {
   graph_data <- 
     models_combined_old2  %>% 
     filter(region_mgmt == fishery_name_north[i],
-           year %in% c(2013:2023),
-           kept_status == "Kept") %>%
+           between(year, 2013, 2023),
+           kept_status == "kept") %>%
     select(year, historic_plus, catch_estimate_predicted) %>%
     pivot_longer(c(historic_plus, catch_estimate_predicted),
                  names_to = "estimate_type",
@@ -181,7 +170,7 @@ for (i in 1:length(fishery_name_north)) {
 
 # MODEL RESIDUALS {#app:second-appendix}
 
-### Southern BC Summer fisheries <br/>
+## Southern BC Summer fisheries
 
 ```{r Modelling summer subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 #| label: fig-south-sum-residuals
@@ -190,7 +179,7 @@ for (i in 1:length(fishery_name_north)) {
 res_gam <- simulateResiduals(sport_catch_models$model_list$south_summer, plot = T, quantreg=T)
 ```
 
-### Northern BC AABM Summer fisheries <br/>
+## Northern BC AABM Summer fisheries
 
 ```{r Modelling summer nbc aabm subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 #| label: fig-nbcaabm-sum-residuals
@@ -200,7 +189,7 @@ res_gam <- simulateResiduals(sport_catch_models$model_list$north_aabm_summer, pl
 
 ```
 
-### Northern BC ISBM Summer fisheries <br/>
+## Northern BC ISBM Summer fisheries
 
 ```{r Modelling summer nbc isbm subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 #| label: fig-nbcisbm-sum-residuals
@@ -210,7 +199,7 @@ res_gam <- simulateResiduals(sport_catch_models$model_list$north_isbm_summer, pl
 
 ```
 
-### Southern BC Spring and Fall fisheries <br/>
+## Southern BC Spring and Fall fisheries
 
 ```{r Modelling spring and fall subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 #| label: fig-south-sf-residuals
@@ -220,7 +209,7 @@ res_gam <- simulateResiduals(sport_catch_models$model_list$south_season, plot = 
 
 ```
 
-### Northern BC AABM Spring and Fall fisheries <br/>
+## Northern BC AABM Spring and Fall fisheries
 
 ```{r Modelling NBC AABM spring and fall subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 #| label: fig-nbcaabm-sf-residuals
@@ -230,7 +219,7 @@ res_gam <- simulateResiduals(sport_catch_models$model_list$north_aabm_season, pl
 
 ```
 
-### Northern BC ISBM Spring and Fall fisheries <br/>
+## Northern BC ISBM Spring and Fall fisheries 
 
 ```{r Modelling NBC ISBM spring and fall subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 #| label: fig-nbcisbm-sf-residuals
@@ -240,7 +229,7 @@ res_gam <- simulateResiduals(sport_catch_models$model_list$north_isbm_season, pl
 
 ```
 
-### Central BC All seasons fisheries <br/>
+## Central BC All seasons fisheries 
 
 ```{r Modelling CBCsubsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 #| label: fig-cbc-residuals
@@ -312,7 +301,7 @@ create_facet_plot <- function(finescale_fishery_name, x_var, plot_data, model_da
 }
 ```
 
-### Southern BC Summer fisheries
+## Southern BC Summer fisheries
 
 ```{r forloop seasonal summer appendix, results='asis', echo=FALSE}
 south_summer_model <- sport_catch_models$model_list$south_summer
@@ -356,7 +345,7 @@ for (i in 1:length(fishery_name_south)){
 }
 ```
 
-### Southern BC Spring and Fall fisheries
+## Southern BC Spring and Fall fisheries
 
 ```{r forloop seasonal spring and fall appendix, results='asis', echo=FALSE}
 
@@ -394,7 +383,7 @@ for (i in 1:length(fishery_name_south)){
 
 ```
 
-### Northern BC AABM Spring and Fall fisheries
+## Northern BC AABM Spring and Fall fisheries
 
 ```{r forloop NBC AABM seasonal spring and fall appendix, results='asis', echo=FALSE}
 
@@ -437,7 +426,7 @@ for (i in 1:length(fishery_name_north_aabm)){
 }
 ```
 
-### Northern BC ISBM Spring and Fall fisheries
+## Northern BC ISBM Spring and Fall fisheries
 
 ```{r forloop NBC ISBM seasonal spring and fall appendix, results='asis', echo=FALSE}
 
