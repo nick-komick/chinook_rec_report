@@ -141,6 +141,12 @@ create_facet_plot <- function(finescale_fishery_name, x_var, plot_data, model_da
 The best model for Southern BC Summer fisheries was one with a gamma distribution using a log link that included summer South Coast creel, marked and kept status, finescale fishery, and an interaction between summer creel and finescale fishery, creel summer and status, and status and fishery:
 
 $$
+C_{all,summer} = C_{creel,summer} + f + s + C_{creel,summer}:S + S:F
+$$
+
+xyz
+
+$$
 catch =creel.summer +fishery+status+creel.summer:fishery+ creel.summer:status + status:fishery
 $$
 
@@ -197,6 +203,8 @@ plot
 
 The best model for Southern BC Spring and Fall fisheries was one with a gamma distribution with a log link which included summer creel, status, finescale fishery, season, and various interactions of these terms:
 
+$$ C_{all,season} = C_{creel,summer} + Z + S + C_{creel,summer}:F + C_{creel,summer}:S + F:Z $$
+
 $$ catch = creel.summer + fishery + season+status + creel.summer:fishery + creel.summer:status + fishery:season $$
 
 This model parameterization allows for filtered calibrated iREC catch to be predicted both independently by the unfiltered creel and logbook catch in the limited creel summer period (months 7:8), by finescale fishery, by season (spring(months 1:4) or fall(10:12), and by status (marked kept, marked released, unmarked kept, unmarked released). In addition, the effect of the creel summer period on catch can be modified by finescale fishery and status and the effect of season on catch can be modified by finescale fishery. Figure \@ref(fig:fig-south-sf-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. There are some noticeable patterns in the residuals here that could be improved, however at this time this is the best model fit to the data.
@@ -244,6 +252,8 @@ plot
 #### Northern BC AABM Summer Fisheries
 
 The best model for Northern BC AABM Summer Fisheries was one with a gamma distribution with a log link which included summer historic data (Haida creel + logbook), status, and an interaction of these two terms:
+
+$$ C_{all,summer} = C_{historic,summer} + S + C_{historic,summer}:S $$
 
 $$ catch = historic.summer+status + historic.summer:status $$
 
@@ -295,6 +305,9 @@ plot
 
 The best model for Northern BC ISBM Summer fisheries was one with a gamma distribution using a log link that included summer historic data (Area 3 and 4 Creel + logbook) and status, with no interaction of these terms.
 
+$$ C_{all,summer} = C_{historic,summer} + S $$
+
+
 $$ catch = historic.summer+status                                           $$
 
 This model parameterization allows for calibrated iREC catch in the whole summer period (months 5:9) to be predicted both independently by the unfiltered Area 3 and 4 creel and logbook catch in the limited creel summer period (months 7:8) and by status. Figure \@ref(fig:fig-nbcisbm-sum-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. The residuals vs. predicted values show no significant patterns.
@@ -343,6 +356,9 @@ plot
 #### Northern BC AABM Spring and Fall Fisheries
 
 The best model for Northern BC AABM Spring and Fall Fisheries was one with a gamma distribution with a log link which included summer historic data (Haida creel + logbook), season, status, and an interaction of status and creel.
+
+$$ C_{all,Z} = C_{historic,summer} + Z + S + C_{historic,summer}:S $$
+
 
 $$ catch = historic.summer+season+status + historic.summer:status $$
 
@@ -395,6 +411,8 @@ plot
 
 The best model for Northern BC ISBM Spring and Fall Fisheries was one with a gamma distribution with a log link which included summer historic data (Area 3 and 4 creel + logbook), season, status, and an interaction of season and status.
 
+$$ C_{all,Z} = C_{historic,summer} + Z + S + Z:S   $$
+
 $$ catch = historic.summer+season+status+season:status $$
 
 This model parameterization allows for calibrated iREC catch to be predicted both independently by the unfiltered Area 3 and 4 creel and logbook catch in the limited creel summer period (months 7:8), by season and by status. The effect of season was modified by status. Figure \@ref(fig:fig-nbcisbm-sf-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals.
@@ -443,6 +461,8 @@ plot
 #### Central BC annual fishery
 
 The best model for the Central BC annual fishery was one with a gamma distribution with a log link which included historic estimates (logbook only) and status.
+
+$$ C_{all} = C_{historic,summer} + S $$
 
 $$ catch = historic.summer+status  $$
 
@@ -496,7 +516,7 @@ plot
 
 ### Model validation using sport head recoveries
 
-We used the sport head recovery program to validate the model results.  As the total number of heads collected by the SHRP is expected to be driven by the the total kept mark catch in recreational fisheries, the total kept marked catch and total heads collected by the SHRP should be correlated.  The SHRP relies on several approaches to sampling (e.g. log sampling, public collection points, avid anglers) and should not necessarily be driven by creel survey coverage.  Furthermore, SHRP has generally consistently run over the transition time between the modelled catch (pre 2013) and iREC estimated catch periods. So, the linear relationship should be similar from both the 2005 to 2012 years with modelled catch and 2013 to 2023 years for creel and iRec combined catch.
+We used the sport head recovery program to validate the model results.  As the total number of heads collected by the SHRP is expected to be driven by the the total kept mark catch in recreational fisheries, the total kept marked catch and total heads collected by the SHRP should be correlated.  The SHRP relies on several approaches to sampling (e.g. log sampling, public collection points, avid anglers) and should not necessarily be driven by creel survey coverage.  Furthermore, SHRP has generally consistently run over the transition time between the modelled catch (pre 2013) and iREC estimated catch periods. So, the linear relationship should be similar from both the 2005 to 2012 years with modelled catch and 2013 to 2023 years for creel and iREC combined catch.
 
 ```{r results cwt data loading, useful functions, echo=FALSE}
 
@@ -588,7 +608,7 @@ ggplot(data = pre_irec_catch_model_df,
   geom_text(x = 500, 
             y = eq_y_pos, 
             label = lm_eqn(pre_irec_catch_model_df), parse = TRUE, hjust=0, vjust=0) +
-  ggtitle("Before iRec Chinook Head to Clipped Catch") +
+  ggtitle("Before iREC Chinook Head to Clipped Catch") +
   xlab("Chinook Kept Adclipped Catch") + 
   ylab("Chinook Head Recoveries")+
   theme_bw()
@@ -616,7 +636,7 @@ ggplot(data = post_irec_catch_model_df,
   geom_text(x = 500, 
             y = eq_y_pos, 
             label = lm_eqn(post_irec_catch_model_df), parse = TRUE, hjust=0, vjust=0) +
-  ggtitle("iRec Chinook Head to Clipped Catch") +
+  ggtitle("iREC Chinook Head to Clipped Catch") +
   xlab("Chinook Kept Adclipped Catch") + 
   ylab("Chinook Head Recoveries")+
   theme_bw()
@@ -713,9 +733,7 @@ ggplot(data = region_df,
 
 ## Incorporation of both sets of revised estimates in Chinook Technical Committee processes
 
-Catch estimates are inputs to the exploitation rate analysis in two places. First, kept and marked catch estimates are used to expand Coded Wire Tag (CWT) observations from the SHRP to CWT estimates uploaded to RMIS. Canada updated CWT estimates based on revised catch and published them to RMIS in support of the 2025 ERA process.
-
-- *What is the second part of this paragraph? (AV)*
+Catch estimates are inputs to the exploitation rate analysis (ERA) in two places. First, kept and marked catch estimates are used to expand Coded Wire Tag (CWT) observations from the SHRP to CWT estimates uploaded to RMIS. Canada updated CWT estimates based on revised catch and published them to RMIS in support of the 2025 ERA process.  Second, the release rates of both marked and unmarked Chinook are used by the ERA to estimate fishery related incidental mortality and adjust for mark selectivity.
 
 ### Reporting Kept and Released Catch
 

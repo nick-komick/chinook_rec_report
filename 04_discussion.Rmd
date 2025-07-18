@@ -8,35 +8,38 @@ output:
 
 # Discussion
 
-Discussion points:
+The methods we presented in this report provides a standardized recreational catch estimates from 2005 to present. However, the quality of data over the time series is quite varied.  While the higher sampling rates of recreational licence holders provides higher precision estimates for iREC in recent years, the lack of iREC before 2013 and the lower sample rates early in the monitoring program leads to confidence in earlier years of this time series.  The primary reason to extend the time series back to 2005 was to provide consistent estimates for the CTC CYER base period of 2009 to 2015.  Future development of fishery assessment metrics should focus on more recent, post iREC, to reduce potential bias and imprecision when evaluating recreational fisheries.
 
--   *irec calibrated using south coast creel only* (develop diversity in calibration data)
+    -  (Modelling) We would expect a non-linear relationship in the modeling of 2005-2012 iREC inclusion since the y axis involves filtered creel and the x axis is only unfiltered creel. The creel filtration process is likely non-linear since smaller estimates are more likely to not pass the quality control filter.
 
-- *ranked model approach* 
+A benefit of standardizing the methods over the 2005 to present period allows us to enhance the quality of recreational catch estimates in the future.  When looking at where to enhance the overall quality of recreational catch, the two directions to look is improve the methods of how the data is integrated and catch monitoring programs.  Each of these is discussed in the sections below.
 
--   *Something here about subject to change based on:*
+## Potential Method Improvements
 
-1.  *Changes to irec:*
-    -   *calibration 2.0,*
-
-    -   irec *QA/QC process not finalized* (improving and standardize QC processes on both, not anticipated to result in substantial changes)
-
--   Modelling:
-
-    -   We would expect a non-linear relationship in the modeling of 2005-2012 iREC inclusion since the y axis involves filtered creel and the x axis is only unfiltered creel. The creel filtration process is likely non-linear since smaller estimates are more likely to not pass the quality control filter.
-
-- CYER leverages 2009 to 2009 as the base period, which is the more limited based on time
-
-## Future Improvements
-
-The focus of this work has been to develop a consistent post-season recreational catch and CWT estimation framework. In the future, several potential approaches to further improving this framework have been identified and may further alter the past estimates. Future improvements may include: 
+The complexity of recreational catch monitoring and the vast extent of the fishery lends itself to further exploration on how to better use the data Canada collects within this sector. Several potential approaches to improving this these estimates have been identified and may incorporated in the future estimates, including: 
 
  * Data quality review processes to improve iREC and Creel data
  * Improved iREC-creel calibration process
  * Review of CWT submission rate stratification and indirect catch estimation methods
+ * Ranked model selection for pre-iREC catch estimates
  
-The complexity of recreational catch monitoring and the vast extent of the fishery lends itself to further exploration on how to better use the data Canada collects within this sector.
+As identified in the methods, there was defined data quality review methods applied to both creel and iREC. However, with the maturing nature of the iREC program, there is potential to explore more nuanced data quality reviews that incorporate additional information (e.g. regulations and narratives provided with survey responses). One area of improvement that has been identified is the potential need to standardize the data quality process across all past years of the survey. This should improve the relationship will the creel survey and reduce the over uncertainty in the estimates.
+
+In addition to the iREC data quality review, the calibration between creel and iREC has been identified as a potential area of improvement. Currently the calibration is carried out annual for each species by their mark status and disposition (i.e. kept or released) for all areas. This approach is a one size fits all for a diverse number fishing communities and regulatory regimes. The propensity for anglers to respond to the survey and their potential recall bias may different based on angler experience, the number of trips, or regulations. As different areas and months through out the Pacific Region can consist of more avid anglers or guides, which may influence the relationship between creel and iREC from the Johnstone Strait to Juan de Fuca Strait. An improved calibration method may be more sensitive to differences across areas, months, or years.
+
+The creel and iREC calibration could also potentially be improved by incorporating creel data from areas outside of southern BC. Historically the most consistent and extensive creel program has been run in Southern BC marine waters. However, similar to the potential calibration improvement, fisher communities in Central and Northern BC may have different response rates and recall bias compared to Southern BC fishers. However, existing creel programs outside of southern BC are run different and may require review on how best to incorporate data from those creel programs into a consistent method of calibration north and central BC iREC catch estimates.
+
+Similar to the creel and iREC calibration, the historic model fitting to estimate catch before iREC may be improved through a more extensive rank model fit analysis. The current model selections was carried out in a more manual and exploratory fashion. By defined greater range of potential models and using a standardized rank model selection to identify the specific model for each combination of region and management regime, the analysis might identify more appropriate models that better reflect the specific dynamics of each strata (i.e. region and season).
+
+## Potential Catch Monitoring Improvements
+
+*Creel can focus on calibration purposes. Less emphasis on spatial coverage and more concentration on reducing uncertainty in the targeted creel areas.* 
+
+
+*Potentially capturing iREC access key during creel surveys. provide better comparison between the programs at an individual angler level when assessing operational error (data entry issues, recall bias,...)* 
+
+*Efforts to reduce recall bias with iREC responses, including potential on water reporting through specific smart devices application or on water catch report logs (provided freely as document templates to anglers). Any solution must meet all the reporting requirements of the iRec program, all species and mark status of Chinook.*
 
 # Conclusion
  
-The primary goal of this work has been to incorporate direct catch estimates following a systematic, standardized, and replicable approach to improve CWT estimates to better represent Canadian marine recreational fisheries. In the past, different methods were inconsistently applied to incorporate data from different sources. This most recent update standardizes how the data is integrated into a recreational CWT estimate and how inconsistencies between sampling and catch estimates are handled. These updates leverage direct measurements and consistent methods to better reflect the recreational impacts on CWT indicator stocks since 2005.
+The primary goal of this work has been to incorporate direct catch estimates following a systematic, standardized, and replicable approach to better represent Canadian marine recreational fisheries impacts on Chinook stocks. In the past, different methods were inconsistently applied to incorporate catch data from different sources. This most recent update standardizes how the data is integrated into a recreational CWT estimate and how inconsistencies between sampling and catch estimates are handled. These updates leverage direct measurements and consistent methods to better reflect the recreational impacts on CWT indicator stocks since 2005. This standardization provide a framework to explore further improvements to improvements how both how to better utilize recreational catch monitoring data and how to potentially improve catch monitoring programs in the future.

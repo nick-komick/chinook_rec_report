@@ -58,7 +58,7 @@ csas_table(strat_table, format = "latex")
 
 ```
 
-# REVISED ESTIMATES 2013-2023 {#app:first-appendix}
+# Revised Estimates 2005-2023 {#app:first-appendix}
 
 ```{r m plots, results='asis', echo=FALSE}
 #| label: fig-catch-revised-1-appendix
@@ -82,7 +82,7 @@ for (i in 1:length(fishery_name_south)){
   graph_data <- 
     models_combined_old  %>% 
     filter(region_mgmt == fishery_name_south[i],
-           between(year, 2013, 2023),
+           between(year, 2005, 2023),
            kept_status == "kept") %>%
     select(year, creel_unfiltered_plus, catch_estimate_predicted) %>%
     pivot_longer(c(creel_unfiltered_plus, catch_estimate_predicted),
@@ -102,7 +102,7 @@ for (i in 1:length(fishery_name_south)){
     scale_linetype_manual(values = c(2, 1),
                           labels = c("iREC included", "Unfiltered creel and logbook")
     ) +
-    scale_x_continuous(breaks = c(2013, 2015, 2017, 2019, 2021, 2023)) +
+    scale_x_continuous(breaks = seq.int(2005, 2023, by = 2)) +
     ggtitle(paste(fishery_name_south[i])) + 
     theme_bw() + 
     ylab("Kept catch estimate") + 
@@ -135,7 +135,7 @@ for (i in 1:length(fishery_name_north)) {
   graph_data <- 
     models_combined_old2  %>% 
     filter(region_mgmt == fishery_name_north[i],
-           between(year, 2013, 2023),
+           between(year, 2005, 2023),
            kept_status == "kept") %>%
     select(year, historic_plus, catch_estimate_predicted) %>%
     pivot_longer(c(historic_plus, catch_estimate_predicted),
@@ -155,7 +155,7 @@ for (i in 1:length(fishery_name_north)) {
     scale_linetype_manual(values = c(2, 1),
                           labels = c("iREC included", "Historic")
     ) +
-    scale_x_continuous(breaks = c(2013, 2015, 2017, 2019, 2021, 2023)) +
+    scale_x_continuous(breaks = seq.int(2005, 2023, by = 2)) +
     ggtitle(paste(fishery_name_north[i])) + 
     theme_bw() + 
     ylab("Kept catch estimate") + 
@@ -168,9 +168,7 @@ for (i in 1:length(fishery_name_north)) {
 
 \clearpage
 
-# MODEL RESIDUALS {#app:second-appendix}
-
-## Southern BC Summer fisheries
+# Model Residuals {#app:second-appendix}
 
 ```{r Modelling summer subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 #| label: fig-south-sum-residuals
@@ -178,28 +176,6 @@ for (i in 1:length(fishery_name_north)) {
 
 res_gam <- simulateResiduals(sport_catch_models$model_list$south_summer, plot = T, quantreg=T)
 ```
-
-## Northern BC AABM Summer fisheries
-
-```{r Modelling summer nbc aabm subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
-#| label: fig-nbcaabm-sum-residuals
-#| fig-cap: "Validation plots for NBC AABM Summer model"
-
-res_gam <- simulateResiduals(sport_catch_models$model_list$north_aabm_summer, plot = T, quantreg=T)
-
-```
-
-## Northern BC ISBM Summer fisheries
-
-```{r Modelling summer nbc isbm subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
-#| label: fig-nbcisbm-sum-residuals
-#| fig-cap: "Validation plots for NBC ISBM Summer model"
-
-res_gam <- simulateResiduals(sport_catch_models$model_list$north_isbm_summer, plot = T, quantreg=T)
-
-```
-
-## Southern BC Spring and Fall fisheries
 
 ```{r Modelling spring and fall subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 #| label: fig-south-sf-residuals
@@ -209,7 +185,13 @@ res_gam <- simulateResiduals(sport_catch_models$model_list$south_season, plot = 
 
 ```
 
-## Northern BC AABM Spring and Fall fisheries
+```{r Modelling summer nbc aabm subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
+#| label: fig-nbcaabm-sum-residuals
+#| fig-cap: "Validation plots for NBC AABM Summer model"
+
+res_gam <- simulateResiduals(sport_catch_models$model_list$north_aabm_summer, plot = T, quantreg=T)
+
+```
 
 ```{r Modelling NBC AABM spring and fall subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 #| label: fig-nbcaabm-sf-residuals
@@ -219,7 +201,13 @@ res_gam <- simulateResiduals(sport_catch_models$model_list$north_aabm_season, pl
 
 ```
 
-## Northern BC ISBM Spring and Fall fisheries 
+```{r Modelling summer nbc isbm subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
+#| label: fig-nbcisbm-sum-residuals
+#| fig-cap: "Validation plots for NBC ISBM Summer model"
+
+res_gam <- simulateResiduals(sport_catch_models$model_list$north_isbm_summer, plot = T, quantreg=T)
+
+```
 
 ```{r Modelling NBC ISBM spring and fall subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 #| label: fig-nbcisbm-sf-residuals
@@ -229,11 +217,9 @@ res_gam <- simulateResiduals(sport_catch_models$model_list$north_isbm_season, pl
 
 ```
 
-## Central BC All seasons fisheries 
-
 ```{r Modelling CBCsubsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 #| label: fig-cbc-residuals
-#| fig-cap: "Validation plots for CBC model"
+#| fig-cap: "Validation plots for CBC annual model"
 
 res_gam <- simulateResiduals(sport_catch_models$model_list$central_isbm, plot = T, quantreg=T)
 
@@ -241,7 +227,7 @@ res_gam <- simulateResiduals(sport_catch_models$model_list$central_isbm, plot = 
 
 \clearpage
 
-# MODEL OUTPUT {#app:third-appendix}
+# Model Output {#app:third-appendix}
 
 ```{r appendix_plotting_function, include = FALSE}
 #plotting function that will be used for the next few sections
@@ -280,7 +266,7 @@ create_facet_plot <- function(finescale_fishery_name, x_var, plot_data, model_da
     scale_colour_manual(values = status_colors, guide = "none") +
     scale_fill_manual(values = status_colors, guide = "none") +
     xlab("Creel summer catch estimate") +
-    ylab("iREC-only catch estimate") +
+    ylab("Calibrated iREC-only catch estimate") +
     facet_wrap(~status,
                labeller = labeller(status = status_labels),
                scales = "free")
