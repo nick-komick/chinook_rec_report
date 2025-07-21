@@ -449,7 +449,8 @@ whole_bc_map_gg <- ggplot() +
              check_overlap = TRUE) +
   # Add a theme
   theme_void() +
-  theme(legend.position = "none") 
+  theme(legend.position = "none",
+        plot.margin = margin(0, 0, 0, 0)) 
 
 whole_bc_map_gg
 
