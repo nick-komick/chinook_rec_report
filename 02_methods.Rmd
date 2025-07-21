@@ -300,14 +300,14 @@ g <-
   geom_tile(data = ngs_catch, 
             aes(x=year, y=as.factor(month), fill = sum_catch_estimate), 
             colour = "white") +
-  scale_fill_gradient(low = col1, high = col2,  na.value = colclear, limits=c(0,90000)) +
+  scale_fill_gradient(low = col1, high = col2,  na.value = colclear, limits=c(0,20000)) +
   scale_y_discrete(limits = rev)+
   guides(fill=guide_legend(title="Creel or logbook estimates")) +
   new_scale_fill() +
   geom_tile(data = ngs_irec_catch, 
             aes(x=year, y=as.factor(month), fill = sum_catch_estimate), 
             colour = "white") +
-  scale_fill_gradient(low = col5, high = col6,  na.value = colclear, limits=c(0,90000))+
+  scale_fill_gradient(low = col5, high = col6,  na.value = colclear, limits=c(0,15000))+
   #facet_wrap(~finescale_fishery_old+AREA, nrow=1)+
   facet_grid(finescale_fishery ~ area, space = "free") +
   guides(fill=guide_legend(title="iREC estimates")) +
