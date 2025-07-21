@@ -294,6 +294,11 @@ ngs_irec_catch <-
   pfma_yearMonth_irec_1|>
   filter(region == "NGS")
 
+#ordering by spring, summer, fall for graph
+ngs_catch$finescale_fishery <- factor(
+  ngs_catch$finescale_fishery,
+  levels = c("NGS S SPRING", "NGS S SUMMER", "NGS S FALL")
+)
 
 g <-
   ggplot()+
