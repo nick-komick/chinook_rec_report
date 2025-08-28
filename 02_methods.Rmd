@@ -299,6 +299,10 @@ ngs_catch$finescale_fishery <- factor(
   ngs_catch$finescale_fishery,
   levels = c("NGS S SPRING", "NGS S SUMMER", "NGS S FALL")
 )
+ngs_irec_catch$finescale_fishery <- factor(
+  ngs_irec_catch$finescale_fishery,
+  levels = c("NGS S SPRING", "NGS S SUMMER", "NGS S FALL")
+)
 
 g <-
   ggplot()+
@@ -314,14 +318,14 @@ g <-
             colour = "white") +
   scale_fill_gradient(low = col5, high = col6,  na.value = colclear, limits=c(0,15000))+
   #facet_wrap(~finescale_fishery_old+AREA, nrow=1)+
-  facet_grid(finescale_fishery ~ area, space = "free") +
+  facet_grid(finescale_fishery ~ area, scales = "free_y", space = "free_y") +
   guides(fill=guide_legend(title="iREC estimates")) +
   labs(title = paste0("Coverage by PFMA for Northern Strait of Georgia"),
        x = "Year", y = "Month") +
   theme_bw() + theme_minimal() + geom_vline(xintercept = 2013)+
   theme(legend.position="bottom",
         legend.box = "vertical",
-        legend.box.just = "left")
+        legend.box.just = "left") 
 g
 ```
 
