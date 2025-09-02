@@ -2,10 +2,10 @@
 
 \clearpage
 
-# Stratification Mapping
+# Stratification Mapping {#apdx-strattab}
 
 ```{r methods strattab, echo=FALSE, message=FALSE, warning=FALSE}
-#| label: strattab
+#| label: tbl-stratatab
 
 strat_table <- 
   sport_catch_area |> 
@@ -39,8 +39,8 @@ strat_table <-
             .groups = "drop") |>
   distinct() |> 
   arrange(erafishery, finescale_fishery, area, month_category) |>
-  rename("ERA Fishery" = erafishery,  
-         "Finescale Fishery" = finescale_fishery, 
+  rename("CTC ERA Fishery" = erafishery,  
+         "CTC Finescale Fishery" = finescale_fishery, 
          "PFMA" = area,
          "Months" = month_category)
   
@@ -57,6 +57,8 @@ csas_table(strat_table, format = "latex")
 
 
 ```
+
+\clearpage
 
 # Revised Estimates 2005-2023 {#app:first-appendix}
 
