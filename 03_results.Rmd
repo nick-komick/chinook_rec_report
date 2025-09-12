@@ -261,25 +261,25 @@ This model parameterization allows for calibrated iREC catch in the whole summer
 
 Figure \@ref(fig:fig-nbcaabm-summer-model) shows the summer model results in NBC AABM. As above, we see that for each status, as unfiltered creel and logbook catch in the limited creel summer period increases, so does calibrated iREC catch in the whole summer period.
 
-```{r results NBC AABM summer, results='asis', echo=FALSE}
-#| label: fig-nbcaabm-summer-model
-#| fig-cap: "NBC AABM modelled results for Summer fishery"
+```{r results NBC AABM, results='asis', echo=FALSE}
+#| label: fig-nbcaabm-model
+#| fig-cap: "NBC AABM modelled results"
 
 
 
 ###Chosen model
-summer_north_aabm_model <- sport_catch_models$model_list$north_aabm_summer
+north_aabm_model <- sport_catch_models$model_list$north_aabm
 
-family_set <- family(summer_north_aabm_model)
+family_set <- family(north_aabm_model)
 ilink_family_set <- family_set$linkinv
 
-mod <- summer_north_aabm_model
+mod <- north_aabm_model
 
-summer_north_aabm_no_nas <- summer_north_aabm_model$data
+north_aabm_no_nas <- north_aabm_model$data
 ndata <- 
-  summer_north_aabm_no_nas %>%
+  north_aabm_no_nas %>%
   group_by(status, finescale_fishery, season) %>%
-  tidyr::expand(historic_summer = seq(0, max(historic_summer), length=100)) %>%
+  tidyr::expand(historic_plus = seq(0, max(historic_plus), length=100)) %>%
   ## add the fitted values by predicting from the model for the new data
   add_column(fit = predict(mod, newdata = ., type = 'response')) %>%
   bind_cols(setNames(as_tibble(predict(mod, ., se.fit = TRUE)[1:2]),
@@ -289,13 +289,13 @@ ndata <-
          right_lwr = ilink_family_set(fit_link - (2 * se_link)))
 
 
-fishery_name_north_aabm <- sort(unique(summer_north_aabm_no_nas$finescale_fishery))
+fishery_name_north_aabm <- sort(unique(north_aabm_no_nas$finescale_fishery))
 
 i=1
 
 plot <- create_facet_plot(finescale_fishery_name = fishery_name_north_aabm[i], 
-                          x_var = "historic_summer", 
-                          plot_data = summer_north_aabm_no_nas, 
+                          x_var = "historic_plus", 
+                          plot_data = north_aabm_no_nas, 
                           model_data = ndata)
 
 plot
@@ -366,24 +366,24 @@ This model parameterization allows for calibrated iREC catch to be predicted bot
 
 Figure \@ref(fig:fig-nbcaabm-fall-model) shows an example of the Fall model results in NBC AABM. There is very little catch in Fall NBC AABM fisheries and therefore the models tend to predict a nominal small amount of additional fish in the fall, and a larger amount in the spring (see Appendix C).
 
-```{r results example NBC AABM seasonal spring and fall, results='asis', echo=FALSE}
-#| label: fig-nbcaabm-fall-model
-#| fig-cap: "NBC AABM modelled results for Spring fishery"
+```{r results example NBC AABM, results='asis', echo=FALSE}
+#| label: fig-nbcaabm-annual-model
+#| fig-cap: "NBC AABM modelled results"
 
 ###Chosen model
-season_north_aabm_model <- sport_catch_models$model_list$north_aabm_season
-season_north_aabm_no_nas <- season_north_aabm_model$data
+north_aabm_model <- sport_catch_models$model_list$north_aabm
+north_aabm_no_nas <- north_aabm_model$data
 
 
-family_set <- family(season_north_aabm_model)
+family_set <- family(north_aabm_model)
 ilink_family_set<- family_set$linkinv
 
-mod <- season_north_aabm_model
+mod <- north_aabm_model
 
 ndata <- 
-  season_north_aabm_no_nas %>%
-  group_by(status, finescale_fishery, season) %>%
-  tidyr::expand(historic_summer = seq(0, max(historic_summer), length=100)) %>%
+  north_aabm_no_nas %>%
+  group_by(status, finescale_fishery) %>%
+  tidyr::expand(historic_plus = seq(0, max(historic_plus), length=100)) %>%
   
   ## add the fitted values by predicting from the model for the new data
   add_column(fit = predict(mod, newdata = ., type = 'response')) %>%
@@ -394,13 +394,13 @@ ndata <-
          right_lwr = ilink_family_set(fit_link - (2 * se_link)))
 
 
-fishery_name_north_aabm<- sort(unique(season_north_aabm_no_nas$finescale_fishery))
+fishery_name_north_aabm<- sort(unique(north_aabm_no_nas$finescale_fishery))
 
-i=2 
+i=1
 
 plot <- create_facet_plot(finescale_fishery_name = fishery_name_north_aabm[i], 
-                          x_var = "historic_summer", 
-                          plot_data = season_north_aabm_no_nas, 
+                          x_var = "historic_plus", 
+                          plot_data = north_aabm_no_nas, 
                           model_data = ndata)
 
 plot

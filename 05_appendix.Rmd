@@ -191,17 +191,10 @@ res_gam <- simulateResiduals(sport_catch_models$model_list$south_season, plot = 
 #| label: fig-nbcaabm-sum-residuals
 #| fig-cap: "Validation plots for NBC AABM Summer model"
 
-res_gam <- simulateResiduals(sport_catch_models$model_list$north_aabm_summer, plot = T, quantreg=T)
+res_gam <- simulateResiduals(sport_catch_models$model_list$north_aabm, plot = T, quantreg=T)
 
 ```
 
-```{r Modelling NBC AABM spring and fall subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
-#| label: fig-nbcaabm-sf-residuals
-#| fig-cap: "Validation plots for NBC AABM Spring and Fall model"
-
-res_gam <- simulateResiduals(sport_catch_models$model_list$north_aabm_season, plot = T, quantreg=T)
-
-```
 
 ```{r Modelling summer nbc isbm subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 #| label: fig-nbcisbm-sum-residuals
@@ -371,42 +364,41 @@ for (i in 1:length(fishery_name_south)){
 
 ```
 
-## Northern BC AABM Spring and Fall fisheries
+## Northern BC AABM 
 
-```{r forloop NBC AABM seasonal spring and fall appendix, results='asis', echo=FALSE}
+```{r forloop NBC AABM appendix, results='asis', echo=FALSE}
 
-north_aabm_season_model <- sport_catch_models$model_list$north_aabm_season
-north_aabm_season_no_nas <- north_aabm_season_model$data
+north_aabm_model <- sport_catch_models$model_list$north_aabm
+north_aabm_no_nas <- north_aabm_model$data
 
-family_set <- family(north_aabm_season_model)
+family_set <- family(north_aabm_model)
 ilink_family_set<- family_set$linkinv
 
 ndata <-
-  north_aabm_season_no_nas %>% 
+  north_aabm_no_nas %>% 
   group_by(status, finescale_fishery, season) %>%  
-  tidyr::expand(historic_summer = seq(0, max(historic_summer), length=100)) %>%
+  tidyr::expand(historic_plus = seq(0, max(historic_plus), length=100)) %>%
   ## add the fitted values by predicting from the model for the new data
-  add_column(fit = predict(north_aabm_season_model, 
+  add_column(fit = predict(north_aabm_model, 
                            newdata = ., 
                            type = 'response')) %>%
-  bind_cols(setNames(as_tibble(predict(north_aabm_season_model, 
+  bind_cols(setNames(as_tibble(predict(north_aabm_model, 
                                        ., 
                                        se.fit = TRUE)[1:2]),
                      c('fit_link','se_link'))) %>%
-  
   mutate(fit_resp  = ilink_family_set(fit_link),
          right_upr = ilink_family_set(fit_link + (2 * se_link)),
          right_lwr = ilink_family_set(fit_link - (2 * se_link)))
 
 
-fishery_name_north_aabm<- sort(unique(north_aabm_season_no_nas$finescale_fishery))
+fishery_name_north_aabm<- sort(unique(north_aabm_no_nas$finescale_fishery))
 
 
 for (i in 1:length(fishery_name_north_aabm)){
   
   plot <- create_facet_plot(finescale_fishery_name = fishery_name_north_aabm[i], 
-                            x_var = "historic_summer", 
-                            plot_data = north_aabm_season_no_nas, 
+                            x_var = "historic_plus", 
+                            plot_data = north_aabm_no_nas, 
                             model_data = ndata) +
     ggtitle(paste(fishery_name_north_aabm[i]))
   
