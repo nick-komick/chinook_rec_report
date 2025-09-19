@@ -147,16 +147,18 @@ library(ROracle)
 library(pacRecCatch)
 
 library(odbc)
+library(tidyr)
 library(lubridate)
 library(stringr)
 library(ggnewscale)
 library(patchwork)
 library(DHARMa)
-library(lme4)
-library(bbmle)
-library(SuppDists)
-library(MuMIn)
 library(sf)
+
+#library(lme4)
+#library(bbmle)
+#library(SuppDists)
+#library(MuMIn)
 
 #utils
 "%notin%" <- Negate("%in%")
@@ -168,7 +170,7 @@ sport_catch_area <-
 sport_catch_finescale <- 
   wrangle_rec_catch2("pacRecCatch_db.yaml", by="fishery", most_recent_data_year=2023)
 
-sport_catch_models <- model_rec_catch2(sport_catch_finescale, most_recent_data_year=2023)
+sport_catch_models <- model_rec_catch(sport_catch_finescale, most_recent_data_year=2023)
 
 sport_release_rates <- get_release_rates(sport_catch_models, sport_catch_area)
 

@@ -8,6 +8,8 @@ output:
 
 # Discussion
 
+*Add a line about creel being an important data source for recreational catch estimation both for calibration and high quality estimates in high effort periods and areas.  The creel program provides partial fisher independent data sent to compliment the full fisher dependent nature of iREC reporting.*
+
 The methods we presented in this report provides a standardized recreational catch estimates from 2005 to present. However, the quality of data over the time series is quite varied.  While the higher sampling rates of recreational licence holders provides higher precision estimates for iREC in recent years, the lack of iREC before 2013 and the lower sample rates early in the monitoring program leads to confidence in earlier years of this time series.  The primary reason to extend the time series back to 2005 was to provide consistent estimates for the CTC CYER base period of 2009 to 2015.  Future development of fishery assessment metrics should focus on more recent, post iREC, to reduce potential bias and imprecision when evaluating recreational fisheries.
 
     -  (Modelling) We would expect a non-linear relationship in the modeling of 2005-2012 iREC inclusion since the y axis involves filtered creel and the x axis is only unfiltered creel. The creel filtration process is likely non-linear since smaller estimates are more likely to not pass the quality control filter.
@@ -39,6 +41,9 @@ Similar to the creel and iREC calibration, the historic model fitting to estimat
 *Potentially capturing iREC access key during creel surveys. provide better comparison between the programs at an individual angler level when assessing operational error (data entry issues, recall bias,...)* 
 
 *Efforts to reduce recall bias with iREC responses, including potential on water reporting through specific smart devices application or on water catch report logs (provided freely as document templates to anglers). Any solution must meet all the reporting requirements of the iRec program, all species and mark status of Chinook.*
+
+
+*Add guide facilitated catch reporting to iREC.  accomplished both communication and potentially mandatory guide reporting*
 
 # Conclusion
  
