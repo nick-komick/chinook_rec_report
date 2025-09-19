@@ -8,11 +8,9 @@ output:
 
 # Discussion
 
-*Add a line about creel being an important data source for recreational catch estimation both for calibration and high quality estimates in high effort periods and areas.  The creel program provides partial fisher independent data sent to compliment the full fisher dependent nature of iREC reporting.*
-
 The methods we presented in this report provides a standardized recreational catch estimates from 2005 to present. However, the quality of data over the time series is quite varied.  While the higher sampling rates of recreational licence holders provides higher precision estimates for iREC in recent years, the lack of iREC before 2013 and the lower sample rates early in the monitoring program leads to confidence in earlier years of this time series.  The primary reason to extend the time series back to 2005 was to provide consistent estimates for the CTC CYER base period of 2009 to 2015.  Future development of fishery assessment metrics should focus on more recent, post iREC, to reduce potential bias and imprecision when evaluating recreational fisheries.
 
-    -  (Modelling) We would expect a non-linear relationship in the modeling of 2005-2012 iREC inclusion since the y axis involves filtered creel and the x axis is only unfiltered creel. The creel filtration process is likely non-linear since smaller estimates are more likely to not pass the quality control filter.
+When fitting the models between creel and iREC data for infilling of pre-iREC years, most of the model fits were better as non-linear relationships.  This is potentially related to the quality control filtering process of creel estimates.  As effort increases in an area and month combination, there is likely effort increases in adjoining areas and months.  This would result in more areas/months being included in the regional relationship for the model fit.  However, this may not be the case when access fishers is less of a concern.   For example, a log book program maybe able to access fishers at lower efforts and may provide an estimate when a creel survey may not.  This is potentially the case in the Haida Gwaii region (NBC AABM), where much of the effort is carried out by lodges that commonly participate on log book programs.  In that case, the log book catch may have a more linear relationship with iREC catch as the bias is more evenly distributed through out the much shorter and focused fishing season.
 
 A benefit of standardizing the methods over the 2005 to present period allows us to enhance the quality of recreational catch estimates in the future.  When looking at where to enhance the overall quality of recreational catch, the two directions to look is improve the methods of how the data is integrated and catch monitoring programs.  Each of these is discussed in the sections below.
 
@@ -34,6 +32,8 @@ The creel and iREC calibration could also potentially be improved by incorporati
 Similar to the creel and iREC calibration, the historic model fitting to estimate catch before iREC may be improved through a more extensive rank model fit analysis. The current model selections was carried out in a more manual and exploratory fashion. By defined greater range of potential models and using a standardized rank model selection to identify the specific model for each combination of region and management regime, the analysis might identify more appropriate models that better reflect the specific dynamics of each strata (i.e. region and season).
 
 ## Potential Catch Monitoring Improvements
+
+A key component to supporting this combined method of estimating recreational catch is the operation of creel programs.  The fisher dependent nature of the iREC catch reporting can be lead to potential issues if it relied upon as the only source of catch.  As previously identified, fisher behaviour and participation rates can reduce the informational quality of iREC catch estimates.  Going forward, creel programs should be a key component of recreational catch monitoring to ensure the integrity of the recreational catch estimate.s  
 
 *Creel can focus on calibration purposes. Less emphasis on spatial coverage and more concentration on reducing uncertainty in the targeted creel areas.* 
 

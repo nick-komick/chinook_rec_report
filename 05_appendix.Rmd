@@ -654,7 +654,7 @@ all_north_aabm_full |>
   theme_minimal()
 ```
 
-## AIC Comparision
+## Model Comparision
 
 
 ```{r}
@@ -669,8 +669,6 @@ fit_aic_df <-
 knitr::kable(fit_aic_df)
 
 ```
-
-### Change in Annual catch
 
 ```{r}
 
@@ -701,7 +699,7 @@ catch_diff |>
   coord_cartesian(ylim = c(-max_y, max_y)) +
   labs(title = "NBC AABM Catch Change Time Series",
        x = "year",
-       y = "Catch") +
+       y = "Catch Difference \n (New Model - Previous Model)") +
   theme_minimal()
 ```
 
