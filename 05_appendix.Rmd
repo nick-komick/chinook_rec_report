@@ -455,9 +455,7 @@ for (i in 1:length(fishery_name_north_isbm)){
 
 # Modified Haida Gwaii Model {#app:haida-appendix}
 
-
-## Catch Source Time Series
-```{r NBC AABM Catch Time Series appendix, results='asis', echo=FALSE}
+```{r Setup Haida Gwaii Model appendix data}
 
 #Limit catch to Historic Plus and iRec Calibrated
 nbc_aabm <-
@@ -481,31 +479,6 @@ nbc_aabm <-
   tidyr::pivot_longer(c(historic_summer)) |>
   bind_rows(nbc_aabm) 
 
-
-nbc_aabm |>
-  mutate(name = case_when(name == "historic_summer" ~ "Historic Summer",
-                          name == "historic_plus" ~ "All Historic",
-                          name == "irec_calibrated" ~ "Calibrated iREC",
-                          .default = "")) |>
-  ggplot(aes(x = year, y = value, color = status)) +
-  geom_line(linewidth = 1) +
-  geom_point() +
-  facet_wrap(~ name, nrow = 3) +
-  labs(title = "NBC AABM Catch Source Time Series",
-       x = "year",
-       y = "Catch") +
-  theme_minimal()
-
-```
-
-
-## Previous Model Fits
-
-### Spring/Fall
-
-$$ C_{spring/fall} = Z + S + C_{historic, summer}:Z $$
-
-```{r fit NBC AABM Gamma log models, results='asis', echo=FALSE}
 season_north_aabm <-
   sport_catch_area |>
   filter(region == "NC",
@@ -530,6 +503,21 @@ summer_north_aabm <-
             .groups = "drop") |>
   inner_join(historic_summer_df, by = c("year", "status"))
 
+
+summer_north_aabm_gamma_spec <-
+  summer_north_aabm %>%
+  filter(between(year, 2015, 2023)) %>%
+  glm(formula = catch_estimate + 1 ~ status + historic_summer:status + 1 + historic_summer,
+      family=Gamma(link = "log"),
+      data = .)
+
+
+season_df <- data.frame(season = c("spring", "fall"))
+
+historic_summer_season_df <-
+  historic_summer_df |>
+  cross_join(season_df)
+
 season_north_aabm <-
   season_north_aabm |>
   filter(season != "summer") |>
@@ -537,7 +525,9 @@ season_north_aabm <-
   summarize(historic_plus = sum(historic_plus, na.rm = TRUE), 
             catch_estimate  = sum(catch_estimate , na.rm = TRUE),
             .groups = "drop") |>
-  right_join(historic_summer_df, by = c("year", "status"))
+  full_join(historic_summer_season_df, by = c("year", "status", "season")) |>
+  mutate(historic_plus = coalesce(historic_plus, 0),
+         catch_estimate = coalesce(catch_estimate, 0))
 
 
 season_north_aabm_gamma_spec <-
@@ -548,6 +538,7 @@ season_north_aabm_gamma_spec <-
       family=Gamma(link = "log"),
       data = .)
 
+
 season_north_aabm_full <-
   season_north_aabm %>%
   filter(year < 2015) %>%
@@ -557,61 +548,107 @@ season_north_aabm_full <-
   bind_rows(filter(season_north_aabm, year >= 2015)) |>
   mutate(catch_estimate_adj = coalesce(catch_estimate_adj, catch_estimate))
 
-season_north_aabm_full |>
-  group_by(year, status) |>
-  summarize(catch_estimate_adj = sum(catch_estimate_adj, na.rm = TRUE), .groups = "drop") |> 
-  ggplot(aes(x = year, y = catch_estimate_adj, color = status)) +
-  geom_line(linewidth = 1) +
-  geom_point() +
-  labs(title = "NBC AABM Catch Source Time Series",
-       x = "year",
-       y = "Catch") +
-  theme_minimal()
 ```
 
-
-
-### Summer
+Before the development of this report, updated recreational catch estimates where need from Canada to support the implementation of mark selective fisheries in the CTC Exploitation Rate Analysis for 2025.  Although most of the model structures were exactly the same, the earlier analysis had different models fit for Haida Gwaii (ie NBC AABM) based on separate summer and spring/fall model fit.  The predicted catch estimates based on the earlier models forms, that using a log link using the equations below, are provided in Figure \@ref(fig:fig-prev-season-catch).  The previous models used a log 
 
 $$ C_{summer} = C_{historic, summer} + S + C_{historic, summer}:S $$
 
-```{r}
+$$ C_{spring/fall} = Z + S + C_{historic, summer}:Z $$
 
-summer_north_aabm_gamma_spec <-
-  summer_north_aabm %>%
-  filter(between(year, 2015, 2023)) %>%
-  glm(formula = catch_estimate + 1 ~ status + historic_summer:status +
-        1 + historic_summer,
-      family=Gamma(link = "log"),
-      data = .)
 
-summer_north_aabm_full <-
+As the summer model predictions show in Figure \@ref(fig:fig-prev-season-catch), the estimates of unmarked kept catch is substantially higher then any other values in the time series.  Furthermore, the spring/fall estimates are orders of magnitude smaller then the summer predictions.  Compared to the source catch data shown in Figure \@ref(fig:fig-nbc-aabm-src-catch), the historic catch data does show an increase in the 2005 to 2007 years for both unmarked kept and released catch.  However, that increase is not expected to be `{r} filter(summer_north_fit, year == 2006, status == "unmarked_kept_total") |> pull(catch_estimate_adj) / filter(summer_north_aabm, year == 2006, status == "unmarked_kept_total") |> pull(historic_plus)` as predicted by the model.
+
+
+```{r NBC AABM Previous Summer Model Catch appendix, results='asis', echo=FALSE}
+#| label: fig-prev-season-catch
+#| fig-cap: "Predicted catch estimates from an earlier Haida Gwaii model fit."
+summer_north_fit <-
   summer_north_aabm %>%
   filter(year < 2015) %>%
   mutate(catch_estimate_adj = predict.glm(summer_north_aabm_gamma_spec,
                                           newdata =  .,
-                                          type = "response")) |>
-  bind_rows(filter(summer_north_aabm, year >= 2015)) |>
-  mutate(catch_estimate_adj = coalesce(catch_estimate_adj, catch_estimate))
+                                          type = "response"),
+         season = "Summer")
 
 
-summer_north_aabm_full |>
-  group_by(year, status) |>
-  summarize(catch_estimate_adj = sum(catch_estimate_adj, na.rm = TRUE), .groups = "drop") |> 
+season_north_fit <-
+  season_north_aabm %>%
+  filter(year < 2015) %>%
+  mutate(catch_estimate_adj = predict.glm(season_north_aabm_gamma_spec,
+                                          newdata = .,
+                                          type = "response"),
+         season = "Spring/Fall") |>
+  group_by(year, status, season) |>
+  summarize(catch_estimate_adj = sum(catch_estimate_adj, na.rm = TRUE), .groups = "drop")
+
+status_labels <- c(
+  "marked_kept_total" = "Marked Kept Total",
+  "marked_released_total" = "Marked Released Total",
+  "unmarked_kept_total" = "Unmarked Kept Total",
+  "unmarked_released_total" = "Unmarked Released Total"
+)
+
+# Colors for status
+status_colors <- c(
+  "Marked Kept Total" = "#440154", 
+  "Marked Released Total" = "#31688e",
+  "Unmarked Kept Total" = "#35b779",
+  "Unmarked Released Total" = "#d4be02"
+)
+
+summer_north_fit |>
+  bind_rows(season_north_fit) |> 
+  mutate(status = gsub("_", " ", status),
+         status = tools::toTitleCase(status)) |>
   ggplot(aes(x = year, y = catch_estimate_adj, color = status)) +
   geom_line(linewidth = 1) +
   geom_point() +
-  labs(title = "NBC AABM Summer Catch Source Time Series",
-       x = "year",
+  scale_colour_manual(values = status_colors) +
+  facet_wrap(~season, 
+             scales = "free", 
+             ncol = 2) +
+  labs(title = "Previous Haida Gwaii Modelled Catch",
+       x = "Year",
+       y = "Catch") +
+  theme_minimal() + 
+  theme(legend.position = "right")
+```
+
+```{r NBC AABM Catch Time Series appendix, results='asis', echo=FALSE}
+#| label: fig-nbc-aabm-src-catch
+#| fig-cap: "Estimate from the historic (i.e. logbook) and iREC catch estimate sources from Haida Gwaii."
+
+nbc_aabm |>
+  mutate(name = case_when(name == "historic_summer" ~ "Historic Summer",
+                          name == "historic_plus" ~ "Historic",
+                          name == "irec_calibrated" ~ "Calibrated iREC",
+                          .default = ""),
+         status = gsub("_", " ", status),
+         status = tools::toTitleCase(status)) |>
+  ggplot(aes(x = year, y = value, color = status)) +
+  geom_line(linewidth = 1) +
+  geom_point() +
+  facet_wrap(~ name, nrow = 3) +
+  labs(title = "Haida Gwaii Catch Source Time Series",
+       color = "Status",
+       x = "Year",
        y = "Catch") +
   theme_minimal()
+
 ```
+
 
 ## New Model Fits
 
-$$ C_{all} = C_{historic} + S $$
+The relationship between historic logbook and iREC catch is expected to be more linear then the previous log link form previously used as logbook estimates have commonly represented the majority of catch.  Furthermore, the 2005 to 2007 logbook catch estimates are out side the range of the fitted years.  A new, much simpler generalized linear model was fit using Equation \@ref(eq:haida-new-model) with a Gaussian link that estimates annual historic Haida Gwaii catch ($C_{historic}$) by status ($S$, i.e. kept/release and marked/unmarked)
+
+$$ C_{all} = C_{historic} + S$$
 
 ```{r}
+#| label: fig-nbc-aabm-new-catch
+#| fig-cap: "Update catch estimate predicted times series based on historic (i.e. logbook) based on ."
+
 all_north_aabm <-
   sport_catch_finescale |>
   filter(grepl("^NORTH AABM S", finescale_fishery)) |>
@@ -645,45 +682,55 @@ all_north_aabm_full <-
 all_north_aabm_full |>
   group_by(year, status) |>
   summarize(catch_estimate_adj = sum(catch_estimate_adj, na.rm = TRUE), .groups = "drop") |> 
+  filter(year < 2015) |>
+  mutate(status = gsub("_", " ", status),
+         status = tools::toTitleCase(status)) |>
   ggplot(aes(x = year, y = catch_estimate_adj, color = status)) +
   geom_line(linewidth = 1) +
   geom_point() +
   labs(title = "NBC AABM Catch Source Time Series",
-       x = "year",
+       color = "Status",
+       x = "Year",
        y = "Catch") +
   theme_minimal()
 ```
 
 ## Model Comparision
 
-
 ```{r}
-
+#| label: tab-nbc-aabm-aic
+#| fig-cap: "AIC for the two orignal modal fits (i.e. Original Summer and Original Spring/Fall) and the new annual gaussian fit."
 
 fit_aic_df <-
-  data.frame(Model = c("Original Summer (Gamma Log)", "Original Spring/Fall (Gamma Log)", "New Annual Gaussian Fit"),
+  data.frame(Model = c("Original Summer (Gamma Log)", 
+                       "Original Spring/Fall (Gamma Log)", 
+                       "New Annual Gaussian Fit"),
              AIC = c(summer_north_aabm_gamma_spec$aic,
                      season_north_aabm_gamma_spec$aic,
                      all_north_aabm_gaussian_spec$aic))
 
-knitr::kable(fit_aic_df)
+csasdown::csas_table(fit_aic_df)
 
 ```
 
 ```{r}
+#| label: fig-nbc-aabm-catch-diff
+#| fig-cap: "Catch estimate differences between "
+
 
 previous_model_catch <-
   season_north_aabm_full |>
   select(year, status, spring_catch = catch_estimate_adj) |>
   group_by(year, status) |>
   summarize(spring_catch = sum(spring_catch, na.rm = TRUE), .groups = "drop") |>
-  full_join(select(summer_north_aabm_full, year, status, summer_catch = catch_estimate_adj), 
+  full_join(select(all_north_aabm_full, year, status, summer_catch = catch_estimate_adj), 
             by = c("year", "status"))
 
 catch_diff <-
   previous_model_catch |>
   full_join(select(all_north_aabm_full, year, status, new_annual_catch = catch_estimate_adj), 
             by = c("year", "status")) |>
+  filter(year < 2015) |>
   mutate(old_annual_catch = spring_catch + summer_catch,
          catch_diff = new_annual_catch - old_annual_catch)
 
@@ -702,6 +749,3 @@ catch_diff |>
        y = "Catch Difference \n (New Model - Previous Model)") +
   theme_minimal()
 ```
-
-
-

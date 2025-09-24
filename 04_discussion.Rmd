@@ -33,7 +33,9 @@ Similar to the creel and iREC calibration, the historic model fitting to estimat
 
 ## Potential Catch Monitoring Improvements
 
-A key component to supporting this combined method of estimating recreational catch is the operation of creel programs.  The fisher dependent nature of the iREC catch reporting can be lead to potential issues if it relied upon as the only source of catch.  As previously identified, fisher behaviour and participation rates can reduce the informational quality of iREC catch estimates.  Going forward, creel programs should be a key component of recreational catch monitoring to ensure the integrity of the recreational catch estimate.s  
+A key component to supporting this combined method of estimating recreational catch is the operation of creel programs.  The fisher dependent nature of the iREC catch reporting can be lead to potential issues if it relied upon as the only source of catch.  As previously identified, fisher behaviour and participation rates can reduce the informational quality of iREC catch estimates.  Going forward, creel programs should be a key component of recreational catch monitoring to ensure the integrity of the recreational catch estimate.
+
+As creel programs are a key to the recreational catch estimation methods identified in this report, creel program delivery may benefit from shifting prioritize.  As identified, some past creel program data was excluded from the method do to lower quality.  This maybe because there isn't enough interviews or 
 
 *Creel can focus on calibration purposes. Less emphasis on spatial coverage and more concentration on reducing uncertainty in the targeted creel areas.* 
 
