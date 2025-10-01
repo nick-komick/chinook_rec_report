@@ -67,11 +67,11 @@ When revising Chinook catch estimates before iREC, the following separate models
 - Southern BC Summer (2013 to 2023)
 - Southern BC Spring/Fall (2013 to 2023)
 - Central BC (2015 to 2023)
-- Northern BC AABM Summer (2015 to 2023)
-- Northern BC AABM Spring/Fall (2015 to 2023)
-- Northern BC ISBM (2015 to 2023) 
+- Haida Gwaii (2015 to 2023)
+- Northern BC ISBM Summer (2015 to 2023) 
+- Northern BC ISBM Spring/Fall (2015 to 2023) 
 
-Separate summer fisheries and the combined spring and fall fisheries (with season as a factor) model was developed for all southern BC regions. Since Central BC did not have off-season fisheries, one year-round model was developed for CBC Sport. One summer model was developed for all southern BC fisheries, and a separate model each for NBC AABM and NBC ISBM since the input data is different. Overall, models that fit creel summer to creel + iREC summer were a better fit when compared to the models that fit summer creel to data from spring and fall seasons (see Appendix B for residual plots). All the models retained the variable "status" - which fits a different slope to each of the categories marked kept, marked released, unmarked kept and unmarked released.
+Separate summer fisheries and the combined spring and fall fisheries (with season as a factor) model was developed for all southern BC regions. Since Central BC and Haida Gwaii do not have signficatn off-season fisheries, one year-round model was developed for these two regions. One summer model was developed for all southern BC fisheries, and a separate model for NBC ISBM since the input data is different. Overall, models that fit creel summer to combined creel and iREC summer were a better fit when compared to the models that fit summer creel to data from spring and fall seasons (see Appendix B for residual plots). All the models retained the variable "status" - which fits a different slope to each of the categories marked kept, marked released, unmarked kept and unmarked released.
 
 These models are used to develop a relationship between filtered creel + iREC catch in the a given season (spring (months 1:4), summer (months 5:9), or fall (months 10:12)) and the unfiltered creel and logbook only (i.e. no iREC) catch in the limited creel summer period (months 7:8). This relationship is developed with each data point as a single year in the 2013-2023 time series (or 2015-2023 for NBC and CBC). The relationship is then used to predict a combined filtered creel and iREC estimate from the limited summertime creel in the years 2005-2012. Here we show the results of the modelling and the relationships developed. In the next section (incorporation of both sets of data), we use the predicted 2005-2012 values along with the observed 2013-2023 to show how PSC products changed from this analysis.
 
@@ -113,7 +113,7 @@ create_facet_plot <- function(finescale_fishery_name, x_var, plot_data, model_da
     scale_size_continuous(range = c(1, 3)) +
     scale_colour_manual(values = status_colors, guide = "none") +
     scale_fill_manual(values = status_colors, guide = "none") +
-    xlab("Creel summer catch estimate") +
+    xlab("Creel summer + Logbook catch estimate") +
     ylab("iREC-only catch estimate") +
     facet_wrap(~status,
                labeller = labeller(status = status_labels),
@@ -136,7 +136,7 @@ create_facet_plot <- function(finescale_fishery_name, x_var, plot_data, model_da
 ```
 
 
-#### Southern BC Summer Fisheries
+### Southern BC Summer Fisheries
 
 The best model for Southern BC Summer fisheries ($C_{all,summer}$) was one with a gamma distribution using a log link that included summer South Coast  ($C_{creel,summer}$), marked and kept status ($S$), finescale fishery ($F$), and an interaction between summer creel and finescale fishery, creel summer and status, and status and fishery:
 
@@ -181,8 +181,8 @@ fishery_name_south <- sort(unique(ndata$finescale_fishery))
 
 i = 1
 
-
-plot <- create_facet_plot(finescale_fishery_name = fishery_name_south[i], 
+plot <- 
+  create_facet_plot(finescale_fishery_name = fishery_name_south[i], 
                           x_var = "creel_plus_summer", 
                           plot_data = summer_south_no_nas, 
                           model_data = ndata) +
@@ -193,7 +193,7 @@ plot
 
 ```
 
-#### Southern BC Spring and Fall fisheries
+### Southern BC Spring and Fall fisheries
 
 The best model for Southern BC Spring and Fall fishery catch ($C_{all,season}$) was one with a gamma distribution with a log link which included summer creel ($c_{creel,summer}$), status ($S$), finescale fishery ($F$), season ($Z$), and various interactions of these terms:
 
@@ -241,11 +241,9 @@ plot
 
 ```
 
-#### Northern BC AABM Fisheries
+### Haida Gwaii Fisheries
 
-* Rewrite * 
-
-The best model for Northern BC AABM Summer Fisheries was one with a gamma distribution with a log link which included summer historic data (Haida creel + logbook), status, and an interaction of these two terms:
+The best model for Haida Gwaii fishery was one with a Gaussian distribution historic data (Haida creel + logbook, $C_{historic}$), status ($S$):
 
 $$ C_{all} = C_{historic} + S $$
 
@@ -255,7 +253,7 @@ Figure \@ref(fig:fig-nbcaabm-model) shows the model results in NBC AABM. As abov
 
 ```{r results NBC AABM Annual, results='asis', echo=FALSE}
 #| label: fig-nbcaabm-model
-#| fig-cap: "NBC AABM annual modelled results"
+#| fig-cap: "Haida Gwaii annual modelled results"
 
 north_aabm_model <- sport_catch_models$model_list$north_aabm
 
@@ -335,11 +333,10 @@ plot
 
 #### Northern BC ISBM Spring and Fall Fisheries
 
-The best model for Northern BC ISBM Spring and Fall Fisheries was one with a gamma distribution with a log link which included summer historic data (Area 3 and 4 creel + logbook), season, status, and an interaction of season and status.
+The best model for Northern BC ISBM Spring and Fall Fisheries was one with a gamma distribution with a log link which included summer historic data (Area 3 and 4 creel + logbook, $C_{historic, summer}$), season ($Z$), status ($S$), and an interaction of season and status.
 
-$$ C_{all,Z} = C_{historic,summer} + Z + S + Z:S   $$
+$$ C_{all,Z,S} = C_{historic,summer} + Z + S + Z:S   $$
 
-$$ catch = historic.summer+season+status+season:status $$
 
 This model parameterization allows for calibrated iREC catch to be predicted both independently by the unfiltered Area 3 and 4 creel and logbook catch in the limited creel summer period (months 7:8), by season and by status. The effect of season was modified by status. Figure \@ref(fig:fig-nbcisbm-sf-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals.
 
@@ -529,7 +526,7 @@ ggplot(data = head_catch_model_df,
 
 ```
 
-When comparing the model fit before iRec (figure \@ref(fig:fig-heads-kept-preirec)) and with iRec (figure \@ref(fig:fig-heads-kept-postirec)), CWT sample rates are fairly consistent with a before iRec average sample rate of `format(unname(coef(pre_irec_lm)[1]), digits = 3)` and an iRec period sample rate of `format(unname(coef(post_irec_lm)[1]), digits = 3)` with similar $r^2$ values.  This suggests that there is no consistent bias in the modelled mark kept catch estimated, compared to the estimates that include iRec.   
+When comparing the model fit before iRec (figure \@ref(fig:fig-heads-kept-preirec)) and with iRec (figure \@ref(fig:fig-heads-kept-postirec)), CWT sample rates are fairly consistent with a before iRec average sample rate of `r format(unname(coef(pre_irec_lm)[1]), digits = 3)` and an iRec period sample rate of `r format(unname(coef(post_irec_lm)[1]), digits = 3)` with similar $r^2$ values.  This suggests that there is no consistent bias in the modelled mark kept catch estimated, compared to the estimates that include iRec.   
 
 ```{r results Pre iRec Head to Kept Mark Catch, echo=FALSE}
 #| label: fig-heads-kept-preirec
@@ -858,12 +855,12 @@ mu <-
                      labels = c("Revised Unmarked Release Rate", 
                                 "Revised Marked Release Rate", 
                                 "2024 CNR Release Rate"))+
-  facet_wrap(~region_mgmt)+
+  facet_wrap(~region_mgmt) +
   theme_bw() + 
-  geom_vline(xintercept = 2012)+
+  geom_vline(xintercept = 2012) +
   labs(col="Data source",
        x = "Year",
-       y = "Proportion")+
+       y = "Proportion") +
   theme(legend.position = "bottom")
 
 print(mu)

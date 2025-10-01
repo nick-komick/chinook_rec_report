@@ -557,7 +557,7 @@ $$ C_{summer} = C_{historic, summer} + S + C_{historic, summer}:S $$
 $$ C_{spring/fall} = Z + S + C_{historic, summer}:Z $$
 
 
-As the summer model predictions show in Figure \@ref(fig:fig-prev-season-catch), the estimates of unmarked kept catch is substantially higher then any other values in the time series.  Furthermore, the spring/fall estimates are orders of magnitude smaller then the summer predictions.  Compared to the source catch data shown in Figure \@ref(fig:fig-nbc-aabm-src-catch), the historic catch data does show an increase in the 2005 to 2007 years for both unmarked kept and released catch.  However, that increase is not expected to be `{r} filter(summer_north_fit, year == 2006, status == "unmarked_kept_total") |> pull(catch_estimate_adj) / filter(summer_north_aabm, year == 2006, status == "unmarked_kept_total") |> pull(historic_plus)` as predicted by the model.
+As the summer model predictions show in Figure \@ref(fig:fig-prev-season-catch), the estimates of unmarked kept catch is substantially higher then any other values in the time series.  Furthermore, the spring/fall estimates are orders of magnitude smaller then the summer predictions.  Compared to the source catch data shown in Figure \@ref(fig:fig-nbc-aabm-src-catch), the historic catch data does show an increase in the 2005 to 2007 years for both unmarked kept and released catch.  However, that increase is not expected to be a `r round(filter(summer_north_fit, year == 2006, status == "unmarked_kept_total") |> pull(catch_estimate_adj) / filter(summer_north_aabm, year == 2006, status == "unmarked_kept_total") |> pull(historic_plus), digits = 1)` times increase as predicted by the model.
 
 
 ```{r NBC AABM Previous Summer Model Catch appendix, results='asis', echo=FALSE}
@@ -597,10 +597,13 @@ status_colors <- c(
   "Unmarked Released Total" = "#d4be02"
 )
 
-summer_north_fit |>
+previous_model_catch <-
+  summer_north_fit |>
   bind_rows(season_north_fit) |> 
   mutate(status = gsub("_", " ", status),
-         status = tools::toTitleCase(status)) |>
+         status = tools::toTitleCase(status))
+
+previous_model_catch |>
   ggplot(aes(x = year, y = catch_estimate_adj, color = status)) +
   geom_line(linewidth = 1) +
   geom_point() +
@@ -641,11 +644,13 @@ nbc_aabm |>
 
 ## New Model Fits
 
-The relationship between historic logbook and iREC catch is expected to be more linear then the previous log link form previously used as logbook estimates have commonly represented the majority of catch.  Furthermore, the 2005 to 2007 logbook catch estimates are out side the range of the fitted years.  A new, much simpler generalized linear model was fit using Equation \@ref(eq:haida-new-model) with a Gaussian link that estimates annual historic Haida Gwaii catch ($C_{historic}$) by status ($S$, i.e. kept/release and marked/unmarked)
+The relationship between historic logbook and iREC catch is expected to be more linear then the previous log link form previously used as logbook estimates have commonly represented the majority of catch.  Furthermore, the 2005 to 2007 logbook catch estimates are out side the range of the fitted years.  A new, much simpler generalized linear model was fit using Equation \eqref{eq:haida-new-model} with a Gaussian link that estimates annual historic Haida Gwaii catch ($C_{historic}$) by status ($S$, i.e. kept/release and marked/unmarked).  Although AIC of the new model fit, identified as "New Annual Gaussian Fit" in Table \@ref(tbl:tab-nbc-aabm-aic), is only slightly worse at `r round(all_north_aabm_gaussian_spec$aic, 1)` then the previous "Original Summer (Gamma log)" model with an AIC of `r round(summer_north_aabm_gamma_spec$aic, 1)`.  
 
-$$ C_{all} = C_{historic} + S$$
+The new model fit substantially reduces the estimate of unmarked kept catch during the 2005 to 2007 years and increases the estimate of unmarked releases, particularly in 2005 (Figure \@ref(fig:fig-nbc-aabm-catch-diff).  As there is very limited change in the marked kept and released estimate, the new model fit should not substantially change CWT estimates.
 
-```{r}
+$$ C_{all} = C_{historic} + S $$\label{eq:haida-new-model}
+
+```{r NBC AABM New Model Predictions appendix, results='asis', echo=FALSE}
 #| label: fig-nbc-aabm-new-catch
 #| fig-cap: "Update catch estimate predicted times series based on historic (i.e. logbook) based on ."
 
@@ -677,8 +682,6 @@ all_north_aabm_full <-
   bind_rows(fit_north_aabm_no_nas) |>
   mutate(catch_estimate_adj = coalesce(catch_estimate_adj, irec_calibrated))
 
-
-
 all_north_aabm_full |>
   group_by(year, status) |>
   summarize(catch_estimate_adj = sum(catch_estimate_adj, na.rm = TRUE), .groups = "drop") |> 
@@ -688,6 +691,7 @@ all_north_aabm_full |>
   ggplot(aes(x = year, y = catch_estimate_adj, color = status)) +
   geom_line(linewidth = 1) +
   geom_point() +
+  scale_x_continuous(breaks = c(2005, 2010, 2014)) +  
   labs(title = "NBC AABM Catch Source Time Series",
        color = "Status",
        x = "Year",
@@ -697,7 +701,7 @@ all_north_aabm_full |>
 
 ## Model Comparision
 
-```{r}
+```{r NBC AABM Model AIC table appendix, results='asis', echo=FALSE}
 #| label: tab-nbc-aabm-aic
 #| fig-cap: "AIC for the two orignal modal fits (i.e. Original Summer and Original Spring/Fall) and the new annual gaussian fit."
 
@@ -713,26 +717,24 @@ csasdown::csas_table(fit_aic_df)
 
 ```
 
-```{r}
+```{r NBC AABM Catch Diff, results='asis', echo=FALSE}
 #| label: fig-nbc-aabm-catch-diff
-#| fig-cap: "Catch estimate differences between "
+#| fig-cap: "Catch estimate differences between the previous model and the new model fit for Haida Gwaii"
 
-
-previous_model_catch <-
-  season_north_aabm_full |>
-  select(year, status, spring_catch = catch_estimate_adj) |>
+previous_annual_catch <-
+  previous_model_catch |>
   group_by(year, status) |>
-  summarize(spring_catch = sum(spring_catch, na.rm = TRUE), .groups = "drop") |>
-  full_join(select(all_north_aabm_full, year, status, summer_catch = catch_estimate_adj), 
-            by = c("year", "status"))
+  summarize(prev_annual_catch = sum(catch_estimate_adj, na.rm = TRUE),
+            .groups = "drop")
 
 catch_diff <-
-  previous_model_catch |>
-  full_join(select(all_north_aabm_full, year, status, new_annual_catch = catch_estimate_adj), 
-            by = c("year", "status")) |>
+  all_north_aabm_full |>
+  mutate(status = gsub("_", " ", status),
+         status = tools::toTitleCase(status)) |>
+  select(year, status, new_annual_catch = catch_estimate_adj) |>
+  full_join(previous_annual_catch, by = c("year", "status")) |>
   filter(year < 2015) |>
-  mutate(old_annual_catch = spring_catch + summer_catch,
-         catch_diff = new_annual_catch - old_annual_catch)
+  mutate(catch_diff = new_annual_catch - prev_annual_catch)
 
 
 # Find max absolute value
@@ -744,6 +746,7 @@ catch_diff |>
   geom_line(linewidth = 1) +
   geom_point() +
   coord_cartesian(ylim = c(-max_y, max_y)) +
+  scale_x_continuous(breaks = c(2005, 2010, 2014)) +
   labs(title = "NBC AABM Catch Change Time Series",
        x = "year",
        y = "Catch Difference \n (New Model - Previous Model)") +

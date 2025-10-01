@@ -22,6 +22,7 @@ We first provide a brief background on the regionally-specific creel and logbook
 fig1_path <- "data/PFMA.png"
 
 knitr::include_graphics(c(fig1_path))
+
 ```    
 
 #### South Coast Catch Estimation (Kris/Rob to review this section)
@@ -66,7 +67,7 @@ colclear= "#1C00ff00"
 
 ```{r methods plotting PFMA creel unfiltered, echo=FALSE, message=FALSE, warning=FALSE, fig.height=18, fig.width=15, fig.align="left", out.width="9in"}
 #| label: fig-creel-criteria
-#| fig-cap: "South Coast creel estimates that passed (blue ) or failed (red) quality control criteria by month and PFMA."
+#| fig-cap: "South Coast creel estimates that passed (blue) or failed (red) quality control criteria by month and PFMA."
 
 creel_month_PFMA <- pacRecCatch::filter_creel_catch("pacRecCatch_db.yaml")
 Creel_month_PFMA_failed <- 
@@ -109,23 +110,15 @@ ggplot() +
 ```
 \end{landscapepage}
 
+#### Central Coast Catch Estimation
 
-#### Central Coast Catch Estimation - *Chelsea to review/expand this section*
-
-Central Coast catch estimation is exclusively logbook data from lodges. The PFMAs included in central coast are 6, 7, 8, 9, 10 and their outer counterparts 106, 107, 108, 109, 110. This data is typically not by marked and kept status so those distinctions need to be reconstructed using mark rate and release rates.
-
--   *Do they adjust the catch for like 80% of lodges reported for eg. I.e. is this NOT an expanded estimate?*
-
--   *What about CCIRA? Note the development of CCIRA but that data not yet available to be incorporated.*
+Central Coast catch estimation is exclusively logbook data from lodges. The PFMAs included in central coast are 6, 7, 8, 9, 10 and their offshore counterparts 106, 107, 108, 109, 110. This data is typically not by marked and kept status so those distinctions need to be reconstructed using mark rate and release rates.  Although not all lodges provided logbook catch data, the catch data was historically reported as the total catch for the region.  This was identified as a bias in the recreational catch estimates that the method identified in this report would address.  A new creel monitoring program is in development by the Central Coast Indigenous Resource Alliance that may be a potential source of data to improve catch estimates in portions of PFMA 6 to PFMA 10.
 
 #### North Coast Catch Estimation - *Chelsea and Jessica to review/expand*
 
-The North Coast catch estimation is a combination of independently-run creel programs and logbook data. Northern BC (NBC) Abundance Based Fishery is comprised of PFMAs 1, 2 (East and West), 101, 102, 142. It is a combination of the Haida creel program and lodge-submitted logbooks. NBC ISBM is comprised of the Skeena creel program and logbooks run in PFMAs 3 and 4 (and 103, 104). Technically PFMA 5 and 105 is included in this category but there is no data from Area 5. Data for before 2008 is not available. As in Central coast, typically this data is typically not collected by marked and kept status so those distinctions need to be reconstructed using mark rates and release rates.
+The North Coast catch estimation is a combination of independently-run creel programs and logbook data. Northern BC (NBC) aggregate abundance-based fishery covers the marine waters around Haida Gwaii and comprise of PFMAs 1, 2 (East and West), 101, 102, 142. It is a combination of a creel program run by the Haida Nation and lodge-submitted logbooks.  The creel program has operated since 1999 and typically operates from late May to the middle of September.  Lodges represent the majority of the catch around Haida Gwaii, particularly around the northern portion in PFMA 1/101.  As the logbook don't capture release data, the creel program data has historically been used to estimate releases from both lodge and non-lodge catch.
 
--   *North coast description of standalone programs - expand on the Haida creel and the 3/4 creel details, who are they run by, when the programs were started, when are they typically run (time of year).*
--   *description of how creel and logbook are combined*
--   *Do they adjust for % lodges reporting?*
--   *Explain if/where marked and kept status data is collected and since when?*
+NBC individual stock-based management (ISBM) fishery is monitored by both a Skeena creel program (@robichaud2025creel) and logbooks run in PFMAs 3/103 and 4/104. The logbook program is run by DFO.  It is unclear how the creel program was operated from 2005 to 2007, however DFO conducted the program from 2008 to 2014 and the North Coast Skeena First Nations Stewardship Society took over the program in 2015.  Before 2019, the Skeena creel program covered June to August.  That coverage was extended to include May and September long weekend.  Creel estimates are corrected for vessels providing logbook data and the two catch sources can be combined.  For this analysis, we included PFMA 5/105 in NBC ISBM.  However, the area is more remote and has limited catch monitoring data. As in central coast, typically this data is typically not collected by marked and kept status so those distinctions need to be reconstructed using mark rates and release rates.
 
 #### Internet Recreational Catch (iREC) Survey - *Rob/Nick/Catarina to review this section*
 
@@ -198,15 +191,25 @@ We assembled and combined recreational Chinook catch data by developing the [pac
 
 Appendix \@ref(apdx-strattab) presents the stratification of fisheries by Pacific Fishery Management Areas (PFMA) and partial PFMAs, organized by monthly ranges used for catch estimation. The CTC ERA fisheries are the fishery definitions that the CTC reports stock specific exploitation rates at [@CTC1988]. 
 
-To support consolidated recreational catch estimates and meet Treaty obligations, particularly those involving Mark Selective Fisheries, Canada has ecently reorganized the fishery stratification levels used by the CTC.  The newer finescale fisheries are based on PFMAs and seasons that support the integration of marked and unmarked release rates that spatially represent either all or part of an ERA fishery.
+To support consolidated recreational catch estimates and meet Treaty obligations, particularly those involving Mark Selective Fisheries, Canada has recently reorganized the fishery stratification levels used by the CTC.  The newer finescale fisheries are based on PFMAs and seasons that support the integration of marked and unmarked release rates that spatially represent either all or part of an ERA fishery.
 
 #### Alignment issues
 
-iREC and creel both generally align spatially to Pacific Fisheries Management Area [@pfma_2007], with some areas split to support unique local conditions. However, there are a few areas that were initially not split by the iREC system into their component parts, as is done in creel estimates. Some of the splits, such PFMA 2 and 20 (which both are sometines split into a east and west portion) were combined for this analysis.  While the PFMA 29 split into marine and tidal waters were ignored and treated as primarily marine catch.  For PFMA 19 and 23, we combined creel data from 2013 until the split was successfully incorporated into iREC with licence year 2014.
+iREC and creel both generally align spatially to Pacific Fisheries Management Area [@pfma_2007], with some areas split to support unique local conditions. However, there are a few areas that were initially not split by the iREC system into their component parts, as is done in creel estimates. Some of the splits, such PFMA 2 and 20 (which both are sometimes split into a east and west portion) were combined for this analysis.  While the PFMA 29 split into marine and tidal waters were ignored and treated as primarily marine catch.  For PFMA 19 and 23, we combined creel data from 2013 until the split was successfully incorporated into iREC with licence year 2014.
 
 *Note:*
 
 -   *Kris Hein has a good explanation for the alignment problem (creel surveys aerial need to be not on PFMA boundaries where a lot of people fish) ---- creel sub areas vs. pfma sub-areas*
+
+Kris Notes:
+
+*These are the only notes I can think of with regard to the creel/iREC area alignment changes. *
+
+*PFMA 19 and 23 have 2 very unique fishing areas with different fishing patterns.  (I’m not sure about the differences in PFMA 2 E/W)*
+*19-GS is Saanich inlet which is mostly shell fishing and 19-JDF is the rest of 19 and is primarily salmon fishing area.*
+*Area 23-ALB is Alberni Canal which tends to Sockeye fishing and 23-BARK which tends to target Chinook and Coho *
+
+*Area 20 was split into 20W and 20E.  20W is accessed by the Port Renfrew survey and that is  usually limited  to May to September whereas the 20E portion is accessed from the Victoria area survey and that tends to include April to October or later in some months.  This results in some months only having an estimate for 20E and no estimate for 20W.*
 
 ### Extrapolating catch with unknown adipose-clip status
 
