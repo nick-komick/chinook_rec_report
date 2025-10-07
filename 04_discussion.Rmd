@@ -35,17 +35,13 @@ Similar to the creel and iREC calibration, the historic model fitting to estimat
 
 A key component to supporting this combined method of estimating recreational catch is the operation of creel programs.  The fisher dependent nature of the iREC catch reporting can be lead to potential issues if it relied upon as the only source of catch.  As previously identified, fisher behaviour and participation rates can reduce the informational quality of iREC catch estimates.  Going forward, creel programs should be a key component of recreational catch monitoring to ensure the integrity of the recreational catch estimate.
 
-As creel programs are a key to the recreational catch estimation methods identified in this report, creel program delivery may benefit from shifting prioritize.  As identified, some past creel program data was excluded from the method do to lower quality.  This maybe because there isn't enough interviews or 
-
-*Creel can focus on calibration purposes. Less emphasis on spatial coverage and more concentration on reducing uncertainty in the targeted creel areas.* 
-
+As creel programs are a key to the recreational catch estimation methods identified in this report, creel program delivery may benefit from shifting prioritize.  As identified, some past creel program data was excluded from the method do to lower quality estimates.  This maybe because there isn't enough interviews or fly over coverage for each type of day (weekend or weekday).  Where operationally feasible, it would be beneficial to focus creel sampling to a smaller set of areas with more data then trying to cover more areas will reduced data quality.  This would focus the creel program, particularly in the southern portion of BC, primarily as a critical data set to calibrate iREC.
 
 *Potentially capturing iREC access key during creel surveys. provide better comparison between the programs at an individual angler level when assessing operational error (data entry issues, recall bias,...)* 
 
 *Efforts to reduce recall bias with iREC responses, including potential on water reporting through specific smart devices application or on water catch report logs (provided freely as document templates to anglers). Any solution must meet all the reporting requirements of the iRec program, all species and mark status of Chinook.*
 
-
-*Add guide facilitated catch reporting to iREC.  accomplished both communication and potentially mandatory guide reporting*
+An important aspect to the ensure quality results from iREC is for anglers knowing their responsibility to report their catch when they purchase a recreational licence.  One component of the angler population that can be challenging can be challenging to collect quality data from is guided anglers.  These licence holders may not be as aware of the area they were fishing, what fish they may have released, or the specific species they caught.  A potentially approach to improving the quality of responses for these anglers is to have guides facilitate their patrons' reporting.   This could accomplished through a range of actions, from a targeted communication campaign with guides to a potential mandatory guide reporting.  This approaches should explored to ensure the quality of iREC response data from guided anglers.
 
 # Conclusion
  

@@ -66,8 +66,8 @@ When revising Chinook catch estimates before iREC, the following separate models
 
 - Southern BC Summer (2013 to 2023)
 - Southern BC Spring/Fall (2013 to 2023)
-- Central BC (2015 to 2023)
-- Haida Gwaii (2015 to 2023)
+- Central BC Annual (2015 to 2023)
+- Haida Gwaii Annual (2015 to 2023)
 - Northern BC ISBM Summer (2015 to 2023) 
 - Northern BC ISBM Spring/Fall (2015 to 2023) 
 
@@ -193,7 +193,7 @@ plot
 
 ```
 
-### Southern BC Spring and Fall fisheries
+### Southern BC Spring and Fall Fishery
 
 The best model for Southern BC Spring and Fall fishery catch ($C_{all,season}$) was one with a gamma distribution with a log link which included summer creel ($c_{creel,summer}$), status ($S$), finescale fishery ($F$), season ($Z$), and various interactions of these terms:
 
@@ -241,13 +241,13 @@ plot
 
 ```
 
-### Haida Gwaii Fisheries
+### Haida Gwaii Annual Fisheries
 
-The best model for Haida Gwaii fishery was one with a Gaussian distribution historic data (Haida creel + logbook, $C_{historic}$), status ($S$):
+The best model for Haida Gwaii fishery was one with a Gaussian distribution historic data (Haida creel + logbook, $C_{historic}$) and status ($S$):
 
 $$ C_{all} = C_{historic} + S $$
 
-This model parameterization allows for calibrated iREC catch in the whole summer period (months 5:9) to be predicted both independently by the unfiltered creel and logbook (historic) catch in the limited creel summer period (months 7:8) and by status. In addition, the effect of the creel and logbook (historic) summer period on catch is modified by status. Figure \@ref(fig:fig-nbcaabm-sum-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. There are some noticeable patterns in the residuals here that could be improved, however at this time this is the best model fit to the data.
+This model parameterization allows for calibrated iREC catch in the whole summer period (months 5:9) to be predicted both independently by the unfiltered creel and logbook (historic) catch in the limited creel summer period (months 7:8) and by status. In addition, the effect of the creel and logbook (historic) summer period on catch is modified by status. Figure \@ref(fig:fig-nbcaabm-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. There are some noticeable patterns in the residuals here that could be improved, however at this time this is the best model fit to the data.
 
 Figure \@ref(fig:fig-nbcaabm-model) shows the model results in NBC AABM. As above, we see that for each status, as unfiltered creel and logbook catch in the limited creel summer period increases, so does calibrated iREC catch in the whole summer period.
 
@@ -284,7 +284,7 @@ create_facet_plot(finescale_fishery_name = fishery_name_north_aabm[1],
 
 #### Northern BC ISBM Summer Fisheries
 
-The best model for Northern BC ISBM Summer fisheries was one with a gamma distribution using a log link that included summer historic data (Area 3 and 4 Creel + logbook) and status, with no interaction of these terms.
+The best model for Northern BC ISBM Summer fisheries was one with a gamma distribution using a log link that included summer historic data (Area 3 and 4 Creel + logbook, $C_{historic,summer}$) and status, with no interaction of these terms.
 
 $$ C_{all,summer} = C_{historic,summer} + S $$
 
@@ -501,14 +501,9 @@ post_irec_catch_model_df <-
 
 post_irec_lm <- lm(head_total ~ catch_estimate_predicted + 0, post_irec_catch_model_df)
 
-
 ```
 
-*Note: sentence here about what the plots show*
-
-As CWT stratification is based on (CWT map reference)
-
-Figure \@ref(fig:fig-heads-kept-current) shows the linear relationship between Chinook marked kept catch and heads submitted to the SHRP from 2005 to 2023.  As the $r^2$ of `summary(all_heads_lm)$r.squared` suggests, there is a strong relationship between the marked kept catch across the whole period of this analysis with an average sample rate of `format(unname(coef(all_heads_lm)[1]), digits = 3)` for all Pacific Recreational fisheries.
+Figure \@ref(fig:fig-heads-kept-current) shows the linear relationship between Chinook marked kept catch and heads submitted to the SHRP from 2005 to 2023.  As the $r^2$ of `r summary(all_heads_lm)$r.squared` suggests, there is a strong relationship between the marked kept catch across the whole period of this analysis with an average sample rate of `r format(unname(coef(all_heads_lm)[1]), digits = 3)` for all Pacific Recreational fisheries.
 
 ```{r results Head to Kept Mark Catch, echo=FALSE}
 #| label: fig-heads-kept-current
@@ -526,7 +521,7 @@ ggplot(data = head_catch_model_df,
 
 ```
 
-When comparing the model fit before iRec (figure \@ref(fig:fig-heads-kept-preirec)) and with iRec (figure \@ref(fig:fig-heads-kept-postirec)), CWT sample rates are fairly consistent with a before iRec average sample rate of `r format(unname(coef(pre_irec_lm)[1]), digits = 3)` and an iRec period sample rate of `r format(unname(coef(post_irec_lm)[1]), digits = 3)` with similar $r^2$ values.  This suggests that there is no consistent bias in the modelled mark kept catch estimated, compared to the estimates that include iRec.   
+When comparing the model fit before iREC (figure \@ref(fig:fig-heads-kept-preirec)) and with iREC (figure \@ref(fig:fig-heads-kept-postirec)), CWT sample rates are fairly consistent with a before iREC average sample rate of `r format(unname(coef(pre_irec_lm)[1]), digits = 3)` and an iREC period sample rate of `r format(unname(coef(post_irec_lm)[1]), digits = 3)` with similar $r^2$ values.  This suggests that there is no consistent bias in the modelled mark kept catch estimated, compared to the estimates that include iREC.   
 
 ```{r results Pre iRec Head to Kept Mark Catch, echo=FALSE}
 #| label: fig-heads-kept-preirec
