@@ -152,9 +152,12 @@ The apparent bias in iREC estimates could result from numerous sources. With an 
 
 *moved this section back to under the "irec" section*
 
-Where absolute estimates of effort and catch are demanded, such as for allocation decisions, stock assessments and catch reporting requirements, calibration of iREC estimates would be required. Calibrated iREC estimates for boat-based angling would be achieved by scaling iREC to creel estimates using the regression parameters (slope $m$) of iREC -- creel regressions for equivalent month -- area pairs. The calibrated iREC point estimates of boat-based angling effort or species specific catch (iREC\*) would be simply:
+Where absolute estimates of effort and catch are demanded, such as for allocation decisions, stock assessments and catch reporting requirements, calibration of iREC estimates would be required. Calibrated iREC estimates for boat-based angling would be achieved by scaling iREC to creel estimates using the regression parameters (slope $m$) of iREC -- creel regressions for equivalent month -- area pairs. The calibrated iREC point estimates of boat-based angling effort or species specific catch ($iREC^*$) would be simply:
 
-$$iREC^*= creel = \frac{(iREC)}{m}$$
+$$
+iREC^*= creel = \frac{(iREC)}{m}
+\label{eq:irec_calibration}
+$$
 
 The calibration coefficient $m$ is estimated annually using all area and month estimates of creel that are appropriate quality based on the criteria identified in the "South Coast Creel Survey quality control" section of this document.  Separate calibration factors are estimated for total kept and released catch, by species, for angling by boat.  As both the creel and iREC estimates have uncertainty associated with them, an error-in-variables approach is used to estimate $m$ using JAGS (@plummer2003jags) through the `rjags` R package (@rjags). The specific model code used is provided below, with `creel.obs` representing the creel estimate, `creel.se` representing the standard error of the creel estimate, and `iRec.obs` representing the iREC uncalibrated catch estimate for the same area and time as the creel estimate.
 
@@ -177,17 +180,13 @@ model.jags <- function() {
 }
 ```
 
-*Notes to add:*
-
--   *Forced through the origin (need background?)*
-
 ### Combining survey methods for best catch estimates
 
 In the past, iREC was incorporated into catch estimates in various ways, including an area specific infilling method for South Coast areas, and at higher stratification level for the CTC's reporting. Neither of these methods were robust or systematic approaches to incorporating iREC at the finest scale possible. Here, we outline a systematic method for combining survey methods to obtain the best kept and released catch estimates in a given month and PFMA by adipose-clip status.
 
 We pulled raw recreational catch data from DFO's Catch and Release Estimates (CREST) database, which stores creel, logbook, and iREC data for both marine and freshwater regions. The data was filtered to only marine estimates of legal-sized marked and unmarked fish that were kept or released. Northern BC (creel and logbook estimates 2005-2023) and Central BC (logbook only estimates 2022-2023) catch estimates were incomplete in CREST for these regions. We filtered CREST catch data to only south coast creel, as described above, to only include higher quality creel estimates. These estimates (which don't include logbook data) were then augmented with logbook data where available (logbook and creel estimates were summed).
 
-We assembled and combined recreational Chinook catch data by developing the [pacRecCatch](https://github.com/nick-komick/pacRecCatch) R package. This package has several functions to pull data from CREST and load in other sources manually. The package has functions that will then clean, filter, align, and combine the various survey methods to the final dataset as described below.
+We assembled and combined recreational Chinook catch data by developing the [pacRecCatch](https://github.com/nick-komick/pacRecCatch) R package. This package has several functions to pull data from CREST and load in other sources manually. The package has functions that will then clean, filter, align, and combine the various survey methods to the final data set as described below.
 
 #### Catch Stratification
 
@@ -476,14 +475,23 @@ $$
 
 In 2025, in an attempt to account for mark-selective fisheries, the CTC ERA switched from a model that only accounts for Chinook non-retention without selectively to a model that supports mark selective fisheries (@CTC2025). Therefore, the applicable rates in the ERA that are affected by the revised catch estimates are the marked released rate ($MRR$) and unmarked kept rate ($UKR$) (details provided in @CYER2024). In a given CTC finescale fishery, $MRR$ and $UKR$ are calculated as follows:
 
-$MRR = C_{marked, released} / (C_{marked, released} + C_{marked, kept})$
+$$
+MRR = C_{marked, released} / (C_{marked, released} + C_{marked, kept})
+\label{eq:mrr}
+$$
 
-$UKR = C_{unmarked, released} / (C_{unmarked, released} + C_{unmarked, kept})$
+$$
+UKR = C_{unmarked, released} / (C_{unmarked, released} + C_{unmarked, kept})
+\label{eq:ukr}
+$$
 
 We calculated the $MRR$ and $UKR$ at the finescale fishery scale and then use a weighted average based on total catch estimate per area and month to generate a finescale fishery specific $MRR$ and $UKR$.  Within the CTC ERA, these finescale fishery $MRR$ and $UKR$ values are combined into a ERA fishery value based on a cohort specific weighted average of each value.
 
 With the exception of Juan de Fuca, which did have mark-selective fisheries before 2012, all other sport fisheries were non-selective before 2013. Since the data is modelled, we did not want to bias the previous non-selective fisheries by allowing for selectivity, therefore we have fixed the $MRR$ and $UKR$ rates to be equivalent in the modelled data, by calculating a single release rate for marked and unmarked fish combined based on the equation below. 
 
-$MRR = 1 - UKR$
+$$
+MRR = 1 - UKR
+\label{eq:none_selective_mrr}
+$$
 
 After 2013, the data is observed and therefore allowed to vary mark selectivity even if no specific mark selective regulations were imposed. Terminal fisheries typically happen in the summer period, therefore they were assigned the same $MRR$ and $UKR$ rates as the equivalent summer fishery.
