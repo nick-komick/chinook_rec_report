@@ -186,7 +186,7 @@ In the past, iREC was incorporated into catch estimates in various ways, includi
 
 We pulled raw recreational catch data from DFO's Catch and Release Estimates (CREST) database, which stores creel, logbook, and iREC data for both marine and freshwater regions. The data was filtered to only marine estimates of legal-sized marked and unmarked fish that were kept or released. Northern BC (creel and logbook estimates 2005-2023) and Central BC (logbook only estimates 2022-2023) catch estimates were incomplete in CREST for these regions. We filtered CREST catch data to only south coast creel, as described above, to only include higher quality creel estimates. These estimates (which don't include logbook data) were then augmented with logbook data where available (logbook and creel estimates were summed).
 
-We assembled and combined recreational Chinook catch data by developing the [pacRecCatch](https://github.com/nick-komick/pacRecCatch) R package. This package has several functions to pull data from CREST and load in other sources manually. The package has functions that will then clean, filter, align, and combine the various survey methods to the final data set as described below.
+We assembled and combined recreational Chinook catch data by developing the `pacRecCatch`^[https://github.com/nick-komick/pacRecCatch] R package. This package has several functions to pull data from CREST and load in other sources manually. The package has functions that will then clean, filter, align, and combine the various survey methods to the final data set as described below.
 
 #### Catch Stratification
 
@@ -196,21 +196,7 @@ To support consolidated recreational catch estimates and meet Treaty obligations
 
 #### Alignment issues
 
-iREC and creel both generally align spatially to Pacific Fisheries Management Area [@pfma_2007], with some areas split to support unique local conditions. However, there are a few areas that were initially not split by the iREC system into their component parts, as is done in creel estimates. Some of the splits, such PFMA 2 and 20 (which both are sometimes split into a east and west portion) were combined for this analysis.  While the PFMA 29 split into marine and tidal waters were ignored and treated as primarily marine catch.  For PFMA 19 and 23, we combined creel data from 2013 until the split was successfully incorporated into iREC with licence year 2014.
-
-*Note:*
-
--   *Kris Hein has a good explanation for the alignment problem (creel surveys aerial need to be not on PFMA boundaries where a lot of people fish) ---- creel sub areas vs. pfma sub-areas*
-
-Kris Notes:
-
-*These are the only notes I can think of with regard to the creel/iREC area alignment changes. *
-
-*PFMA 19 and 23 have 2 very unique fishing areas with different fishing patterns.  (I’m not sure about the differences in PFMA 2 E/W)*
-*19-GS is Saanich inlet which is mostly shell fishing and 19-JDF is the rest of 19 and is primarily salmon fishing area.*
-*Area 23-ALB is Alberni Canal which tends to Sockeye fishing and 23-BARK which tends to target Chinook and Coho *
-
-*Area 20 was split into 20W and 20E.  20W is accessed by the Port Renfrew survey and that is  usually limited  to May to September whereas the 20E portion is accessed from the Victoria area survey and that tends to include April to October or later in some months.  This results in some months only having an estimate for 20E and no estimate for 20W.*
+iREC and creel both generally align spatially to Pacific Fisheries Management Area [@pfma_2007], with some areas split to support unique local conditions. However, there are a few areas that were initially not split by the iREC system into their component parts, as is done in creel estimates. Some of the splits, such PFMA 2 and 20 (which both are sometimes split into a east and west portion) were combined for this analysis.  PFMA 29 was not split into marine and tidal waters in the earlier years of iREC and resulting PFMA 29 catch as treated as all marine catch for this analysis.  Later years of iREC provided the marine and tidal separation.  In those cases, we limited the analysis to just the marine portion of PFMA. For PFMA 19 and 23, we combined creel data from 2013 until the split was incorporated into iREC with licence year 2014.  Although all these splits are used to improve the quality of estimates from the creel program, the collapsing of these splits are not anticipated to substantially affect the relationship between iREC and creel catch estimates.
 
 ### Extrapolating catch with unknown adipose-clip status
 

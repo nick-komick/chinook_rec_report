@@ -10,7 +10,7 @@ A key component to the meeting PST requirements is to provide estimates of fishe
 
 Here, we present:
 
- 1. Revise Chinook catch estimates for years with creel and iREC overlap; methods used for future catch estimates.
- 2. Revise Chinook catch estimates for years without iREC.
- 3. Revise coded wire tag estimation stratification to reflect catch estimates.
- 4. Incorporation of both sets of revised estimates in bilateral PST processes.
+  1. Revise Chinook catch estimates for years with creel and iREC overlap (method used for future catch estimates). 
+  2. Revise Chinook catch estimates for years without iREC back to 2005. 
+  3. Revise Chinook coded wire tag estimates to reflect catch estimates.
+  4. Incorporate revised estimates into to annual CTC processes.

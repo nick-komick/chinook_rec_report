@@ -647,7 +647,7 @@ Revised estimates based on the methods described in this report will be incorpor
 
 ```{r results CandEkept, results='asis', echo=FALSE}
 #| label: fig-cande-kept
-#| fig-cap: "Revised (blue) and previously reported (green) kept catch estimates from 2005-2023. Revised estimates prior to 2012 (vertical line) are based on modelled data, whereas 2013 onwards is based on observed data."
+#| fig-cap: "Revised (blue) and previously reported (green) kept catch estimates from 2005-2023. The vertical line on each graph identifies the year that revised estimates are based on only on observed data (e.g. iREC and creel).  Years before the vertical line are modelled data that utilizes past catch estimates."
 
 era_model_catch <- 
   sport_release_rates %>% 
@@ -712,7 +712,7 @@ print(k)
 
 ```{r results CandErelease, results='asis', echo=FALSE}
 #| label: fig-cande-released
-#| fig-cap: "Revised (blue) and previously reported (green) legal-sized release catch estimates from 2005-2023. Revised estimates prior to vertical line in each graph are based on modelled data, whereas estimates after the vertical line are based on iREC and creel data."
+#| fig-cap: "Revised (blue) and previously reported (green) legal-sized release catch estimates from 2005-2023. The vertical line on each graph identifies the year that revised estimates are based on only on observed data (e.g. iREC and creel).  Years before the vertical line are modelled data that utilizes past catch estimates."
 
 
 rec_summary <- 
@@ -750,13 +750,11 @@ The largest changes in released catch occurred in Central BC where previously ve
 
 ### Updating CWT estimates
 
-Kept and marked catch estimates are used to expand Coded Wire Tag (CWT) observations from the SHRP to CWT estimates uploaded to RMIS. Canada updated CWT estimates based on revised catch and published them to RMIS in support of ERA process starting in February 2025. The time series of total CWT estimates for all ERA indicator stocks from the both the 2024 and revised estimates based on update catch estimates is provided in Figure \@ref(fig:fig-indcwtest).  As the time series show, most of the difference between the 2024 and revised CWT estimates are in the earlier years, particularly before the iREC reporting (identified the vertical line).  This is expected as the more recent years had include iREC data into CWT estimates in various ways.  Furthermore, many of the fisheries show more consistent ranges values over the whole time series  (eg. 63 - GEORG ST S) compared to the 2024 CWT estimates.  This suggests the general sample rate of the fishery has been somewhat consistent and that changes in indicator stock CWT estimates were potentially driven more by biases in historic catch estimate.  The revised CWT estimates should provide a more consistent time series to evaluate indicator stock impacts.
-
-**Is more text needed here? **
+Kept and marked catch estimates are used to expand Coded Wire Tag (CWT) observations from the SHRP to CWT estimates uploaded to RMIS. Canada updated CWT estimates based on revised catch and published them to RMIS in support of ERA process starting in February 2025. The time series of total CWT estimates for all ERA indicator stocks from the both the 2024 and revised estimates based on update catch estimates is provided in Figure \@ref(fig:fig-indcwtest).  As the time series show, most of the difference between the 2024 and revised CWT estimates are in the earlier years, particularly before the iREC reporting (identified the vertical line).  This is expected as the more recent years had include iREC data into CWT estimates in various ways.  Furthermore, many of the fisheries show more consistent ranges values over the whole time series  (e.g. 63 - GEORG ST S) compared to the 2024 CWT estimates.  This suggests the general sample rate of the fishery has been somewhat consistent and that changes in indicator stock CWT estimates were potentially driven more by biases in historic catch estimate.  The revised CWT estimates should provide a more consistent time series to evaluate indicator stock impacts.
 
 ```{r results indcwtest, results='asis', echo=FALSE}
 #| label: fig-indcwtest
-#| fig-cap: "Time series of CWT estimate totals for all indicator stocks within the CTC 2025 ERA for each ERA fishery."
+#| fig-cap: "Time series of CWT estimate totals for all indicator stocks within the CTC 2025 ERA for each ERA fishery. The vertical line on each graph identifies the year that revised CWT estimates used catch estimates based primarily on observed data (e.g. iREC and creel).  Years before the vertical line use modelled catch based past catch estimates for the revised CWT estimates."
 
 cwt_est_filename <- "data/cwt_est_by_fishery.sql"
 cwt_est_sql <- readChar(cwt_est_filename, file.info(cwt_est_filename)$size)
@@ -783,7 +781,7 @@ ggplot() +
   geom_point(data=prev_cwt_est, aes(y=cwt_estimate, x=run_year, col="lightgreen")) + 
   geom_line(data=prev_cwt_est, aes(y=cwt_estimate, x=run_year, col="lightgreen"))+
   scale_color_manual(values=c( "lightblue4", "lightgreen"),
-                     labels = c("Revised estimates", "2024 CWT Estimates"))+
+                     labels = c("Revised CWT Estimates", "2024 CWT Estimates"))+
   ylab("CWT Estimate (All Indicators)")+
   xlab("Run Year")+
   facet_wrap(~fishery, scales = "free", ncol=4)+
@@ -798,9 +796,9 @@ ggplot() +
 
 -   *MRR/UKR results here compared to CNR file (Fig 5 of the memo)*
 
-Kept and released catch estimates are incorporated for most sport fisheries into the Chinook non-retention process in the ERA. In 2025, the ERA switched from a model that only accounted for Chinook non-retention without selectively to non-retention by mark status, therefore the applicable rates in the ERA that are affected by the revised catch estimates are the marked released rate (MRR) and unmarked kept rate (UKR). We calculated the MR and UK rates at the PFMA and month level and then used a weighted average based on total catch estimate per area and month to generate an MR and UK rate for each finescale fishery. For simplicity we will show the unmarked release rate URR (1-UKR), although UKR is used in the equations. We can compare these marked and unmarked release rates based on revised catch estimates to release rates generated by the ratio between kept and released fish in the CNR file used in the 2024 ERA (Figure \@ref(fig:fig-mrrukr)). In the revised estimates, we allow release rate to vary by season, whereas in the past, finescale fisheries were not split into seasons and therefore release rates in each ERA fishery applied to all seasons.
+Kept and released catch estimates are incorporated for most sport fisheries into the Chinook non-retention process in the ERA. In 2024, the ERA model was modified to only accounted for Chinook non-retention without selectively to selective non-retention by mark status, therefore the applicable rates in the ERA that are affected by the revised catch estimates are the marked released rate ($MRR$) and unmarked kept rate ($UKR$). We calculated the $MRR$ and $UKR$ at the PFMA and month level and then used a weighted average based on total catch estimate per area and month to generate an $MRR$ and $UKR$ for each finescale fishery. For simplicity we will show the unmarked release rate $URR$ (i.e. $1 - UKR$), although $UKR$ is used in the equations. We can compare these marked and unmarked release rates based on revised catch estimates to release rates generated by the ratio between kept and released fish in the CNR file used in the 2024 ERA (Figure \@ref(fig:fig-mrrukr)). In the revised estimates, we allow release rates to vary by season, whereas in the past, finescale fisheries were not split into seasons and therefore release rates in each ERA fishery applied to all seasons.
 
-We can see that some fisheries have been accounting for releases since 2005, while other fisheries only more recently incorporated release information . With the exception of Juan de Fuca, which did have mark-selective fisheries before 2012, all other sport fisheries were non-selective before 2013. Since the data is modelled, we did not want to bias the previous non-selective fisheries by allowing for selectivity, therefore we have fixed the MRR and URR rates to be equal in the modelled data, by calculating a single release rate for marked and unmarked fish combined. After 2013, the data is observed and therefore allowed to vary selectively even if no specific mark selective fishery was imposed. When MRR and URR are identical, this indicates non-selectivity. If MRR is higher than URR, this indicates marked fish are released at a higher rate than unmarked fish, which would be indicative of selecting for unmarked fish. If URR is higher than MRR, then marked fish are released at a lower rate than unmarked fish, indicating mark selectivity. Generally, the MRR and URR results suggest that releases are occurring but there is no strong, consistent mark selectivity to the releases. This aligns with MSF regulations that are very limited in space and time and are only beginning to be rolled out across a small number of sport fisheries.
+We can see that some fisheries have been accounting for releases since 2005, while other fisheries only more recently incorporated release information. With the exception of Juan de Fuca Strait, which did have mark-selective fisheries before 2012, all other sport fisheries were non-selective before 2013. Since the data is modelled, we did not want to bias the previous non-selective fisheries by allowing for selectivity, therefore we have fixed the $MRR$ and $URR$ to be equal in the modelled data, by calculating a single release rate for marked and unmarked fish combined. After 2013, the data is observed and therefore allowed to vary selectively even if no specific mark selective fishery was specified in regulations. When $MRR$ and $URR$ are identical, this indicates non-selectivity. If $MRR$ is higher than $URR$, this indicates marked fish are released at a higher rate than unmarked fish, which would be indicative of preferential selection of unmarked fish for retention. If $URR$ is higher than $MRR$, then marked fish are released at a lower rate than unmarked fish, indicating preferential mark retention. Generally, the $MRR$ and $URR$ results suggest that releases are occurring but there is no strong, consistent selectivity to the releases. This aligns with MSF regulations that are very limited in space and time and are only beginning to be implemented in a small number of sport fisheries.
 
 ```{r results mrrukr, results='asis', echo=FALSE, fig.height = 8}
 #| label: fig-mrrukr
@@ -880,7 +878,7 @@ mu <-
   geom_vline(xintercept = 2012) +
   labs(col="Data source",
        x = "Year",
-       y = "Proportion") +
+       y = "Release Rate") +
   theme(legend.position = "bottom")
 
 print(mu)

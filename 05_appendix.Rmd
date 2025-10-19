@@ -450,7 +450,11 @@ for (i in 1:length(fishery_name_north_isbm)){
 
 \clearpage
 
-# Modified Haida Gwaii Model {#app:haida-appendix}
+# Analytical Improvements since February 2025
+
+During the course of developing this technical report and reviewing the `pacRecCatch` package code, several issues were identified subsequent to the catch estimates used for the February 2025 CTC ERA. The more substantial change was to improve the model used for Haida Gwaii, which is described in the "Modified Haida Gwaii Model" section below.  In addition to the Haida Gwaii model, there was various data and method fixes identified in the "Other Analysis Improvements" section below.
+
+## Modified Haida Gwaii Model {#app:haida-appendix}
 
 ```{r Setup Haida Gwaii Model appendix data}
 
@@ -555,14 +559,19 @@ summer_north_fit <-
 
 ```
 
-Before the development of this report, updated recreational catch estimates where need from Canada to support the implementation of mark selective fisheries in the 2025 CTC Exploitation Rate Analysis. Although most of the model structures were exactly the same, the earlier analysis had different models fit for Haida Gwaii (i.e. NBC AABM) based on separate summer and spring/fall model fit.  The predicted catch estimates based on the earlier model forms, using the equations below with a Gamma log link, are provided in Figure \@ref(fig:fig-prev-season-catch).  The previous models used a log 
+Before the development of this report, updated recreational catch estimates where need from Canada to support the implementation of mark selective fisheries in the 2025 CTC Exploitation Rate Analysis. Although most of the model structures were exactly the same, the earlier analysis had different models fit for Haida Gwaii (i.e. NBC AABM) based on separate summer and spring/fall model fit.  The predicted catch estimates based on the earlier model forms, using Equations \@ref(eq:haida-prev-summer-model) and \@ref(eq:haida-prev-season-model) with a Gamma log link, are provided in Figure \@ref(fig:fig-prev-season-catch).
 
-$$ C_{total,summer} = C_{historic, summer} + S + C_{historic, summer}:S \label{eq:haida-prev-summer-model}$$
+\begin{equation} 
+C_{total,summer} = C_{historic, summer} + S + C_{historic, summer}:S 
+(\#eq:haida-prev-summer-model)
+\end{equation}
 
-$$ C_{total,Z} = Z + S + C_{historic, summer}:Z, Z \in (spring, fall) \label{eq:haida-prev-season-model}$$
+\begin{equation} 
+C_{total,Z} = Z + S + C_{historic, summer}:Z, Z \in (spring, fall) 
+(\#eq:haida-prev-season-model)
+\end{equation}
 
-
-As the summer model predictions show in Figure \@ref(fig:fig-prev-season-catch), the estimates of unmarked kept catch is substantially higher then any other values in the time series.  Furthermore, the spring/fall estimates are orders of magnitude smaller then the summer predictions.  Compared to the source catch data shown in Figure \@ref(fig:fig-nbc-aabm-src-catch), the historic catch data does show an increase in the 2005 to 2007 years for both unmarked kept and released catch.  However, that increase is not expected to be a `r round(filter(summer_north_fit, year == 2006, status == "unmarked_kept_total") |> pull(catch_estimate_adj) / filter(summer_north_aabm, year == 2006, status == "unmarked_kept_total") |> pull(historic_plus), digits = 1)` times increase as predicted by the model.
+As the summer model predictions show in Figure \@ref(fig:fig-prev-season-catch), the estimates of unmarked kept catch is substantially higher then any other values in the time series.  Furthermore, the spring + fall estimates are orders of magnitude smaller then the summer predictions.  Compared to the source catch data shown in Figure \@ref(fig:fig-nbc-aabm-src-catch), the historic catch data does show an increase in the 2005 to 2007 years for both unmarked kept and released catch.  However, that increase is not expected to be a `r round(filter(summer_north_fit, year == 2006, status == "unmarked_kept_total") |> pull(catch_estimate_adj) / filter(summer_north_aabm, year == 2006, status == "unmarked_kept_total") |> pull(historic_plus), digits = 1)` times increase as predicted by the model.  With the early years having historic catch estimates outside the range of values used for the model fit, the Gamma log link used for the model fit would exponentially increase the historic catch to represent the total catch estimate.  As the rest of the time series has a more linear relative expansion, the exponential increase outside the range did not seem appropriate.  This suggests a Gaussian link would better represent values outside of the range of model fit values.
 
 
 ```{r NBC AABM Previous Summer Model Catch appendix, results='asis', echo=FALSE}
@@ -638,9 +647,6 @@ nbc_aabm |>
 
 ```
 
-
-## New Model Fits
-
 ```{r NBC AABM New Model Fit appendix, results='asis', echo=FALSE}
 all_north_aabm <-
   sport_catch_finescale |>
@@ -664,15 +670,34 @@ all_north_aabm_gaussian_spec <-
 
 ```
 
-The relationship between historic logbook and iREC catch is expected to be more linear then the previous log link form previously used as logbook estimates have commonly represented the majority of catch.  Furthermore, the 2005 to 2007 logbook catch estimates are out side the range of the fitted years.  A new, much simpler generalized linear model was fit using Equation \eqref{eq:haida-new-model} with a Gaussian link that estimates annual historic Haida Gwaii catch ($C_{historic}$) by status ($S$, i.e. kept/release and marked/unmarked).  Although AIC of the new model fit, identified as "New Annual Gaussian Fit" in Table \@ref(tab:tbl-haida-gwaii-model-fit), is only slightly worse at `r round(all_north_aabm_gaussian_spec$aic, 1)` then the previous "Original Summer (Gamma log)" model with an AIC of `r round(summer_north_aabm_gamma_spec$aic, 1)`.  
+The relationship between historic logbook and iREC catch is expected to be more linear then the previous log link form previously used as logbook estimates have commonly represented the majority of catch.  Furthermore, the 2005 to 2007 logbook catch estimates are out side the range of the fitted years. A new, much simpler generalized linear model was fit using Equation \@ref(eq:haida-new-model) with a Gaussian link that estimates annual historic Haida Gwaii catch ($C_{historic}$) by status ($S$, i.e. kept/release and marked/unmarked).  
 
-The new model fit substantially reduces the estimate of unmarked kept catch during the 2005 to 2007 years and increases the estimate of unmarked releases, particularly in 2005 (Figure \@ref(fig:fig-nbc-aabm-catch-diff).  As there is very limited change in the marked kept and released estimate, the new model fit should not substantially change CWT estimates.
+\begin{equation} 
+C_{total} = C_{historic} + S 
+(\#eq:haida-new-model)
+\end{equation}
 
-$$ C_{total} = C_{historic} + S \label{eq:haida-new-model}$$
+
+```{r tbl-haida-gwaii-model-fit, results='asis', echo=FALSE}
+
+fit_aic_df <-
+  data.frame(Model = c("Original Summer (Gamma Log)", 
+                       "Original Spring/Fall (Gamma Log)", 
+                       "New Annual (Gaussian)"),
+             AIC = c(summer_north_aabm_gamma_spec$aic,
+                     season_north_aabm_gamma_spec$aic,
+                     all_north_aabm_gaussian_spec$aic))
+
+csasdown::csas_table(fit_aic_df,
+                     caption = "AIC for the two original model fits (i.e. Original Summer and Original Spring/Fall) and the new annual gaussian fit.")
+
+```
+
+Although the new model AIC, identified as "New Annual Gaussian Fit" in Table \@ref(tab:tbl-haida-gwaii-model-fit), is only slightly worse at `r round(all_north_aabm_gaussian_spec$aic, 1)` then the previous "Original Summer (Gamma log)" model AIC of `r round(summer_north_aabm_gamma_spec$aic, 1)` it does provide more consistent estimates outside of the model fit range. The new model fit substantially reduces the estimate of unmarked kept catch during the 2005 to 2007 years and increases the estimate of unmarked releases, particularly in 2005 (Figure \@ref(fig:fig-nbc-aabm-catch-diff)). As there is very limited change in the marked kept and released estimate, the new model fit should not substantially change the ERA or CWT estimates.
 
 ```{r NBC AABM New Model Predictions appendix, results='asis', echo=FALSE}
 #| label: fig-nbc-aabm-new-catch
-#| fig-cap: "Update catch estimate predicted times series based on historic (i.e. logbook) based on ."
+#| fig-cap: "Updated catch estimate predicted times series based on historic (i.e. logbook)."
 
 all_north_aabm_full <-
   all_north_aabm_predict |>
@@ -699,22 +724,6 @@ all_north_aabm_full |>
   theme_minimal()
 ```
 
-## Model Comparision
-
-```{r tbl-haida-gwaii-model-fit, results='asis', echo=FALSE}
-
-fit_aic_df <-
-  data.frame(Model = c("Original Summer (Gamma Log)", 
-                       "Original Spring/Fall (Gamma Log)", 
-                       "New Annual (Gaussian)"),
-             AIC = c(summer_north_aabm_gamma_spec$aic,
-                     season_north_aabm_gamma_spec$aic,
-                     all_north_aabm_gaussian_spec$aic))
-
-csasdown::csas_table(fit_aic_df,
-                     caption = "AIC for the two original model fits (i.e. Original Summer and Original Spring/Fall) and the new annual gaussian fit.")
-
-```
 
 ```{r NBC AABM Catch Diff, results='asis', echo=FALSE}
 #| label: fig-nbc-aabm-catch-diff
@@ -753,18 +762,13 @@ catch_diff |>
 ```
 \clearpage
 
-# Other Analysis Improvements
+## Other Analytical Improvements
 
-* Split out area corrections and region-area lookups to a CSV file within the package
-* Fixed PFMA 5/105 by excluding iRec data from catch model for consistence with PFMA 3 & 4
-* Area translation is now year specific to allow iRec to preserve full resolution and Creel alignment
-* Regional adclip rates are now based on the regions defined by `pacRecCatch` instead of the catch source
-* Split PFMA 22 into a separate Terminal SWCVI region, to prevent modelling with SWCVI ISBM (no indicator stocks in PFMA 22)
-* Fix incorporation of historic creel mark sample data from MRP for Southern BC 2005 to 2007
-* Add `get_catch_estimates(...)` function to 
-    - Combines modelled regional and area specific catch based on the years (South < 2013 and North < 2015)
-    - Used by the CWT estimation system
-* Replace NBC AABM models (summer & season) with a simpler linear annual model
+In addition to the redefine the Haida Gwaii model fit for historic catch, the NBC ISBM model historic catch was updated to extrapolate catch for the 2005 to 2007 period.  The version of the catch did not estimate catch for 2005 to 2007 years because no historic catch estimates were provided. To allow the model to estimate those years, we used to average historic catch estimates from 2008 to 2012 to fit the model for the earlier years.  This will allow the historic catch model to estimate total catch for the 2005 to 2007 period in a consistent approach to more recent years.
+
+During a review of the mark rates used to estimate marked and unmarked catch, a couple of issues were found and corrected.  The first was a issue within including historic creel mark rates from 2005 to 2007. The code didn't correctly link the additional data effectively and excluded the mark rate data in some circumstances. The revised code now correctly combines the historic creel mark rate data to more effectively estimate marked vs unmarked catch in southern BC.  Furthermore, there regional aggregation of mark rates was using a different definition of regions provide from creel.  The analysis was updated to use a consistent set of regions to estimate regional mark rates when infill for low quality area mark rates.
+
+In the Southwest Vancouver Island (SWVI) ISBM fishery, it was found that data for PFMA 22 was being incorporated into the ISBM catch estimates and model fit.  PFMA 22 is a more terminal area and not anticipated to be have impacts on Chinook indicator stocks identified by the Pacific Salmon Treaty.  This is concern with more recent years with the extensive coverage provided by iREC.  We separated the small amount of catch estimated in PFMA 22 as distinct SWVI terminal region so that it not included into the SWVI ISBM model fit or catch estimates.
 
 `r if(knitr:::is_latex_output()) '% end csasdown appendix'`
 
