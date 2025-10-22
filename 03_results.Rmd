@@ -537,7 +537,7 @@ When comparing the model fit before iREC (Figure \@ref(fig:fig-heads-kept-preire
 #| label: fig-heads-kept-preirec
 #| fig-cap: "Chinook heads to mark kept catch based on combined creel and iREC.  Each point is a yearly CWT Region based on the seasonal time periods in the southern portion of BC and annual periods in the nothern portion of BC (i.e. NBC and CBC) from 2005 to 2012."
 
-eq_y_pos <- max(pre_irec_catch_model_df$head_total, na.rm=0) * 0.9
+eq_y_pos <- max(pre_irec_catch_model_df$head_total, na.rm = TRUE) * 0.9
 
 ggplot(data = pre_irec_catch_model_df,
        aes(x=catch_estimate_predicted, y=head_total)) +
