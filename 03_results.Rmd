@@ -12,7 +12,7 @@ In the following section we present the results of revising Chinook catch using 
 
 ## Revised Chinook catch estimates (with iREC)
 
-We found that catch estimates that included iREC data were broadly higher than previous estimates that didn't include iREC information. As an example, Figure \@ref(fig:fig-jdf-catch-revised-1) shows the effect of the summed and revised 2013 to 2023 kept catch estimates for Juan de Fuca fishery (dashed line) compared to the previous estimates without iREC inclusion (solid line). In 2023, the revised estimates were 19% higher than the estimates without iREC included. However, in 2019, the revised estimates were smaller than the previous estimates, likely due to the creel filtration process removing a lower quality creel estimate. The revised kept catch plots for the remaining fisheries can be found in Appendix A.
+We found that catch estimates that included iREC data were broadly higher than previous estimates that didn't include iREC information. As an example, Figure \@ref(fig:fig-jdf-catch-revised-1) shows the effect of the summed and revised 2013 to 2023 kept catch estimates for Juan de Fuca fishery (dashed line) compared to the previous estimates without iREC inclusion (solid line). In 2023, the revised estimates were 19% higher than the estimates without iREC included. However, in 2019, the revised estimates were smaller than the previous estimates, likely due to the creel filtration process removing a lower quality creel estimate. The revised kept catch plots for the remaining fisheries can be found in Appendix \ref{@third-appendix}.
 
 ```{r results example summer m plots, results='asis', echo=FALSE}
 #| label: fig-jdf-catch-revised-1
@@ -71,7 +71,7 @@ When revising Chinook catch estimates before iREC, the following separate models
 - Northern BC ISBM Summer (2015 to 2023) 
 - Northern BC ISBM Spring/Fall (2015 to 2023) 
 
-Separate summer fisheries and the combined spring and fall fisheries (with season as a factor) model was developed for all southern BC regions. Since Central BC and Haida Gwaii do not have significant off-season fisheries, one year-round model was developed for these two regions. One summer model was developed for all southern BC fisheries, and a separate model for NBC ISBM since the input data is different. Overall, models that fit creel summer to combined creel and iREC summer were a better fit when compared to the models that fit summer creel to data from spring and fall seasons (see Appendix B for residual plots). All the models retained the variable "status" - which fits a different slope to each of the categories marked kept, marked released, unmarked kept and unmarked released.
+Separate summer fisheries and the combined spring and fall fisheries (with season as a factor) model was developed for all southern BC regions. Since Central BC and Haida Gwaii do not have significant off-season fisheries, one year-round model was developed for these two regions. One summer model was developed for all southern BC fisheries, and a separate model for NBC ISBM since the input data is different. Overall, models that fit creel summer to combined creel and iREC summer were a better fit when compared to the models that fit summer creel to data from spring and fall seasons (see Appendix \ref{second-appendix} for residual plots). All the models retained the variable "status" - which fits a different slope to each of the categories marked kept, marked released, unmarked kept and unmarked released.
 
 These models are used to develop a relationship between filtered creel + iREC catch in the a given season (spring (months 1:4), summer (months 5:9), or fall (months 10:12)) and the unfiltered creel and logbook only (i.e. no iREC) catch in the limited creel summer period (months 7:8). This relationship is developed with each data point as a single year in the 2013-2023 time series (or 2015-2023 for NBC and CBC). The relationship is then used to predict a combined filtered creel and iREC estimate from the limited summertime creel in the years 2005-2012. Here we show the results of the modelling and the relationships developed. In the next section (incorporation of both sets of data), we use the predicted 2005-2012 values along with the observed 2013-2023 to show how PSC products changed from this analysis.
 
@@ -875,7 +875,7 @@ mu <-
                                 "2024 CNR Release Rate"))+
   facet_wrap(~region_mgmt) +
   theme_bw() + 
-  geom_vline(xintercept = 2012) +
+  geom_vline(data = fishery_model_line, aes(xintercept = xintercept)) +
   labs(col="Data source",
        x = "Year",
        y = "Release Rate") +

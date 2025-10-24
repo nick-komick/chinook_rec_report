@@ -2,6 +2,134 @@
 
 \clearpage
 
+# Changes to licence selection methods and analytical stratification in the Internet Recreational Effort and Catch (iREC) Reporting Program {#apdx-irec-mthd}
+
+For 1, 3 and 5 day (“term”) licences, only the selection rate has changed. From 2012 to 20xx, each licence had a 25% chance of being selected to the reporting program. Since 2020, 100% of term licences are selected to report.
+
+For Annual Licences (valid from the purchase date through the following March 31), several advancements to how we select licences to report for a given survey month have occurred since the iREC survey began in 2012. The B.C. Tidal Waters Recreational licence years runs April through March, and these changes and others affecting survey operation were always timed to take effect at the start of a new licence year. With each advancement in selection approach, we have protected against bias caused by differential representation of licences by purchase month in the selected licences. The reason for this is that purchase month is expected to be correlated with how the licence holder fishes. For example, licences bought in May or June are more likely to be used for Coho and Chinook targeted fishing than those bought in September and October when more of the purchasers will be intending to target shellfish and finfish other than salmon.
+
+Originally, a targeted number of licences was selected by simple random sample from all licences sold up until immediately prior to the start of a given survey month. This selection represented the “Pre” sample. To ensure representation of fishers with licences purchased within the survey month, a “Post” sample was taken at the end of the survey month. The advantage of taking the Pre sample was that those licence holders could be notified by email prior to the survey onset such that they could report on their fishing through the month with less recall error. From survey onset in July 2012 through March 2014 licences were vulnerable to selection for a given survey month regardless of whether they had been selected to report for earlier months under the same licence. As expected some licence holders were selected to report for several months, leading to concerns about survey fatigue affecting the likelihood that the report would be completed and the accuracy of completed reports from those people.
+
+In response, as of April 2014 we stopped reselecting licences. With this change, the sampling approach was adjusted to protect against lower representation of licences purchased early in the year as the licence year progressed. Consider using random sampling to select the Pre sample for October. Annual licences bought in April had been depleted by selections to all 6 survey months prior (April through September), while those bought in September had only been depleted by the selections to the September survey. We solved for this by apportioning the overall sample size target for the Pre sample for a given survey month into purchase month targets based on the sales distribution across the months prior to the survey month. For example, if the targeted size for the Pre sample for the October survey was 5000, and 15% of the annual licence sales through the end of September had occurred in April, then our sampling target for April purchases was 750. Those 750 licences were selected randomly from the April purchased licences that had not been selected to an earlier survey month. An alternative approach to protecting against the effect of uneven representation by purchase month, stratifying the analysis by purchase month, was rejected because of the number of strata created, with month and licence type dimensions leading to over 96 strata for the March survey (12 purchase months x 9 licence types). To this point, the analysis to estimate total catches from the responses was stratified by licence type and Pre-vs Post- sample.
+
+In April 2018, we implemented “Instantaneous Licence Selection and Notification”  whereby, during the online licence purchase, the licencing system automatically selected each licence to a particular survey month and notified the purchaser of the selection using a screen ‘pop-up’. Further, the system included on the printed licence the licence holders ‘reporting period’, reporting deadline, and the iREC web address and the purchasers unique AccessID. Previously, this information was only provided by email, and a substantial portion of licence holders do not have valid email addresses in our licencing database or do not receive or read the emails for various reasons; thus, printing this information on the licence ensured all selected licence holders had the information to complete their report. The change to instantaneous selection also meant there was no longer a Post sample; thus, all licences were selected and notified of their selection prior to or at the beginning of their reporting period, such that all selected fishers knew of their reporting requirement and could report fishing throughout their reporting period. While this approach was used, the analysis only needed to be stratified by licence type.
+
+The approaches described so far all relied on equal representation of annual licences by purchase month in the group of licences selected to a given survey month to protect against the bias described above. A consequence of this approach is that the later the purchase month in the licence year, the fewer of the licences could be selected. For example, consider the October survey. If 70% of April purchases had been selected to the preceding 6 survey months, then 70% of the October purchases could not be used for the remaining 6 survey months (October to March), because doing so would over represent October purchasers in those months relative to April purchasers. 
+
+For licence year 2020-21, we changed our selection approach to allow complete selection of licences; this approach has remained in effect through 2025-26. This new approach involves stratifying by purchase period, with up to three purchase period strata, depending on survey month (Figure \@ref(fig:fig-irec-licence-selection)). For every survey month there is one stratum comprised of licences sold in that month; we refer to this stratum as “In-Month Purchases”. In April, that is the only stratum. In May, June and July, there is a second stratum comprised of licences sold prior to the survey month; the selection probabilities for those purchase months to a given survey month are the same. For example, all annual licences sold in April, May and June had a 7% probability of being selected to the July survey (Fig. x). From August on, there is a third stratum, for licences sold from July through the month prior to the survey month (Fig. x); again, note that the selection probabilities from all of those purchase months to a given survey month are the same. The analysis stratification was adjusted to reflect these selection strata, with stratification by licence type and up to three purchase periods, depending on survey month. 
+
+The approach was implemented to improve our precision in two ways. First, we had much larger sample sizes overall, since all licences were able to be selected. Second, treating the In-Month Purchases as a separate stratum likely explains a substantial portion of the overall variation. Purchasers often buy a licence just prior to a planned fishing trip. Thus, In-Month Purchases on average would have more fishing days and higher catches than licences bought prior to the survey month. As well, these licences would more likely target species that are relatively available in the survey month, whereas some of the purchasers of licences in months prior to the survey month would be more focused on other species; for example, August purchasers will tend to be focused on salmon fishing, whereas licences bought in April will include fishers that are interested in fishing for a wider range of species. 
+
+
+```{r iREC Licence Selection Prob table, results='asis', echo=FALSE}
+#| label: tab-irec-licence-selection-prob
+#| fig-cap: "Total number of licences (Annual and Term) selected to report for a given survey month, by year from iREC inception in July 2012 through August 2025."
+
+library(gt)
+
+fill_char <- "-"
+
+select_prob_df <-
+  data.frame(Purchase_Month = month.abb[c(4:12, 1:3)],
+             Apr = c("0.21", rep(fill_char, 11)),
+             May = c("0.17", "0.38", rep(fill_char, 10)),
+             Jun = c(rep("0.15", 2), "0.53", rep(fill_char, 9)),
+             Jul = c(rep("0.07", 3), "0.26", rep(fill_char, 8)),
+             Aug = c(rep("0.07", 3), "0.14", "0.40", rep(fill_char, 7)),
+             Sep = c(rep("0.07", 3), rep("0.12", 2), "0.52", rep(fill_char, 6)),
+             Oct = c(rep("0.06", 3), rep("0.08", 3), "0.60", rep(fill_char, 5)),
+             Nov = c(rep("0.04", 3), rep("0.08", 4), "0.68", rep(fill_char, 4)),
+             Dec = c(rep("0.04", 3), rep("0.08", 5), "0.76", rep(fill_char, 3)),
+             Jan = c(rep("0.04", 3), rep("0.08", 6), "0.84", rep(fill_char, 2)),
+             Feb = c(rep("0.04", 3), rep("0.08", 7), "0.92", rep(fill_char, 1)),
+             Mar = c(rep("0.04", 3), rep("0.08", 8), "1.00"))
+
+select_prob_df |>
+  gt() |>
+  tab_style(style = list(cell_text(align = "center")), locations = cells_body()) |>
+  tab_style(
+    style = list(
+      cell_fill(color = "cyan")
+    ),
+    locations = list(cells_body(columns = Apr, rows = 1),
+                     cells_body(columns = May, rows = 2),
+                     cells_body(columns = Jun, rows = 3),
+                     cells_body(columns = Jul, rows = 4),
+                     cells_body(columns = Aug, rows = 5),
+                     cells_body(columns = Sep, rows = 6),
+                     cells_body(columns = Oct, rows = 7),
+                     cells_body(columns = Nov, rows = 8),
+                     cells_body(columns = Dec, rows = 9),
+                     cells_body(columns = Jan, rows = 10),
+                     cells_body(columns = Feb, rows = 11),
+                     cells_body(columns = Mar, rows = 12))) |>
+    tab_style(
+    style = list(
+      cell_fill(color = "yellow")
+    ),
+    locations = list(cells_body(columns = May, rows = 1),
+                     cells_body(columns = Jun, rows = 1:2),
+                     cells_body(columns = Jul, rows = 1:3),
+                     cells_body(columns = Aug, rows = 1:3),
+                     cells_body(columns = Sep, rows = 1:3),
+                     cells_body(columns = Oct, rows = 1:3),
+                     cells_body(columns = Nov, rows = 1:3),
+                     cells_body(columns = Dec, rows = 1:3),
+                     cells_body(columns = Jan, rows = 1:3),
+                     cells_body(columns = Feb, rows = 1:3),
+                     cells_body(columns = Mar, rows = 1:3))) |>
+    tab_style(
+    style = list(
+      cell_fill(color = "green")
+    ),
+    locations = list(cells_body(columns = Aug, rows = 4),
+                     cells_body(columns = Sep, rows = 4:5),
+                     cells_body(columns = Oct, rows = 4:6),
+                     cells_body(columns = Nov, rows = 4:7),
+                     cells_body(columns = Dec, rows = 4:8),
+                     cells_body(columns = Jan, rows = 4:9),
+                     cells_body(columns = Feb, rows = 4:10),
+                     cells_body(columns = Mar, rows = 4:11))) |>
+    tab_style(
+    style = list(
+      cell_fill(color = "grey")
+    ),
+    locations = list(cells_body(columns = Apr, rows = 2:12),
+                     cells_body(columns = May, rows = 3:12),
+                     cells_body(columns = Jun, rows = 4:12),
+                     cells_body(columns = Jul, rows = 5:12),
+                     cells_body(columns = Aug, rows = 6:12),
+                     cells_body(columns = Sep, rows = 7:12),
+                     cells_body(columns = Oct, rows = 8:12),
+                     cells_body(columns = Nov, rows = 9:12),
+                     cells_body(columns = Dec, rows = 10:12),
+                     cells_body(columns = Jan, rows = 11:12),
+                     cells_body(columns = Feb, rows = 12))) |>
+    cols_label(Purchase_Month = md("Purchase<br>Month")) |>
+    tab_style(
+      style = list(cell_text(align = "center")),
+    locations = list(cells_column_labels(columns = Purchase_Month))) |>
+    tab_spanner(label = "Reporting Month", columns = month.abb[c(4:12, 1:3)])
+
+```
+
+```{r iREC Licence Selection appendix, results='asis', echo=FALSE}
+#| label: fig-irec-licence-selection
+#| fig-cap: "Total number of licences (Annual and Term) selected to report for a given survey month, by year from iREC inception in July 2012 through August 2025."
+
+knitr::include_graphics("img/irec_licence_selection.png")
+```
+
+
+```{r iREC Complete Survey appendix, results='asis', echo=FALSE}
+#| label: fig-irec-licence-response
+#| fig-cap: "Completed responses to the iREC surveys, by survey month, by year from iREC inception in July 2012 through August 2025."
+
+knitr::include_graphics("img/irec_complete_responses.png")
+```
+
+\clearpage
+
 # Stratification Mapping {#apdx-strattab}
 
 ```{r methods strattab, echo=FALSE, message=FALSE, warning=FALSE}
@@ -760,6 +888,7 @@ catch_diff |>
        y = "Catch Difference \n (New Model - Previous Model)") +
   theme_minimal()
 ```
+
 \clearpage
 
 ## Other Analytical Improvements
