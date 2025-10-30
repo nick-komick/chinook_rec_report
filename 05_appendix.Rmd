@@ -117,6 +117,28 @@ select_prob_df |>
 #| label: fig-irec-licence-selection
 #| fig-cap: "Total number of licences (Annual and Term) selected to report for a given survey month, by year from iREC inception in July 2012 through August 2025."
 
+irec_invites_responses <- read_csv("data/irec_invites_and_responses.csv")
+
+
+month_order <- c("Apr", "May", "Jun", "Jul", "Aug", "Sep",
+                 "Oct", "Nov", "Dec", "Jan", "Feb", "Mar")
+
+
+irec_invites_graph <- irec_invites_responses %>%
+  drop_na() %>%
+  select(month_abb, year, invitees) %>%
+  mutate(year = as.factor(year),
+         month_abb = factor(month_abb, levels = month_order))%>%
+  ggplot(aes(x = month_abb, y = invitees, colour = year, group = year)) + 
+  geom_line() + 
+  geom_point() + 
+  labs(main = "Licence selections by month across years",
+       x = "Month",
+       y = "Number of Licence Selections") + 
+  theme_bw()
+
+irec_invites_graph
+
 knitr::include_graphics("img/irec_licence_selection.png")
 ```
 
@@ -124,6 +146,21 @@ knitr::include_graphics("img/irec_licence_selection.png")
 ```{r iREC Complete Survey appendix, results='asis', echo=FALSE}
 #| label: fig-irec-licence-response
 #| fig-cap: "Completed responses to the iREC surveys, by survey month, by year from iREC inception in July 2012 through August 2025."
+
+irec_responses_graph <- irec_invites_responses %>%
+  drop_na() %>%
+  select(month_abb, year, responses) %>%
+  mutate(year = as.factor(year),
+         month_abb = factor(month_abb, levels = month_order))%>%
+  ggplot(aes(x = month_abb, y = responses, colour = year, group = year)) + 
+  geom_line() + 
+  geom_point() + 
+  labs(main = "Licence selections by month across years",
+       x = "Month",
+       y = "Number of Licence Selections") + 
+  theme_bw()
+
+irec_responses_graph
 
 knitr::include_graphics("img/irec_complete_responses.png")
 ```
