@@ -117,8 +117,15 @@ select_prob_df |>
 #| label: fig-irec-licence-selection
 #| fig-cap: "Total number of licences (Annual and Term) selected to report for a given survey month, by year from iREC inception in July 2012 through August 2025."
 
-irec_invites_responses <- read_csv("data/irec_invites_and_responses.csv")
+irec_invites_responses <- read_csv("data/irec_invites_and_responses.csv") %>%
+  #add in column to divide into license groups 
+  mutate(license_group = case_when(
+  year %in% c("2020/21", "2021/22", "2022/23", "2023/24", "2024/25", "2025/26") ~ "group2",
+  TRUE ~ "group1")) %>%
+  #add in a numerical year category
+  mutate(year_numerical = as.numeric(str_extract(year, "^\\d{4}")))
 
+unique(irec_invites_responses$year)
 
 month_order <- c("Apr", "May", "Jun", "Jul", "Aug", "Sep",
                  "Oct", "Nov", "Dec", "Jan", "Feb", "Mar")
@@ -126,17 +133,36 @@ month_order <- c("Apr", "May", "Jun", "Jul", "Aug", "Sep",
 
 irec_invites_graph <- irec_invites_responses %>%
   drop_na() %>%
-  select(month_abb, year, invitees) %>%
-  mutate(year = as.factor(year),
+    mutate(year = as.factor(year),
          month_abb = factor(month_abb, levels = month_order))%>%
-  ggplot(aes(x = month_abb, y = invitees, colour = year, group = year)) + 
+  ggplot(aes(x = month_abb, y = invitees, group = year, colour = year)) + 
   geom_line() + 
+scale_color_manual(values = c(
+  # Group 1 (red): 2012–2019
+  "2012/13" = "#fee5d9",  # light red
+  "2013/14" = "#fcbba1",
+  "2014/15" = "#fc9272",
+  "2015/16" = "#fb6a4a",
+  "2016/17" = "#ef3b2c",
+  "2017/18" = "#cb181d",
+  "2018/19" = "#c1151b",
+  "2019/20" = "#99000d",
+
+  # Group 2 (blue): 2020–2025
+  "2020/21" = "#deebf7",  # light blue
+  "2021/22" = "#c6dbef",
+  "2022/23" = "#9ecae1",
+  "2023/24" = "#6baed6",
+  "2024/25" = "#3182bd",
+  "2025/26" = "#08519c"   # dark blue
+))+
   geom_point() + 
   labs(title = "Licence selections by month across years",
        x = "Month",
-       y = "Number of Licence Selections") + 
+       y = "Number of Licence Selections",
+       colour = "Year") + 
   theme_bw()
-
+    
 irec_invites_graph
 
 knitr::include_graphics("img/irec_licence_selection.png")
@@ -155,6 +181,25 @@ irec_responses_graph <- irec_invites_responses %>%
   ggplot(aes(x = month_abb, y = responses, colour = year, group = year)) + 
   geom_line() + 
   geom_point() + 
+  scale_color_manual(values = c(
+  # Group 1 (red): 2012–2019
+  "2012/13" = "#fee5d9",  # light red
+  "2013/14" = "#fcbba1",
+  "2014/15" = "#fc9272",
+  "2015/16" = "#fb6a4a",
+  "2016/17" = "#ef3b2c",
+  "2017/18" = "#cb181d",
+  "2018/19" = "#c1151b",
+  "2019/20" = "#99000d",
+
+  # Group 2 (blue): 2020–2025
+  "2020/21" = "#deebf7",  # light blue
+  "2021/22" = "#c6dbef",
+  "2022/23" = "#9ecae1",
+  "2023/24" = "#6baed6",
+  "2024/25" = "#3182bd",
+  "2025/26" = "#08519c"   # dark blue
+))+
    labs(title = "Complete resposes by month across years",
        x = "Month",
        y = "Number of Responses") + 
