@@ -125,8 +125,6 @@ irec_invites_responses <- read_csv("data/irec_invites_and_responses.csv") %>%
   #add in a numerical year category
   mutate(year_numerical = as.numeric(str_extract(year, "^\\d{4}")))
 
-unique(irec_invites_responses$year)
-
 month_order <- c("Apr", "May", "Jun", "Jul", "Aug", "Sep",
                  "Oct", "Nov", "Dec", "Jan", "Feb", "Mar")
 
