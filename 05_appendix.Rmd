@@ -132,7 +132,7 @@ irec_invites_graph <- irec_invites_responses %>%
   ggplot(aes(x = month_abb, y = invitees, colour = year, group = year)) + 
   geom_line() + 
   geom_point() + 
-  labs(main = "Licence selections by month across years",
+  labs(title = "Licence selections by month across years",
        x = "Month",
        y = "Number of Licence Selections") + 
   theme_bw()
@@ -155,9 +155,9 @@ irec_responses_graph <- irec_invites_responses %>%
   ggplot(aes(x = month_abb, y = responses, colour = year, group = year)) + 
   geom_line() + 
   geom_point() + 
-  labs(main = "Licence selections by month across years",
+   labs(title = "Complete resposes by month across years",
        x = "Month",
-       y = "Number of Licence Selections") + 
+       y = "Number of Responses") + 
   theme_bw()
 
 irec_responses_graph
