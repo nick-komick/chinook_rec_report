@@ -8,11 +8,11 @@ output:
 
 # Results
 
-In the following section we present the results of revising Chinook catch using both the combined iREC, log book, and creel results for more recent years and modelling to revise pre-iREC years back to 2005.  In addition to revising catch, the relationship between mark kept Chinook catch and CWT sampling through the SHRP is discussed.  This includes the sample rates across all regions and time series of CWT regions.  
+In the following section we present the results of revising Chinook catch using both the combined iREC, logbook, and creel results for more recent years and modelling to revise pre-iREC years back to 2005.  In addition to revising catch, the relationship between mark kept Chinook catch and CWT sampling through the SHRP is discussed.  This includes the sample rates across all regions and time series of CWT regions.  
 
 ## Revised Chinook catch estimates (with iREC)
 
-We found that catch estimates that included iREC data were broadly higher than previous estimates that didn't include iREC information. As an example, Figure \@ref(fig:fig-jdf-catch-revised-1) shows the effect of the summed and revised 2013 to 2023 kept catch estimates for Juan de Fuca fishery (dashed line) compared to the previous estimates without iREC inclusion (solid line). In 2023, the revised estimates were 19% higher than the estimates without iREC included. However, in 2019, the revised estimates were smaller than the previous estimates, likely due to the creel filtration process removing a lower quality creel estimate. The revised kept catch plots for the remaining fisheries can be found in Appendix \ref{@third-appendix}.
+We found that catch estimates that included iREC data were broadly higher than previous estimates that did not include iREC information. As an example, Figure \@ref(fig:fig-jdf-catch-revised-1) shows the effect of the summed and revised 2013 to 2023 kept catch estimates for Juan de Fuca fishery (dashed line) compared to the previous estimates without iREC inclusion (solid line). In 2023, the revised estimates were 19% higher than the estimates without iREC included. However, in 2019, the revised estimates were smaller than the previous estimates, likely due to the creel filtration process removing a lower quality creel estimate. The revised kept catch plots for the remaining fisheries can be found in Appendix \ref{@third-appendix}.
 
 ```{r results example summer m plots, results='asis', echo=FALSE}
 #| label: fig-jdf-catch-revised-1
@@ -62,7 +62,7 @@ ggplot(jdf_graph_data,
 
 ### Model fit
 
-When revising Chinook catch estimates before iREC, the following separate models were fit to better represent fishery and catch monitoring dynamics.
+When revising Chinook catch estimates before iREC was introduced in 2013, the following separate models were fit to better represent fishery and catch monitoring dynamics.
 
 - Southern BC Summer (2013 to 2023)
 - Southern BC Spring/Fall (2013 to 2023)
@@ -73,7 +73,7 @@ When revising Chinook catch estimates before iREC, the following separate models
 
 Separate summer fisheries and the combined spring and fall fisheries (with season as a factor) model was developed for all southern BC regions. Since Central BC and Haida Gwaii do not have significant off-season fisheries, one year-round model was developed for these two regions. One summer model was developed for all southern BC fisheries, and a separate model for NBC ISBM since the input data is different. Overall, models that fit creel summer to combined creel and iREC summer were a better fit when compared to the models that fit summer creel to data from spring and fall seasons (see Appendix \ref{second-appendix} for residual plots). All the models retained the variable "status" - which fits a different slope to each of the categories marked kept, marked released, unmarked kept and unmarked released.
 
-These models are used to develop a relationship between filtered creel + iREC catch in the a given season (spring (months 1:4), summer (months 5:9), or fall (months 10:12)) and the unfiltered creel and logbook only (i.e. no iREC) catch in the limited creel summer period (months 7:8). This relationship is developed with each data point as a single year in the 2013-2023 time series (or 2015-2023 for NBC and CBC). The relationship is then used to predict a combined filtered creel and iREC estimate from the limited summertime creel in the years 2005-2012. Here we show the results of the modelling and the relationships developed. In the next section (incorporation of both sets of data), we use the predicted 2005-2012 values along with the observed 2013-2023 to show how PSC products changed from this analysis.
+These models are used to develop a relationship between filtered creel + iREC catch in the a given season (spring (months 1:4), summer (months 5:9), or fall (months 10:12)) and the unfiltered creel and logbook only (i.e. no iREC) catch in the limited creel summer period (months 7:8). This relationship is developed with each data point as a single year in the 2013-2023 time series (or 2015-2023 for NBC and CBC). The relationship is then used to predict a combined filtered creel and calibrated iREC estimate from the limited summertime creel in the years 2005-2012. Here we show the results of the modelling and the relationships developed. In the next section (incorporation of both sets of data), we use the predicted 2005-2012 values along with the observed 2013-2023 to show how PSC products changed from this analysis.
 
 ```{r plotting_function, include = FALSE}
 #plotting function that will be used for the next few sections
@@ -196,16 +196,16 @@ plot
 
 ### Southern BC Spring and Fall Fishery
 
-The best model for Southern BC Spring and Fall fishery catch ($C_{total,season}$) was one with a gamma distribution with a log link which included summer creel ($c_{creel,summer}$), status ($S$), finescale fishery ($F$), season ($Z$), and various interactions of these terms:
+The best model for Southern BC Spring and Fall fishery catch ($C_{total,season}$) was one with a gamma distribution with a log link which included summer creel ($C_{creel,summer}$), status ($S$), finescale fishery ($F$), season ($Z$), and various interactions of these terms:
 
 $$
-C_{total,Z} = C_{creel,summer} + Z + S + C_{creel,summer}:F + C_{creel,summer}:S + F:Z, Z \in (spring, fall)
+C_{total,Z} = C_{creel,summer} + Z + S + C_{creel,summer}:F + C_{creel,summer}:S + F:Z, Z \in (\text{spring},\ \text{fall})
 \label{eq:sbc_season}
 $$
 
 This model parameterization allows for filtered calibrated iREC catch to be predicted both independently by the unfiltered creel and logbook catch in the limited creel summer period (months 7:8), by finescale fishery, by season (spring(months 1:4) or fall(10:12), and by status (marked kept, marked released, unmarked kept, unmarked released). In addition, the effect of the creel summer period on catch can be modified by finescale fishery and status and the effect of season on catch can be modified by finescale fishery. Figure \@ref(fig:fig-south-sf-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. There are some noticeable patterns in the residuals here that could be improved, however at this time this is the best model fit to the data.
 
-Figure \@ref(fig:fig-jdf-fall-model) shows an example of the Spring/Fall model results in Juan de Fuca Fall fisheries. This particular example shows a poorer fit to the data than some of the other fisheries (see Appendix C). However, the iREC catch estimated for the all months 10:12 is generally low, and without this model, it likely that the predicted catch in off-season fisheries would be 0 or close to zero if there was no creel during this period.
+Figure \@ref(fig:fig-jdf-fall-model) shows an example of the Spring/Fall model results in Juan de Fuca Fall fisheries. This particular example shows a poorer fit to the data than some of the other fisheries (see Appendix C). However, the iREC catch estimated for the fall months 10:12 is generally low, and without this model, it likely that the predicted catch in off-season fisheries would be 0 or close to zero if there was no creel during this period.
 
 
 ```{r results example seasonal spring and fall, results='asis', echo=FALSE}
@@ -252,7 +252,7 @@ The model the Haida Gwaii fishery was incorporating the historic data (Haida cre
 
 $$ C_{total} = C_{historic} + S \label{eq:haida_gwaii_annual}$$
 
-This model parameterization allows for calibrated iREC catch in the whole summer period (months 5:9) to be predicted both independently by the unfiltered creel and logbook (historic) catch in the limited creel summer period (months 7:8) and by status. In addition, the effect of the creel and logbook (historic) summer period on catch is modified by status. Figure \@ref(fig:fig-nbcaabm-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. There are some noticeable patterns in the residuals here that could be improved, however at this time this is the best model fit to the data.
+This model parameterization allows for calibrated iREC catch in the whole summer period (months 5:9) to be predicted both independently by the unfiltered creel and logbook (historic) catch in the limited creel summer period (months 7:8) and by status. In addition, the effect of the creel and logbook (historic) summer period on catch is modified by status. Figure \@ref(fig:fig-nbcaabm-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals.
 
 Figure \@ref(fig:fig-nbcaabm-model) shows the model results with Haida Gwaii. As above, we see that for each status, as unfiltered creel and logbook catch in the limited creel summer period increases, so does calibrated iREC catch in the whole summer period.
 
@@ -575,7 +575,7 @@ ggplot(data = post_irec_catch_model_df,
 
 ```
 
-The time series of submission rates of for each region is shown in Figure \@ref(fig:fig-fishery-rates).  As many of the regions show, 
+The time series of submission rates of for each region is shown in Figure \@ref(fig:fig-fishery-rates).  
 
 ```{r results Fishery Rates, echo=FALSE, fig.height = 20, fig.width = 12, out.height="8in"}
 #| label: fig-fishery-rates
@@ -635,7 +635,7 @@ ggplot(data = region_df,
 
 ## Revised catch data in Chinook Technical Committee processes
 
-Revised recreational catch estimates are inputs to the Pacific Salmon Commission Chinook Technical Committee analysis and reporting processes in three primary ways. 
+Revised recreational catch estimates are inputs to the Pacific Salmon Commission Chinook Technical Committee analyses and reporting processes in three primary ways. 
 
  * Reported total kept and released catch
  * Marked kept catch estimates are used to estimate Coded Wire Tags (CWT)
@@ -643,7 +643,7 @@ Revised recreational catch estimates are inputs to the Pacific Salmon Commission
 
 ### Reporting Kept and Released Catch
 
-Revised estimates based on the methods described in this report will be incorporated into CTC reports starting in 2025. Both kept and released catch estimates are typically reported in the Catch and Escapement report by ERA fishery. Here we plot the difference between the revised kept (Figure \@ref(fig:fig-cande-kept)) and released (Figure \@ref(fig:fig-cande-released)) catch estimates and those recently reported in the 2024 C&E report. Again, we see that the revised catch estimates were generally higher than previously reported estimates that did not include iREC information. In some fisheries, iREC information has been included in recent years (e.g., since 2018 in Strait of Georgia Sport), but our revised estimates incorporate iREC in a standardized way across all fisheries. The largest changes in kept catch occurred in Central BC where iREC had not been previously incorporated, but the inclusion of iREC more than doubles recent estimates. Other large changes occur in Strait of Georgia sport before 2012 (post 2013 iREC has previously been incorporated in the reports) and Haida Gwaii sport in 2005-2009.
+Revised estimates based on the methods described in this report were incorporated into CTC reports starting in 2025. Both kept and released catch estimates are typically reported in the Catch and Escapement report by ERA fishery. Here we plot the difference between the revised kept (Figure \@ref(fig:fig-cande-kept)) and released (Figure \@ref(fig:fig-cande-released)) catch estimates and those recently reported in the 2024 C&E report. Again, we see that the revised catch estimates were generally higher than previously reported estimates that did not include iREC information. In some fisheries, iREC information has been included in recent years (e.g., since 2018 in Strait of Georgia Sport), but our revised estimates incorporate iREC in a standardized way across all fisheries. The largest changes in kept catch occurred in Central BC where iREC had not been previously incorporated, but the inclusion of iREC more than doubles recent estimates. Other large changes occur in Strait of Georgia sport before 2012 (post 2013 iREC has previously been incorporated in the reports) and Haida Gwaii sport in 2005-2009.
 
 ```{r results CandEkept, results='asis', echo=FALSE}
 #| label: fig-cande-kept
@@ -712,7 +712,7 @@ print(k)
 
 ```{r results CandErelease, results='asis', echo=FALSE}
 #| label: fig-cande-released
-#| fig-cap: "Revised (blue) and previously reported (green) legal-sized release catch estimates from 2005-2023. The vertical line on each graph identifies the year that revised estimates are based on only on observed data (e.g. iREC and creel).  Years before the vertical line are modelled data that utilizes past catch estimates."
+#| fig-cap: "Revised (blue) and previously reported (green) legal-sized release catch estimates from 2005-2023. The vertical line on each graph identifies the first year that revised estimates are based on only on observed data (e.g. iREC and creel).  Years before the vertical line are modelled data that utilizes past catch estimates."
 
 
 rec_summary <- 
@@ -750,11 +750,11 @@ The largest changes in released catch occurred in Central BC where previously ve
 
 ### Updating CWT estimates
 
-Kept and marked catch estimates are used to expand Coded Wire Tag (CWT) observations from the SHRP to CWT estimates uploaded to RMIS. Canada updated CWT estimates based on revised catch and published them to RMIS in support of ERA process starting in February 2025. The time series of total CWT estimates for all ERA indicator stocks from the both the 2024 and revised estimates based on update catch estimates is provided in Figure \@ref(fig:fig-indcwtest).  As the time series show, most of the difference between the 2024 and revised CWT estimates are in the earlier years, particularly before the iREC reporting (identified the vertical line).  This is expected as the more recent years had include iREC data into CWT estimates in various ways.  Furthermore, many of the fisheries show more consistent ranges values over the whole time series  (e.g. 63 - GEORG ST S) compared to the 2024 CWT estimates.  This suggests the general sample rate of the fishery has been somewhat consistent and that changes in indicator stock CWT estimates were potentially driven more by biases in historic catch estimate.  The revised CWT estimates should provide a more consistent time series to evaluate indicator stock impacts.
+Kept and marked catch estimates are used to expand Coded Wire Tag (CWT) observations from the SHRP to CWT estimates uploaded to RMIS. Canada updated CWT estimates based on revised catch and published them to RMIS in support of ERA process starting in February 2025. Figure \@ref(fig:fig-indcwtest) shows the time series of total CWT estimates for all ERA indicator stocks, including both the original 2024 estimates and the revised estimates based on updated catch data.  As the time series show, most of the difference between the 2024 and revised CWT estimates are in the earlier years, particularly before the iREC reporting (identified the vertical line).  This is expected as the more recent years had include iREC data into CWT estimates in various ways.  Furthermore, many of the fisheries show more consistent ranges values over the whole time series  (e.g. 63 - GEORG ST S) compared to the 2024 CWT estimates.  This suggests the general sample rate of the fishery has been somewhat consistent and that changes in indicator stock CWT estimates were potentially driven more by biases in historic catch estimate.  The revised CWT estimates should provide a more consistent time series to evaluate indicator stock impacts.
 
 ```{r results indcwtest, results='asis', echo=FALSE}
 #| label: fig-indcwtest
-#| fig-cap: "Time series of CWT estimate totals for all indicator stocks within the CTC 2025 ERA for each ERA fishery. The vertical line on each graph identifies the year that revised CWT estimates used catch estimates based primarily on observed data (e.g. iREC and creel).  Years before the vertical line use modelled catch based past catch estimates for the revised CWT estimates."
+#| fig-cap: "Time series of CWT estimate totals for all indicator stocks within the CTC 2025 ERA for each ERA fishery. The vertical line on each graph identifies the first year that revised CWT estimates used catch estimates based primarily on observed data (e.g. iREC and creel).  Years before the vertical line use modelled catch based past catch estimates for the revised CWT estimates."
 
 cwt_est_filename <- "data/cwt_est_by_fishery.sql"
 cwt_est_sql <- readChar(cwt_est_filename, file.info(cwt_est_filename)$size)
@@ -794,7 +794,7 @@ ggplot() +
 
 ### Updating Chinook non-retention (release) estimates
 
-Kept and released catch estimates are incorporated for most sport fisheries into the Chinook non-retention process in the ERA. In 2024, the ERA model was modified to only accounted for Chinook non-retention without selectively to selective non-retention by mark status, therefore the applicable rates in the ERA that are affected by the revised catch estimates are the marked released rate ($MRR$) and unmarked kept rate ($UKR$). We calculated the $MRR$ and $UKR$ at the PFMA and month level and then used a weighted average based on total catch estimate per area and month to generate an $MRR$ and $UKR$ for each finescale fishery. For simplicity we will show the unmarked release rate $URR$ (i.e. $1 - UKR$), although $UKR$ is used in the equations. We can compare these marked and unmarked release rates based on revised catch estimates to release rates generated by the ratio between kept and released fish in the CNR file used in the 2024 ERA (Figure \@ref(fig:fig-mrrukr)). In the revised estimates, we allow release rates to vary by season, whereas in the past, finescale fisheries were not split into seasons and therefore release rates in each ERA fishery applied to all seasons.
+Kept and released catch estimates are incorporated for most sport fisheries into the Chinook non-retention process in the ERA. In 2024, the ERA model was modified to only accounted for Chinook non-retention without selectively to selective non-retention by mark status, therefore the applicable rates in the ERA that are affected by the revised catch estimates are the marked released rate ($MRR$) and unmarked kept rate ($UKR$). We calculated the $MRR$ and $UKR$ at the PFMA and month level and then used a weighted average based on total catch estimate per area and month to generate an $MRR$ and $UKR$ for each finescale fishery. For simplicity we will show the unmarked release rate $URR$ (i.e. $1 - UKR$), although $UKR$ is used in the equations. We can compare these marked and unmarked release rates based on revised catch estimates to release rates generated by the ratio between kept and released fish in the Chinook Non-Retention (CNR) file used in the 2024 ERA (Figure \@ref(fig:fig-mrrukr)). In the revised estimates, we allow release rates to vary by season, whereas in the past, finescale fisheries were not split into seasons and therefore release rates in each ERA fishery applied to all seasons.
 
 We can see that some fisheries have been accounting for releases since 2005, while other fisheries only more recently incorporated release information. With the exception of Juan de Fuca Strait, which did have mark-selective fisheries before 2012, all other sport fisheries were non-selective before 2013. Since the data is modelled, we did not want to bias the previous non-selective fisheries by allowing for selectivity, therefore we have fixed the $MRR$ and $URR$ to be equal in the modelled data, by calculating a single release rate for marked and unmarked fish combined. After 2013, the data is observed and therefore allowed to vary selectively even if no specific mark selective fishery was specified in regulations. When $MRR$ and $URR$ are identical, this indicates non-selectivity. If $MRR$ is higher than $URR$, this indicates marked fish are released at a higher rate than unmarked fish, which would be indicative of preferential selection of unmarked fish for retention. If $URR$ is higher than $MRR$, then marked fish are released at a lower rate than unmarked fish, indicating preferential mark retention. Generally, the $MRR$ and $URR$ results suggest that releases are occurring but there is no strong, consistent selectivity to the releases. This aligns with MSF regulations that are very limited in space and time and are only beginning to be implemented in a small number of sport fisheries.
 
