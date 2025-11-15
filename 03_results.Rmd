@@ -578,7 +578,10 @@ ggplot(data = post_irec_catch_model_df,
 
 The time series of submission rates of for each region is shown in Figure \@ref(fig:fig-fishery-rates).  
 
-```{r results Fishery Rates, echo=FALSE, fig.height = 20, fig.width = 12, out.height="8in"}
+\newpage
+\begin{landscape}
+
+```{r results Fishery Rates, echo=FALSE, out.width="100%"}
 #| label: fig-fishery-rates
 #| fig-cap: "Chinook Head Submission Rates"
 
@@ -632,6 +635,7 @@ ggplot(data = region_df,
 
 ```
 
+\end{landscape}
 \clearpage
 
 ## Revised catch data in CTC processes
