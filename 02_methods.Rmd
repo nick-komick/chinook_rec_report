@@ -127,7 +127,7 @@ The Internet Recreational Effort and Catch (iREC) reporting program is used to d
 
 #### iREC to Creel Calibration
 
-We bias correct iREC catch estimates for angling by boat by scaling iREC estimates using the regression parameters (slope $m$) of iREC vs creel regressions of equivalent month x area pairs. Specifically, calibrated iREC point estimates ($iREC*$) of boat-based angling catch are calculated from uncalibrated estimates ($iREC$) as:
+We bias correct iREC catch estimates for angling by boat by scaling iREC estimates using the regression parameters (slope $m$) of iREC vs creel regressions of equivalent month x area pairs. Specifically, calibrated iREC point estimates ($iREC^{*}$) of boat-based angling catch are calculated from uncalibrated estimates ($iREC$) as:
 
 $$
 iREC^*= creel = \frac{(iREC)}{m}
@@ -424,7 +424,7 @@ The updated indirect methods can be grouped in three different categories based 
 **Method 1:** When a time period (i.e. season) within a region has an outlier submission rate ($s$), the first option is to use an annual average of all the time periods (i) within the region weighted by the number of heads ($h$) in each period using the equation below. This should weight the annual average submission rate ($\bar{s}$) used for the outlier period to a rate that has the lowest uncertainty, based on the assumption that periods with the lowest uncertainty will have the highest number of heads contributed to the program (Equation \eqref{eq:cwt_wght_avg}).
 
 $$
-\bar{s} = \frac{\sigma_i h_i s_i}{\sigma_i h_i}
+\bar{s} = \frac{\sum_i h_i s_i}{\sigma_i h_i}
 \label{eq:cwt_wght_avg}
 $$
 
