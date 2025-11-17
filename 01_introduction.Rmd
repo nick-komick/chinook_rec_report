@@ -4,13 +4,17 @@ Recreational catch estimation of Chinook salmon in British Columbia has historic
 
 iREC is an online recreational catch reporting system that randomly selects recreational licence holders to self-report all recreational fishing activity, including kept and released fish by adipose clip status for a given month of the year. This survey covers all months and regions. Licence holders also report if they did not fish, which is equally as important as reported catch. The values from iREC are calibrated against creel survey estimates and combined to fill in spatial and temporal gaps where there are no complete catch estimates provided by the creel program but fishing does occur.
 
-These data have been incorporated into the recreational catch since 2013 in most regions domestically using different methods over time, but this incorporation has not occurred in a systematic and standardized way across the Pacific Region. Furthermore, iREC only began in July 2012, which can cause issues when interpreting time series that begin before 2013. The catch estimates are an important data need for estimating exploitation rates to meet the requirements of the bilateral Pacific Salmon Treaty (PST) between the US and Canada. The PST defines calendar year exploitation rates (CYER) in Individual Stock Based Management (ISBM) fisheries to limit stock-specific catch relative to a 2009-2015 base period. These CYER time series have historically combined incongruous data sources (a mix of yearly iREC-incorporated and yearly catch estimates without iREC) creating a bias when comparing current data (yearly iREC-incorporated catch estimates) to the base period. We resolved these discrepancies by creating a common recreational catch estimation methodology throughout the time series. Our intention for these data revisions is to standardize Chinook catch data inputs to both domestic and bilateral PST assessment processes.
+These data have been incorporated into the recreational catch in most regions domestically since 2013 using a variety of methods over time, but this has not occurred in a systematic and standardized way across the Pacific Region. Furthermore, iREC only began in July 2012, which can cause issues when interpreting time series that begin before 2013. The catch estimates are an important data need for estimating exploitation rates to meet the requirements of the bilateral Pacific Salmon Treaty (PST) between the US and Canada. The PST defines calendar year exploitation rates (CYER) in Individual Stock Based Management (ISBM) fisheries to limit stock-specific catch relative to a 2009-2015 base period. These CYER time series have historically combined incongruous data sources (a mix of yearly iREC-incorporated and yearly catch estimates without iREC) creating a bias when comparing current data (yearly iREC-incorporated catch estimates) to the base period. We resolved these discrepancies by creating a common recreational catch estimation methodology throughout the time series. Our intention for these data revisions is to standardize Chinook catch data inputs to both domestic and bilateral PST assessment processes.
 
 A key component to meeting PST requirements is to provide estimates of fishery impacts on coded wire tag (CWT) indicator stocks. Accordingly, stratification and estimation methods for CWT recoveries were revised to better align with the more representative and complete catch estimates.
 
-Here, we present:
+In this report, we describe the methods used for, and present results on:
 
-  1. Revised Chinook catch estimates for years with creel and iREC overlap (method used for future catch estimates). 
-  2. Revised Chinook catch estimates for years without iREC back to 2005. 
-  3. Revised Chinook CWT estimates that better reflect these revised catch estimates.
-  4. Incorporation of revised estimates into annual Chinook Technical Committee (CTC) processes.
+  1. revisions to Chinook catch estimates for years with creel and iREC overlap (method used for future catch estimates), 
+  2. revisions to Chinook catch estimates for years without iREC back to 2005,
+  3. incorporation of revised estimates into annual Chinook Technical Committee (CTC) processes, including:
+    a) revisions of Chinook CWT estimates to better reflect these revised catch estimates and
+    b) revisions to Chinook non-retention (release) estimates to better reflect revised catch estimates.
+
+We then discuss potential further improvements to the analytical methods for applying these revisions and to catch monitoring to facilitate them.  
+
