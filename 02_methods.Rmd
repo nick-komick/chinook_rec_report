@@ -300,14 +300,14 @@ Following the rules for incorporating iREC, we split previous fisheries into spr
 
 ### Identifying a summer creel period
 
-We identified a fishery-specific consistently creeled or logbooked coverage period for the summer period where there is consistent data throughout the timeseries (from 2005 to 2023) from the creel + logbook data. The summer coverage period included the months within 7:8 that are consistent through the timeseries. This consistent chunk of data is then used to predict the estimated catch in the section of the timeseries where we don't have iREC. For South Coast regions this data is unfiltered South Coast creel + logbook catch estimates; for North and Central coast this data is referred to as "historical" but is logbook only for Central Coast and a combination of unfiltered Haida or Area 3/4 creel and logbook catch estimates in the North Coast.
+We identified a fishery-specific consistently creeled or logbooked coverage period for the summer period where there is consistent data throughout the time series (from 2005 to 2023) from the creel + logbook data. The summer coverage period included the months within 7:8 that are consistent through the time series. This consistent chunk of data is then used to predict the estimated catch in the section of the time series where we don't have iREC. For South Coast regions this data is unfiltered South Coast creel + logbook catch estimates; for North and Central coast this data is referred to as "historical" but is logbook only for Central Coast and a combination of unfiltered Haida or Area 3/4 creel and logbook catch estimates in the North Coast.
 
 ### Modelling protocol
 
-this section needs quite a bit of work. need to describe what the models are here, what are the explanatory and response variables, what kind of models are they, etc. - there are a lot of individual models described briefly in the sections above for infilling, comparing datasets, deriving timeseries, etc. does this section just refer to the models to estimate catch in gaps timeseries missing iREC? - not at all clear which ones being referred to here.
+this section needs quite a bit of work. need to describe what the models are here, what are the explanatory and response variables, what kind of models are they, etc. - there are a lot of individual models described briefly in the sections above for infilling, comparing datasets, deriving time series, etc. does this section just refer to the models to estimate catch in gaps time series missing iREC? - not at all clear which ones being referred to here.
 Also, is it the intention to keep this section as point-form or can we put it into paragraphs - it is a bit disjointed as points without a bit more qualification of the points.
 
-We investigate various models to predict kept catch from iREC, logbook, and creel timeseries??? using a systematic approach:
+We investigate various models to predict kept catch from iREC, logbook, and creel time series??? using a systematic approach:
 We constructed full models of the form... describe response(s) and terms/parameters
 We investigated separae suites of models for...
 -   Single model for southern BC fisheries and separate models for Northern and Central BC since the data inputs are different
@@ -334,7 +334,7 @@ The order of comparisons was as follows:
 
 ### Model validation with Salmon Head Recovery Program
 
-We validated the kept catch estimates from our top candidate models by regressing both the observed catch (from iREC; 2013-2023) and the modelled catch (2005-2012) with the number of marked Chinook heads recovered from BC sport fisheries by the Salmon Head Recovery Program (SHRP), which collects head submissions to recover CWTs. The slope of the linear regression between the kept marked catch and the number of heads across all CWT regions and areas should provide the average submission rate across all recreational fisheries. Since there were no substantial changes to the SHRP over both the modelled and observed catch time periods, the slopes should be similar, with deviations indicating a lack in congruence between the two catch timeseries.
+We validated the kept catch estimates from our top candidate models by regressing both the observed catch (from iREC; 2013-2023) and the modelled catch (2005-2012) with the number of marked Chinook heads recovered from BC sport fisheries by the Salmon Head Recovery Program (SHRP), which collects head submissions to recover CWTs. The slope of the linear regression between the kept marked catch and the number of heads across all CWT regions and areas should provide the average submission rate across all recreational fisheries. Since there were no substantial changes to the SHRP over both the modelled and observed catch time periods, the slopes should be similar, with deviations indicating a lack in congruence between the two catch time series.
 
 \clearpage
 
