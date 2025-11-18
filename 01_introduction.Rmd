@@ -10,7 +10,7 @@ A key component to meeting PST requirements is to provide estimates of fishery i
 
 In this report, we describe the methods used for, and present results on:
 
-  1. revisions to Chinook catch estimates for years with creel and iREC overlap (method used for future catch estimates), 
+  1. revisions to Chinook catch estimates for years with creel or logbook, or both, and iREC (method used for future catch estimates), 
   2. revisions to Chinook catch estimates for years without iREC back to 2005,
   3. incorporation of revised estimates into annual Chinook Technical Committee (CTC) processes, including:
     a) revisions of Chinook CWT estimates to better reflect these revised catch estimates and
