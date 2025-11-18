@@ -1,0 +1,25 @@
+---
+title: "flowchart_with_irec"
+format: html
+editor: visual
+---
+
+
+```{mermaid}
+
+flowchart TB
+    %% Left Branch (iRec)
+    B[Uncalibrated iREC] --> C([Calibration])
+    C --> D[Calibrated iREC]
+
+    %% Right Branch (Creel)
+    E[Southern BC Creel] --> F([Quality Control Filtering])
+       
+    %% Middle Branch (Post season)
+    F --> I[Post Season Recreational 
+            Catch Estimates - **with iREC**]
+
+    %% Cross Connections
+    F --> C
+    D --> I
+```

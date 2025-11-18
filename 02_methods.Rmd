@@ -4,8 +4,6 @@ output:
   html_document: default
 ---
 
-\clearpage
-
 # Methods
 
 ## Revised Chinook catch estimates (with iREC)
@@ -28,9 +26,9 @@ knitr::include_graphics(c(fig1_path))
 
 #### South Coast Catch Estimation
 
-South Coast catch estimation is a combination of creel surveys and logbooks from both guides and avid angler programs. The South Coast Creel Survey (SCCS), run by DFO, began in the early 1980s and was limited to Strait of Georgia recreational fisheries. It has since expanded in scope to survey PFMAs 10 to 27, including offshore areas (those with PFMA IDs in the 100s). The surveys are conducted in the summer months, however some spring and fall surveys occur in specific areas. The survey involves dock-side fisher interviews to capture catch rates and aerial surveys for effort counts. Raw estimates and uncertainty are expanded to cover a given month and area (typically PFMA). Currently, this program estimates the following:
+South Coast catch estimation is a combination of creel surveys and logbooks from both guides and avid angler programs. The South Coast Creel Survey (SCCS), run by DFO, began in the early 1980s and was limited to Strait of Georgia recreational fisheries. It has since expanded in scope to survey PFMAs 10 to 27, including offshore areas (those with PFMA IDs in the 100s). The surveys are generally conducted in the summer months, however some spring and fall surveys occur in specific areas. The survey involves dock-side fisher interviews to capture catch rates and aerial surveys for effort counts. Raw estimates and uncertainty are expanded to cover a given month and area (typically PFMA). Currently, this program estimates the following:
 
--   Sub-legal sized release catch
+-   Sub-legal sized released catch
 -   Legal sized released catch based on adipose-clip status (e.g., clipped/marked and unclipped/unmarked)
 -   Legal sized kept catch based on adipose-clip status (e.g., clipped/marked and unclipped/unmarked)
 
@@ -38,7 +36,7 @@ In the past, kept catch with unknown adipose clip status were split into marked 
 
 ##### South Coast Creel Survey quality control
 
-Since the SCCSs vary in sampling intensity and spatial-temporal coverage, we have introduced systematic quality control of these estimates. Following the method used for iREC calibration to creel (@irec_sar_2015), we filter the creel data based on quality control criteria in a given area and month. These quality control criteria are designed to avoid uncertainty associated with monthly estimate based on only a small number of days or biases when estimates are based on only a certain type of day (e.g., weekends). Each area and monthly creel estimate included in our data was required to meet each of the following criteria:
+Since the SCCSs vary in sampling intensity and spatial-temporal coverage, we have introduced systematic quality control of these estimates. Following the method used for iREC calibration to creel [@irec_sar_2015], we filter the creel estimates based on quality control criteria in a given area and month. These quality control criteria are designed to avoid uncertainty associated with monthly estimate based on only a small number of days or biases when estimates are based on only a certain type of day (e.g., weekends). Each area and monthly creel estimate included in our data was required to meet each of the following criteria:
 
 -   At least three flights for each type of day (weekday or weekend)
 -   At least 25 interviews mid-week OR at least 10% of interviews from mid-week
@@ -46,7 +44,7 @@ Since the SCCSs vary in sampling intensity and spatial-temporal coverage, we hav
 -   At least a 15 day spread in flights
 -   At least a 15 day spread in interviews
 
-These criteria exclude 51% of all estimates since 2005 (Figure \@ref(fig:fig-creel-criteria)). Of the PFMAs with estimates that both pass and fail the criteria, PFMA 15 and 16 have the highest proportion that fail the criteria, followed by Area 29, 19 (Georgia Strait, GS), and 21, which all have over 80% of estimates fail the criteria. The core summer months of July and August have the highest rate of estimates passing the criteria (> 70%), whereas more than 75% of estimates from the winter months (October through February) fail the criteria, likely due to weather making consistent overflights difficult. We refer to the creel estimates that pass this quality control as "filtered creel".
+These criteria exclude 51% of all estimates since 2005 (Figure \@ref(fig:fig-creel-criteria)). Of the PFMAs with estimates that both pass and fail the criteria, PFMA 15 and 16 have the highest proportion that fail the criteria, followed by Area 29 (Marine), 19 (Georgia Strait, GS), and 21, which all have over 80% of estimates fail the criteria. The core summer months of July and August have the highest rate of estimates passing the criteria (> 70%), whereas more than 75% of estimates from the winter months (October through February) fail the criteria, likely due to weather making consistent overflights difficult. We refer to the creel estimates that pass this quality control as "filtered creel".
 
 
 \begin{landscapepage}
@@ -113,11 +111,11 @@ ggplot() +
 
 #### Central Coast Catch Estimation
 
-Central Coast catch estimation is exclusively logbook data from lodges. The PFMAs included in the Central Coast are 6, 7, 8, 9, 10, and their offshore counterparts 106, 107, 108, 109, and 110. These data are not typically by marked and kept status, so those distinctions need to be reconstructed using mark rate and release rates. Although not all lodges provide logbook catch data, the catch data has historically been reported as the total catch for the region. This was identified as a bias in the recreational catch estimates that the method proposed in this report would address. In addition, the Central Coast Indigenous Resource Alliance is currently developing a new creel monitoring program which may be a potential source of data to improve catch estimates in portions of PFMA 6 to PFMA 10.
+Central Coast catch estimation is exclusively logbook data from lodges. The PFMAs included in the Central Coast are 6, 7, 8, 9, 10, and their offshore counterparts 106, 107, 108, 109, and 110. These data are not typically by marked and kept status, so those distinctions need to be reconstructed using mark rate and release rates. Although not all lodges provide logbook catch data, the catch data has historically been reported as the total catch for the region. This was identified as a bias in the recreational catch estimates that the inclusion of iREC would address. In addition, the Central Coast Indigenous Resource Alliance is currently developing a new creel monitoring program which may be a potential source of data to improve catch estimates in portions of PFMA 6 to 10.
 
 #### North Coast Catch Estimation
 
-Northern British Columbia (NBC) recreational catch monitoring generally aligns with two distinct regions, Haida Gwaii and NBC individual stock-based management (ISBM). A combination of independently-run creel programs and logbook data programs are used to monitor each of these regions.
+Northern British Columbia (NBC) recreational catch monitoring generally aligns with two distinct regions, Haida Gwaii (i.e. NBC aggregate abundance based management) and NBC individual stock-based management (ISBM). A combination of independently-run creel programs and logbook data programs are used to monitor each of these regions.
 
 Haida Gwaii covers the marine waters consisting of PFMAs 1, 2 (East and West), 101, 102, and 142. Recreational catch monitoring is carried out using a combination of a creel program run by the Haida Nation and lodge-submitted logbooks. The creel program has operated since 1999 and typically operates from late May to the middle of September. Lodges represent the majority of the catch around Haida Gwaii, particularly around the northern portion in PFMA 1/101. As the logbook program does not capture release data, the creel program data has historically been used to estimate releases from both lodge and non-lodge catch.
 
@@ -132,7 +130,7 @@ The Internet Recreational Effort and Catch (iREC) reporting program is used to d
 We bias correct iREC catch estimates for angling by boat by scaling iREC estimates using the slope $m$ of regressions between monthly iREC and corresponding creel estimates in each area. Specifically, calibrated iREC point estimates ($iREC^{*}$) of boat-based angling catch are calculated from uncalibrated estimates ($iREC$) as:
 
 $$
-iREC^{*{= creel = \frac{(iREC)}{m}
+iREC^{*}= creel = \frac{(iREC)}{m}
 \label{eq:irec_calibration}
 $$
 
@@ -208,26 +206,13 @@ For Northern and Central BC:
 
 In Southern BC, these rules prioritize quality-controlled creel estimates during the summer months, when most creel survey effort is concentrated, and prioritizes calibrated iREC data during shoulder seasons and anywhere there is a gap in creel coverage.
 
-```{mermaid}
+```{r methods with irec flowchart, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 #| label: fig-area-catch-process
-#| fig-cap: "Diagram showin the steps to identifying the best avaiable catch in Southern BC between creel and iREC from 2013 onward."
+#| fig-cap: "Diagram showing the steps to identifying the best avaiable catch in Southern BC between creel and iREC from 2013 onward."
 
 
-flowchart TB
-    %% Left Branch (iRec)
-    B[Uncalibrated iREC] --> C([Calibration])
-    C --> D[Calibrated iREC]
+knitr::include_graphics("img/flowchart_with_irec.png")
 
-    %% Right Branch (Creel)
-    E[Southern BC Creel] --> F([Quality Control Filtering])
-       
-    %% Middle Branch (Post season)
-    F --> I[Post Season Recreational 
-            Catch Estimates - **with iREC**]
-
-    %% Cross Connections
-    F --> C
-    D --> I
 ```
 
 Northern and Central BC do not have consistent standardized creel, and therefore the iREC data is preferred over logbook-only data. iREC took longer to achieve effective sample rates in Northern BC and therefore data from 2015 onward is used.
@@ -314,6 +299,15 @@ g
 ## Revised Chinook catch estimates from before iREC
 
 Where iREC is unavailable (before 2013 in Southern BC and 2015 in North/Central BC), we predict iREC-incorporated seasonal catch estimates by finescale fishery using a modelled relationship between summertime creel estimates without iREC and seasonal iREC-incorporated catch estimates from 2013-2023. These seasonal estimates are then rolled up into yearly estimates. This process is automated and accomplished in the model function of the `pacRecCatch` R package.
+
+```{r methods with irec flowchart, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
+#| label: fig-before-irec-flowchart
+#| fig-cap: "Diagram showing the steps to identifying expand catch within all regions in years before iREC is avaiable."
+
+
+knitr::include_graphics("img/flowchart_before_irec.png")
+
+```
 
 ### Splitting fisheries by season
 
