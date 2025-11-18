@@ -2,7 +2,7 @@
 
 \clearpage
 
-# Changes to licence selection methods and analytical stratification in the Internet Recreational Effort and Catch (iREC) Reporting Program {#apdx-irec-mthd}
+# Internet Recreational Effort and Catch (iREC) Reporting Program Changes {#apdx-irec-mthd}
 
 For 1, 3 and 5 day (“term”) licences, only the selection rate has changed. From 2012 to 20xx, each licence had a 25% chance of being selected to the reporting program. Since 2020, 100% of term licences are selected to report.
 
@@ -399,7 +399,7 @@ res_gam <- simulateResiduals(sport_catch_models$model_list$south_season, plot = 
 #| label: fig-nbcaabm-residuals
 #| fig-cap: "Validation plots for NBC AABM annual model"
 
-res_gam <- simulateResiduals(sport_catch_models$model_list$north_aabm, plot = T, quantreg=T)
+res_gam <- simulateResiduals(sport_catch_models$model_list$north_aabm, plot = T, quantreg=T, n= 500)
 
 ```
 

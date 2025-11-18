@@ -137,6 +137,7 @@ opts_chunk$set(
 ```{r load-libraries, cache=FALSE}
 # add other packages here:
 library(dplyr)
+library(DiagrammeR)
 library(ggplot2)
 library(readr)
 library(tibble)
@@ -175,6 +176,8 @@ sport_catch_finescale <-
 sport_catch_models <- model_rec_catch(sport_catch_finescale, most_recent_data_year=2023)
 
 sport_release_rates <- get_release_rates(sport_catch_models, sport_catch_area)
+
+
 
 
 ```

@@ -48,7 +48,7 @@ Since the SCCSs vary in sampling intensity and spatial-temporal coverage, we hav
 
 These criteria exclude 51% of all estimates since 2005 (Figure \@ref(fig:fig-creel-criteria)). Of the PFMAs with estimates that both pass and fail the criteria, PFMA 15 and 16 have the highest proportion that fail the criteria, followed by Area 29, 19 (Georgia Strait, GS), and 21, which all have over 80% of estimates fail the criteria. The core summer months of July and August have the highest rate of estimates passing the criteria (> 70%), whereas more than 75% of estimates from the winter months (October through February) fail the criteria, likely due to weather making consistent overflights difficult. We refer to the creel estimates that pass this quality control as "filtered creel".
 
-````{=tex}
+
 \begin{landscapepage}
 
 ```{r methods Loading packages useful functions, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
@@ -108,8 +108,8 @@ ggplot() +
   )
 
 ```
+
 \end{landscapepage}
-````
 
 #### Central Coast Catch Estimation
 
@@ -129,10 +129,10 @@ The Internet Recreational Effort and Catch (iREC) reporting program is used to d
 
 #### iREC to Creel Calibration
 
-We bias correct iREC catch estimates for angling by boat by scaling iREC estimates using the slope $m$ of regressions between monthly iREC and corresponding creel estimates in each area. Specifically, calibrated iREC point estimates ($iREC*$) of boat-based angling catch are calculated from uncalibrated estimates ($iREC$) as:
+We bias correct iREC catch estimates for angling by boat by scaling iREC estimates using the slope $m$ of regressions between monthly iREC and corresponding creel estimates in each area. Specifically, calibrated iREC point estimates ($iREC^{*}$) of boat-based angling catch are calculated from uncalibrated estimates ($iREC$) as:
 
 $$
-iREC^*= creel = \frac{(iREC)}{m}
+iREC^{*{= creel = \frac{(iREC)}{m}
 \label{eq:irec_calibration}
 $$
 
@@ -208,11 +208,33 @@ For Northern and Central BC:
 
 In Southern BC, these rules prioritize quality-controlled creel estimates during the summer months, when most creel survey effort is concentrated, and prioritizes calibrated iREC data during shoulder seasons and anywhere there is a gap in creel coverage.
 
+```{mermaid}
+#| label: fig-area-catch-process
+#| fig-cap: "Diagram showin the steps to identifying the best avaiable catch in Southern BC between creel and iREC from 2013 onward."
+
+
+flowchart TB
+    %% Left Branch (iRec)
+    B[Uncalibrated iREC] --> C([Calibration])
+    C --> D[Calibrated iREC]
+
+    %% Right Branch (Creel)
+    E[Southern BC Creel] --> F([Quality Control Filtering])
+       
+    %% Middle Branch (Post season)
+    F --> I[Post Season Recreational 
+            Catch Estimates - **with iREC**]
+
+    %% Cross Connections
+    F --> C
+    D --> I
+```
+
 Northern and Central BC do not have consistent standardized creel, and therefore the iREC data is preferred over logbook-only data. iREC took longer to achieve effective sample rates in Northern BC and therefore data from 2015 onward is used.
 
 In Figure \@ref(fig:fig-creel-irec-NGS) we demonstrate how iREC fills in the gaps in each PFMA for the Northern Strait of Georgia finescale fishery.
 
-````{=tex}
+
 \begin{landscapepage}
 
 ```{r methods pfma_month again, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
@@ -288,7 +310,6 @@ g
 ```
 
 \end{landscapepage}
-````
 
 ## Revised Chinook catch estimates from before iREC
 
@@ -320,7 +341,7 @@ We investigated separae suites of models for...
 
 -   We did not consider random effects models since there were not enough levels of each factor to warrant random effects inclusion (typically \>10)
 
--   For all candidate models we use the `DHARMa` package (REFERENCE) to create a qq-plot to detect deviations in observations from expected distribution and a plot of the residuals against predicted values to detect patterns in residuals. We visually assessed whether candidate models improved plots.
+-   For all candidate models we use the `DHARMa` package @dharma to create a qq-plot to detect deviations in observations from expected distribution and a plot of the residuals against predicted values to detect patterns in residuals. We visually assessed whether candidate models improved plots.
 
 -   We also compared candidate models using AIC, with a lower AIC indicating a better model fit.
 
@@ -328,7 +349,7 @@ The order of comparisons was as follows:
 
 -   First we compared three distributions, normal (Gaussian), poisson, and Gamma, to see which fit our data the best on the full model. These distributions are all consistent with our positive, continuous data
 
--   Next, using the chosen distribution, we compared the full model with all terms to models with each of the terms dropped sequentially except for creel.summer which was our main interest. We did this first by dropping out full terms from the full interaction model, then used the dredge function in `MuMIn` package (REFERENCE) to sequentially drop out the various sub-interactions
+-   Next, using the chosen distribution, we compared the full model with all terms to models with each of the terms dropped sequentially except for creel.summer which was our main interest. We did this first by dropping out full terms from the full interaction model, then used the dredge function in `MuMIn` package @mumin to sequentially drop out the various sub-interactions
 
 -   In each case, we selected the model with the lowest AIC and best visual diagnostics.
 
@@ -432,7 +453,7 @@ For cases where these outliers result more from uncertainty in the marked catch 
 **Method 1:** When a time period (i.e., season) within a region has an outlier submission rate ($s$), the first option is to use an annual average of all the time periods ($i$) within the region weighted by the number of heads ($h$) in each period using the equation below. This should weight the annual average submission rate ($\bar{s}$) used for the outlier period to a rate that has the lowest uncertainty, based on the assumption that periods with the lowest uncertainty will have the highest number of heads contributed to the program (Equation \eqref{eq:cwt_wght_avg}).
 
 $$
-\bar{s} = \frac{\sum_i h_i s_i}{\sigma_i h_i}
+\bar{s} = \frac{\sum_i h_i s_i}{\sum_i h_i}
 \label{eq:cwt_wght_avg}
 $$
 
