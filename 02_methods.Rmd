@@ -30,7 +30,7 @@ knitr::include_graphics(c(fig1_path))
 
 South Coast catch estimation is a combination of creel surveys and logbooks from both guides and avid angler programs. The South Coast Creel Survey (SCCS), run by DFO, began in the early 1980s and was limited to Strait of Georgia recreational fisheries. It has since expanded in scope to survey PFMAs 10 to 27, including offshore areas (those with PFMA IDs in the 100s). The surveys are conducted in the summer months, however some spring and fall surveys occur in specific areas. The survey involves dock-side fisher interviews to capture catch rates and aerial surveys for effort counts. Raw estimates and uncertainty are expanded to cover a given month and area (typically PFMA). Currently, this program estimates the following:
 
--   Sub-legal sized release catch
+-   Sub-legal sized released catch
 -   Legal sized released catch based on adipose-clip status (e.g., clipped/marked and unclipped/unmarked)
 -   Legal sized kept catch based on adipose-clip status (e.g., clipped/marked and unclipped/unmarked)
 
@@ -41,7 +41,7 @@ In the past, kept catch with unknown adipose clip status were split into marked 
 Since the SCCSs vary in sampling intensity and spatial-temporal coverage, we have introduced systematic quality control of these estimates. Following the method used for iREC calibration to creel (@irec_sar_2015), we filter the creel data based on quality control criteria in a given area and month. These quality control criteria are designed to avoid uncertainty associated with monthly estimate based on only a small number of days or biases when estimates are based on only a certain type of day (e.g., weekends). Each area and monthly creel estimate included in our data was required to meet each of the following criteria:
 
 -   At least three flights for each type of day (weekday or weekend)
--   At least 25 interviews mid-week OR at least 10% of interviews from mid-week
+-   At least 25 interviews on weekdays OR at least 10% of interviews from weekdays
 -   At least 25 interviews on weekends OR at least 10% of interviews from weekends
 -   At least a 15 day spread in flights
 -   At least a 15 day spread in interviews
