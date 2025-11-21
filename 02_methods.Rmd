@@ -39,7 +39,7 @@ In the past, kept catch with unknown adipose clip status were split into marked 
 Since the SCCSs vary in sampling intensity and spatial-temporal coverage, we have introduced systematic quality control of these estimates. Following the method used for iREC calibration to creel [@irec_sar_2015], we filter the creel estimates based on quality control criteria in a given area and month. These quality control criteria are designed to avoid uncertainty associated with monthly estimate based on only a small number of days or biases when estimates are based on only a certain type of day (e.g., weekends). Each area and monthly creel estimate included in our data was required to meet each of the following criteria:
 
 -   At least three flights for each type of day (weekday or weekend)
--   At least 25 interviews mid-week OR at least 10% of interviews from mid-week
+-   At least 25 interviews on weekdays OR at least 10% of interviews from weekdays
 -   At least 25 interviews on weekends OR at least 10% of interviews from weekends
 -   At least a 15 day spread in flights
 -   At least a 15 day spread in interviews
