@@ -2,7 +2,7 @@
 
 \clearpage
 
-# Changes to licence selection methods and analytical stratification in the Internet Recreational Effort and Catch (iREC) Reporting Program {#apdx-irec-mthd}
+# Internet Recreational Effort and Catch (iREC) Reporting Program Changes {#apdx-irec-mthd}
 
 For 1, 3 and 5 day (“term”) recreational licences, only the selection rate has changed. From 2012 to 20xx, each licence had a 25% chance of being selected to the reporting program. Since 2020, 100% of term licences are selected to report.
 
@@ -63,7 +63,7 @@ select_prob_df |>
                      cells_body(columns = Jan, rows = 10),
                      cells_body(columns = Feb, rows = 11),
                      cells_body(columns = Mar, rows = 12))) |>
-    tab_style(
+  tab_style(
     style = list(
       cell_fill(color = "yellow")
     ),
@@ -78,7 +78,7 @@ select_prob_df |>
                      cells_body(columns = Jan, rows = 1:3),
                      cells_body(columns = Feb, rows = 1:3),
                      cells_body(columns = Mar, rows = 1:3))) |>
-    tab_style(
+  tab_style(
     style = list(
       cell_fill(color = "green")
     ),
@@ -90,7 +90,7 @@ select_prob_df |>
                      cells_body(columns = Jan, rows = 4:9),
                      cells_body(columns = Feb, rows = 4:10),
                      cells_body(columns = Mar, rows = 4:11))) |>
-    tab_style(
+  tab_style(
     style = list(
       cell_fill(color = "grey")
     ),
@@ -105,11 +105,11 @@ select_prob_df |>
                      cells_body(columns = Dec, rows = 10:12),
                      cells_body(columns = Jan, rows = 11:12),
                      cells_body(columns = Feb, rows = 12))) |>
-    cols_label(Purchase_Month = md("Purchase<br>Month")) |>
-    tab_style(
-      style = list(cell_text(align = "center")),
+  cols_label(Purchase_Month = md("Purchase<br>Month")) |>
+  tab_style(
+    style = list(cell_text(align = "center")),
     locations = list(cells_column_labels(columns = Purchase_Month))) |>
-    tab_spanner(label = "Reporting Month", columns = month.abb[c(4:12, 1:3)])
+  tab_spanner(label = "Reporting Month", columns = month.abb[c(4:12, 1:3)])
 
 ```
 
@@ -120,50 +120,49 @@ select_prob_df |>
 irec_invites_responses <- read_csv("data/irec_invites_and_responses.csv") %>%
   #add in column to divide into license groups 
   mutate(license_group = case_when(
-  year %in% c("2020/21", "2021/22", "2022/23", "2023/24", "2024/25", "2025/26") ~ "group2",
-  TRUE ~ "group1")) %>%
+    year %in% c("2020/21", "2021/22", "2022/23", "2023/24", "2024/25", "2025/26") ~ "group2",
+    TRUE ~ "group1")) %>%
   #add in a numerical year category
   mutate(year_numerical = as.numeric(str_extract(year, "^\\d{4}")))
 
 month_order <- c("Apr", "May", "Jun", "Jul", "Aug", "Sep",
                  "Oct", "Nov", "Dec", "Jan", "Feb", "Mar")
 
-
-irec_invites_graph <- irec_invites_responses %>%
+irec_invites_graph <- 
+  irec_invites_responses %>%
   drop_na() %>%
-    mutate(year = as.factor(year),
+  mutate(year = as.factor(year),
          month_abb = factor(month_abb, levels = month_order))%>%
   ggplot(aes(x = month_abb, y = invitees, group = year, colour = year)) + 
   geom_line() + 
-scale_color_manual(values = c(
-  # Group 1 (red): 2012–2019
-  "2012/13" = "#fee5d9",  # light red
-  "2013/14" = "#fcbba1",
-  "2014/15" = "#fc9272",
-  "2015/16" = "#fb6a4a",
-  "2016/17" = "#ef3b2c",
-  "2017/18" = "#cb181d",
-  "2018/19" = "#c1151b",
-  "2019/20" = "#99000d",
-
-  # Group 2 (blue): 2020–2025
-  "2020/21" = "#deebf7",  # light blue
-  "2021/22" = "#c6dbef",
-  "2022/23" = "#9ecae1",
-  "2023/24" = "#6baed6",
-  "2024/25" = "#3182bd",
-  "2025/26" = "#08519c"   # dark blue
-))+
+  scale_color_manual(values = c(
+    # Group 1 (red): 2012–2019
+    "2012/13" = "#fee5d9",  # light red
+    "2013/14" = "#fcbba1",
+    "2014/15" = "#fc9272",
+    "2015/16" = "#fb6a4a",
+    "2016/17" = "#ef3b2c",
+    "2017/18" = "#cb181d",
+    "2018/19" = "#c1151b",
+    "2019/20" = "#99000d",
+    
+    # Group 2 (blue): 2020–2025
+    "2020/21" = "#deebf7",  # light blue
+    "2021/22" = "#c6dbef",
+    "2022/23" = "#9ecae1",
+    "2023/24" = "#6baed6",
+    "2024/25" = "#3182bd",
+    "2025/26" = "#08519c"   # dark blue
+  ))+
   geom_point() + 
   labs(title = "Licence selections by month across years",
        x = "Month",
        y = "Number of Licence Selections",
        colour = "Year") + 
   theme_bw()
-    
+
 irec_invites_graph
 
-knitr::include_graphics("img/irec_licence_selection.png")
 ```
 
 
@@ -171,7 +170,8 @@ knitr::include_graphics("img/irec_licence_selection.png")
 #| label: fig-irec-licence-response
 #| fig-cap: "Completed responses to the iREC surveys, by survey month, by year from iREC inception in July 2012 through August 2025."
 
-irec_responses_graph <- irec_invites_responses %>%
+irec_responses_graph <- 
+  irec_invites_responses %>%
   drop_na() %>%
   select(month_abb, year, responses) %>%
   mutate(year = as.factor(year),
@@ -180,32 +180,31 @@ irec_responses_graph <- irec_invites_responses %>%
   geom_line() + 
   geom_point() + 
   scale_color_manual(values = c(
-  # Group 1 (red): 2012–2019
-  "2012/13" = "#fee5d9",  # light red
-  "2013/14" = "#fcbba1",
-  "2014/15" = "#fc9272",
-  "2015/16" = "#fb6a4a",
-  "2016/17" = "#ef3b2c",
-  "2017/18" = "#cb181d",
-  "2018/19" = "#c1151b",
-  "2019/20" = "#99000d",
-
-  # Group 2 (blue): 2020–2025
-  "2020/21" = "#deebf7",  # light blue
-  "2021/22" = "#c6dbef",
-  "2022/23" = "#9ecae1",
-  "2023/24" = "#6baed6",
-  "2024/25" = "#3182bd",
-  "2025/26" = "#08519c"   # dark blue
-))+
-   labs(title = "Complete resposes by month across years",
+    # Group 1 (red): 2012–2019
+    "2012/13" = "#fee5d9",  # light red
+    "2013/14" = "#fcbba1",
+    "2014/15" = "#fc9272",
+    "2015/16" = "#fb6a4a",
+    "2016/17" = "#ef3b2c",
+    "2017/18" = "#cb181d",
+    "2018/19" = "#c1151b",
+    "2019/20" = "#99000d",
+    
+    # Group 2 (blue): 2020–2025
+    "2020/21" = "#deebf7",  # light blue
+    "2021/22" = "#c6dbef",
+    "2022/23" = "#9ecae1",
+    "2023/24" = "#6baed6",
+    "2024/25" = "#3182bd",
+    "2025/26" = "#08519c"   # dark blue
+  ))+
+  labs(title = "Complete resposes by month across years",
        x = "Month",
        y = "Number of Responses") + 
   theme_bw()
 
 irec_responses_graph
 
-knitr::include_graphics("img/irec_complete_responses.png")
 ```
 
 \clearpage
@@ -268,7 +267,7 @@ csas_table(strat_table, format = "latex")
 
 \clearpage
 
-# Revised Estimates 2005-2023 {#app:first-appendix}
+# Revised Estimates 2005-2023 {#app:revised-catch-timeseries}
 
 ```{r m plots, results='asis', echo=FALSE}
 #| label: fig-catch-revised-1-appendix
@@ -399,7 +398,7 @@ res_gam <- simulateResiduals(sport_catch_models$model_list$south_season, plot = 
 #| label: fig-nbcaabm-residuals
 #| fig-cap: "Validation plots for NBC AABM annual model"
 
-res_gam <- simulateResiduals(sport_catch_models$model_list$north_aabm, plot = T, quantreg=T)
+res_gam <- simulateResiduals(sport_catch_models$model_list$north_aabm, plot = T, quantreg=T, n= 500)
 
 ```
 
@@ -981,6 +980,86 @@ In the Southwest Vancouver Island (SWVI) ISBM fishery, it was found that data fo
 
 When reviewing how the quality control flags were handled when combining creel reported areas into to iREC areas we found that the quality control flags were combined incorrectly.  The only iREC area that this affects was PFMA 20 from 2013 to 2019 in some months.  As PFMA 20 is operational covered by two separate creel programs, in some cases part of PFMA 20 may have a quality creel estimate while the other may not.  When combined it would identify the whole PFMA 20 as being a quality creel and potentially use less quality creel data instead of iREC for the whole area. This was fixed an now Juan de Fuca catch has a more consistent relationship with creel over the whole time series of this study.  With the split of PFMA 20 in iREC reporting starting in 2020, this was no longer an issue and quality creel estimates either portion of PFMA 20 can be used as the final catch estimate.
 
+## Changes to Catch
+
+```{r tbl-previous-kept-catch, results='asis', echo=FALSE}
+options(knitr.kable.NA = '')
+
+prev_version_results <- 
+  readRDS("./data/pacRecCatch_v1.RDS")
+
+prev_version_catch <-
+  prev_version_results$sport_catch_modelled |>
+  rename_with(tolower) |>
+  mutate(is_kept = grepl("kept", status, ignore.case = TRUE),
+         finescale_fishery = sub("JNST S", "JOHN ST S", finescale_fishery),
+         finescale_fishery = sub("NBC ISBM S", "NORTH ISBM S", finescale_fishery),
+         finescale_fishery = case_when(finescale_fishery == "CBC S" ~ "CENTRAL S",
+                                       finescale_fishery == "SWCVI S FALL AABM" ~ "SWCVI AABM S FALL",
+                                       finescale_fishery == "SWCVI S SPRING AABM" ~ "SWCVI AABM S SPRING",
+                                       finescale_fishery == "SWCVI S SUMMER AABM" ~ "SWCVI AABM S SUMMER",
+                                       finescale_fishery == "NWCVI S FALL AABM" ~ "NWCVI AABM S FALL",
+                                       finescale_fishery == "NWCVI S SPRING AABM" ~ "NWCVI AABM S SPRING",
+                                       finescale_fishery == "NWCVI S SUMMER AABM" ~ "NWCVI AABM S SUMMER",
+                                       finescale_fishery == "SWCVI S FALL ISBM" ~ "SWCVI ISBM S FALL",
+                                       finescale_fishery == "SWCVI S SPRING ISBM" ~ "SWCVI ISBM S SPRING",
+                                       finescale_fishery == "SWCVI S SUMMER ISBM" ~ "SWCVI ISBM S SUMMER",
+                                       finescale_fishery == "NWCVI S FALL ISBM" ~ "NWCVI ISBM S FALL",
+                                       finescale_fishery == "NWCVI S SPRING ISBM" ~ "NWCVI ISBM S SPRING",
+                                       finescale_fishery == "NWCVI S SUMMER ISBM" ~ "NWCVI ISBM S SUMMER",
+                                       grepl("NBC AABM S", finescale_fishery) ~ "NORTH AABM S",
+                                       .default = finescale_fishery)) |>
+  group_by(year, is_kept, finescale_fishery) |>
+  summarize(prev_catch = sum(catch_estimate_predicted, na.rm = TRUE), .groups = "drop")
+
+
+new_version_catch <-
+  sport_catch_models$model_catch |>
+  mutate(is_kept = grepl("kept", status, ignore.case = TRUE)) |>
+  group_by(year, is_kept, finescale_fishery) |> 
+  summarise(creel_unfiltered_plus = sum(creel_unfiltered_plus, na.rm = TRUE), 
+            catch_estimate_predicted = sum(catch_estimate_predicted, na.rm = TRUE), 
+            .groups = "drop")
+
+
+version_catch_tbl <-
+  new_version_catch |>
+  full_join(prev_version_catch, by=c("year", "is_kept", "finescale_fishery")) |>
+  mutate(update_pct = round((catch_estimate_predicted - prev_catch) / prev_catch * 100.0, 1),
+         update_pct = if_else(prev_catch == 0 & catch_estimate_predicted == 0, 
+                              0, 
+                              update_pct),
+         prev_catch = round(prev_catch),
+         catch_estimate_predicted = round(catch_estimate_predicted),
+         creel_unfiltered_plus = round(creel_unfiltered_plus))
+
+
+version_catch_tbl |>
+  filter(is_kept == TRUE) |>
+  select(`Year` = year, 
+         `CTC Finescale Fishery` = finescale_fishery, 
+         `Creel + Log Kept` = creel_unfiltered_plus,
+         `Feb. 2025 Kept` = prev_catch,
+         `Updated Kept` = catch_estimate_predicted,
+         `Updated Kept (%)` = update_pct) |>
+  csasdown::csas_table(caption = "Kept catch estimates based on just creel + log books, previous February 2025 version of analysis, and updated version of the method presented in this report.")
+
+
+```
+
+```{r tbl-previous-released-catch, results='asis', echo=FALSE}
+
+version_catch_tbl |>
+  filter(is_kept == FALSE) |>
+  select(`Year` = year, 
+         `CTC Finescale Fishery` = finescale_fishery, 
+         `Creel + Log Rel.` = creel_unfiltered_plus,
+         `Feb. 2025 Rel.` = prev_catch,
+         `Updated Rel.` = catch_estimate_predicted,
+         `Updated Rel. (%)` = update_pct) |>
+  csasdown::csas_table(caption = "Released catch estimates based on just creel + log books, previous February 2025 version of analysis, and updated version of the method presented in this report.")
+
+```
 
 `r if(knitr:::is_latex_output()) '% end csasdown appendix'`
 

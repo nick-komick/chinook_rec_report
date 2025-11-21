@@ -1,0 +1,27 @@
+---
+title: "flowchart_before_irec"
+format: html
+editor: visual
+---
+
+```{mermaid}
+flowchart TB
+    %% Left Branch (iRec)
+    irec[Post Season Recreational 
+            Catch Estimates - **with iREC**]
+
+
+    %% Middle Branch (Creel with iREC)
+    creel[Creel and Logbook
+       Catch Estimates] -- "**with iREC**" --> fit([Annual region model fit])
+       
+     %% Right Branch (Creel without iREC)
+    creel -- "**before iREC**" --> predict([Expand Catch Estimate])
+       
+    predict --> G[Post Season Recreational 
+            Catch Estimates - **before iREC**]
+
+    %% Cross Connections
+    irec --> fit
+    fit --> predict
+```
