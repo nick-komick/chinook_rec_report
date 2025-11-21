@@ -163,9 +163,8 @@ In the past, iREC was incorporated into catch estimates in various ways, includi
 
 We pulled raw recreational catch data from DFO's Catch and Release Estimates (CREST) database, which stores creel, logbook, and iREC data for both marine and freshwater regions. The data was filtered to only marine estimates of legal-sized marked and unmarked fish that were kept or released. Northern BC (creel and logbook estimates 2005-2023) and Central BC (logbook only estimates 2022-2023) catch estimates were incomplete in CREST for these regions. We filtered CREST catch data to only South Coast creel, as described above, to only include higher quality creel estimates. These estimates (which do not include logbook data) were then augmented with logbook data where available (e.g., logbook and creel estimates were summed).
 
-We assembled and combined recreational Chinook catch data by developing the `pacRecCatch`[^2] R package. This package has several functions to pull data from CREST and load in other sources manually. The package has functions that subsequently clean, filter, align, and combine the various survey methods to the final data set as described below.
+We assembled and combined recreational Chinook catch data by developing the `pacRecCatch` R package (@pacRecCatch). This package has several functions to pull data from CREST and load in other sources manually. The package has functions that subsequently clean, filter, align, and combine the various survey methods to the final data set as described below.
 
-[^2]: <https://github.com/nick-komick/pacRecCatch>
 
 #### Catch Stratification
 
@@ -320,7 +319,7 @@ We investigated separae suites of models for...
 
 -   We did not consider random effects models since there were not enough levels of each factor to warrant random effects inclusion (typically \>10)
 
--   For all candidate models we use the `DHARMa` package (REFERENCE) to create a qq-plot to detect deviations in observations from expected distribution and a plot of the residuals against predicted values to detect patterns in residuals. We visually assessed whether candidate models improved plots.
+-   For all candidate models we use the `DHARMa` package (@DHARMa) to create a qq-plot to detect deviations in observations from expected distribution and a plot of the residuals against predicted values to detect patterns in residuals. We visually assessed whether candidate models improved plots.
 
 -   We also compared candidate models using AIC, with a lower AIC indicating a better model fit.
 
@@ -328,7 +327,7 @@ The order of comparisons was as follows:
 
 -   First we compared three distributions, normal (Gaussian), poisson, and Gamma, to see which fit our data the best on the full model. These distributions are all consistent with our positive, continuous data
 
--   Next, using the chosen distribution, we compared the full model with all terms to models with each of the terms dropped sequentially except for creel.summer which was our main interest. We did this first by dropping out full terms from the full interaction model, then used the dredge function in `MuMIn` package (REFERENCE) to sequentially drop out the various sub-interactions
+-   Next, using the chosen distribution, we compared the full model with all terms to models with each of the terms dropped sequentially except for creel.summer which was our main interest. We did this first by dropping out full terms from the full interaction model, then used the dredge function in `MuMIn` package (@MuMIn) to sequentially drop out the various sub-interactions
 
 -   In each case, we selected the model with the lowest AIC and best visual diagnostics.
 
