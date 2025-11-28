@@ -75,7 +75,7 @@ Each of these models were used to predict the kept and released catch by mark st
 
 Separate models for summer fisheries and the combined spring and fall fisheries (with season as a factor) were fit for all southern BC regions combined. Since Central BC and Haida Gwaii do not have significant off-season fisheries, one year-round model was fit for each of these regions. Similar to southern BC, separate summer and combined spring and fall models were fit for NBC ISBM fisheries due to differences in data availability. Overall, models that fit creel summer data to combined creel and iREC summer data fit their data better than models that fit summer creel data to those from combined spring and fall seasons (see Appendix \@ref(app:second-appendix) for residual plots). All the models retained the variable "status" - which fits a different slope to each of the categories: marked kept, marked released, unmarked kept, and unmarked released.
 
-These models are used to develop a relationship between filtered creel + iREC catch in the a given season (spring (months 1:4), summer (months 5:9), or fall (months 10:12)) and the unfiltered creel and logbook only (i.e. no iREC) catch in the limited creel summer period (months 7:8). This relationship is developed with each data point as a single year in the 2013-2023 time series (or 2015-2023 for NBC and central BC (CBC)). The relationship is then used to predict a combined filtered creel and calibrated iREC estimate from the limited summertime creel in the years 2005-2012. 
+These models are used to develop a relationship between filtered creel + iREC catch in the a given season (spring (months 1:4), summer (months 5:9), or fall (months 10:12)) and the unfiltered creel and logbook only (i.e. no iREC) catch in the limited creel summer period (months 7:8). This relationship is developed with each data point as a single year in the 2013-2023 time series (or 2015-2023 for NBC and CBC). The relationship is then used to predict a combined filtered creel and calibrated iREC estimate from the limited summertime creel in the years 2005-2012. 
 In the following subsections we show the modelled relationships from the best fitting models for each spatio-temporal combination. 
 
 ```{r plotting_function, include = FALSE}
@@ -141,7 +141,7 @@ create_facet_plot <- function(finescale_fishery_name, x_var, plot_data, model_da
 
 ### Southern BC Summer Fisheries
 
-The best model (delta AIC = X) for Southern BC Summer fisheries ($C_{total,summer}$) was one with a gamma distribution using a log-link that included summer South Coast ($C_{creel,summer}$), marked and kept status ($S$), finescale fishery ($F$), and an interaction between summer creel and finescale fishery, summer creel and status, and finescale fishery and status:
+The best model for Southern BC Summer fisheries ($C_{total,summer}$) was identified using AIC-based model selection and was a model with a gamma distribution using a log-link that included summer South Coast ($C_{creel,summer}$), marked and kept status ($S$), finescale fishery ($F$), and an interaction between summer creel and finescale fishery, summer creel and status, and finescale fishery and status:
 
 $$
 C_{total,summer} = C_{creel,summer} + F + S + C_{creel,summer}:S + S:F 
@@ -213,7 +213,8 @@ Figure \@ref(fig:fig-jdf-fall-model) shows an example of the combined spring-fal
 
 ```{r results example seasonal spring and fall, results='asis', echo=FALSE}
 #| label: fig-jdf-fall-model
-#| fig-cap: "Southern BC modelled fit results for Spring/Fall fishery"
+#| fig-cap: "Southern BC Spring and Fall fishery modelled relationship between concentrated summertime unfiltered creel estimate (months 7 and 8) and total iREC catch estimate in spring (months 1:4) and fall (10:12) months. Data points are yearly estimates from 2013 to 2023."
+
 
 spring_fall_model <- sport_catch_models$model_list$south_season
 season_south_no_nas <- spring_fall_model$data
@@ -251,7 +252,7 @@ plot
 
 ### Haida Gwaii Annual Fisheries
 
-The model the Haida Gwaii fishery was incorporating the historic data (Haida creel + logbook, $C_{historic}$) and status ($S$) as identified in \eqref{@eq:haida_gwaii_annual}.  Unlike other model fits, we used a Gaussian link instead of a Gamma log because the earlier values in the time series were outside the range of the model fit.  As identified in Appendix \ref{@app:haida-appendix}, the Gamma log link would cause the model to extrapolate unmarked kept catch estimates more the 3 times the historic catch.  This is was inconsistent with the much lower increase across the rest of the time series and for other catch statuses.
+The model for the Haida Gwaii fishery was incorporating the historic data (Haida creel + logbook, $C_{historic}$) and status ($S$) as identified in \eqref{@eq:haida_gwaii_annual}.  Unlike other model fits, we used a Gaussian link instead of a Gamma log because the earlier values in the time series were outside the range of the model fit.  As identified in Appendix \ref{@app:haida-appendix}, the Gamma log link would cause the model to extrapolate unmarked kept catch estimates more the 3 times the historic catch.  This is was inconsistent with the much lower increase across the rest of the time series and for other catch statuses.
 
 $$
 C_{total} = C_{historic} + S \label{eq:haida_gwaii_annual}
@@ -263,7 +264,7 @@ Figure \@ref(fig:fig-nbcaabm-model) shows the model results with Haida Gwaii. As
 
 ```{r results NBC AABM Annual, results='asis', echo=FALSE}
 #| label: fig-nbcaabm-model
-#| fig-cap: "Haida Gwaii annual modelled results"
+#| fig-cap: "Haida Gwaii annual fishery modelled relationship between concentrated summertime unfiltered creel estimate (months 7 and 8) and total iREC catch estimates in the whole summer period (months 5:9). Data points are yearly estimates from 2015 to 2023."
 
 north_aabm_model <- sport_catch_models$model_list$north_aabm
 
@@ -302,7 +303,7 @@ Figure \@ref(fig:fig-nbcisbm-summer-model) shows the summer model results in NBC
 
 ```{r results NBC ISBM summer, results='asis', echo=FALSE}
 #| label: fig-nbcisbm-summer-model
-#| fig-cap: "NBC ISBM model fit results for Summer fishery"
+#| fig-cap: "NBC ISBM summer fishery modelled relationship between concentrated summertime unfiltered creel estimate (months 7 and 8) and iREC catch estimates in the whole summer period (months 5:9). Data points are yearly estimates from 2015 to 2023."
 
 #Chosen model
 summer_north_isbm_model <- sport_catch_models$model_list$north_isbm_summer
@@ -352,7 +353,7 @@ Figure \@ref(fig:fig-nbcisbm-fall-model) shows an example of the model results i
 
 ```{r results example NBC ISBM seasonal spring and fall, results='asis', echo=FALSE}
 #| label: fig-nbcisbm-fall-model
-#| fig-cap: "NBC ISBM model fit results for Fall fishery"
+#| fig-cap: "NBC ISBM fall fishery modelled relationship between concentrated summertime unfiltered creel estimate (months 7 and 8) and total iREC catch estimate in spring (months 1:4) and fall (10:12) months. Data points are yearly estimates from 2015 to 2023."
 
 
 season_nbc_isbm_model <- sport_catch_models$model_list$north_isbm_season
@@ -401,7 +402,7 @@ Figure \@ref(fig:fig-cbc-model) shows the CBC model results. Generally for low c
 
 ```{r results CBC model, results='asis', echo=FALSE}
 #| label: fig-cbc-model
-#| fig-cap: "CBC model fit results for year round fishery"
+#| fig-cap: "CBC annual fishery modelled relationship between concentrated summertime unfiltered creel estimate (months 7 and 8) and annual iREC catch estimates. Data points are yearly estimates from 2015 to 2023."
 
 season_cbc_isbm_model <- sport_catch_models$model_list$central_isbm
 
