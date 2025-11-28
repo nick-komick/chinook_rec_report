@@ -1042,7 +1042,7 @@ version_catch_tbl |>
          `Feb. 2025 Kept` = prev_catch,
          `Updated Kept` = catch_estimate_predicted,
          `Updated Kept (%)` = update_pct) |>
-  csasdown::csas_table(caption = "Kept catch estimates based on just creel + log books, previous February 2025 version of analysis, and updated version of the method presented in this report.")
+  csasdown::csas_table(caption = "Kept catch estimates based on just creel + logbooks, previous February 2025 version of analysis, and updated version of the method presented in this report.")
 
 
 ```
@@ -1057,7 +1057,7 @@ version_catch_tbl |>
          `Feb. 2025 Rel.` = prev_catch,
          `Updated Rel.` = catch_estimate_predicted,
          `Updated Rel. (%)` = update_pct) |>
-  csasdown::csas_table(caption = "Released catch estimates based on just creel + log books, previous February 2025 version of analysis, and updated version of the method presented in this report.")
+  csasdown::csas_table(caption = "Released catch estimates based on just creel + logbooks, previous February 2025 version of analysis, and updated version of the method presented in this report.")
 
 ```
 

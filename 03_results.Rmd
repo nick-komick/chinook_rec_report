@@ -16,7 +16,7 @@ We found that catch estimates that included iREC data were broadly higher than p
 
 ```{r results example summer m plots, results='asis', echo=FALSE}
 #| label: fig-jdf-catch-revised-1
-#| fig-cap: "Juan de Fuca yearly kept catch estimates based on both previous unfiltered creel/log book estimates and the revised estimates that includes iREC"
+#| fig-cap: "Juan de Fuca yearly kept catch estimates based on both previous unfiltered creel/logbook estimates and the revised estimates that includes iREC"
 
 
 ### make this by finescale fishery old... sum up. 
