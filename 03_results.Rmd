@@ -252,10 +252,11 @@ plot
 
 ### Haida Gwaii Annual Fisheries
 
-The model for the Haida Gwaii fishery was incorporating the historic data (Haida creel + logbook, $C_{historic}$) and status ($S$) as identified in \eqref{@eq:haida_gwaii_annual}.  Unlike other model fits, we used a Gaussian link instead of a Gamma log because the earlier values in the time series were outside the range of the model fit.  As identified in Appendix \ref{@app:haida-appendix}, the Gamma log link would cause the model to extrapolate unmarked kept catch estimates more the 3 times the historic catch.  This is was inconsistent with the much lower increase across the rest of the time series and for other catch statuses.
+The model for the Haida Gwaii fishery was incorporating the historic data (Haida creel + logbook, $C_{historic}$) and status ($S$) as identified in Equation \eqref{eq:haida_gwaii_annual}.  Unlike other model fits, we used a Gaussian link instead of a Gamma log because the earlier values in the time series were outside the range of the model fit.  As identified in Appendix \ref{@app:haida-appendix}, the Gamma log link would cause the model to extrapolate unmarked kept catch estimates more the 3 times the historic catch.  This is was inconsistent with the much lower increase across the rest of the time series and for other catch statuses.
 
 $$
-C_{total} = C_{historic} + S \label{eq:haida_gwaii_annual}
+C_{total} = C_{historic} + S 
+\label{eq:haida_gwaii_annual}
 $$
 
 This model parameterization allows for calibrated iREC catch in the whole summer period (months 5:9) to be predicted both independently by the unfiltered creel and logbook (historic) catch in the limited creel summer period (months 7:8) and by status. In addition, the effect of the creel and logbook (historic) summer period on catch is modified by status. Figure \@ref(fig:fig-nbcaabm-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals.
