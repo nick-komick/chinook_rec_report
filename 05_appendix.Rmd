@@ -137,22 +137,24 @@ irec_invites_graph <-
   geom_line() + 
   scale_color_manual(values = c(
     # Group 1 (red): 2012–2019
-    "2012/13" = "#fee5d9",  # light red
-    "2013/14" = "#fcbba1",
-    "2014/15" = "#fc9272",
-    "2015/16" = "#fb6a4a",
-    "2016/17" = "#ef3b2c",
-    "2017/18" = "#cb181d",
-    "2018/19" = "#c1151b",
-    "2019/20" = "#99000d",
+
+  "2012/13" = "#fcbba1",  # was #fee5d9
+  "2013/14" = "#fc9272",
+  "2014/15" = "#fb6a4a",
+  "2015/16" = "#ef3b2c",
+  "2016/17" = "#cb181d",
+  "2017/18" = "#a50f15",
+  "2018/19" = "#99000d",
+  "2019/20" = "#67000d",   # new deeper terminal shade
+
     
     # Group 2 (blue): 2020–2025
-    "2020/21" = "#deebf7",  # light blue
-    "2021/22" = "#c6dbef",
-    "2022/23" = "#9ecae1",
-    "2023/24" = "#6baed6",
-    "2024/25" = "#3182bd",
-    "2025/26" = "#08519c"   # dark blue
+  "2020/21" = "#b3cfe8",  # was #deebf7
+  "2021/22" = "#9ecae1",
+  "2022/23" = "#6baed6",
+  "2023/24" = "#3182bd",
+  "2024/25" = "#08519c",
+  "2025/26" = "#08306b" # dark blue
   ))+
   geom_point() + 
   labs(title = "Licence selections by month across years",
