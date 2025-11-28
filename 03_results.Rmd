@@ -8,7 +8,7 @@ output:
 
 # Results
 
-In the following section we present the results of revising Chinook catch using both the combined iREC, logbook, and creel results for more recent years and modelled estimates for pre-iREC years back to 2005. In addition to revising catch, the relationship between mark kept Chinook catch and CWT sampling through the SHRP is presented. This includes the sample rates across all regions and time series of CWT regions.  
+In the following section we present the results of revising Chinook catch using both the combined iREC, logbook, and creel results for more recent years and modelled estimates for pre-iREC years back to 2005. In addition to revising catch, the relationship between marked kept Chinook catch and CWT sampling through the SHRP is presented. This includes the sample rates across all regions and time series of CWT regions.  
 
 ## Revised Chinook catch estimates with iREC
 
@@ -523,7 +523,7 @@ Figure \@ref(fig:fig-heads-kept-current) shows the linear relationship between C
 
 ```{r results Head to Kept Mark Catch, echo=FALSE}
 #| label: fig-heads-kept-current
-#| fig-cap: "Chinook heads to mark kept catch based on combined creel and iREC.  Each point is a yearly CWT Region based on the seasonal time periods in the southern portion of BC and annual periods in the nothern portion of BC (i.e., NBC and CBC) from 2005 to 2023."
+#| fig-cap: "Chinook heads to marked kept catch based on combined creel and iREC.  Each point is a yearly CWT Region based on the seasonal time periods in the southern portion of BC and annual periods in the nothern portion of BC (i.e., NBC and CBC) from 2005 to 2023."
 
 ggplot(data = head_catch_model_df, 
        aes(x=catch_estimate_predicted, y=head_total)) +
@@ -537,11 +537,11 @@ ggplot(data = head_catch_model_df,
 
 ```
 
-When comparing the model fit before iREC (Figure \@ref(fig:fig-heads-kept-preirec)) and with iREC (Figure \@ref(fig:fig-heads-kept-postirec)), CWT sample rates are fairly consistent with a before iREC average sample rate (i.e. slope) of `r format(unname(coef(pre_irec_lm)[1]), digits = 3)` and an iREC period sample rate of `r format(unname(coef(post_irec_lm)[1]), digits = 3)` with similar $r^2$ values.  This suggests that there is no consistent bias in the modelled mark kept catch estimates, when compared to the estimates that include iREC.   
+When comparing the model fit before iREC (Figure \@ref(fig:fig-heads-kept-preirec)) and with iREC (Figure \@ref(fig:fig-heads-kept-postirec)), CWT sample rates are fairly consistent with a before iREC average sample rate (i.e. slope) of `r format(unname(coef(pre_irec_lm)[1]), digits = 3)` and an iREC period sample rate of `r format(unname(coef(post_irec_lm)[1]), digits = 3)` with similar $r^2$ values.  This suggests that there is no consistent bias in the modelled marked kept catch estimates, when compared to the estimates that include iREC.   
 
 ```{r results Pre iRec Head to Kept Mark Catch, echo=FALSE}
 #| label: fig-heads-kept-preirec
-#| fig-cap: "Chinook heads to mark kept catch based on combined creel and iREC. Each point is a yearly CWT Region based on the seasonal time periods in the southern portion of BC and annual periods in the nothern portion of BC (i.e., NBC and CBC) from 2005 to 2012."
+#| fig-cap: "Chinook heads to marked kept catch based on combined creel and iREC. Each point is a yearly CWT Region based on the seasonal time periods in the southern portion of BC and annual periods in the nothern portion of BC (i.e., NBC and CBC) from 2005 to 2012."
 
 eq_y_pos <- max(pre_irec_catch_model_df$head_total, na.rm = TRUE) * 0.9
 
@@ -563,7 +563,7 @@ ggplot(data = pre_irec_catch_model_df,
 
 ```{r results Post iRec Head to Kept Mark Catch, echo=FALSE}
 #| label: fig-heads-kept-postirec
-#| fig-cap: "Chinook heads to mark kept catch based on combined creel and iREC.  Each point is a yearly CWT Region based on the seasonal time periods in the southern portion of BC and annual periods in the nothern portion of BC (i.e., NBC and CBC) from 2013 to 2023."
+#| fig-cap: "Chinook heads to marked kept catch based on combined creel and iREC.  Each point is a yearly CWT Region based on the seasonal time periods in the southern portion of BC and annual periods in the nothern portion of BC (i.e., NBC and CBC) from 2013 to 2023."
 
 eq_y_pos <- max(post_irec_catch_model_df$head_total, na.rm= TRUE) * 0.9
 
@@ -657,7 +657,7 @@ As noted previously, revised estimates derived using the methods described in th
 
 ```{r results CandEkept, results='asis', echo=FALSE}
 #| label: fig-cande-kept
-#| fig-cap: "Revised (blue) and previously reported (green) kept catch estimates from 2005-2023. The vertical line on each graph identifies the year that revised estimates are based on only on observed data (e.g. iREC and creel).  Years before the vertical line are modelled data that utilizes past catch estimates."
+#| fig-cap: "Revised (blue) and previously reported (green) kept catch estimates from 2005-2023. The vertical line on each graph identifies the first year that revised estimates are based on only on observed data (e.g. iREC and creel).  Years before the vertical line are modelled data that utilizes past catch estimates."
 
 era_model_catch <- 
   sport_release_rates %>% 
@@ -760,7 +760,7 @@ The largest changes in released catch occurred in CBC where previously very few 
 
 ### Updating CWT estimates
 
-As described in the methods, kept and marked catch estimates are used to expand CWT observations from the SHRP to CWT estimates uploaded to RMIS. Canada updated CWT estimates based on revised catch and published them to RMIS in support of ERA process starting in February 2025. Figure \@ref(fig:fig-indcwtest) shows the timeseries of total CWT estimates for all ERA indicator stocks, including both the original 2024 estimates and the revised estimates based on updated catch data. As expected, most of the differences between the 2024 and revised CWT estimates are again in earlier years, before the incorporation of iREC (identified by the vertical line). Furthermore, many of the fisheries show more consistent ranges in values over the whole revised timeseries (e.g., 63 - GEORG ST S) compared to those in the 2024 timeseries. This suggests that the general sample rate of a fishery has been relatively consistent and that changes in indicator stock CWT estimates were potentially driven more by biases in historic catch estimates. Therefore, revised CWT estimates should provide a more consistent timeseries to evaluate indicator stock impacts.
+As described in the methods, kept and marked catch estimates are used to expand CWT observations from the SHRP to CWT estimates uploaded to RMIS. Canada updated CWT estimates based on revised catch and published them to RMIS in support of ERA process starting in February 2025. Figure \@ref(fig:fig-indcwtest) shows the timeseries of total CWT estimates for all ERA indicator stocks, including both the original 2024 estimates and the revised estimates based on updated catch data. As expected, most of the differences between the 2024 and revised CWT estimates are again in earlier years, before the incorporation of iREC (identified by the vertical line). Furthermore, many of the fisheries show more consistent ranges in values over the whole revised timeseries (e.g., finescale fishery 63 - GEORG ST S) compared to those in the 2024 timeseries. This suggests that the general sample rate of a fishery has been relatively consistent and that changes in indicator stock CWT estimates were potentially driven more by biases in historic catch estimates. Therefore, revised CWT estimates should provide a more consistent timeseries to evaluate indicator stock impacts.
 
 ```{r results indcwtest, results='asis', echo=FALSE}
 #| label: fig-indcwtest
