@@ -304,7 +304,7 @@ g
 
 ## Revised Chinook catch estimates before iREC
 
-Where iREC is unavailable (before 2013 in Southern BC and 2015 in North/Central BC), we predict iREC-incorporated seasonal catch estimates by finescale fishery using a modelled relationship between summertime creel estimates without iREC and seasonal iREC-incorporated catch estimates from 2013-2023. These seasonal estimates are then rolled up into yearly estimates. This process is automated and accomplished in the model function of the `pacRecCatch` R package.
+Where iREC is unavailable (before 2013 in Southern BC and 2015 in North/Central BC), we predict iREC-incorporated seasonal catch estimates by finescale fishery using a modelled relationship between summertime creel estimates without iREC and seasonal iREC-incorporated catch estimates from 2013-2023. These seasonal estimates are then rolled up into yearly estimates. This process is automated and accomplished in the model function of the `pacRecCatch` R package [@pacRecCatch].
 
 ```{r methods before irec flowchart, out.width="65%", results='asis', echo=FALSE}
 #| label: fig-before-irec-flowchart
