@@ -12,7 +12,7 @@ Since the introduction of iREC in 2013, there have been different methods used t
 
 ### Background on survey methods
 
-We first provide a brief background on the regionally-specific creel and logbook programs, coast-wide iREC reporting, and how each contribute to Chinook catch estimates in a given month. More details on each method can be found in relevant technical reports (e.g., [@sturhahn2001; @english2002; @korman2005evaluation]). We note any improvements to the data quality assurance and control that occurred in order to create the data sets used in this analysis. While all methods report on multiple species, here we are concerned only with data related to Chinook salmon. The coastal area of interest is all Pacific Fishery Management Areas [PFMAs, Figure \@ref(fig:fig-PFMA), @pfma_2007], more information and detailed maps can be found on the DFO website ^[https://www.pac.dfo-mpo.gc.ca/fm-gp/maps-cartes/areas-secteurs/index-eng.html].
+We first provide a brief background on the regionally-specific creel and logbook programs, coast-wide iREC reporting, and how each contribute to Chinook catch estimates in a given month. More details on each method can be found in relevant technical reports [e.g., @sturhahn2001; @english2002; @korman2005evaluation]. We note any improvements to the data quality assurance and control that occurred in order to create the data sets used in this analysis. While all methods report on multiple species, here we are concerned only with data related to Chinook salmon. The coastal area of interest is all Pacific Fishery Management Areas [PFMAs, Figure \@ref(fig:fig-PFMA), @pfma_2007], more information and detailed maps can be found on the DFO website ^[https://www.pac.dfo-mpo.gc.ca/fm-gp/maps-cartes/areas-secteurs/index-eng.html].
 
 ```{r myfigure, echo=FALSE, message=FALSE, warning=FALSE, out.width="70%"}
 #| label: fig-PFMA
@@ -168,7 +168,7 @@ In the past, iREC was incorporated into catch estimates in various ways, includi
 
 We pulled raw recreational catch data from DFO's Catch and Release Estimates (CREST) database, which stores creel, logbook, and iREC data for both marine and freshwater regions. The data was filtered to only marine estimates of legal-sized marked and unmarked fish that were kept or released. Catch estimates for NBC — based on creel and logbook estimates from 2005–2023 — and Central BC (CBC) — based only on logbook estimates from 2022–2023 — were incomplete in CREST for these regions. We filtered CREST catch data to only South Coast creel, as described above, to only include higher quality creel estimates. These estimates (which do not include logbook data) were then augmented with logbook data where available (e.g., logbook and creel estimates were summed).
 
-We assembled and combined recreational Chinook catch data by developing the `pacRecCatch` R package (@pacRecCatch). This package has several functions to pull data from CREST and load in other sources manually. The package has functions that subsequently clean, filter, align, and combine the various survey methods to the final data set as described below.
+We assembled and combined recreational Chinook catch data by developing the `pacRecCatch` R package [@pacRecCatch]. This package has several functions to pull data from CREST and load in other sources manually. The package has functions that subsequently clean, filter, align, and combine the various survey methods to the final data set as described below.
 
 
 #### Catch Stratification
@@ -187,12 +187,12 @@ All data is typically collected in number of marked and unmarked fish kept and r
 
 The creel data estimation only started estimating catch by adipose clip status in 2009. Before 2009, Chinook catch was estimated only for kept and released. To utilize the mark rate data collected by creel surveys from 2005 to 2008, the sample data were specifically loaded for south coast areas and used to split both kept and released catch by mark status for each year, month, and area combination.
 
-We calculate mark rate in a number of different ways and prioritize the assignment of mark rate in the following order:
+We calculate mark rate in a number of different ways and prioritized the assignment of mark rate in the following order:
 
 1.  Monthly area calculation - Mark rate calculated for a given source (iREC, creel, or logbook) within a given year, month, and area
 2.  Monthly average by source - Mark rate calculated within a given year, month, and area, averaged across sources
 3.  Monthly regional average - Mark rate calculated for a given source within a given year, month, and region (averaged across areas within a region)
-4.  Seasonal area average - Mark rate calculated for a given source (iREC, creel, or logbook) within a given year, season, and area
+4.  Seasonal area average - Mark rate calculated for a given source within a given year, season, and area
 5.  Seasonal regional average - Mark rate calculated for a given source within a given year, season, and region
 6.  Monthly area average across years - Mark rate calculated for a given source within a given month, area, and across years
 7.  Monthly regional average across years - Mark rate calculated for a given source within a given month, region, and across years
@@ -358,7 +358,7 @@ We validated the kept catch estimates from our top candidate models by regressin
 
 ## Incorporation of both sets of revised estimates in bilateral PST processes 
 
-The CTC produces several annual analyses and reports for the Pacific Salmon Commission (PSC). Notably, (1) the Catch and Escapement Report which details catch and escapement across all fisheries (e.g., @CTC2025b). (2) The Exploitation Rate Analysis (ERA) report that uses a cohort analysis on CWT hatchery stocks to calculate Calendar Year Exploitation Rates on a stock-specific basis (e.g., @CTC2025); and, (3) the Calibration Report, which documents the annual PSC Chinook model calibration that utilizes data from the ERA and other sources to forecast ocean abundances (e.g., @CTC2024). Both sets of revised catch estimates will be incorporated into the analyses and subsequent results presented within these annual reports.
+The CTC produces several annual analyses and reports for the Pacific Salmon Commission (PSC). Notably, (1) the Catch and Escapement Report which details catch and escapement across all fisheries [e.g., @CTC2025b]. (2) The Exploitation Rate Analysis (ERA) report that uses a cohort analysis on CWT hatchery stocks to calculate Calendar Year Exploitation Rates on a stock-specific basis [e.g., @CTC2025]; and, (3) the Calibration Report, which documents the annual PSC Chinook model calibration that utilizes data from the ERA and other sources to forecast ocean abundances [e.g., @CTC2024]. Both sets of revised catch estimates will be incorporated into the analyses and subsequent results presented within these annual reports.
 
 Beginning in 2025, the revised Chinook catch estimates from both the modelled data from 2005 to 2012 and augmented data from 2013-2023 are now incorporated into a number of CTC processes. Notably, the total number of kept and released Chinook will be updated in the Annual Catch and Escapement Report. Next, catch estimates are used as inputs to the annual ERA in two places; (1) kept and marked catch estimates are used to expand CWT observations from the SHRP to CWT estimates uploaded to the Regional Mark Information System (RMIS[^3]) and subsequently used in backward cohort analyses within the ERA, (2) kept and released catch estimates from most sport fisheries are incorporated into the Chinook non-retention process within the ERA.
 
@@ -460,7 +460,7 @@ $$
 
 ### Updating Chinook non-retention (release) estimates
 
-In 2025, in an attempt to account for mark-selective fisheries, the CTC switched the ERA from a model that only accounts for Chinook non-retention without mark-selectively, to a model that supports mark-selective fisheries [@CTC2025]. Therefore, the applicable rates in the ERA that are affected by the revised catch estimates are the marked release rate ($MRR$) and unmarked kept rate ($UKR$) (details provided in @CYER2024). In a given CTC finescale fishery, $MRR$ and $UKR$ are calculated as follows:
+In 2025, in an attempt to account for mark-selective fisheries, the CTC switched the ERA from a model that only accounts for Chinook non-retention without mark-selectively, to a model that supports mark-selective fisheries [@CTC2025]. Therefore, the applicable rates in the ERA that are affected by the revised catch estimates are the marked release rate ($MRR$) and unmarked kept rate ($UKR$) [details provided in @CYER2024]. In a given CTC finescale fishery, $MRR$ and $UKR$ are calculated as follows:
 
 $$
 MRR = C_{marked, released} / (C_{marked, released} + C_{marked, kept})
@@ -472,7 +472,7 @@ UKR = C_{unmarked, kept} / (C_{unmarked, released} + C_{unmarked, kept})
 \label{eq:ukr}
 $$
 
-We calculated the $MRR$ and $UKR$ at the finescale fishery scale and then use a weighted average based on total catch estimate per area and month to generate a finescale fishery-specific $MRR$ and $UKR$. Within the ERA, these finescale fishery $MRR$ and $UKR$ values are amalgamated into a ERA fishery value based on a cohort-specific weighted average of each value.
+We calculated the $MRR$ and $UKR$ at the finescale fishery scale and then use a weighted average based on total catch estimate per area and month to generate a finescale fishery-specific $MRR$ and $UKR$. Within the ERA, these finescale fishery $MRR$ and $UKR$ values are amalgamated into a ERA fishery value based on a cohort-specific weighted average of each finescale value.
 
 With the exception of Juan de Fuca, which did have mark-selective fisheries before 2013, all other sport fisheries were non-selective before 2013. Since the data is modelled, we did not want to bias the previous non-selective fisheries by allowing for selectivity, therefore we have fixed the $MRR$ and $UKR$ rates to be equivalent in the modelled data, by calculating a single release rate for marked and unmarked fish combined based on the following equation:
 
