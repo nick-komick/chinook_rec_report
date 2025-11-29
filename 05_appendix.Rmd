@@ -490,6 +490,12 @@ create_facet_plot <- function(finescale_fishery_name, x_var, plot_data, model_da
 }
 ```
 
+```{r fishery_name_cleaning, include = FALSE}
+name_lookup <- read.csv("data/fishery_name_cleaner.csv", stringsAsFactors = FALSE)
+lookup_vec <- setNames(name_lookup$fishery_full_name, name_lookup$finescale_fishery)
+```
+
+
 ## Southern BC Summer fisheries
 
 ```{r forloop seasonal summer appendix, results='asis', echo=FALSE}
@@ -522,11 +528,15 @@ fishery_name_south <- sort(unique(south_summer_no_nas$finescale_fishery))
 
 for (i in 1:length(fishery_name_south)){
   
+  acr <- fishery_name_south[i]
+  clean_title <- lookup_vec[acr]  # gets the full name
+
+  
   plot <- create_facet_plot(finescale_fishery_name = fishery_name_south[i], 
                             x_var = "creel_plus_summer", 
                             plot_data = south_summer_no_nas, 
                             model_data = ndata) +
-    ggtitle(paste(fishery_name_south[i])) + 
+    ggtitle(clean_title) + 
     #changing the y lab
     ylab("IREC-included catch estimate")
   
@@ -561,11 +571,14 @@ fishery_name_south<- sort(unique(south_season_no_nas$finescale_fishery))
 
 for (i in 1:length(fishery_name_south)){
   
+  acr <- fishery_name_south[i]
+  clean_title <- lookup_vec[acr]  # gets the full name
+  
   plot <- create_facet_plot(finescale_fishery_name = fishery_name_south[i], 
                             x_var = "creel_plus_summer", 
                             plot_data = south_season_no_nas, 
                             model_data = ndata) +
-    ggtitle(paste(fishery_name_south[i]))
+    ggtitle(clean_title)
   
   print(plot)
 }
@@ -603,11 +616,14 @@ fishery_name_north_aabm<- sort(unique(north_aabm_model$data$finescale_fishery))
 
 
 for (i in 1:length(fishery_name_north_aabm)){
+  
+  acr <- fishery_name_north_aabm[i]
+  clean_title <- lookup_vec[acr]  # gets the full name
   plot <- create_facet_plot(finescale_fishery_name = fishery_name_north_aabm[i], 
                             x_var = "historic_plus", 
                             plot_data = north_aabm_model$data, 
                             model_data = ndata) +
-    ggtitle(paste(fishery_name_north_aabm[i]))
+    ggtitle(clean_title)
   
   print(plot)
 }
@@ -647,11 +663,14 @@ fishery_name_north_isbm<- sort(unique(north_isbm_season_no_nas$finescale_fishery
 
 for (i in 1:length(fishery_name_north_isbm)){
   
+    acr <- fishery_name_north_isbm[i]
+  clean_title <- lookup_vec[acr]  # gets the full name
+  
   plot <- create_facet_plot(finescale_fishery_name = fishery_name_north_isbm[i], 
                             x_var = "historic_summer", 
                             plot_data = north_isbm_season_no_nas, 
                             model_data = ndata) +
-    ggtitle(paste(fishery_name_north_isbm[i]))
+    ggtitle(clean_title)
   
   print(plot)
 }
