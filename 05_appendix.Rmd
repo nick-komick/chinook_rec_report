@@ -443,18 +443,25 @@ create_facet_plot <- function(finescale_fishery_name, x_var, plot_data, model_da
     "unmarked_released_total" = "Unmarked Released Total"
   )
   
-  # Colors for status
-  status_colors <- c(
-    "marked_kept_total" = "#440154", 
-    "marked_released_total" = "#31688e",
-    "unmarked_kept_total" = "#35b779",
-    "unmarked_released_total" = "#d4be02"
-  )
+  # # Colors for status
+  # status_colors <- c(
+  #   "marked_kept_total" = "#440154", 
+  #   "marked_released_total" = "#31688e",
+  #   "unmarked_kept_total" = "#35b779",
+  #   "unmarked_released_total" = "#d4be02"
+  # )
   
   # Filter data for the specific finescale fishery
   filtered_data <- plot_data %>% filter(finescale_fishery == finescale_fishery_name)
   filtered_model_data <- model_data %>% filter(finescale_fishery == finescale_fishery_name)
   
+  
+  
+  # Ensure 'year' is integer to avoid decimal ticks in legend
+  if ("year" %in% names(filtered_data)) {
+    filtered_data <- filtered_data %>% dplyr::mutate(year = as.integer(year))
+  }
+
   #check if all catch_estimate values are zero for each status
   #wont want ribbon and line if all data are 0 like in figure 10
   has_nonzero <- filtered_data %>%
@@ -462,29 +469,56 @@ create_facet_plot <- function(finescale_fishery_name, x_var, plot_data, model_da
     summarize(has_nonzero = any(catch_estimate != 0), .groups = "drop")
   
   # Create the plot
-  facet_plot <- ggplot(filtered_data, aes_string(x = x_var, y = "catch_estimate", col = "status", fill = "status")) +
+  facet_plot <- ggplot(filtered_data, aes_string(x = x_var, y = "catch_estimate", col = "year")) +
     geom_point() +
     theme_bw() +
     scale_size_continuous(range = c(1, 3)) +
-    scale_colour_manual(values = status_colors, guide = "none") +
-    scale_fill_manual(values = status_colors, guide = "none") +
+    # scale_colour_manual(values = status_colors, guide = "none") +
+    # scale_fill_manual(values = status_colors, guide = "none") +
     xlab("Creel summer catch estimate") +
     ylab("Calibrated iREC-only catch estimate") +
     facet_wrap(~status,
                labeller = labeller(status = status_labels),
-               scales = "free")
+               scales = "free") 
+
   
+
   # Conditionally add geom_line and geom_ribbon for statuses with non-zero data
   for (status in unique(filtered_data$status)) {
-    if (has_nonzero %>% filter(status == !!status) %>% pull(has_nonzero)) {
+    if (has_nonzero %>% dplyr::filter(status == !!status) %>% dplyr::pull(has_nonzero)) {
       facet_plot <- facet_plot +
-        geom_line(data = filtered_model_data %>% filter(status == !!status),
-                  aes_string(y = "fit", x = x_var, col = "status")) +
-        geom_ribbon(data = filtered_model_data %>% filter(status == !!status),
-                    aes_string(y = "fit", x = x_var, ymin = "right_lwr", ymax = "right_upr", fill = "status"), 
-                    alpha = 0.10)
+        ggplot2::geom_line(
+          data = filtered_model_data %>% dplyr::filter(status == !!status),
+          ggplot2::aes_string(y = "fit", x = x_var),  # CHANGED: remove color mapping to status
+          inherit.aes = FALSE,                        # CHANGED: so the model line doesn't pick up 'year' colors
+          color = "grey40",                           # CHANGED: model line in gray
+          linewidth = 0.7                             # CHANGED: optional styling
+        ) +
+        ggplot2::geom_ribbon(
+          data = filtered_model_data %>% dplyr::filter(status == !!status),
+          ggplot2::aes_string(y = "fit", x = x_var, ymin = "right_lwr", ymax = "right_upr"),
+          inherit.aes = FALSE,                        # CHANGED: avoid inheriting year color mapping
+          fill = "grey60",                            # CHANGED: ribbon fill in gray
+          alpha = 0.15                                # CHANGED: ribbon transparency
+        )
     }
   }
+
+  
+ # CHANGED: Use integer breaks (unique years) and a step legend so no 2020.5 appears
+  if ("year" %in% names(filtered_data)) {
+    year_breaks <- sort(unique(filtered_data$year))
+    facet_plot <- facet_plot +
+      viridis::scale_color_viridis(
+        option = "C", end = 0.95,
+        breaks = year_breaks,               # CHANGED: integer year ticks only
+        labels = year_breaks                # CHANGED: show the exact integers
+      ) +
+      ggplot2::guides(
+        color = ggplot2::guide_colorsteps(title = "Year")  # CHANGED: step legend (no midpoints)
+      )
+  }
+
   
   return(facet_plot)
 }
