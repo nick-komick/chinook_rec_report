@@ -120,7 +120,12 @@ create_facet_plot <- function(finescale_fishery_name, x_var, plot_data, model_da
     ylab("iREC-only catch estimate") +
     facet_wrap(~status,
                labeller = labeller(status = status_labels),
-               scales = "free")
+               scales = "free") + 
+    theme(
+      axis.title = element_text(size = 14),
+      axis.text = element_text(size = 12),
+      strip.text = element_text(size = 12, face = "bold"))
+
   
   # Conditionally add geom_line and geom_ribbon for statuses with non-zero data
   for (status in unique(filtered_data$status)) {
