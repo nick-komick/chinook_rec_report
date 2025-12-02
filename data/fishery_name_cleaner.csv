@@ -1,22 +1,22 @@
 finescale_fishery,fishery_full_name
 CA JDF S SUMMER,Juan de Fuca Summer
 JOHN ST S SUMMER,Johnstone Strait Summer
-NGS S SUMMER,Northern Georgia Strait Summer
+NGS S SUMMER,Northern Strait of Georgia Summer
 NWCVI AABM S SUMMER,Northern West Coast Vancouver Island AABM Summer
 NWCVI ISBM S SUMMER,Northern West Coast Vancouver Island ISBM Summer
-SGS S SUMMER,Southern Georgia Strait Summer
+SGS S SUMMER,Southern Strait of Georgia Summer
 SWCVI AABM S SUMMER,Southern West Coast Vancouver Island AABM Summer
 SWCVI ISBM S SUMMER,Southern West Coast Vancouver Island ISBM Summer
 CA JDF S FALL,Juan de Fuca Fall
 CA JDF S SPRING,Juan de Fuca Spring
 JOHN ST S FALL,Johnstone Strait Fall
 JOHN ST S SPRING,Johnstone Strait Spring
-NGS S FALL,Northern Georgia Strait Fall
-NGS S SPRING,Northern Georgia Strait Spring
+NGS S FALL,Northern Strait of Georgia Fall
+NGS S SPRING,Northern Strait of Georgia Spring
 NWCVI AABM S FALL,Northern West Coast Vancouver Island AABM Fall
 NWCVI AABM S SPRING,Northern West Coast Vancouver Island AABM Spring
-SGS S FALL,Southern Georgia Strait Fall
-SGS S SPRING,Southern Georgia Strait Spring
+SGS S FALL,Southern Strait of Georgia Fall
+SGS S SPRING,Southern Strait of Georgia Spring
 SWCVI AABM S FALL,Southern West Coast Vancouver Island AABM Fall
 SWCVI AABM S SPRING,Southern West Coast Vancouver Island AABM Spring
 NORTH AABM S,Northern BC AABM
