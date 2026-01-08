@@ -4,13 +4,13 @@
 
 # Internet Recreational Effort and Catch (iREC) Reporting Program Changes {#apdx-irec-mthd}
 
-For 1, 3 and 5 day (“term”) recreational licences, only the selection rate has changed. From 2012 to 20xx, each licence had a 25% chance of being selected to the reporting program. Since 2020, 100% of term licences are selected to report.
+For 1, 3 and 5 day (“term”) recreational licences, only the selection rate has changed. From 2012 to 2019, each licence had a 25% chance of being selected to the reporting program. Since 2020, 100% of term licences are selected to report.
 
 Several advancements to how annual recreational licences are selected to report for a given survey month have occurred since the iREC survey began in 2012. The annual licence year runs from April through to the following March, and these and other changes affecting survey operation were timed to take effect at the start of a new licence year. For these annual licences, purchase month is expected to be correlated with how the licence holder fishes. For example, licences bought in May or June are more likely to be used to target Coho and Chinook than those bought in September and October when the purchasers are more likely intending to target shellfish and finfish other than salmon. Accordingly, with each update in the selection approach, we mitigated bias caused by differential representation of licences by purchase month as described below.
 
 Originally, a targeted number of licences was selected by simple random sampling from all licences sold up until immediately prior to the start of a given survey month. This selection represented the “Pre” sample. To ensure representation of fishers with licences purchased within the survey month, a “Post” sample was taken at the end of the survey month. The advantage of taking the Pre sample was that those licence holders could be notified by email prior to the survey onset such that they could report on their fishing through the month with less recall bias. From survey onset in July 2012 through March 2014 licences were vulnerable to selection for a given survey month regardless of whether they had been selected to report for earlier months under the same licence. As expected, some licence holders were selected to report for several months, leading to concerns in such cases over survey fatigue affecting the accuracy of reports for subsequent months, or the likelihood of them even being completed.
 
-In response, as of April 2014, we stopped re-selecting licences. With this change, the sampling approach was adjusted to account for lower representation of licences purchased early in the year as the licence year progressed. Consider using random sampling to select the Pre sample for October. Annual licences bought in April have been depleted by selections to all 6 survey months prior (April through September), while those bought in September had only been depleted by the selections to the September survey. We solved for this by apportioning the overall sample size target for the Pre sample for a given survey month into purchase month targets based on the sales distribution across the months prior to the survey month. For example, if the targeted size for the Pre sample for the October survey was 5000, and 15% of the annual licence sales through the end of September had occurred in April, then our sampling target for April purchases was 750. Those 750 licences were selected randomly from the April purchased licences that had not been selected to an earlier survey month. An alternative approach to protecting against the effect of uneven representation by purchase month, stratifying the analysis by purchase month, was rejected because of the number of strata created, with month and licence type dimensions leading to over 96 strata for the March survey (12 purchase months x 9 licence types). To this point, the analysis to estimate total catches from the responses was stratified by licence type and Pre-vs Post- sample.
+In response, as of April 2014, we stopped re-selecting licences. With this change, the sampling approach was adjusted to account for lower representation of licences purchased early in the year as the licence year progressed. Consider using random sampling to select the Pre sample for October. Annual licences bought in April have been depleted by selections to all 6 survey months prior (April through September), while those bought in September had only been depleted by the selections to the September survey. We solved for this by apportioning the overall sample size target for the Pre sample for a given survey month into purchase month targets based on the sales distribution across the months prior to the survey month. For example, if the targeted size for the Pre sample for the October survey was 5000, and 15% of the annual licence sales through the end of September had occurred in April, then our sampling target for April purchases was 750. Those 750 licences were selected randomly from the April purchased licences that had not been selected to an earlier survey month. An alternative approach to protecting against the effect of uneven representation by purchase month, stratifying the analysis by purchase month, was rejected because of the number of strata created, with month and licence type dimensions leading to over 96 strata for the March survey (12 purchase months by 9 licence types). To this point, the analysis to estimate total catches from the responses was stratified by licence type and Pre-vs Post- sample.
 
 In April 2018, we implemented “Instantaneous Licence Selection and Notification”  whereby, during the online licence purchase, the licencing system automatically selected each licence to a particular survey month and notified the purchaser of the selection using a screen ‘pop-up’. Further, the system included on the printed licence the licence holders ‘reporting period’, reporting deadline, and the iREC web address and the purchasers unique AccessID. Previously, this information was only provided by email, and a substantial portion of licence holders do not have valid email addresses in our licencing database or do not receive or read the emails for various reasons; thus, printing this information on the licence ensured all selected licence holders had the information to complete their report. The change to instantaneous selection also meant there was no longer a Post sample; thus, all licences were selected and notified of their selection prior to or at the beginning of their reporting period, such that all selected fishers knew of their reporting requirement and could report fishing throughout their reporting period. While this approach was used, the analysis only needed to be stratified by licence type.
 
@@ -712,11 +712,11 @@ for (i in 1:length(fishery_name_north_isbm)){
 
 \clearpage
 
-# Analytical Improvements since February 2025
+# Analytical Improvements since February 2025 {#apdx-analytic-improvements}
 
 During the course of developing this technical report and reviewing the `pacRecCatch` package code, several issues were identified subsequent to the catch estimates used for the February 2025 CTC ERA. The more substantial change was to improve the model used for Haida Gwaii, which is described in the "Modified Haida Gwaii Model" section below.  In addition to the Haida Gwaii model, there was various data and method fixes identified in the "Other Analysis Improvements" section below.
 
-## Modified Haida Gwaii Model {#app:haida-appendix}
+## Modified Haida Gwaii Model {#apdx-haida-model}
 
 ```{r Setup Haida Gwaii Model appendix data}
 
@@ -1049,21 +1049,24 @@ prev_version_catch <-
   mutate(is_kept = grepl("kept", status, ignore.case = TRUE),
          finescale_fishery = sub("JNST S", "JOHN ST S", finescale_fishery),
          finescale_fishery = sub("NBC ISBM S", "NORTH ISBM S", finescale_fishery),
-         finescale_fishery = case_when(finescale_fishery == "CBC S" ~ "CENTRAL S",
-                                       finescale_fishery == "SWCVI S FALL AABM" ~ "SWCVI AABM S FALL",
-                                       finescale_fishery == "SWCVI S SPRING AABM" ~ "SWCVI AABM S SPRING",
-                                       finescale_fishery == "SWCVI S SUMMER AABM" ~ "SWCVI AABM S SUMMER",
-                                       finescale_fishery == "NWCVI S FALL AABM" ~ "NWCVI AABM S FALL",
-                                       finescale_fishery == "NWCVI S SPRING AABM" ~ "NWCVI AABM S SPRING",
-                                       finescale_fishery == "NWCVI S SUMMER AABM" ~ "NWCVI AABM S SUMMER",
-                                       finescale_fishery == "SWCVI S FALL ISBM" ~ "SWCVI ISBM S FALL",
-                                       finescale_fishery == "SWCVI S SPRING ISBM" ~ "SWCVI ISBM S SPRING",
-                                       finescale_fishery == "SWCVI S SUMMER ISBM" ~ "SWCVI ISBM S SUMMER",
-                                       finescale_fishery == "NWCVI S FALL ISBM" ~ "NWCVI ISBM S FALL",
-                                       finescale_fishery == "NWCVI S SPRING ISBM" ~ "NWCVI ISBM S SPRING",
-                                       finescale_fishery == "NWCVI S SUMMER ISBM" ~ "NWCVI ISBM S SUMMER",
-                                       grepl("NBC AABM S", finescale_fishery) ~ "NORTH AABM S",
-                                       .default = finescale_fishery)) |>
+         finescale_fishery = case_match(finescale_fishery,
+                                        "CBC S" ~ "CENTRAL S",
+                                        "SWCVI S FALL AABM" ~ "SWCVI AABM S FALL",
+                                        "SWCVI S SPRING AABM" ~ "SWCVI AABM S SPRING",
+                                        "SWCVI S SUMMER AABM" ~ "SWCVI AABM S SUMMER",
+                                        "NWCVI S FALL AABM" ~ "NWCVI AABM S FALL",
+                                        "NWCVI S SPRING AABM" ~ "NWCVI AABM S SPRING",
+                                        "NWCVI S SUMMER AABM" ~ "NWCVI AABM S SUMMER",
+                                        "SWCVI S FALL ISBM" ~ "SWCVI ISBM S FALL",
+                                        "SWCVI S SPRING ISBM" ~ "SWCVI ISBM S SPRING",
+                                        "SWCVI S SUMMER ISBM" ~ "SWCVI ISBM S SUMMER",
+                                        "NWCVI S FALL ISBM" ~ "NWCVI ISBM S FALL",
+                                        "NWCVI S SPRING ISBM" ~ "NWCVI ISBM S SPRING",
+                                        "NWCVI S SUMMER ISBM" ~ "NWCVI ISBM S SUMMER",
+                                        ..default = finescale_fishery),
+         finescale_fishery = if_else(grepl("NBC AABM S", finescale_fishery),
+                                     "NORTH AABM S",
+                                     finescale_fishery)) |>
   group_by(year, is_kept, finescale_fishery) |>
   summarize(prev_catch = sum(catch_estimate_predicted, na.rm = TRUE), .groups = "drop")
 
@@ -1097,7 +1100,8 @@ version_catch_tbl |>
          `Feb. 2025 Kept` = prev_catch,
          `Updated Kept` = catch_estimate_predicted,
          `Updated Kept (%)` = update_pct) |>
-  csasdown::csas_table(caption = "Kept catch estimates based on just creel + logbooks, previous February 2025 version of analysis, and updated version of the method presented in this report.")
+  csasdown::csas_table(caption = "Kept catch estimates based on just creel + logbooks, previous February 2025 version of analysis, and updated version of the method presented in this report.",
+                       font_size = 8)
 
 
 ```
@@ -1112,7 +1116,8 @@ version_catch_tbl |>
          `Feb. 2025 Rel.` = prev_catch,
          `Updated Rel.` = catch_estimate_predicted,
          `Updated Rel. (%)` = update_pct) |>
-  csasdown::csas_table(caption = "Released catch estimates based on just creel + logbooks, previous February 2025 version of analysis, and updated version of the method presented in this report.")
+  csasdown::csas_table(caption = "Released catch estimates based on just creel + logbooks, previous February 2025 version of analysis, and updated version of the method presented in this report.",
+                       font_size = 8)
 
 ```
 

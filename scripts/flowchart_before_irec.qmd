@@ -8,12 +8,12 @@ editor: visual
 flowchart TB
     %% Left Branch (iRec)
     irec[Post Season Recreational 
-            Catch Estimates - **with iREC**]
+            Catch Estimates - **during iREC**]
 
 
     %% Middle Branch (Creel with iREC)
     creel[Creel and Logbook
-       Catch Estimates] -- "**with iREC**" --> fit([Annual region model fit])
+       Catch Estimates] -- "**during iREC**" --> fit([Regional model fit])
        
      %% Right Branch (Creel without iREC)
     creel -- "**before iREC**" --> predict([Expand Catch Estimate])
