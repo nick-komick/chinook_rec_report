@@ -1,0 +1,9 @@
+book_filename: "techreport"
+rmd_files: ["tmp-index.Rmd",
+            "tmp-01_introduction.Rmd",
+            "tmp-02_methods.Rmd",
+            "tmp-03_results.Rmd",
+            "tmp-04_discussion.Rmd",
+            "tmp-05_appendix.Rmd",
+            "tmp-06_bibliography.Rmd"]
+delete_merged_file: true

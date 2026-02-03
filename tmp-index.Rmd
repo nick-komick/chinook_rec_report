@@ -1,0 +1,252 @@
+---
+title: |
+  "Chinook Marine Recreational Catch Data Revisions"
+french_title: Titre ici (*Nom latin de l'espèce*)
+year: 2025
+report_number: nnn
+report_DOI: ???
+author: |
+  Norah E.M. Brown^1^, 
+  Nicholas Komick^1^,
+  Lauren Gill^1^,
+  Kristopher Hein^1^,
+  Rob Houtman^1^, 
+  Noel Swain^1^, 
+  Laura Tessier^1^, 
+  Heidi Van Vliet^1^, 
+  Catarina Wor^1^, and
+  Antonio Velez-Espino ^1^
+author_list: "Brown, N.E.M., Komick, N., Gill, L., Hein, K., Houtman, R., Swain, N., Tessier, L., Van Vliet, H., Wor, C., and Velez-Espino, A."
+region: Pacific Region
+french_region: Région du Pacifique
+isbn: ""
+address: |
+  ^1^Pacific Biological Station\
+     Fisheries and Oceans Canada, 3190 Hammond Bay Road\
+     Nanaimo, British Columbia, V9T 6N7, Canada\
+french_address: |
+  ^1^Station biologique du Pacifique\
+     Pêches et Océans Canada, 3190 Hammond Bay Road\
+     Nanaimo, Colombie-Britannique, V9T 6N7, Canada\
+  \smallskip
+  ^2^Loin, très loin\
+     Une autre galaxie
+phone: "(555) 555-5555"
+author_footnote: "Email: norah.brown@dfo-mpo.gc.ca | telephone: "
+citation_french: "Not provided yet"
+abstract: >
+  Recreational catch estimation of Chinook salmon in the Pacific Region has historically been accomplished using a combination of creel surveys and logbook programs. However, there are substantial spatial and temporal gaps in the creel and logbook data, which is restricted to the most heavily fished areas and months. A mandatory Internet Recreational Effort and Catch (iREC) survey has been implemented since July 2012 to resolve these gaps and contribute to recreational catch information. These data have been variably incorporated into the Chinook recreational catch since 2013 in most regions domestically, but this incorporation has not occurred in a standardized way. Furthermore, iREC was not avaiable prior to 2013, creating difficult to comparing pre-2013 catch to post-2013 catch, a requirement for assessing stock specific impacts limits identified by the Pacific Salmon Treaty for Individual Stock Based Management (ISBM) fisheries. Here, we present (1) revised Chinook catch estimates for years with creel and iREC overlap, (2) revised Chinook catch estimates for years without iREC back to 2005, (3) revised Chinook coded wire tag estimates to incorporate revised catch estimates, and (4) incorporate revised estimates into to annual Chinook Technical Commmittee processes.
+
+french_abstract: |
+  L’estimation des prises récréatives de saumon Chinook dans la région du Pacifique a toujours été réalisée à l’aide d’une combinaison de relevés de pêcheurs et de programmes de journaux de bord. Cependant, il existe d’importantes lacunes spatiales et temporelles dans les données des pêcheurs et des journaux de bord, qui ciblent les zones et les mois les plus exploités. Depuis juillet 2012, une programme de déclaration de l’effort et des prises de la pêche récréative sur Internet (iREC) a été mis en œuvre afin de combler ces lacunes et de contribuer à l’information sur les prises récréatives. Depuis 2013, ces données ont été intégrées de façon variable dans les prises récréatives de saumon Chinook dans la plupart des zones, mais cette intégration ne s’est pas faite de manière normalisée. De plus, l’iREC n’a pas été intégré dans les estimations des prises avant 2013, ce qui rend difficile la comparaison des prises d’avant 2013 avec celles d’après 2013 et une exigence pour certains aspects du Traité sur le saumon du Pacifique (PST) pour les pêches de gestion individuelle des stocks (ISBM). Nous vous présentons ici
+  1. Estimations révisées des prises de 2013 à 2023, méthodes à utiliser pour les estimations futures des prises. 
+  2. Estimations révisées des prises de 2005 à 2012. 
+  3. Intégration des deux ensembles d’estimations révisées dans les rapports du Comité technique du saumon Chinook (CTC)
+  4. Intégration des deux séries d’estimations révisées dans les intrants des processus annuels du CTC 
+
+show_continued_text: true
+output:
+ csasdown::techreport_pdf:
+   french: false
+   # copy_sty is a toggle to copy the style file from the csasdown package every time you compile
+   # the document. If false, any changes you have made to the style file in your project
+   # will remain between compilations. If true, your changes will be lost when you compile
+   copy_sty: true
+   # line_nums is a toggle to show line numbers on the left side of the page. 
+   line_nums: true
+   # line_nums_mod represents showing every Nth line if line_nums is true
+   line_nums_mod: 1
+   # lot_lof is a toggle to show/not show the lists of tables and figures at the
+   # beginning of the document
+   lot_lof: false
+   # draft_watermark is a toggle to show/not show a DRAFT watermark across every page
+   draft_watermark: false
+   # highlight is the theme to use for code output. Must be one of the list given by:
+   # pandoc --list-highlight-styles
+   # which are:
+   # pygments, tango, espresso, zenburn, kate, monochrome, breezedark, haddock
+   # or the name of a custom *.latex file which is most easily made by copying one from 
+   # the csasdown library 'themes' directory, this directory on your machine:
+   # file.path(.libPaths(), "csasdown", "themes")
+   # to your working directory (the one containing index.Rmd)
+   # To change the foreground text color, change the RGB value in the line containing
+   # 'DefineVerbatimEnvironment'
+   # To change background color, change the RGB values in the line containing 'shadecolor'
+   highlight: tango
+type:
+  techreport
+# ------------
+# End of options to set
+knit: (function(input, ...) csasdown::render())
+site: bookdown::bookdown_site
+link-citations: true
+always_allow_html: true
+bibliography: bib/refs.bib
+# Any extra LaTeX code for the header:
+header-includes:
+ - \usepackage{float}
+ - \usepackage[table, xcdraw]{xcolor}
+ 
+execute:
+  echo: false
+---
+
+```{r setup, echo=FALSE, cache=FALSE, message=FALSE, results='hide', warning=FALSE}
+library(knitr)
+if (is_latex_output()) {
+  knitr_figs_dir <- "knitr-figs-pdf/"
+  knitr_cache_dir <- "knitr-cache-pdf/"
+  fig_out_type <- "png"
+} else {
+  knitr_figs_dir <- "knitr-figs-docx/"
+  knitr_cache_dir <- "knitr-cache-docx/"
+  fig_out_type <- "png"
+}
+fig_asp <- 0.618
+fig_width <- 9
+fig_out_width <- "6in"
+fig_dpi <- 180
+fig_align <- "center"
+fig_pos <- "htb"
+opts_chunk$set(
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  comment = "#>",
+  fig.path = knitr_figs_dir,
+  cache.path = knitr_cache_dir,
+  fig.asp = fig_asp,
+  fig.width = fig_width,
+  out.width = fig_out_width,
+  echo = FALSE,
+  #  autodep = TRUE,
+  #  cache = TRUE,
+  cache.comments = FALSE,
+  dev = fig_out_type,
+  dpi = fig_dpi,
+  fig.align = fig_align,
+  fig.pos = fig_pos
+)
+```
+
+```{r load-libraries, cache=FALSE}
+# add other packages here:
+library(dplyr)
+library(DiagrammeR)
+library(ggplot2)
+library(readr)
+library(tibble)
+library(tidyr)
+library(rosettafish)
+library(csasdown)
+
+
+library(ROracle)
+library(pacRecCatch)
+
+library(odbc)
+library(tidyr)
+library(lubridate)
+library(stringr)
+library(ggnewscale)
+library(patchwork)
+library(DHARMa)
+library(sf)
+
+#library(lme4)
+#library(bbmle)
+#library(SuppDists)
+#library(MuMIn)
+
+#utils
+"%notin%" <- Negate("%in%")
+
+
+sport_catch_area <- 
+  wrangle_rec_catch2("pacRecCatch_db.yaml", by="area", most_recent_data_year=2023)
+
+sport_catch_finescale <- 
+  wrangle_rec_catch2("pacRecCatch_db.yaml", by="fishery", most_recent_data_year=2023)
+
+sport_catch_models <- model_rec_catch(sport_catch_finescale, most_recent_data_year=2023)
+
+sport_release_rates <- get_release_rates(sport_catch_models, sport_catch_area)
+
+
+
+
+```
+```{r bilingual-code, cache=FALSE}
+options(
+  # Prevent xtable from adding a timestamp comment to the table code it produces
+  xtable.comment = FALSE,
+  # Do not allow kableExtra to load packages, we add them manually in csasdown
+  kableExtra.latex.load_packages = FALSE,
+  # Stop chunk output (echo) running into the margins
+  width = 80,
+  # Do not use scientific notation (stops tables from showing 1.2e3, etc.)
+  scipen = 999)
+
+meta <- rmarkdown::metadata
+meta_out <- rmarkdown::metadata$output
+csl <- "csl/csas.csl"
+options(OutDec = ".")
+if (is.null(getOption("french"))) {
+  stop("`french` was not set up correctly in YAML header in index.Rmd. ",
+       "It must be true or false",
+       call. = FALSE)
+}
+if (getOption("french")) {
+  csl <- "csl/csas-french.csl"
+  options(OutDec = ",")
+}
+
+french <- isTRUE(getOption("french")) # for backwards compatibility
+
+# This hook simplifies document translation for the author.
+# When building in French, it draws a box around paragraphs contained in chunks
+#  which have the option `needs_trans = TRUE`. It also labels
+#  the box with a "Needs translation" tag in red and the chunk label in blue.
+# You need to change the `needs_trans` option to `FALSE` for a chunk once you
+#  have inserted the translated text into it. You will get a utf-8 error if
+#  you leave it as `TRUE` and there is French in the chunk.
+#  This function assumes you are translating from English to French.
+#  If you wrote your document in French and want to translate to English,
+#  put a ! before `getOption("french")` below and add the `need_trans`
+#  chunk options to your English paragraph chunks instead of the French ones.
+#  
+#  IMPORTANT NOTES
+#  - Use `csasdown::render()` to render the document. This runs a
+#    pre-processing step which ensures any inline R chunks
+#    `r print("Like this one")` are taken care of correctly and that all
+#    backslash variables (eg. \pi, \alpha, \@ref, \cite) are all processed
+#    correctly.
+#  - French latex places a space before the colon by default so if you need a colon
+#    with no space before it, use \\hc .
+knit_hooks$set(needs_trans = function(before, options){
+  if(getOption("french") && options$needs_trans){
+    if (before){
+      paste0("\\
+   \\begin{lrbox}{\\userinput}
+   \\begin{minipage}{\\dimexpr\\linewidth-2\\fboxsep-2\\fboxrule}
+   \\textcolor{red}{\\textbf{Needs translation - \\textcolor{blue}{knitr chunk: ", options$label, "}}}
+   \\begin{lstlisting}
+  ")
+    } else {
+      "
+   \\end{lstlisting}
+   \\end{minipage}
+   \\end{lrbox}
+   \\noindent
+   \\fbox{\\usebox{\\userinput}}
+  "
+    }
+  }
+})
+```
+
+---
+title: `r ifelse(csasdown::fr(), meta$french_title, meta$title)`
+region: `r ifelse(csasdown::fr(), meta$french_region, meta$region)`
+csl: `r csl`
+---
