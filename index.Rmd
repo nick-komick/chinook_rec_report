@@ -46,7 +46,7 @@ french_abstract: |
 
 show_continued_text: true
 output:
- csasdown::techreport_pdf:
+ csasdowntex::techreport_pdf:
    french: false
    # copy_sty is a toggle to copy the style file from the csasdown package every time you compile
    # the document. If false, any changes you have made to the style file in your project
@@ -77,7 +77,7 @@ type:
   techreport
 # ------------
 # End of options to set
-knit: (function(input, ...) csasdown::render())
+knit: (function(input, ...) csasdowntex::render())
 site: bookdown::bookdown_site
 link-citations: true
 always_allow_html: true
@@ -138,7 +138,7 @@ library(readr)
 library(tibble)
 library(tidyr)
 library(rosettafish)
-library(csasdown)
+library(csasdowntex)
 
 
 library(ROracle)
@@ -149,6 +149,7 @@ library(tidyr)
 library(lubridate)
 library(stringr)
 library(ggnewscale)
+library(gt)
 library(patchwork)
 library(DHARMa)
 library(sf)
@@ -163,16 +164,13 @@ library(sf)
 
 
 sport_catch_area <- 
-  wrangle_rec_catch2("pacRecCatch_db.yaml", by="area", most_recent_data_year=2023)
+  wrangle_rec_catch("pacRecCatch_db.yaml", by="area", most_recent_data_year=2023)
 
 sport_catch_finescale <- 
-  wrangle_rec_catch2("pacRecCatch_db.yaml", by="fishery", most_recent_data_year=2023)
+  wrangle_rec_catch("pacRecCatch_db.yaml", by="fishery", most_recent_data_year=2023)
 
 sport_catch_models <- model_rec_catch(sport_catch_finescale, most_recent_data_year=2023)
 
 sport_release_rates <- get_release_rates(sport_catch_models, sport_catch_area)
-
-
-
 
 ```

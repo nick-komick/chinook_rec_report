@@ -2,6 +2,14 @@ finescale_fishery,fishery_full_name
 CA JDF S SUMMER,Juan de Fuca Summer
 JOHN ST S SUMMER,Johnstone Strait Summer
 NGS S SUMMER,Northern Strait of Georgia Summer
+NWCVI S FALL AABM,Northern West Coast Vancouver Island AABM Fall
+NWCVI S SPRING AABM,Northern West Coast Vancouver Island AABM Spring
+NWCVI S SUMMER AABM,Northern West Coast Vancouver Island AABM Summer
+NWCVI S SUMMER ISBM,Northern West Coast Vancouver Island ISBM Summer
+SWCVI S FALL AABM,Southern West Coast Vancouver Island AABM Fall
+SWCVI S SPRING AABM,Southern West Coast Vancouver Island AABM Spring
+SWCVI S SUMMER AABM,Southern West Coast Vancouver Island AABM Summer
+SWCVI S SUMMER ISBM,Southern West Coast Vancouver Island ISBM Summer
 NWCVI AABM S SUMMER,Northern West Coast Vancouver Island AABM Summer
 NWCVI ISBM S SUMMER,Northern West Coast Vancouver Island ISBM Summer
 SGS S SUMMER,Southern Strait of Georgia Summer
@@ -22,3 +30,5 @@ SWCVI AABM S SPRING,Southern West Coast Vancouver Island AABM Spring
 NORTH AABM S,Northern BC AABM
 NORTH ISBM S FALL,Northern BC ISBM Fall
 NORTH ISBM S SPRING,Northern BC ISBM Spring
+NORTH ISBM S SUMMER,Northern BC ISBM Summer
+CENTRAL S,Central BC

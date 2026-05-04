@@ -1,18 +1,24 @@
-`r if(knitr:::is_latex_output()) '% begin csasdown appendix'` `r if(!knitr:::is_latex_output()) '# (APPENDIX) Appendix {-}'`
+`r if(knitr:::is_latex_output()) '% begin csasdowntex appendix'` `r if(!knitr:::is_latex_output()) '# (APPENDIX) Appendix {-}'`
 
 \clearpage
 
+```{r fishery_name_cleaning, include = FALSE}
+name_lookup <- read.csv("data/fishery_name_cleaner.csv", stringsAsFactors = FALSE)
+lookup_vec <- setNames(name_lookup$fishery_full_name, name_lookup$finescale_fishery)
+```
+
+
 # Internet Recreational Effort and Catch (iREC) Reporting Program Changes {#apdx-irec-mthd}
 
-Several advancements to how annual recreational licences are selected to report for a given survey month have occurred since the iREC survey began in 2012. When changing licence selection procedures, they always take affect at the start of a new licence year (i.e. April 1st).  For example,  1, 3 and 5 day (“term”) recreational licences, the selection rate changed from 25% of all terms during the early years of iREC (i.e. licence years 2012 to 2019). Since the 2020 licence year, 100% of term licences are selected to report.
+Since the iREC survey began in 2012, several changes have been made to how annual recreational licences are selected for inclusion in each survey month. All changes to selection procedures take effect at the start of a new licence year (April 1). For example, the selection rate for 1-, 3-, and 5‑day (“term”) licences was 25% during licence years 2012–2019, but has been 100% since the 2020 licence year.
 
-When selecting annual licences, purchase month is expected to be correlated with how the licence holder fishes. For example, licences bought in May or June are more likely to be used to target Coho and Chinook than those bought in September and October when the purchasers are more likely intending to target shellfish and finfish other than salmon. Accordingly, with each update in the selection approach, we mitigated bias caused by differential representation of licences by purchase month as described below. 
+When selecting annual licences, purchase month is expected to be correlated with the type of fishing and target species of the licence holder. Licences bought in May or June are more likely targeting Coho and Chinook than those bought in September and October when the purchasers are more likely potentially targeting shellfish and finfish other than salmon. Accordingly, with each update in the selection approach, we mitigated bias caused by differential representation of licences by purchase month as described below. 
 
 Originally, a targeted number of licences was selected by simple random sampling from all licences sold up until immediately prior to the start of a given survey month. This selection represented the “Pre” sample. To ensure representation of fishers with licences purchased within the survey month, a “Post” sample was taken at the end of the survey month. The advantage taking a Pre sample was that those licence holders could be notified by email prior to the survey onset, allowing anglers to report their fishing through the month with less recall bias. From survey onset in July 2012 through March 2014, licences were vulnerable to selection for a given survey month regardless of whether they had been selected to report for earlier months under the same licence. As expected, some licence holders were selected to report for several months, leading to concerns in such cases over survey fatigue affecting the accuracy of reports for subsequent months, or the likelihood of them even being completed.
 
 In response, as of April 2014, we stopped re-selecting licences. With this change, sampling was adjusted to account for lower representation of licences purchased earlier months of the licence year (e.g. April, May, and June). When randomly sampling licences for the October survey, annual licences purchased in April have been depleted by selections to all 6 preceding survey months (i.e. April through September).  On the other hand, licences purchased in September had only been depleted by selection to the September survey. We solved for this by apportioning the overall sample size target for the Pre sample for a given survey month into purchase month targets based on the sales distribution across the months prior to the survey month. For example, if the targeted size for the October survey Pre sample was 5000 and 15% of the annual licence sales through the end of September had occurred in April, then our sampling target for April purchases was 750. Those 750 licences were selected randomly from the April purchased licences that had not been selected to an earlier survey month. An alternative approach to protecting against the effect of uneven representation by purchase month, stratifying the analysis by purchase month, was rejected because of the number of strata created, with month and licence type dimensions leading to over 96 strata for the March survey (12 purchase months by 9 licence types). To this point, the analysis to estimate total catches from the responses was stratified by licence type and Pre-vs Post- sample.
 
-In April 2018, we implemented “Instantaneous Licence Selection and Notification” whereby, during the online licence purchase, the licencing system automatically selected each licence to a particular survey month and notified the purchaser of the selection using a screen ‘pop-up’. Further, the system included on the printed licence the licence holders ‘reporting period’, reporting deadline, the purchasers unique AccessID, and iREC web address. Previously, this information was only provided by email, and a substantial portion of licence holders either do not have provide a valid email addresses when purchasing a licence or do not receive/read the emails for various reasons; thus, printing this information on the licence ensured all selected licence holders have the information to complete their report. The change to instantaneous selection also meant there was no longer a Post sample; thus, all licences were selected and notified of their selection prior to or at the beginning of their reporting period, such that all selected fishers knew of their reporting requirement and could report fishing throughout their reporting period. With this change in survey selection, the analysis only needed to be stratify each reporting periods results by licence type.
+Starting April 2018, we implemented “Instantaneous Licence Selection and Notification” whereby, during the online licence purchase, the licencing system automatically selected each licence to a particular survey month and notified the purchaser of the selection using a screen ‘pop-up’. Further, the system included on the printed licence the licence holders ‘reporting period’, reporting deadline, the purchasers unique AccessID, and iREC web address. Previously, this information was only provided by email, and a substantial portion of licence holders either do not have provide a valid email addresses when purchasing a licence or do not receive/read the emails for various reasons; thus, printing this information on the licence ensured all selected licence holders have the information to complete their report. The change to instantaneous selection also meant there was no longer a Post sample; thus, all licences were selected and notified of their selection prior to or at the beginning of their reporting period, such that all selected fishers knew of their reporting requirement and could report fishing throughout their reporting period. With this change in survey selection, the analysis only needed to be stratify each reporting periods results by licence type.
 
 The approaches described so far all relied on equal representation of annual licences by purchase month in the group of licences selected to a given survey month to protect against bias described above. A consequence of this approach is that the later the purchase month in the licence year, the fewer the licences that could be selected. For example, consider the October survey. If 70% of April purchases had been selected to the preceding 6 survey months, then 70% of the October purchases could not be used for the remaining 6 survey months (October to March), because doing so would over represent October purchasers in those months relative to April purchasers. 
 
@@ -21,11 +27,10 @@ For the 2020-21 licence year, we changed our selection approach to allow complet
 The approach was implemented to improve our precision in two ways. First, we had much larger sample sizes overall, since all licences were able to be selected. Second, treating the In-Month Purchases as a separate stratum likely explains a substantial portion of the overall variation. Purchasers often buy a licence just prior to a planned fishing trip. Thus, In-Month Purchases on average would have more fishing days and higher catches than licences bought prior to the survey month. As well, these licences would more likely target species that are relatively available in the survey month, whereas some of the licences purchased in months prior to the survey month would be more focused on other species; for example, August purchasers will tend to focus on salmon fishing, whereas licences bought in April will include fishers that are interested in fishing for a wider range of species. 
 
 
-```{r iREC Licence Selection Prob table, results='asis', echo=FALSE}
+```{r iRec Lic Select Prob Table, results='asis', echo=FALSE}
 #| label: tab-irec-licence-selection-prob
 #| fig-cap: "Total number of licences (Annual and Term) selected to report for a given survey month, by year from iREC inception in July 2012 through August 2025."
 
-library(gt)
 
 fill_char <- "-"
 
@@ -276,23 +281,30 @@ csas_table(strat_table, format = "latex")
 #| fig-cap: "Revised yearly kept catch estimates"
 
 ### make this by finescale fishery old... sum up. 
-models_combined_old<-
+models_combined_south<-
   sport_catch_models$model_catch |>
   filter(region %notin% c("CBC", "NC")) |>
   mutate(region_mgmt = if_else(region %in% c("SWCVI", "NWCVI"),
-                               paste(region, management),
+                               paste(region, management), 
                                region)) |>
   group_by(year, kept_status, pred_cat, region_mgmt) |> 
-  summarise(across(where(is.double), sum, na.rm = TRUE), .groups = "drop")
+  summarise(across(where(is.double), \(x) sum(x, na.rm = TRUE)), .groups = "drop") |>
+  mutate(fishery_full_name = recode_values(region_mgmt,
+                                           "JDF" ~ "Juan de Fuca Strait",
+                                           "JNST" ~ "Johnstone Strait",
+                                           "NGS" ~ "Northern Strait of Georgia",
+                                           "SGS" ~ "Southern Strait of Georgia",
+                                           "NWCVI AABM" ~ "Northern West Vancouver Island - AABM",
+                                           "SWCVI AABM" ~ "Southern West Vancouver Island - AABM",
+                                           "NWCVI ISBM" ~ "Northern West Vancouver Island - ISBM",
+                                           "SWCVI ISBM" ~ "Southern West Vancouver Island - ISBM")) 
 
-
-fishery_name_south <- sort(unique(models_combined_old$region_mgmt))
-
+fishery_name_south <- sort(unique(models_combined_south$fishery_full_name))
 
 for (i in 1:length(fishery_name_south)){
   graph_data <- 
-    models_combined_old  %>% 
-    filter(region_mgmt == fishery_name_south[i],
+    models_combined_south  %>% 
+    filter(fishery_full_name == fishery_name_south[i],
            between(year, 2005, 2023),
            kept_status == "kept") %>%
     select(year, creel_unfiltered_plus, catch_estimate_predicted) %>%
@@ -302,28 +314,36 @@ for (i in 1:length(fishery_name_south)){
     mutate(estimate_type = case_match(estimate_type,
                                       "creel_unfiltered_plus" ~ "Unfiltered creel and logbook",
                                       "catch_estimate_predicted" ~ "Combined iREC and Creel"),
-          estimate_type = if_else(year < 2013 & estimate_type == "Combined iREC and Creel",
-                                  "Retrospectively Modelled",
-                                  estimate_type))
+           estimate_shape_type = if_else(year < 2013 & estimate_type == "Combined iREC and Creel",
+                                         "Retrospectively Modelled",
+                                         estimate_type))
+  graph_data <-
+    graph_data |>
+    filter(year == 2013, estimate_type == "Combined iREC and Creel") |>
+    mutate(estimate_shape_type = "Retrospectively Modelled") |>
+    bind_rows(graph_data)
   
-  m <- ggplot(graph_data, aes(y = catch_estimate,
-                              x = year,
-                              shape = estimate_type,
-                              linetype = estimate_type))+
-    geom_point(size = 2.5,
-               colour = "#440154")+
-    geom_line(colour = "#440154") +
-    scale_shape_manual(values = c(1, 16,2)
-    ) +
-    scale_linetype_manual(values = c(2, 1,10)
-    ) +
+  m <- 
+    ggplot(graph_data, aes(y = catch_estimate,
+                           x = year,
+                           color = estimate_shape_type,
+                           shape = estimate_shape_type,
+                           linetype = estimate_shape_type)) +
+    geom_point(size = 2.5) +
+    geom_line() +
+    scale_color_manual(values = c("#31688e", "#31688e", "#440154"),
+                       name = "Catch Estimate") +
+    scale_shape_manual(values = c(16, 1, 2)) +
+    scale_linetype_manual(values = c(1, 1, 2)) +
     scale_x_continuous(breaks = seq.int(2005, 2023, by = 2)) +
-    ggtitle(paste(fishery_name_south[i])) + 
-    theme_bw() + 
+    theme_bw() +
     geom_vline(aes(xintercept = 2013)) +
-    ylab("Kept catch estimate") + 
-    xlab("Year") +
-    labs(linetype = "Catch Estimate", shape = "Catch Estimate")
+    labs(title = fishery_name_south[i],
+         y = "Kept catch estimate",
+         x = "Year",
+         color = "Catch Estimate", 
+         shape = "Catch Estimate", 
+         linetype = "Catch Estimate")
   
   print(m)
 }
@@ -336,47 +356,64 @@ for (i in 1:length(fishery_name_south)){
 
 
 ### make this by finescale fishery old... sum up. 
-models_combined_old2 <-
+models_combined_north <-
   sport_catch_models$model_catch |>
   filter(region %in% c("CBC", "NC")) |>
-  mutate(region_mgmt = if_else(region == "NC",
-                               paste(region, management),
+  mutate(region_mgmt = if_else(region %in% c("NC"),
+                               paste(region, management), 
                                region)) |>
   group_by(year, kept_status, pred_cat, region_mgmt) |> 
-  summarise(across(where(is.double), sum, na.rm = TRUE), .groups = "drop")
+  summarise(across(where(is.double), \(x) sum(x, na.rm = TRUE)), .groups = "drop") |>
+  mutate(fishery_full_name = recode_values(region_mgmt,
+                                           "NC AABM" ~ "Northern BC - AABM",
+                                           "NC ISBM" ~ "Northern BC - ISBM",
+                                           "CBC" ~ "Central BC")) 
 
-fishery_name_north<- sort(unique(models_combined_old2$region_mgmt))
+fishery_name_north<- sort(unique(models_combined_north$fishery_full_name))
 
 for (i in 1:length(fishery_name_north)) {
   graph_data <- 
-    models_combined_old2  %>% 
-    filter(region_mgmt == fishery_name_north[i],
+    models_combined_north  %>% 
+    filter(fishery_full_name == fishery_name_north[i],
            between(year, 2005, 2023),
            kept_status == "kept") %>%
-    select(year, historic_plus, catch_estimate_predicted) %>%
-    pivot_longer(c(historic_plus, catch_estimate_predicted),
+    select(year, historic, catch_estimate_predicted) %>%
+    pivot_longer(c(historic, catch_estimate_predicted),
                  names_to = "estimate_type",
-                 values_to = "catch_estimate")
+                 values_to = "catch_estimate") |>
+    mutate(estimate_type = case_match(estimate_type,
+                                      "historic" ~ "Creel and logbook",
+                                      "catch_estimate_predicted" ~ "iREC"),
+           estimate_shape_type = if_else(year < 2015 & estimate_type == "iREC",
+                                         "Retrospectively Modelled",
+                                         estimate_type))
+  graph_data <-
+    graph_data |>
+    filter(year == 2015, estimate_type == "iREC") |>
+    mutate(estimate_shape_type = "Retrospectively Modelled") |>
+    bind_rows(graph_data)  
   
-  m <- ggplot(graph_data, aes(y = catch_estimate,
-                              x = year,
-                              shape = estimate_type,
-                              linetype = estimate_type)) +
-    geom_point(size = 2.5,
-               colour = "#440154")+
-    geom_line(colour = "#440154") +
-    scale_shape_manual(values = c(1, 16),
-                       labels = c("iREC included", "Historic")
-    ) +
-    scale_linetype_manual(values = c(2, 1),
-                          labels = c("iREC included", "Historic")
-    ) +
+  m <- 
+    ggplot(graph_data, aes(y = catch_estimate,
+                           x = year,
+                           color = estimate_shape_type,
+                           shape = estimate_shape_type,
+                           linetype = estimate_shape_type)) +
+    geom_point(size = 2.5) +
+    geom_line() +
+    scale_color_manual(values = c("#440154", "#31688e", "#31688e"),
+                       name = "Catch Estimate") +
+    scale_shape_manual(values = c(2, 16, 1)) +
+    scale_linetype_manual(values = c(2, 1, 1)) +
     scale_x_continuous(breaks = seq.int(2005, 2023, by = 2)) +
-    ggtitle(paste(fishery_name_north[i])) + 
-    theme_bw() + 
-    ylab("Kept catch estimate") + 
-    xlab("Year") +
-    labs(linetype = "Catch Estimate", shape = "Catch Estimate")
+    theme_bw() +
+    geom_vline(aes(xintercept = 2015)) +
+    labs(title = fishery_name_north[i],
+         y = "Kept catch estimate",
+         x = "Year",
+         color = "Catch Estimate", 
+         shape = "Catch Estimate", 
+         linetype = "Catch Estimate")
   
   print(m)
 }
@@ -387,10 +424,30 @@ for (i in 1:length(fishery_name_north)) {
 # Model Residuals {#app:second-appendix}
 
 ```{r Modelling summer subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
-#| label: fig-south-sum-residuals
-#| fig-cap: "Validation plots for BC South Summer model"
+#| label: fig-wcvi-sum-residuals
+#| fig-cap: "Validation plots for Westcoast Vancouver Island summer model"
 
-res_gam <- simulateResiduals(sport_catch_models$model_list$south_summer, plot = T, quantreg=T)
+res_gam <- simulateResiduals(sport_catch_models$model_list$wcvi_summer_model, 
+                             plot = T, 
+                             quantreg=T)
+```
+
+```{r Modelling summer subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
+#| label: fig-sog-sum-residuals
+#| fig-cap: "Validation plots for Strait of Georgia and Johnstone Strait Summer model"
+
+res_gam <- simulateResiduals(sport_catch_models$model_list$sog_summer_model, 
+                             plot = T, 
+                             quantreg=T)
+```
+
+```{r Modelling summer subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
+#| label: fig-jdf-sum-residuals
+#| fig-cap: "Validation plots for Juan de Fuca Summer model"
+
+res_gam <- simulateResiduals(sport_catch_models$model_list$jdf_summer_model, 
+                             plot = T, 
+                             quantreg=T)
 ```
 
 ```{r Modelling spring and fall subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
@@ -464,7 +521,7 @@ create_facet_plot <- function(finescale_fishery_name, x_var, plot_data, model_da
   
   # Ensure 'year' is integer to avoid decimal ticks in legend
   if ("year" %in% names(filtered_data)) {
-    filtered_data <- filtered_data %>% dplyr::mutate(year = as.integer(year))
+    filtered_data <- filtered_data %>% mutate(year = as.integer(year))
   }
   
   #check if all catch_estimate values are zero for each status
@@ -529,16 +586,10 @@ create_facet_plot <- function(finescale_fishery_name, x_var, plot_data, model_da
 }
 ```
 
-```{r fishery_name_cleaning, include = FALSE}
-name_lookup <- read.csv("data/fishery_name_cleaner.csv", stringsAsFactors = FALSE)
-lookup_vec <- setNames(name_lookup$fishery_full_name, name_lookup$finescale_fishery)
-```
-
-
-## Southern BC Summer fisheries
+## Westcoast Vancouver Island Summer fisheries
 
 ```{r forloop seasonal summer appendix, results='asis', echo=FALSE}
-south_summer_model <- sport_catch_models$model_list$south_summer
+south_summer_model <- sport_catch_models$model_list$wcvi_summer_model
 south_summer_no_nas <- south_summer_model$data
 
 family_set <- family(south_summer_model)
@@ -548,7 +599,7 @@ ilink_family_set<- family_set$linkinv
 ndata <-
   south_summer_no_nas %>% 
   group_by(status, finescale_fishery, season) %>%  
-  tidyr::expand(creel_plus_summer = seq(0, max(creel_plus_summer), length=100)) %>%
+  tidyr::expand(creel_unfiltered_plus = seq(0, max(creel_unfiltered_plus), length=100)) %>%
   
   
   ## add the fitted values by predicting from the model for the new data
@@ -572,7 +623,7 @@ for (i in 1:length(fishery_name_south)){
   
   
   plot <- create_facet_plot(finescale_fishery_name = fishery_name_south[i], 
-                            x_var = "creel_plus_summer", 
+                            x_var = "creel_unfiltered_plus", 
                             plot_data = south_summer_no_nas, 
                             model_data = ndata) +
     ggtitle(clean_title) + 
@@ -595,7 +646,7 @@ ilink_family_set<- family_set$linkinv
 
 ndata <-
   south_season_no_nas %>% 
-  group_by(status, region_mgmt, finescale_fishery, season) %>%  
+  group_by(status, finescale_fishery, season) %>%  
   tidyr::expand(creel_plus_summer = seq(0, max(creel_plus_summer), length=100)) %>%
   ## add the fitted values by predicting from the model for the new data
   add_column(fit = predict(south_season_model, newdata = ., type = 'response')) %>%
@@ -955,8 +1006,8 @@ fit_aic_df <-
                      season_north_aabm_gamma_spec$aic,
                      all_north_aabm_gaussian_spec$aic))
 
-csasdown::csas_table(fit_aic_df,
-                     caption = "AIC for the two original model fits (i.e. Original Summer and Original Spring/Fall) and the new annual gaussian fit.")
+csasdowntex::csas_table(fit_aic_df,
+                        caption = "AIC for the two original model fits (i.e. Original Summer and Original Spring/Fall) and the new annual gaussian fit.")
 
 ```
 
@@ -1015,7 +1066,6 @@ catch_diff <-
 # Find max absolute value
 max_y <- max(abs(catch_diff$catch_diff))
 
-
 catch_diff |>
   ggplot(aes(x = year, y = catch_diff, color = status)) +
   geom_line(linewidth = 1) +
@@ -1040,6 +1090,19 @@ In the Southwest Vancouver Island (SWVI) ISBM fishery, it was found that data fo
 
 When reviewing how the quality control flags were handled when combining creel reported areas into to iREC areas we found that the quality control flags were combined incorrectly.  The only iREC area that this affects was PFMA 20 from 2013 to 2019 in some months.  As PFMA 20 is operational covered by two separate creel programs, in some cases part of PFMA 20 may have a quality creel estimate while the other may not.  When combined it would identify the whole PFMA 20 as being a quality creel and potentially use less quality creel data instead of iREC for the whole area. This was fixed an now Juan de Fuca catch has a more consistent relationship with creel over the whole time series of this study.  With the split of PFMA 20 in iREC reporting starting in 2020, this was no longer an issue and quality creel estimates either portion of PFMA 20 can be used as the final catch estimate.
 
+In addition to the PFMA 20 split affecting quality flags, the split was also identified as affecting iREC calibration for licence years 2013 to 2019.  Furthermore, there was some zero iREC estimates incorporated into the calibration that reduced the calibration factor.  With the review and and update, calibration factors increased and the resulting Chinook catch estimates decreased.  The brought calibrated iREC catch estimates more inline with creel estimates for those re-calibrated years.  The prevoius and new bias calibration factors (BCF) are provided in Table \@ref(tab:tbl-irec-bcf-update).
+
+```{r tbl-irec-bcf-update, results='asis', echo=FALSE}
+
+data.frame(Year = 2013:2019, 
+           `Previous BCF` = c(1.23995, 1.52486, 0.96162, 0.99172, 1.05085, 0.81565, 0.96953),
+           `New BCF` = c(1.346448253, 1.652511113, 1.136145855, 1.128551046, 1.297545485, 1.121328127, 1.204708319)) |>
+  csas_table(caption = "Update iREC Bias Correction Factors (BCF) based on corrections to early year calibration methods for Chinook Kept Catch")
+
+```
+
+With the various improvements made previously discussed, we reviewed the model fits to see if there was a model form that better fit the improved catch estimates in Southern BC.  Although seasonal model wasn't improved through further review, the summer model was improved by using the unfiltered creel catch estimates to the update catch estimates.  
+
 ## Changes to Catch
 
 ```{r tbl-previous-kept-catch, results='asis', echo=FALSE}
@@ -1056,18 +1119,6 @@ prev_version_catch <-
          finescale_fishery = sub("NBC ISBM S", "NORTH ISBM S", finescale_fishery),
          finescale_fishery = case_match(finescale_fishery,
                                         "CBC S" ~ "CENTRAL S",
-                                        "SWCVI S FALL AABM" ~ "SWCVI AABM S FALL",
-                                        "SWCVI S SPRING AABM" ~ "SWCVI AABM S SPRING",
-                                        "SWCVI S SUMMER AABM" ~ "SWCVI AABM S SUMMER",
-                                        "NWCVI S FALL AABM" ~ "NWCVI AABM S FALL",
-                                        "NWCVI S SPRING AABM" ~ "NWCVI AABM S SPRING",
-                                        "NWCVI S SUMMER AABM" ~ "NWCVI AABM S SUMMER",
-                                        "SWCVI S FALL ISBM" ~ "SWCVI ISBM S FALL",
-                                        "SWCVI S SPRING ISBM" ~ "SWCVI ISBM S SPRING",
-                                        "SWCVI S SUMMER ISBM" ~ "SWCVI ISBM S SUMMER",
-                                        "NWCVI S FALL ISBM" ~ "NWCVI ISBM S FALL",
-                                        "NWCVI S SPRING ISBM" ~ "NWCVI ISBM S SPRING",
-                                        "NWCVI S SUMMER ISBM" ~ "NWCVI ISBM S SUMMER",
                                         .default = finescale_fishery),
          finescale_fishery = if_else(grepl("NBC AABM S", finescale_fishery),
                                      "NORTH AABM S",
@@ -1105,8 +1156,7 @@ version_catch_tbl |>
          `Feb. 2025 Kept` = prev_catch,
          `Updated Kept` = catch_estimate_predicted,
          `Updated Kept (%)` = update_pct) |>
-  csasdown::csas_table(caption = "Kept catch estimates based on just creel + logbooks, previous February 2025 version of analysis, and updated version of the method presented in this report.",
-                       font_size = 8)
+  csasdowntex::csas_table(caption = "Kept catch estimates based on just creel + logbooks, previous February 2025 version of analysis, and updated version of the method presented in this report.")
 
 
 ```
@@ -1121,11 +1171,10 @@ version_catch_tbl |>
          `Feb. 2025 Rel.` = prev_catch,
          `Updated Rel.` = catch_estimate_predicted,
          `Updated Rel. (%)` = update_pct) |>
-  csasdown::csas_table(caption = "Released catch estimates based on just creel + logbooks, previous February 2025 version of analysis, and updated version of the method presented in this report.",
-                       font_size = 8)
+  csasdowntex::csas_table(caption = "Released catch estimates based on just creel + logbooks, previous February 2025 version of analysis, and updated version of the method presented in this report.")
 
 ```
 
-`r if(knitr:::is_latex_output()) '% end csasdown appendix'`
+`r if(knitr:::is_latex_output()) '% end csasdowntex appendix'`
 
 
