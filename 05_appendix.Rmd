@@ -723,7 +723,6 @@ for (i in 1:length(fishery_name_north_aabm)){
 
 ```{r forloop NBC ISBM seasonal spring and fall appendix, results='asis', echo=FALSE}
 
-
 north_isbm_season_model <- sport_catch_models$model_list$north_isbm_season
 north_isbm_season_no_nas <- north_isbm_season_model$data
 
