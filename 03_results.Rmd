@@ -271,7 +271,7 @@ plot
 
 ```
 
-### Juan de Fuca Summer Fisheries (need to finish writing)
+### Juan de Fuca Summer Fisheries
 
 The best model for WCVI Summer fishery catch ($C_{summer}$) was identified using AIC-based model selection and was a model with a gamma distribution using a log-link that included summer South Coast ($C_{creel,summer}$), marked and kept status ($S$) and an interaction between summer creel and status:
 
@@ -670,7 +670,7 @@ The SHRP has generally run consistently over the transition time between the mod
 
 ```{r heads-to-creel, echo=FALSE}
 #| label: fig-heads-to-creel-and-updated-catch
-#| fig-cap: "Relationship between the marked kept catch estimates from the the creel program (left panel) and the combined creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP
+#| fig-cap: "Relationship between the marked kept catch estimates from the the creel program (left panel) and the combined creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP"
 
 creel_to_heads_graph <-
   south_creel_to_heads_df |>

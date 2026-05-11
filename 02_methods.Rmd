@@ -192,7 +192,7 @@ All catch data is typically collected in number of marked and unmarked fish kept
 
 The creel data estimation only started estimating catch by adipose clip status in 2009. Before 2009, Chinook catch was estimated only for kept and released. To utilize the mark rate data collected by creel surveys from 2005 to 2008, the sample data were specifically loaded for south coast areas and used to split both kept and released catch by mark status for each year, month, and area combination.
 
-We calculate mark rate in a number of different ways and prioritized the assignment of mark rate in the order identified below, based on availability.  Only mark rates that are based on a total catch estimate >= 10 are used:
+We calculate mark rate in a number of different ways and prioritized the assignment of mark rate in the order identified below, based on availability.  Only mark rates that are based on a total catch estimate $\geq 10$ are used:
 
 1.  Monthly area calculation - Mark rate calculated for a given source (iREC, creel, or logbook) within a given year, month, and area
 2.  Monthly average by source - Mark rate calculated within a given year, month, and area, averaged across sources
