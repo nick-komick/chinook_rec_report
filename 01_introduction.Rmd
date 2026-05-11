@@ -15,5 +15,6 @@ In this report, we describe the methods used, and present results on:
   3. revised Chinook coded wire tag estimates to reflect catch estimates,
   4. incorporate revised CWT and non-retention estimates into annual Chinook Technical Committee (CTC) processes
 
-We then discuss potential further improvements to the analytical methods for applying these revisions and to catch monitoring to facilitate them.  
+We then discuss potential further improvements to the analytical methods for applying these revisions and to catch monitoring to facilitate them.
+
 
