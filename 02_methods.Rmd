@@ -313,9 +313,9 @@ For this initial effort to provide a consistent time series back to 2005, we exp
 
  * Separate models for central, and northern BC fisheries since the data inputs are different
  * Single model for southern BC spring and fall pre-terminal sport fisheries since these are iREC-only data
- * Seperate models for southern BC summer pre-terminal sport fisheries that better align to creel program delivery
+ * Separate models for southern BC summer pre-terminal sport fisheries that better align to creel program delivery
 
-All models were fit through the origin, as catch from both sources are expected to potenially report zero catch.  Also, the effort was to use a gaussian fit unless a Gamma fit was clearly a better fit.  This is mitigate potental large increases or decreases in catch when creel catch estimates are outside the range of estimates observed with the fitted data.  When evaluating model fits, we used the following criteria to select the final model form used in this analysis.
+All models were fit through the origin, as catch from both sources are expected to potentially report zero catch.  Also, the effort was to use a gaussian fit unless a Gamma fit was clearly a better fit.  This is mitigate potential large increases or decreases in catch when creel catch estimates are outside the range of estimates observed with the fitted data.  When evaluating model fits, we used the following criteria to select the final model form used in this analysis.
 
  * Same data set tested for each model, therefore done without missing values
  * We did not consider random effects models since there were not enough levels of each factor to warrant random effects inclusion (typically \>10)
