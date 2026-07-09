@@ -70,8 +70,7 @@ When revising Chinook catch estimates prior to the introduction of iREC, the fol
 - Southern BC Spring/Fall (2013 to 2023)
 - Central BC Annual (2015 to 2023)
 - Haida Gwaii Annual (2015 to 2023)
-- Northern BC ISBM Summer (2015 to 2023) 
-- Northern BC ISBM Spring/Fall (2015 to 2023) 
+- Northern BC ISBM Annual (2015 to 2023) 
 
 Each of these models were used to predict the kept and released catch by mark status from 2005 to year before the model fit.  For example the Haida Gwaii Annual model is used to predict annual estimates of kept and released catch by mark status from 2005 to 2014 based on the existing creel and logbook catch estimates.
 
@@ -427,34 +426,40 @@ create_facet_plot(finescale_fishery_name = fishery_name_north_aabm[1],
                   model_data = ndata)
 ```
 
+<<<<<<< HEAD
 #### Northern BC ISBM Annual Fishery
+=======
+#### Northern BC ISBM Fisheries
+>>>>>>> 21a35bd8c00c49eb36865c603c8eece4dbca4f26
 
-The best model for Northern BC (NBC) ISBM Summer fisheries was one with a gamma distribution using a log link that included summer historic data (Area 3 and 4 Creel + logbook, $C_{historic,summer}$) and status, with no interaction of these terms.
+*Need to update text*
+
+The best model for Northern BC (NBC) ISBM fisheries was one with a gamma distribution using a log link that included summer historic data (Area 3 and 4 Creel + logbook, $C_{historic,summer}$) and status, with no interaction of these terms.
 
 $$C_{summer} = C_{historic,summer} + S \label{eq:nbc_isbm_summer}$$
 
-This model parameterization allows for calibrated iREC catch in the whole summer period (months 5:9) to be predicted both independently by the unfiltered Area 3 and 4 creel and logbook catch in the limited creel summer period (months 7:8) and by status. Figure \@ref(fig:fig-nbcisbm-sum-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. The residuals vs. predicted values show no significant patterns.
+This model parameterization allows for calibrated iREC catch in the whole summer period (months 5:9) to be predicted both independently by the unfiltered Area 3 and 4 creel and logbook catch in the limited creel summer period (months 7:8) and by status. Figure \@ref(fig:fig-nbcisbm-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. The residuals vs. predicted values show no significant patterns.
 
-Figure \@ref(fig:fig-nbcisbm-summer-model) shows the summer model results in NBC ISBM. In NBC ISBM fisheries, the catch of marked fish in the summertime period is substantially less (0-1000 pieces) than the catch of unmarked fish (1000-6000 pieces). The model fits much better at the higher catch estimates of the unmarked fish, than the marked fish and since the best model did not include a term for interaction between status and creel summertime, the relationship is not modified by status.
+Figure \@ref(fig:fig-nbcisbm-model) shows the summer model results in NBC ISBM. In NBC ISBM fisheries, the kept marked catch is substantially less (< 1,500 pieces) than the catch of unmarked fish (< 15,000 pieces). The model fits unmarked catch much better than the marked fish.
 
-```{r results NBC ISBM summer, results='asis', echo=FALSE}
-#| label: fig-nbcisbm-summer-model
-#| fig-cap: "NBC ISBM summer fishery modelled relationship between concentrated summertime unfiltered creel estimate (months 7 and 8) and iREC catch estimates in the whole summer period (months 5:9). Data points are yearly estimates from 2015 to 2023."
+```{r results NBC ISBM annual, results='asis', echo=FALSE}
+#| label: fig-nbcisbm-model
+#| fig-cap: "NBC ISBM fishery modelled relationship between concentrated unfiltered creel estimate (months 7 and 8) and iREC catch estimates over the whole year. Data points are yearly regional estimates from 2015 to 2023."
 
 #Chosen model
-summer_north_isbm_model <- sport_catch_models$model_list$north_isbm
 
-family_set <- family(summer_north_isbm_model)
+north_isbm_model <- sport_catch_models$model_list$north_isbm
+
+family_set <- family(north_isbm_model)
 ilink_family_set<- family_set$linkinv
 
-mod <- summer_north_isbm_model
+mod <- north_isbm_model
 
-summer_north_isbm_no_nas <- summer_north_isbm_model$data
+north_isbm_no_nas <- north_isbm_model$data
 ndata <- 
-  summer_north_isbm_no_nas %>%
-  group_by(status, kept_status,mark_status, finescale_fishery, season, region, management) %>%
-  tidyr::expand(historic_plus = seq(0, max(historic_plus), length=100)) %>%
-  
+  north_isbm_no_nas %>%
+  group_by(status, finescale_fishery, season) %>%
+  tidyr::expand(historic_summer = seq(0, max(historic_summer), length=100)) %>%
   ## add the fitted values by predicting from the model for the new data
   add_column(fit = predict(mod, newdata = ., type = 'response')) %>%
   bind_cols(setNames(as_tibble(predict(mod, ., se.fit = TRUE)[1:2]),
@@ -463,20 +468,23 @@ ndata <-
          right_upr = ilink_family_set(fit_link + (2 * se_link)),
          right_lwr = ilink_family_set(fit_link - (2 * se_link)))
 
-fishery_name_north_isbm <- sort(unique(summer_north_isbm_no_nas$finescale_fishery))
+fishery_name_north_isbm <- sort(unique(north_isbm_no_nas$finescale_fishery))
 
 i=1
 
 
 plot <- create_facet_plot(finescale_fishery_name = fishery_name_north_isbm[i], 
-                          x_var = "historic_plus", 
-                          plot_data = summer_north_isbm_no_nas, 
+
+                          x_var = "historic_summer", 
+                          plot_data = north_isbm_no_nas, 
                           model_data = ndata)
 
 plot
 ```
 
 
+
+=======
 
 #### Central BC annual fishery
 

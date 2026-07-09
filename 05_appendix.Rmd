@@ -22,13 +22,11 @@ Starting April 2018, we implemented “Instantaneous Licence Selection and Notif
 
 The approaches described so far all relied on equal representation of annual licences by purchase month in the group of licences selected to a given survey month to protect against bias described above. A consequence of this approach is that the later the purchase month in the licence year, the fewer the licences that could be selected. For example, consider the October survey. If 70% of April purchases had been selected to the preceding 6 survey months, then 70% of the October purchases could not be used for the remaining 6 survey months (October to March), because doing so would over represent October purchasers in those months relative to April purchasers. 
 
-For the 2020-21 licence year, we changed our selection approach to allow complete selection of licences; this approach has remained in effect through 2025-26. This new approach involves stratifying by purchase period, with up to three purchase period strata, depending on survey month (Figure \@ref(fig:fig-irec-licence-selection)). For every survey month there is one stratum comprised of licences sold in that month; we refer to this stratum as “In-Month Purchases”. In April, that is the only stratum. In May, June and July, there is a second stratum comprised of licences sold prior to the survey month; the selection probabilities for those purchase months to a given survey month are the same. For example, all annual licences sold in April, May and June had a 7% probability of being selected to the July survey (Table \@ref(tab:tab-irec-licence-selection-prob)). From August on, there is a third stratum, for licences sold from July through the month prior to the survey month; again, note that the selection probabilities from all of those purchase months to a given survey month are the same. The analysis stratification was adjusted to reflect these selection strata, with stratification by licence type and up to three purchase periods, depending on survey month.  
+For the 2020-21 licence year, we changed our selection approach to allow complete selection of licences; this approach has remained in effect through 2025-26. This new approach involves stratifying by purchase period, with up to three purchase period strata, depending on survey month (Figure \@ref(fig:fig-irec-licence-selection)). For every survey month there is one stratum comprised of licences sold in that month; we refer to this stratum as “In-Month Purchases”. In April, that is the only stratum. In May, June and July, there is a second stratum comprised of licences sold prior to the survey month; the selection probabilities for those purchase months to a given survey month are the same. For example, all annual licences sold in April, May and June had a 7% probability of being selected to the July survey (Table \@ref(tab:tbl-irec-licence-selection-prob)). From August on, there is a third stratum, for licences sold from July through the month prior to the survey month; again, note that the selection probabilities from all of those purchase months to a given survey month are the same. The analysis stratification was adjusted to reflect these selection strata, with stratification by licence type and up to three purchase periods, depending on survey month.  
 
 The approach was implemented to improve our precision in two ways. First, we had much larger sample sizes overall, since all licences were able to be selected. Second, treating the In-Month Purchases as a separate stratum likely explains a substantial portion of the overall variation. Purchasers often buy a licence just prior to a planned fishing trip. Thus, In-Month Purchases on average would have more fishing days and higher catches than licences bought prior to the survey month. As well, these licences would more likely target species that are relatively available in the survey month, whereas some of the licences purchased in months prior to the survey month would be more focused on other species; for example, August purchasers will tend to focus on salmon fishing, whereas licences bought in April will include fishers that are interested in fishing for a wider range of species.  The overall increase in licenses selected and the resulting responses to the survey is shown in Figure \@ref(fig:fig-irec-licence-selection) and \@ref(fig:fig-irec-licence-selection), respectively.
 
-```{r iRec Lic Select Prob Table, results='asis', echo=FALSE}
-#| label: tab-irec-licence-selection-prob
-#| fig-cap: "Probabilities of an annual licence being selected for a reporting month, based on the license purchase month after March 2020."
+```{r tbl-irec-licence-selection-prob, results='asis', echo=FALSE}
 
 fill_char <- "-"
 
@@ -48,7 +46,7 @@ select_prob_df <-
              Mar = c(rep("0.04", 3), rep("0.08", 8), "1.00"))
 
 select_prob_df |>
-  gt() |>
+  gt(caption = "Probabilities of an annual licence being selected for a reporting month, based on the license purchase month after March 2020.") |>
   tab_style(style = list(cell_text(align = "center")), locations = cells_body()) |>
   tab_style(
     style = list(
@@ -464,23 +462,15 @@ res_gam <- simulateResiduals(sport_catch_models$model_list$north_aabm, plot = T,
 
 ```
 
-```{r Modelling summer nbc isbm subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
-#| label: fig-nbcisbm-sum-residuals
-#| fig-cap: "Validation plots for NBC ISBM Summer model"
+```{r Modelling annual nbc isbm subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
+#| label: fig-nbcisbm-residuals
+#| fig-cap: "Validation plots for NBC ISBM Annual model"
 
-res_gam <- simulateResiduals(sport_catch_models$model_list$north_isbm_summer, plot = T, quantreg=T)
-
-```
-
-```{r Modelling NBC ISBM spring and fall subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
-#| label: fig-nbcisbm-sf-residuals
-#| fig-cap: "Validation plots for NBC ISBM Spring and Fall model"
-
-res_gam <- simulateResiduals(sport_catch_models$model_list$north_isbm_season, plot = T, quantreg=T)
+res_gam <- simulateResiduals(sport_catch_models$model_list$north_isbm, plot = T, quantreg=T)
 
 ```
 
-```{r Modelling CBCsubsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
+```{r Modelling CBC subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 #| label: fig-cbc-residuals
 #| fig-cap: "Validation plots for CBC annual model"
 
@@ -717,51 +707,6 @@ for (i in 1:length(fishery_name_north_aabm)){
 }
 ```
 
-## Northern BC ISBM Spring and Fall fisheries
-
-```{r forloop NBC ISBM seasonal spring and fall appendix, results='asis', echo=FALSE}
-
-north_isbm_season_model <- sport_catch_models$model_list$north_isbm_season
-north_isbm_season_no_nas <- north_isbm_season_model$data
-
-family_set <- family(north_isbm_season_model)
-ilink_family_set<- family_set$linkinv
-
-ndata <-
-  north_isbm_season_no_nas %>% 
-  group_by(status, finescale_fishery, season) %>%  
-  tidyr::expand(historic_summer = seq(0, max(historic_summer), length=100)) %>%
-  ## add the fitted values by predicting from the model for the new data
-  add_column(fit = predict(north_isbm_season_model, 
-                           newdata = ., 
-                           type = 'response')) %>%
-  bind_cols(setNames(as_tibble(predict(north_isbm_season_model, 
-                                       ., 
-                                       se.fit = TRUE)[1:2]),
-                     c('fit_link','se_link'))) %>%
-  
-  mutate(fit_resp  = ilink_family_set(fit_link),
-         right_upr = ilink_family_set(fit_link + (2 * se_link)),
-         right_lwr = ilink_family_set(fit_link - (2 * se_link)))
-
-
-fishery_name_north_isbm<- sort(unique(north_isbm_season_no_nas$finescale_fishery))
-
-
-for (i in 1:length(fishery_name_north_isbm)){
-  
-  acr <- fishery_name_north_isbm[i]
-  clean_title <- lookup_vec[acr]  # gets the full name
-  
-  plot <- create_facet_plot(finescale_fishery_name = fishery_name_north_isbm[i], 
-                            x_var = "historic_summer", 
-                            plot_data = north_isbm_season_no_nas, 
-                            model_data = ndata) +
-    ggtitle(clean_title)
-  
-  print(plot)
-}
-```
 
 \clearpage
 
@@ -1123,7 +1068,9 @@ prev_version_catch <-
   rename_with(tolower) |>
   mutate(is_kept = grepl("kept", status, ignore.case = TRUE),
          finescale_fishery = sub("JNST S", "JOHN ST S", finescale_fishery),
-         finescale_fishery = sub("NBC ISBM S", "NORTH ISBM S", finescale_fishery),
+         finescale_fishery = if_else(grepl("NBC ISBM S", finescale_fishery),
+                                     "NORTH ISBM S", 
+                                     finescale_fishery),
          finescale_fishery = case_match(finescale_fishery,
                                         "CBC S" ~ "CENTRAL S",
                                         .default = finescale_fishery),
@@ -1136,7 +1083,8 @@ prev_version_catch <-
 
 new_version_catch <-
   sport_catch_models$model_catch |>
-  mutate(is_kept = grepl("kept", status, ignore.case = TRUE)) |>
+  mutate(is_kept = grepl("kept", status, ignore.case = TRUE),
+         creel_unfiltered_plus = if_else(grepl("CENTRAL|NORTH", finescale_fishery), historic_plus, creel_unfiltered_plus)) |>
   group_by(year, is_kept, finescale_fishery) |> 
   summarise(creel_unfiltered_plus = sum(creel_unfiltered_plus, na.rm = TRUE), 
             catch_estimate_predicted = sum(catch_estimate_predicted, na.rm = TRUE), 
