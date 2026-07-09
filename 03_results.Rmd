@@ -426,11 +426,8 @@ create_facet_plot(finescale_fishery_name = fishery_name_north_aabm[1],
                   model_data = ndata)
 ```
 
-<<<<<<< HEAD
-#### Northern BC ISBM Annual Fishery
 =======
 #### Northern BC ISBM Fisheries
->>>>>>> 21a35bd8c00c49eb36865c603c8eece4dbca4f26
 
 *Need to update text*
 
@@ -458,8 +455,8 @@ mod <- north_isbm_model
 north_isbm_no_nas <- north_isbm_model$data
 ndata <- 
   north_isbm_no_nas %>%
-  group_by(status, finescale_fishery, season) %>%
-  tidyr::expand(historic_summer = seq(0, max(historic_summer), length=100)) %>%
+  group_by(status, kept_status,mark_status, finescale_fishery, season, region, management) %>%
+  tidyr::expand(historic_plus = seq(0, max(historic_plus), length=100)) %>%
   ## add the fitted values by predicting from the model for the new data
   add_column(fit = predict(mod, newdata = ., type = 'response')) %>%
   bind_cols(setNames(as_tibble(predict(mod, ., se.fit = TRUE)[1:2]),
@@ -475,7 +472,7 @@ i=1
 
 plot <- create_facet_plot(finescale_fishery_name = fishery_name_north_isbm[i], 
 
-                          x_var = "historic_summer", 
+                          x_var = "historic_plus", 
                           plot_data = north_isbm_no_nas, 
                           model_data = ndata)
 
