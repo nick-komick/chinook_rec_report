@@ -128,7 +128,8 @@ create_facet_plot <- function(finescale_fishery_name, x_var, plot_data, model_da
     theme(
       axis.title = element_text(size = 14),
       axis.text = element_text(size = 12),
-      strip.text = element_text(size = 12, face = "bold"))
+      strip.text = element_text(size = 12, face = "bold")) + 
+     ggplot2::labs(title = paste(finescale_fishery_name))
   
   
   # Conditionally add geom_line and geom_ribbon for statuses with non-zero data
@@ -183,8 +184,8 @@ mod <- wcvi_summer_model
 
 ndata <- 
   swvi_summer_model_data %>% 
-  group_by(status, finescale_fishery, season) %>%  
-  tidyr::expand(creel_unfiltered_plus = seq(0, max(creel_unfiltered_plus), length=100)) %>%
+  group_by(status, kept_status,mark_status, finescale_fishery, season, region, management) %>%  
+  tidyr::expand(creel_plus_summer = seq(0, max(creel_plus_summer), length=100)) %>%
   ## add the fitted values by predicting from the model for the new data
   add_column(fit = predict(mod, newdata = ., type = 'response')) %>%
   bind_cols(setNames(as_tibble(predict(mod, ., se.fit = TRUE)[1:2]),
@@ -199,7 +200,7 @@ i = 1
 
 plot <- 
   create_facet_plot(finescale_fishery_name = fishery_name_south[i], 
-                    x_var = "creel_unfiltered_plus", 
+                    x_var = "creel_plus_summer", 
                     plot_data = swvi_summer_model_data, 
                     model_data = ndata) +
   #changing the y lab
@@ -245,8 +246,8 @@ mod <- sog_summer_model
 
 ndata <- 
   nsog_summer_model_data %>% 
-  group_by(status, finescale_fishery, season) %>%  
-  tidyr::expand(creel_unfiltered_plus = seq(0, max(creel_unfiltered_plus), length=100)) %>%
+  group_by(status, kept_status,mark_status, finescale_fishery, season, region, management) %>%  
+  tidyr::expand(creel_plus_summer = seq(0, max(creel_plus_summer), length=100)) %>%
   ## add the fitted values by predicting from the model for the new data
   add_column(fit = predict(mod, newdata = ., type = 'response')) %>%
   bind_cols(setNames(as_tibble(predict(mod, ., se.fit = TRUE)[1:2]),
@@ -261,7 +262,7 @@ i = 1
 
 plot <- 
   create_facet_plot(finescale_fishery_name = fishery_name_south[i], 
-                    x_var = "creel_unfiltered_plus", 
+                    x_var = "creel_plus_summer", 
                     plot_data = nsog_summer_model_data, 
                     model_data = ndata) +
   #changing the y lab
@@ -302,9 +303,9 @@ ilink_family_set<- family_set$linkinv
 mod <- jdf_summer_model
 
 ndata <- 
-  jdf_summer_model_data %>% 
-  group_by(status, finescale_fishery, season) %>%  
-  tidyr::expand(creel_unfiltered_plus = seq(0, max(creel_unfiltered_plus), length=100)) %>%
+ jdf_summer_model_data %>% 
+  group_by(status, kept_status,mark_status, finescale_fishery, season, region, management) %>%  
+  tidyr::expand(creel_plus_summer = seq(0, max(creel_plus_summer), length=100)) %>%
   ## add the fitted values by predicting from the model for the new data
   add_column(fit = predict(mod, newdata = ., type = 'response')) %>%
   bind_cols(setNames(as_tibble(predict(mod, ., se.fit = TRUE)[1:2]),
@@ -319,7 +320,7 @@ i = 1
 
 plot <- 
   create_facet_plot(finescale_fishery_name = fishery_name_south[i], 
-                    x_var = "creel_unfiltered_plus", 
+                    x_var = "creel_plus_summer", 
                     plot_data = jdf_summer_model_data, 
                     model_data = ndata) +
   #changing the y lab
@@ -348,7 +349,7 @@ Figure \@ref(fig:fig-jdf-fall-model) shows an example of the combined spring-fal
 #| fig-cap: "Southern BC Spring and Fall fishery modelled relationship for Juan de Fuca between concentrated summertime unfiltered creel estimate (months 7 and 8) and total iREC catch estimate in spring (months 1:4) and fall (10:12) months. Data points are yearly estimates from 2013 to 2023."
 
 
-spring_fall_model <- sport_catch_models$model_list$south_season
+spring_fall_model <- sport_catch_models$model_list$seasonal_JDF
 season_south_no_nas <- spring_fall_model$data
 
 family_set <- family(spring_fall_model)
@@ -357,10 +358,9 @@ ilink_family_set<- family_set$linkinv
 mod<-spring_fall_model
 
 ndata <- 
-  season_south_no_nas %>%
-  group_by(status, finescale_fishery, season) %>%
+ season_south_no_nas %>% 
+  group_by(status, kept_status,mark_status, finescale_fishery, season, region, management) %>%  
   tidyr::expand(creel_plus_summer = seq(0, max(creel_plus_summer), length=100)) %>%
-  
   ## add the fitted values by predicting from the model for the new data
   add_column(fit = predict(mod, newdata = ., type = 'response')) %>%
   bind_cols(setNames(as_tibble(predict(mod, ., se.fit = TRUE)[1:2]),
@@ -369,15 +369,18 @@ ndata <-
          right_upr = ilink_family_set(fit_link + (2 * se_link)),
          right_lwr = ilink_family_set(fit_link - (2 * se_link)))
 
+fishery_name_south <- sort(unique(ndata$finescale_fishery))
 
-fishery_name_south<- sort(unique(season_south_no_nas$finescale_fishery))
+i = 1
 
-i <- 1
+plot <- 
+  create_facet_plot(finescale_fishery_name = fishery_name_south[i], 
+                    x_var = "creel_plus_summer", 
+                    plot_data = season_south_no_nas, 
+                    model_data = ndata) +
+  #changing the y lab
+  ylab("iREC-included catch estimate")
 
-plot <- create_facet_plot(finescale_fishery_name = fishery_name_south[i], 
-                          x_var = "creel_plus_summer", 
-                          plot_data = season_south_no_nas, 
-                          model_data = ndata)
 plot
 
 ```
@@ -406,7 +409,7 @@ ilink_family_set <- family_set$linkinv
 
 ndata <- 
   north_aabm_model$data %>%
-  group_by(status, finescale_fishery) %>%
+  group_by(status, kept_status,mark_status, finescale_fishery, season, region, management) %>%
   tidyr::expand(historic_plus = seq(0, max(historic_plus), length=100)) %>%
   add_column(fit = predict(north_aabm_model, newdata = ., type = 'response')) %>%
   bind_cols(setNames(as_tibble(predict(north_aabm_model, ., se.fit = TRUE)[1:2]),
@@ -424,7 +427,7 @@ create_facet_plot(finescale_fishery_name = fishery_name_north_aabm[1],
                   model_data = ndata)
 ```
 
-#### Northern BC ISBM Summer Fisheries
+#### Northern BC ISBM Annual Fishery
 
 The best model for Northern BC (NBC) ISBM Summer fisheries was one with a gamma distribution using a log link that included summer historic data (Area 3 and 4 Creel + logbook, $C_{historic,summer}$) and status, with no interaction of these terms.
 
@@ -439,7 +442,7 @@ Figure \@ref(fig:fig-nbcisbm-summer-model) shows the summer model results in NBC
 #| fig-cap: "NBC ISBM summer fishery modelled relationship between concentrated summertime unfiltered creel estimate (months 7 and 8) and iREC catch estimates in the whole summer period (months 5:9). Data points are yearly estimates from 2015 to 2023."
 
 #Chosen model
-summer_north_isbm_model <- sport_catch_models$model_list$north_isbm_summer
+summer_north_isbm_model <- sport_catch_models$model_list$north_isbm
 
 family_set <- family(summer_north_isbm_model)
 ilink_family_set<- family_set$linkinv
@@ -449,8 +452,8 @@ mod <- summer_north_isbm_model
 summer_north_isbm_no_nas <- summer_north_isbm_model$data
 ndata <- 
   summer_north_isbm_no_nas %>%
-  group_by(status, finescale_fishery, season) %>%
-  tidyr::expand(historic_summer = seq(0, max(historic_summer), length=100)) %>%
+  group_by(status, kept_status,mark_status, finescale_fishery, season, region, management) %>%
+  tidyr::expand(historic_plus = seq(0, max(historic_plus), length=100)) %>%
   
   ## add the fitted values by predicting from the model for the new data
   add_column(fit = predict(mod, newdata = ., type = 'response')) %>%
@@ -466,62 +469,14 @@ i=1
 
 
 plot <- create_facet_plot(finescale_fishery_name = fishery_name_north_isbm[i], 
-                          x_var = "historic_summer", 
+                          x_var = "historic_plus", 
                           plot_data = summer_north_isbm_no_nas, 
                           model_data = ndata)
 
 plot
 ```
 
-#### Northern BC ISBM Spring and Fall Fisheries
 
-The best model for Northern BC ISBM Spring and Fall Fisheries was one with a gamma distribution with a log link that included summer historic data (Area 3 and 4 creel + logbook, $C_{historic, summer}$), season ($Z$), status ($S$), and an interaction of season and status.
-
-$$ C_{total,Z,S} = C_{historic,summer} + Z + S + Z:S, Z \in (spring, fall)  \label{eq:nbc_isbm_season}$$
-
-
-This model parameterization allows for calibrated iREC catch to be predicted both independently by the unfiltered Area 3 and 4 creel and logbook catch in the limited creel summer period (months 7:8), by season and by status. The effect of season was modified by status. Figure \@ref(fig:fig-nbcisbm-sf-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals.
-
-Figure \@ref(fig:fig-nbcisbm-fall-model) shows an example of the model results in NBC ISBM fall fishery. The unmarked kept status fits the data the best since it has the largest catch. Generally, the iREC‑only catch predicted for the fall NBC ISBM fishery is fairly small, which is expected given that this fishery is much smaller in scale than the summer fishery.
-
-```{r results example NBC ISBM seasonal spring and fall, results='asis', echo=FALSE}
-#| label: fig-nbcisbm-fall-model
-#| fig-cap: "NBC ISBM fall fishery modelled relationship between concentrated summertime unfiltered creel estimate (months 7 and 8) and total iREC catch estimate in spring (months 1:4) and fall (10:12) months. Data points are yearly estimates from 2015 to 2023."
-
-
-season_nbc_isbm_model <- sport_catch_models$model_list$north_isbm_season
-season_north_isbm_no_nas <- season_nbc_isbm_model$data
-
-family_set <- family(season_nbc_isbm_model)
-ilink_family_set<- family_set$linkinv
-
-mod <- season_nbc_isbm_model
-
-ndata <- 
-  season_north_isbm_no_nas %>% 
-  group_by(status, finescale_fishery, season) %>% 
-  tidyr::expand(historic_summer = seq(0, max(historic_summer), length=100)) %>%
-  
-  ## add the fitted values by predicting from the model for the new data
-  add_column(fit = predict(mod, newdata = ., type = 'response')) %>%
-  bind_cols(setNames(as_tibble(predict(mod, ., se.fit = TRUE)[1:2]),
-                     c('fit_link','se_link'))) %>%
-  mutate(fit_resp  = ilink_family_set(fit_link),
-         right_upr = ilink_family_set(fit_link + (2 * se_link)),
-         right_lwr = ilink_family_set(fit_link - (2 * se_link)))
-
-
-fishery_name_north_isbm <- sort(unique(season_north_isbm_no_nas$finescale_fishery))
-
-i=1
-
-plot <- create_facet_plot(finescale_fishery_name = fishery_name_north_isbm[i], 
-                          x_var = "historic_summer", 
-                          plot_data = season_north_isbm_no_nas, 
-                          model_data = ndata)
-
-plot
-```
 
 #### Central BC annual fishery
 
@@ -549,8 +504,8 @@ mod <- season_cbc_isbm_model
 
 ndata <- 
   season_cbc_isbm_no_nas %>% 
-  group_by(status, finescale_fishery, season) %>%  
-  tidyr::expand(historic_summer = seq(0, max(historic_summer), length=100)) %>%
+  group_by(status, kept_status,mark_status, finescale_fishery, season, region, management) %>%  
+  tidyr::expand(historic_plus = seq(0, max(historic_plus), length=100)) %>%
   
   ## add the fitted values by predicting from the model for the new data
   add_column(fit = predict(mod, newdata = ., type = 'response')) %>%
@@ -565,7 +520,7 @@ fishery_name_cbc_isbm <- sort(unique(season_cbc_isbm_no_nas$finescale_fishery))
 i=1
 
 plot <- create_facet_plot(finescale_fishery_name = fishery_name_cbc_isbm[i], 
-                          x_var = "historic_summer", 
+                          x_var = "historic_plus", 
                           plot_data = season_cbc_isbm_no_nas, 
                           model_data = ndata) +
   xlab("Logbook summer catch estimate")
