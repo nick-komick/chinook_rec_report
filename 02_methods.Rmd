@@ -44,7 +44,7 @@ Since the SCCSs vary in sampling intensity and spatial-temporal coverage, we hav
 -   At least a 15 day spread in flights
 -   At least a 15 day spread in interviews
 
-These criteria are not applied to areas that have been occasionally surveyed but are not targeted and not estimated by the south coast creel survey (e.g. PFMA 10, 111, 26, and 126). We refer to the creel estimates that pass this quality control as "filtered creel". We use filtered creel both to calibrate iREC and as quality controlled estimates, as described below (section 2.1.4). 
+These criteria are not applied to areas that have been occasionally surveyed but are not targeted and not estimated by the south coast creel survey (e.g. PFMA 10, 26, and 126). We refer to the creel estimates that pass this quality control as "filtered creel". We use filtered creel both to calibrate iREC and as quality controlled estimates, as described below (section 2.1.4). 
 
 Across all regions, these criteria exclude 49% of all estimates between 2005 and 2026 (Figure \@ref(fig:fig-creel-criteria)). In general, creel survey effort is concentrated around the highest fishing effort in the summer months and in many PFMAs there are no creel surveys during the winter months when there is poor weather and consequently low fishing effort and difficulty in completing aerial surveys. It follows that the summer months of July and August have the highest rate of estimates passing the criteria (> 70% across regions), whereas more than 75% of estimates from the winter months (October through February) fail the criteria. The broadest coverage occurs in the protected waters of the Strait of Georgia, which has a higher population density and can be fished year-round, and the narrowest coverage occurs on the exposed North West Coast of Vancouver Island which is difficult to fish in the winter and therefore has no creel coverage in the winter months. 
 
@@ -77,14 +77,14 @@ Creel_month_PFMA_failed <-
   creel_month_PFMA  |>
   filter(criteria == "failed") |>
   mutate(across(where(is.numeric), ~na_if(., 0))) |>  
-  filter(area %notin% c("3", "4", "10", "126", "26", "111"))
+  filter(area %notin% c("3", "4", "10", "126", "26"))
 
 
 Creel_month_PFMA_passed <- 
   creel_month_PFMA |>
   filter(criteria == "passed") |>
   mutate(across(where(is.numeric), ~na_if(., 0)))|>
-  filter(area %notin% c("3", "4", "10", "126", "26", "111"))
+  filter(area %notin% c("3", "4", "10", "126", "26"))
 
 ggplot() +
   geom_tile(data=Creel_month_PFMA_passed, aes(x=year, y=as.factor(month), fill = estimate),colour = "white") +
@@ -94,7 +94,7 @@ ggplot() +
   new_scale_fill() +
   geom_tile(data=Creel_month_PFMA_failed, aes(x=year, y=as.factor(month), fill = estimate),colour = "white") +
   scale_fill_gradient(low = col5, high = col6,  na.value = colclear, limits=c(0,20000))+
-  facet_wrap(~region+area, ncol = 5)+
+  facet_wrap(~region+area, ncol = 6)+
   guides(fill=guide_legend(title="Creel estimates that failed criteria")) +
   labs(title = "Coverage by PFMA", x = "Year", y = "Month") +
   theme_minimal() + 
@@ -274,7 +274,7 @@ pfma_yearMonth_irec_1 <-
 
 ```{r echo=FALSE, fig.align="left", fig.height=8, fig.width=8, message=FALSE, warning=FALSE, out.width="8in"}
 #| label: fig-creel-irec-NGS
-#| fig-cap: Catch estimates in Northern Strait of Georgia by area and month and chosen best catch estimate between creel and iREC
+#| fig-cap: Coverage of catch estimates in Northern Strait of Georgia by area and month and chosen best catch estimate between creel and iREC
 
 ngs_catch <-
   pfma_yearMonth |>
@@ -317,7 +317,7 @@ g
 
 ## Revised Chinook catch estimates before iREC
 
-Where iREC is unavailable (before 2013 in Southern BC and before 2015 in North/Central BC), we predict iREC-incorporated catch estimates by finescale fishery using a modeled relationship between summertime creel estimates without iREC and seasonal iREC-incorporated catch estimates from the associated years of creel data. These seasonal estimates are then rolled up into yearly estimates. We selected 2005 as the starting point for the time series as it is the first year that fish from brood year 2003 are caught in pre-terminal sport fisheries (as age 2s), and 2003 is the earliest brood that could contribute to the the 2009 CYER (as age 6s). This process, shown in Figure \@ref(fig:fig-before-irec-flowchart) below, is automated and accomplished in the modelling function of the `pacRecCatch` R package [@pacRecCatch].
+Where iREC is unavailable (before 2013 in Southern BC and before 2015 in North/Central BC), we predict iREC-incorporated catch estimates by finescale fishery using a modeled relationship between summertime unfiltered creel estimates without iREC and iREC-incorporated catch estimates (i.e. the "best monthly catch estimate" from above) from the associated years of creel data. For South Coast BC we chose 2013-2023 as a static period to model this relationship and then we predicted catch using summertime unfiltered creel data from 2005-2012. The modeling period for Northern regions is 2015-2023 and the prediction period is 2005-2014. We selected 2005 as the starting point for the predicted period as it is the first year that fish from brood year 2003 are caught in pre-terminal sport fisheries (as age 2s), and 2003 is the earliest brood that could contribute to the the 2009 CYER (as age 6s). The modelling protocol is described below. These seasonal catch estimates are then rolled up into yearly estimates for reporting purposes. This process, shown in Figure \@ref(fig:fig-before-irec-flowchart) below, is automated and accomplished in the modelling function of the `pacRecCatch` R package [@pacRecCatch].
 
 ```{r methods before irec flowchart, out.width="65%", results='asis', echo=FALSE}
 #| label: fig-before-irec-flowchart
@@ -340,7 +340,7 @@ For this initial effort to provide a consistent time series back to 2005, we exp
  * Annual models for central and northern fisheries, since catch data are sparse outside of the summer months
  * Separate models for spring and fall fisheries vs. their summer counterparts, since these are iREC-only data
  * Explored grouping fisheries within larger regions vs. separating by finescale fishery
- * All models based on the four categories of catch (marked kept, marked released, unmarked kept, and unmarked released) in the same model in order to have a single underlying model for each total catch estimate
+ * All models based on the four categories of catch (marked kept, marked released, unmarked kept, and unmarked released) in the same model in order to have a single underlying model for each total catch estimate (exception: Central BC is based on only marked kept and unmarked kept since there are 0 estimated releases). 
 
 The automated model selection followed this protocol: 
  * We first generated a data set tested for each global model that contained no missing values so models could be compared 
@@ -350,7 +350,7 @@ The automated model selection followed this protocol:
  * We filtered the table by delta AIC < 2 [@BurnhamandAnderson2003] to get the set of models with the most support
  * Then, we chose the simplest model (least # of terms) as the final model, following the principle of parsimony
  
-This protocol generated a candidate model for each seasonal and regional grouping tested. Since models with different subsets of data (e.g. all south coast creel grouped vs. separated by finescale fishery) can not be compared with AIC, we ranked models on visual diagnostics and pseudo-R^2 (a goodness of fit test, [@Nakagawa2017]). For all candidate models we used the `DHARMa` package [@dharma] to create a qq-plot to detect deviations in observations from expected distribution and a plot of the residuals against predicted values to detect patterns in residuals. We visually assessed whether candidate models improved plots and looked at tests for deviations between observed and simulated dispersion, outliers, and uniformity. Finally, an effort was made to use a gaussian fit unless a Gamma fit was substantially better. This mitigates potential large increases or decreases in predicted catch when creel catch estimates are outside the range of estimates observed with the fitted data. Taking these factors into account, we selected the model with the best visual diagnostics and fit.
+This protocol generated a candidate model for each seasonal and regional grouping tested. Since models with different subsets of data (e.g. all south coast creel grouped vs. separated by finescale fishery) can not be compared with AIC, we ranked models on visual diagnostics and pseudo-R^2 (a goodness of fit test, [@Nakagawa2017]). For all candidate models we used the `DHARMa` package [@dharma] to create a qq-plot to detect deviations in observations from expected distribution and a plot of the residuals against predicted values to detect patterns in residuals. Residual plots of all final models can be found in Appendix \@ref(app:second-appendix). We visually assessed whether candidate models improved plots and looked at tests for deviations between observed and simulated dispersion, outliers, and uniformity. Finally, an effort was made to use a gaussian fit unless a Gamma fit was substantially better. This mitigates potential large increases or decreases in predicted catch when creel catch estimates are outside the range of estimates observed with the fitted data. Taking these factors into account, we selected the model with the best visual diagnostics and fit.
 
 
 ### Model validation with Salmon Head Recovery Program
