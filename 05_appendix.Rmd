@@ -10,7 +10,13 @@ lookup_vec <- setNames(name_lookup$fishery_full_name, name_lookup$finescale_fish
 
 # Internet Recreational Effort and Catch (iREC) Reporting Program Changes {#apdx-irec-mthd}
 
-Since the iREC survey began in 2012, several changes have been made to how annual recreational licences are selected for inclusion in each survey month. All changes to selection procedures take effect at the start of a new licence year (April 1st). For example, the selection rate for 1-, 3-, and 5‑day (“term”) licences was 25% during licence years 2012–2019, but has been 100% since the 2020 licence year.
+Expanding upon the information above, here we describe how licences are selected for inclusion in the survey. There are several types of licences are sold, distinguished by:
+
+ - *Term Length:* Annual (valid from purchase date until March 31) or term (1, 3, or 5 days)
+ - *Residency:* Canadian or non-Canadian
+ - *Age:* Juvenile, Adult, or Senior
+ 
+Since the iREC survey began in 2012, several changes have been made to how annual recreational licences are selected for inclusion in each survey month. For example, the selection rate for 1-, 3-, and 5‑day (“term”) licences was 25% during licence years 2012–2019, but has been 100% since the 2020 licence year. All changes to selection procedures take effect at the start of a new licence year (April 1st).
 
 When selecting annual licences, purchase month is expected to be correlated with the type of fishing and target species of the licence holder. Licences bought in May or June are more likely targeting Coho and Chinook than those bought in September and October when the purchasers are more likely potentially targeting shellfish and finfish other than salmon. Accordingly, with each update in the selection approach, we mitigated bias caused by differential representation of licences by purchase month as described below. 
 
@@ -420,27 +426,53 @@ for (i in 1:length(fishery_name_north)) {
 # Model Residuals {#app:second-appendix}
 
 ```{r Modelling summer subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
-#| label: fig-wcvi-sum-residuals
-#| fig-cap: "Validation plots for Westcoast Vancouver Island summer model"
+#| label: fig-nwcvi-sum-residuals
+#| fig-cap: "Validation plots for North Westcoast Vancouver Island summer model"
 
-res_gam <- simulateResiduals(sport_catch_models$model_list$wcvi_summer_model, 
+res_gam <- simulateResiduals(sport_catch_models$model_list$NWCVI_summer_model, 
                              plot = T, 
                              quantreg=T)
 ```
+
 
 ```{r Modelling summer subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
-#| label: fig-sog-sum-residuals
-#| fig-cap: "Validation plots for Strait of Georgia Summer model"
+#| label: fig-swcvi-sum-residuals
+#| fig-cap: "Validation plots for South Westcoast Vancouver Island summer model"
 
-res_gam <- simulateResiduals(sport_catch_models$model_list$sog_summer_model, 
+res_gam <- simulateResiduals(sport_catch_models$model_list$SWCVI_summer_model, 
                              plot = T, 
                              quantreg=T)
 ```
+
+
+
+```{r Modelling summer subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
+#| label: fig-sgs-sum-residuals
+#| fig-cap: "Validation plots for South Strait of Georgia Summer model"
+
+res_gam <- simulateResiduals(sport_catch_models$model_list$SGS_summer_model, 
+                             plot = T, 
+                             quantreg=T)
+```
+
+
+
+
+```{r Modelling summer subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
+#| label: fig-ngs-sum-residuals
+#| fig-cap: "Validation plots for North Strait of Georgia Summer model"
+
+res_gam <- simulateResiduals(sport_catch_models$model_list$NGS_summer_model, 
+                             plot = T, 
+                             quantreg=T)
+```
+
+
 
 
 ```{r Modelling summer subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 #| label: fig-jnst-sum-residuals
-#| fig-cap: "Validation plots for Johnstone Strait Summer model"
+#| fig-cap: "Validation plots for Johnston Strait Summer model"
 
 res_gam <- simulateResiduals(sport_catch_models$model_list$jnst_summer_model, 
                              plot = T, 
@@ -457,13 +489,34 @@ res_gam <- simulateResiduals(sport_catch_models$model_list$jdf_summer_model,
                              quantreg=T)
 ```
 
-```{r Modelling spring and fall subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
-#| label: fig-seasonal-sog-jnst-residuals
-#| fig-cap: "Validation plots for Strait of Georgia and Johnstone Strait seasonal (spring/fall) fisheries"
 
-res_gam <- simulateResiduals(sport_catch_models$model_list$seasonal_GS_noJDF, plot = T, quantreg=T)
+
+```{r Modelling spring and fall subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
+#| label: fig-seasonal-sgs-jnst-residuals
+#| fig-cap: "Validation plots for South Strait of Georgia seasonal (spring/fall) fisheries"
+
+res_gam <- simulateResiduals(sport_catch_models$model_list$seasonal_SGS_only, plot = T, quantreg=T)
 
 ```
+
+
+
+```{r Modelling spring and fall subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
+#| label: fig-seasonal-ngs-jnst-residuals
+#| fig-cap: "Validation plots for North Strait of Georgia seasonal (spring/fall) fisheries"
+
+res_gam <- simulateResiduals(sport_catch_models$model_list$seasonal_NGS_only, plot = T, quantreg=T)
+
+```
+
+```{r Modelling spring and fall subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
+#| label: fig-seasonal-jnst-residuals
+#| fig-cap: "Validation plots for Johnston Strait seasonal (spring/fall) fisheries"
+
+res_gam <- simulateResiduals(sport_catch_models$model_list$seasonal_JNST, plot = T, quantreg=T)
+
+```
+
 
 ```{r Modelling spring and fall subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 #| label: fig-seasonal-jdf-residuals
@@ -499,320 +552,219 @@ res_gam <- simulateResiduals(sport_catch_models$model_list$north_isbm, plot = T,
 
 ```
 
-```{r Modelling CBC subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
-#| label: fig-cbc-residuals
-#| fig-cap: "Validation plots for CBC annual model"
 
-res_gam <- simulateResiduals(sport_catch_models$model_list$central_isbm, plot = T, quantreg=T)
 
-```
+<!-- ```{r Modelling CBC subsetting appendix kept, message=FALSE, warning=FALSE, results='hide', echo=FALSE} -->
+<!-- #| label: fig-cbc-residuals_kept -->
+<!-- #| fig-cap: "Validation plots for CBC annual kept model" -->
+
+<!-- res_gam <- simulateResiduals(sport_catch_models$model_list$central_isbm_kept, plot = T, quantreg=T) -->
+
+<!-- ``` -->
+
+
+<!-- ```{r Modelling CBC subsetting appendix released, message=FALSE, warning=FALSE, results='hide', echo=FALSE} -->
+<!-- #| label: fig-cbc-residuals_released -->
+<!-- #| fig-cap: "Validation plots for CBC annual released model" -->
+
+<!-- res_gam <- simulateResiduals(sport_catch_models$model_list$central_isbm_released, plot = T, quantreg=T) -->
+
+<!-- ``` -->
+
 
 \clearpage
 
 # Model Output {#app:third-appendix}
 
 ```{r appendix_plotting_function, include = FALSE}
-#plotting function that will be used for the next few sections
-create_facet_plot <- function(finescale_fishery_name, x_var, plot_data, model_data) {
-  # Labels for facets
-  status_labels <- c(
-    "marked_kept_total" = "Marked Kept Total",
-    "marked_released_total" = "Marked Released Total",
-    "unmarked_kept_total" = "Unmarked Kept Total",
-    "unmarked_released_total" = "Unmarked Released Total"
+
+# Helper: runs predict_with_ci + plot_region_model_by_year for one region,
+# returns a named list of ggplot objects (one per fishery)
+run_appendix_region <- function(model_name, x_var, x_var_mr, x_var_rr, year_start,
+                                 season_codes, fishery_codes) {
+
+  model <- sport_catch_models$model_list[[model_name]]
+  
+  df <- prepare_region_data(
+    data            = sport_catch_finescale,
+    combine_to      = NULL,
+    fishery_codes   = fishery_codes,
+    season_codes    = season_codes,
+    status_codes = c("marked_kept_total", "unmarked_kept_total", "marked_released_total", "unmarked_released_total"),
+    pred_year_start = PredYearStart,
+    year_start      = year_start,
+    year_end        = ModelYearEnd,
+    x_var           = x_var,
+    x_var_mr        = x_var_mr,
+    x_var_rr        = x_var_rr,
+    exclude_years   = NULL
   )
-  
-  # # Colors for status
-  # status_colors <- c(
-  #   "marked_kept_total" = "#440154", 
-  #   "marked_released_total" = "#31688e",
-  #   "unmarked_kept_total" = "#35b779",
-  #   "unmarked_released_total" = "#d4be02"
-  # )
-  
-  # Filter data for the specific finescale fishery
-  filtered_data <- plot_data %>% filter(finescale_fishery == finescale_fishery_name)
-  filtered_model_data <- model_data %>% filter(finescale_fishery == finescale_fishery_name)
-  
-  
-  
-  # Ensure 'year' is integer to avoid decimal ticks in legend
-  if ("year" %in% names(filtered_data)) {
-    filtered_data <- filtered_data %>% mutate(year = as.integer(year))
-  }
-  
-  #check if all catch_estimate values are zero for each status
-  #wont want ribbon and line if all data are 0 like in figure 10
-  has_nonzero <- filtered_data %>%
-    group_by(status) %>%
-    summarize(has_nonzero = any(catch_estimate != 0), .groups = "drop")
-  
-  # Create the plot
-  facet_plot <- ggplot(filtered_data, aes_string(x = x_var, y = "catch_estimate", col = "year")) +
-    geom_point() +
-    theme_bw() +
-    scale_size_continuous(range = c(1, 3)) +
-    # scale_colour_manual(values = status_colors, guide = "none") +
-    # scale_fill_manual(values = status_colors, guide = "none") +
-    xlab("Creel summer catch estimate") +
-    ylab("Calibrated iREC-only catch estimate") +
-    facet_wrap(~status,
-               labeller = labeller(status = status_labels),
-               scales = "free") 
-  
-  
-  
-  # Conditionally add geom_line and geom_ribbon for statuses with non-zero data
-  for (status in unique(filtered_data$status)) {
-    if (has_nonzero %>% dplyr::filter(status == !!status) %>% dplyr::pull(has_nonzero)) {
-      facet_plot <- facet_plot +
-        ggplot2::geom_line(
-          data = filtered_model_data %>% dplyr::filter(status == !!status),
-          ggplot2::aes_string(y = "fit", x = x_var),  # CHANGED: remove color mapping to status
-          inherit.aes = FALSE,                        # CHANGED: so the model line doesn't pick up 'year' colors
-          color = "grey40",                           # CHANGED: model line in gray
-          linewidth = 0.7                             # CHANGED: optional styling
-        ) +
-        ggplot2::geom_ribbon(
-          data = filtered_model_data %>% dplyr::filter(status == !!status),
-          ggplot2::aes_string(y = "fit", x = x_var, ymin = "right_lwr", ymax = "right_upr"),
-          inherit.aes = FALSE,                        # CHANGED: avoid inheriting year color mapping
-          fill = "grey60",                            # CHANGED: ribbon fill in gray
-          alpha = 0.15                                # CHANGED: ribbon transparency
-        )
-    }
-  }
-  
-  
-  # CHANGED: Use integer breaks (unique years) and a step legend so no 2020.5 appears
-  if ("year" %in% names(filtered_data)) {
-    year_breaks <- sort(unique(filtered_data$year))
-    facet_plot <- facet_plot +
-      viridis::scale_color_viridis(
-        option = "C", end = 0.95,
-        breaks = year_breaks,               # CHANGED: integer year ticks only
-        labels = year_breaks                # CHANGED: show the exact integers
-      ) +
-      ggplot2::guides(
-        color = ggplot2::guide_colorsteps(title = "Year")  # CHANGED: step legend (no midpoints)
-      )
-  }
-  
-  
-  return(facet_plot)
+
+  pred_out <- predict_with_ci(
+    model, df,
+    pred_year_start = PredYearStart,
+    year_start      = year_start,
+    year_end        = ModelYearEnd,
+    x_var           = x_var,
+    x_var_mr        = x_var_mr,
+    x_var_rr        = x_var_rr
+  )
+
+  pred_df        <- pred_out$predictions
+  pred_df_actual <- pred_out$predictions_actual
+  fisheries      <- unique(df$finescale_fishery)
+
+  plots_by_year <- purrr::map(
+    fisheries,
+    ~ plot_region_model_by_year(
+      fishery          = .x,
+      y_var            = "catch_estimate",
+      x_var            = x_var,
+      x_var_size       = 3,
+      plot_data        = df,
+      model_data       = pred_df,
+      pred_data_actual = pred_df_actual,
+      year_start       = year_start,
+      year_end         = ModelYearEnd
+    )
+  )
+  names(plots_by_year) <- fisheries
+  plots_by_year
 }
+
 ```
 
-## Westcoast Vancouver Island Summer fisheries
+## Southern BC Summer fisheries
+```{r summer-appendix-compute, echo=FALSE}
+summer_sections <- c("SGS Summer", "NGS Summer", "JNST Summer",
+                      "SWCVI Summer", "NWCVI Summer", "JDF Summer")
+summer_plots <- purrr::map(summer_sections, function(sec) {
+  cfg <- main_regions[[sec]]
+  run_appendix_region(
+    model_name    = cfg$model_name,
+    x_var         = cfg$x_var,
+    x_var_mr      = cfg$x_var_mr,
+    x_var_rr      = cfg$x_var_rr,
+    year_start    = cfg$year_start,
+    season_codes  = cfg$season_codes,
+    fishery_codes = cfg$fishery_codes
+  )
+})
+names(summer_plots) <- summer_sections
+```
 
-```{r forloop seasonal summer appendix, results='asis', echo=FALSE}
-south_summer_model <- sport_catch_models$model_list$wcvi_summer_model
-south_summer_no_nas <- south_summer_model$data
+#SGS Summer
 
-family_set <- family(south_summer_model)
-ilink_family_set<- family_set$linkinv
+```{r summer-print-sgs, results='asis', echo=FALSE}
 
+summer_plots[["SGS Summer"]]
 
-ndata <-
-  south_summer_no_nas %>% 
-  group_by(status, kept_status,mark_status, finescale_fishery, season, region, management) %>%  
-  tidyr::expand(creel_plus_summer = seq(0, max(creel_plus_summer), length=100)) %>%
-  
-  
-  ## add the fitted values by predicting from the model for the new data
-  add_column(fit = predict(south_summer_model, 
-                           newdata = ., 
-                           type = 'response')) %>%
-  bind_cols(setNames(as_tibble(predict(south_summer_model, 
-                                       ., 
-                                       se.fit = TRUE)[1:2]),
-                     c('fit_link','se_link'))) %>%
-  mutate(fit_resp  = ilink_family_set(fit_link),
-         right_upr = ilink_family_set(fit_link + (2 * se_link)),
-         right_lwr = ilink_family_set(fit_link - (2 * se_link)))
+```
+#NGS Summer
+```{r summer-print-ngs, results='asis', echo=FALSE}
+summer_plots[["NGS Summer"]]
+```
 
-fishery_name_south <- sort(unique(south_summer_no_nas$finescale_fishery))
+```{r summer-print-jnst, results='asis', echo=FALSE}
+summer_plots[["JNST Summer"]]
 
-for (i in 1:length(fishery_name_south)){
-  
-  acr <- fishery_name_south[i]
-  clean_title <- lookup_vec[acr]  # gets the full name
-  
-  
-  plot <- create_facet_plot(finescale_fishery_name = fishery_name_south[i], 
-                            x_var = "creel_plus_summer", 
-                            plot_data = south_summer_no_nas, 
-                            model_data = ndata) +
-    ggtitle(clean_title) + 
-    #changing the y lab
-    ylab("IREC-included catch estimate")
-  
-  print(plot)
-}
+```
+
+```{r summer-print-swcvi, results='asis', echo=FALSE}
+summer_plots[["SWCVI Summer"]]
+
+```
+
+```{r summer-print-nwcvi, results='asis', echo=FALSE}
+summer_plots[["NWCVI Summer"]]
+
+```
+
+```{r summer-print-jdf, results='asis', echo=FALSE}
+summer_plots[["JDF Summer"]]
+
 ```
 
 ## Southern BC Spring and Fall fisheries
 
-```{r forloop Georgia strait seasonal spring and fall appendix, results='asis', echo=FALSE}
-
-south_season_model <- sport_catch_models$model_list$seasonal_GS_noJDF
-south_season_no_nas <- south_season_model$data
-
-family_set <- family(south_season_model)
-ilink_family_set<- family_set$linkinv
-
-ndata <-
-  south_season_no_nas %>% 
-  group_by(status, kept_status,mark_status, finescale_fishery, season, region, management) %>%  
-  tidyr::expand(creel_plus_summer = seq(0, max(creel_plus_summer), length=100)) %>%
-  ## add the fitted values by predicting from the model for the new data
-  add_column(fit = predict(south_season_model, newdata = ., type = 'response')) %>%
-  bind_cols(setNames(as_tibble(predict(south_season_model, ., se.fit = TRUE)[1:2]),
-                     c('fit_link','se_link'))) %>%
-  mutate(fit_resp  = ilink_family_set(fit_link),
-         right_upr = ilink_family_set(fit_link + (2 * se_link)),
-         right_lwr = ilink_family_set(fit_link - (2 * se_link)))
+```{r seasonal-appendix-compute, echo=FALSE}
+seasonal_sections <- c("SGS Seasonal", "NGS Seasonal", "JDF Seasonal",
+                        "JNST Seasonal", "WCVI Seasonal")
+seasonal_plots <- purrr::map(seasonal_sections, function(sec) {
+  cfg <- main_regions[[sec]]
+  run_appendix_region(
+    model_name    = cfg$model_name,
+    x_var         = cfg$x_var,
+    x_var_mr      = cfg$x_var_mr,
+    x_var_rr      = cfg$x_var_rr,
+    year_start    = cfg$year_start,
+    season_codes  = cfg$season_codes,
+    fishery_codes = cfg$fishery_codes
+  )
+})
+names(seasonal_plots) <- seasonal_sections
+```
 
 
-fishery_name_south<- sort(unique(south_season_no_nas$finescale_fishery))
-
-for (i in 1:length(fishery_name_south)){
-  
-  acr <- fishery_name_south[i]
-  clean_title <- lookup_vec[acr]  # gets the full name
-  
-  plot <- create_facet_plot(finescale_fishery_name = fishery_name_south[i], 
-                            x_var = "creel_plus_summer", 
-                            plot_data = south_season_no_nas, 
-                            model_data = ndata) +
-    ggtitle(clean_title)
-  
-  print(plot)
-}
+##SGS seasonal 
+```{r seasonal-print-sgs, results='asis', echo=FALSE}
+seasonal_plots[["SGS Seasonal"]]
 
 ```
 
-```{r forloop Juan de Fuca seasonal spring and fall appendix, results='asis', echo=FALSE}
-
-south_season_model <- sport_catch_models$model_list$seasonal_JDF
-south_season_no_nas <- south_season_model$data
-
-family_set <- family(south_season_model)
-ilink_family_set<- family_set$linkinv
-
-ndata <-
-  south_season_no_nas %>% 
-  group_by(status, kept_status,mark_status, finescale_fishery, season, region, management) %>%  
-  tidyr::expand(creel_plus_summer = seq(0, max(creel_plus_summer), length=100)) %>%
-  ## add the fitted values by predicting from the model for the new data
-  add_column(fit = predict(south_season_model, newdata = ., type = 'response')) %>%
-  bind_cols(setNames(as_tibble(predict(south_season_model, ., se.fit = TRUE)[1:2]),
-                     c('fit_link','se_link'))) %>%
-  mutate(fit_resp  = ilink_family_set(fit_link),
-         right_upr = ilink_family_set(fit_link + (2 * se_link)),
-         right_lwr = ilink_family_set(fit_link - (2 * se_link)))
-
-
-fishery_name_south<- sort(unique(south_season_no_nas$finescale_fishery))
-
-for (i in 1:length(fishery_name_south)){
-  
-  acr <- fishery_name_south[i]
-  clean_title <- lookup_vec[acr]  # gets the full name
-  
-  plot <- create_facet_plot(finescale_fishery_name = fishery_name_south[i], 
-                            x_var = "creel_plus_summer", 
-                            plot_data = south_season_no_nas, 
-                            model_data = ndata) +
-    ggtitle(clean_title)
-  
-  print(plot)
-}
-
-```
-```{r forloop WCVI seasonal spring and fall appendix, results='asis', echo=FALSE}
-
-south_season_model <- sport_catch_models$model_list$seasonal_WCVI
-south_season_no_nas <- south_season_model$data
-
-family_set <- family(south_season_model)
-ilink_family_set<- family_set$linkinv
-
-ndata <-
-  south_season_no_nas %>% 
-  group_by(status, kept_status,mark_status, finescale_fishery, season, region, management) %>%  
-  tidyr::expand(creel_plus_summer = seq(0, max(creel_plus_summer), length=100)) %>%
-  ## add the fitted values by predicting from the model for the new data
-  add_column(fit = predict(south_season_model, newdata = ., type = 'response')) %>%
-  bind_cols(setNames(as_tibble(predict(south_season_model, ., se.fit = TRUE)[1:2]),
-                     c('fit_link','se_link'))) %>%
-  mutate(fit_resp  = ilink_family_set(fit_link),
-         right_upr = ilink_family_set(fit_link + (2 * se_link)),
-         right_lwr = ilink_family_set(fit_link - (2 * se_link)))
-
-
-fishery_name_south<- sort(unique(south_season_no_nas$finescale_fishery))
-
-for (i in 1:length(fishery_name_south)){
-  
-  acr <- fishery_name_south[i]
-  clean_title <- lookup_vec[acr]  # gets the full name
-  
-  plot <- create_facet_plot(finescale_fishery_name = fishery_name_south[i], 
-                            x_var = "creel_plus_summer", 
-                            plot_data = south_season_no_nas, 
-                            model_data = ndata) +
-    ggtitle(clean_title)
-  
-  print(plot)
-}
+```{r seasonal-print-ngs, results='asis', echo=FALSE}
+seasonal_plots[["NGS Seasonal"]]
 
 ```
 
-## Northern BC AABM fisheries
 
-```{r forloop NBC AABM annual appendix, results='asis', echo=FALSE}
+```{r seasonal-print-jdf, results='asis', echo=FALSE}
+seasonal_plots[["JDF Seasonal"]]
 
-north_aabm_model <- sport_catch_models$model_list$north_aabm
-
-family_set <- family(north_aabm_model)
-ilink_family_set<- family_set$linkinv
-
-ndata <-
-  north_aabm_model$data %>% 
-  group_by(status, kept_status,mark_status, finescale_fishery, season, region, management) %>%  
-  tidyr::expand(historic_plus = seq(0, max(historic_plus), length=100)) %>%
-  ## add the fitted values by predicting from the model for the new data
-  add_column(fit = predict(north_aabm_model, 
-                           newdata = ., 
-                           type = 'response')) %>%
-  bind_cols(setNames(as_tibble(predict(north_aabm_model, 
-                                       ., 
-                                       se.fit = TRUE)[1:2]),
-                     c('fit_link','se_link'))) %>%
-  
-  mutate(fit_resp  = ilink_family_set(fit_link),
-         right_upr = ilink_family_set(fit_link + (2 * se_link)),
-         right_lwr = ilink_family_set(fit_link - (2 * se_link)))
-
-
-fishery_name_north_aabm<- sort(unique(north_aabm_model$data$finescale_fishery))
-
-
-for (i in 1:length(fishery_name_north_aabm)){
-  
-  acr <- fishery_name_north_aabm[i]
-  clean_title <- lookup_vec[acr]  # gets the full name
-  plot <- create_facet_plot(finescale_fishery_name = fishery_name_north_aabm[i], 
-                            x_var = "historic_plus", 
-                            plot_data = north_aabm_model$data, 
-                            model_data = ndata) +
-    ggtitle(clean_title)
-  
-  print(plot)
-}
 ```
 
+```{r seasonal-print-jnst, results='asis', echo=FALSE}
+seasonal_plots[["JNST Seasonal"]]
+
+```
+
+```{r seasonal-print-wcvi, results='asis', echo=FALSE}
+seasonal_plots[["WCVI Seasonal"]]
+ 
+```
+## Northern BC fisheries
+
+```{r north-appendix-compute, echo=FALSE}
+north_sections <- c("North AABM", "North ISBM", "Central BC ISBM kept", "Central BC ISBM released")
+north_plots <- purrr::map(north_sections, function(sec) {
+  cfg <- main_regions[[sec]]
+  run_appendix_region(
+    model_name    = cfg$model_name,
+    x_var         = cfg$x_var,
+    x_var_mr      = cfg$x_var_mr,
+    x_var_rr      = cfg$x_var_rr,
+    year_start    = cfg$year_start,
+    season_codes  = cfg$season_codes,
+    fishery_codes = cfg$fishery_codes
+  )
+})
+names(north_plots) <- north_sections
+```
+
+```{r north-print-aabm, results='asis', echo=FALSE}
+ north_plots[["North AABM"]]
+
+```
+
+```{r north-print-isbm, results='asis', echo=FALSE}
+north_plots[["North ISBM"]]
+ 
+```
+
+```{r north-print-cbc, results='asis', echo=FALSE}
+north_plots[["Central BC ISBM kept"]]
+
+```
 
 \clearpage
 
