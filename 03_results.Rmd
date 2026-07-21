@@ -220,23 +220,19 @@ run_main_region <- function(model_name, x_var, x_var_mr, x_var_rr, year_start,
 
 #### Northern WCVI
 
-The best model for Northern WCVI Summer fishery catch ($C_{summer}$), was a model with a gaussian distribution that included summer creel ($C_{creel,summer}$), marked status ($m$) and management ($M$) (i.e. ISBM vs. AABM), and an interaction between mark status and management and an intercept.
+The best model for Northern WCVI Summer fishery catch ($C_{summer}$), was a model with a gaussian distribution that included summer creel ($C_{creel,summer}$), marked status ($m$) and management ($M$), an interaction between mark status and management, and an intercept. Kept status was dropped from the model during model selection, as were more complex variations of interactions. 
 
 $$C_{summer} = C_{creel,summer} + M + m + M:m + 1
 \label{eq:nwcvi_summer}$$
 
-This model parameterization allows for filtered creel + calibrated iREC catch in the whole summer period (months 5:9) to be predicted independently by the unfiltered creel and logbook catch, management type (e.g. AABM), and mark status (e.g. marked). In addition, the effect of management type on catch can be modified by mark status. We found there was a strong linear relationship between summer creel and summer iREC-included catch (beta= 1.03, p<0.001, pseudo r2 = 0.98), the intercept (but not slope) of which changed with management and mark status and their interaction, such that more marked fish were caught during AABM than ISBM and fewer unmarked fish caught in AABM than ISBM. 
+This model parameterization allows for filtered creel + calibrated iREC catch in the whole summer period (months 5:9) to be predicted independently by the unfiltered creel and logbook catch, management type (e.g. AABM vs. ISBM), and mark status (e.g. marked vs. unmarked). In addition, the interaction between management and mark status allows the effect of management type on catch to be modified by mark status. 
 
-*********** Start here
+Figure \@ref(fig:fig-nwcvi-isbm-summer-model) shows ISBM modeled relationship for NWCVI Summer. The AABM counterpart plot can be found in Appendix \@ref(app:third-appendix). Overall, we found a strong linear relationship between summer creel and summer iREC-included catch (p<0.001, pseudo r^2 = 0.98), the intercept (but not slope) of which changed with mark status (overall there were more unmarked fish than marked fish), and the interaction between mark status and management type, such that more unmarked fish were caught during ISBM than AABM.   
 
-
-
-
-Figure \@ref(fig:fig-swcvi-aabm-summer-model) shows an example of the summer model results in Juan de Fuca. Generally, for any given finescale fishery and status, as unfiltered creel and logbook catch in the limited creel summer period increases, so does filtered creel + calibrated iREC catch in the whole summer period. The modeled relationship plots for the remaining southern BC fisheries can be found in Appendix \@ref(app:third-appendix).
 
 ```{r results example seasonal summer, results='asis', echo=FALSE}
-#| label: fig-nwcvi-aabm-summer-model
-#| fig-cap: "Northern WCVI AABM Summer fishery modelled relationship for between summertime unfiltered creel estimate (months 5 and 9) and total catch estimate that incorporates iREC. Data points are yearly estimates from 2013 to 2023."
+#| label: fig-nwcvi-isbm-summer-model
+#| fig-cap: "Northern WCVI ISBM Summer fishery modelled relationship for between summertime unfiltered creel estimate (months 5 and 9) and total catch estimate that incorporates iREC. Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
 
 cfg <- main_regions[["NWCVI Summer"]]
 
@@ -251,24 +247,28 @@ plots <- run_main_region(
 )
 
 
-(plots[["NWCVI S SUMMER AABM"]] + ylab("iREC-included catch estimate")) 
+#(plots[["NWCVI S SUMMER AABM"]] + ylab("iREC-included catch estimate")) + 
+  (plots[["NWCVI S SUMMER ISBM"]] + ylab("iREC-included catch estimate")) 
+
+#+ facet_wrap(~management, scales="fixed")
 
 ```
 
 #### Southern WCVI
 
-The best model for WCVI Summer fishery catch ($C_{summer}$) was identified using AIC-based model selection and was a model with a Gaussian distribution that included summer South Coast ($C_{creel,summer}$), marked and kept status ($S$), finescale fishery ($F$), and an interaction between summer creel and finescale fishery, summer creel and status, and finescale fishery and status:
+The best model for Northern WCVI Summer fishery catch ($C_{summer}$), was a model with a gaussian distribution that included summer creel ($C_{creel,summer}$), kept status ($k$) , marked status ($m$) and management ($M$), an interaction between kept status and summer creel, an interaction between mark status and summer creel, and an intercept. More complex variations and interactions were dropped during model selection.
 
-$$C_{summer} = C_{creel,summer} + F + S + C_{creel,summer}:S
-\label{eq:wcvi_summer}$$
+$$C_{summer} = C_{creel,summer} + M + m + k + C_{creel,summer}:k + C_{creel,summer}:m + 1
+\label{eq:swcvi_summer}$$
 
-This model parameterization allows for filtered creel + calibrated iREC catch in the whole summer period (months 5:9) to be predicted both independently by the unfiltered creel and logbook catch, finescale fishery (e.g. SWVI AABM), and status (e.g. kept marks). In addition, the effect of the creel summer period on catch can be modified by status. Figure \@ref(fig:fig-wcvi-sum-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. These plots show minimal patterns in the residuals and were optimized by this best-fit model chosen by AIC. The residual plots for all models can be found in Appendix \@ref(app:second-appendix).
+This model parameterization allows for filtered creel + calibrated iREC catch in the whole summer period (months 5:9) to be predicted independently by the unfiltered creel and logbook catch, management type (e.g. AABM vs. ISBM), mark status (e.g. marked vs. unmarked), and kept status (kept vs. released). In addition, the interactions allow the effect of creel summer on catch (i.e. the slope) to be modified by kept status and mark status separately. 
 
-Figure \@ref(fig:fig-swcvi-aabm-summer-model) shows an example of the summer model results in Juan de Fuca. Generally, for any given finescale fishery and status, as unfiltered creel and logbook catch in the limited creel summer period increases, so does filtered creel + calibrated iREC catch in the whole summer period. The modelled relationship plots for the remaining southern BC fisheries can be found in Appendix \@ref(app:third-appendix).
+Figure \@ref(fig:fig-swcvi-aabm-summer-model) shows the AABM modeled relationship for SWCVI Summer. The ISBM counterpart plot can be found in Appendix \@ref(app:third-appendix). the Overall, we found a strong positive linear relationship between summer creel and summer iREC-included catch (p<0.001, pseudo r^2 = 0.98), the slope of which was modestly modified by kept status (released steeper than kept) and marked status (unmarked steeper than marked). No significant independent effects were found for kept or mark status. There was significant effect of management (AABM caught more fish overall than ISBM), and AABM appeared to have a tighter relationship than ISBM. 
+
 
 ```{r results example seasonal summer, results='asis', echo=FALSE}
 #| label: fig-swcvi-aabm-summer-model
-#| fig-cap: "Southern WCVI AABM Summer fishery modelled relationship for between summertime unfiltered creel estimate (months 5 and 9) and total catch estimate that incorporates iREC. Data points are yearly estimates from 2013 to 2023."
+#| fig-cap: "Southern WCVI AABM Summer fishery modelled relationship for between summertime unfiltered creel estimate (months 5 and 9) and total catch estimate that incorporates iREC. Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
 
 cfg <- main_regions[["SWCVI Summer"]]
 
@@ -283,24 +283,24 @@ plots <- run_main_region(
 )
 
 
-(plots[["SWCVI S SUMMER AABM"]] + ylab("iREC-included catch estimate")) 
+(plots[["SWCVI S SUMMER AABM"]] + ylab("iREC-included catch estimate"))
+  #+ facet_wrap(~management, scales="fixed")) + (plots[["SWCVI S SUMMER ISBM"]] + ylab("iREC-included catch estimate")) + facet_wrap(~management, scales="fixed")
 
 ```
 
-### Strait of Georgia and Johnstone Strait Summer Fisheries
+#### Northern Georgia Strait 
+The best model for Northern Georgia Strait summer fishery catch ($C_{summer}$), was a model with a gaussian distribution that included summer creel ($C_{creel,summer}$) and mark status ($m$) and an intercept. Kept status was dropped from the model during model selection, as were more complex variations and interactions.
 
-In the Strait of Georgia and Johnstone Strait, the best catch ($C_{summer}$) model was identified using AIC-based model selection and was a model with a gamma distribution using a log-link that included summer creel catch ($C_{creel,summer}$), marked and kept status ($S$), finescale fishery ($F$), and an interaction between summer creel and finescale fishery, summer creel and status, and finescale fishery and status:
+$$C_{summer} = C_{creel,summer} + m + 1
+\label{eq:ngs_summer}$$
 
-$$C_{summer} = C_{creel,summer} + F + S + C_{creel,summer}:S + C_{creel,summer}:F + F:S
-\label{eq:sog_summer}$$
+This model parameterization allows for filtered creel + calibrated iREC catch in the whole summer period (months 5:9) to be predicted independently by the unfiltered creel and logbook catch and mark status (e.g. marked vs. unmarked).  
 
-This model parameterization allows for filtered creel + calibrated iREC catch in the whole summer period (months 5:9) to be predicted both independently by the unfiltered creel and logbook catch, finescale fishery, and status (e.g. kept marks). In addition, the effect of the creel summer period on catch can be modified by status. Finescale fisheries included in this model are Northern Strait of Georgia, Southern Strait of Georgia, and Johnstone Strait. Figure \@ref(fig:fig-sog-sum-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. These plots show minimal patterns in the residuals and were optimized by this best-fit model chosen by AIC. The residual plots for all models can be found in Appendix \@ref(app:second-appendix).
-
-Figure \@ref(fig:fig-sog-summer-model) shows an example of the summer model results in Northern Strait of Georgia. Generally, for any given finescale fishery and status, as unfiltered creel and logbook catch in the limited creel summer period increases, so does filtered creel + calibrated iREC catch in the whole summer period. The modelled relationship plots for the remaining southern BC fisheries can be found in Appendix \@ref(app:third-appendix).
+Figure \@ref(fig:fig-ngs-summer-model) shows the modeled relationship for NGS Summer. Overall, we found a strong positive linear relationship between summer creel and summer iREC-included catch (p<0.001, pseudo r^2 = 0.94). There were more unmarked fish than marked fish caught. 
 
 ```{r results example seasonal summer, results='asis', echo=FALSE}
-#| label: fig-sog-summer-model
-#| fig-cap: "Northern Strait of Georgia fishery modelled relationship between summertime unfiltered creel estimate and total catch estimate including iREC in summer months (5-9). Data points are yearly estimates from 2013 to 2023."
+#| label: fig-ngs-summer-model
+#| fig-cap: "Northern Strait of Georgia fishery modelled relationship between summertime unfiltered creel estimate and total catch estimate including iREC in summer months (5-9). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
 cfg <- main_regions[["NGS Summer"]]
 
 plots <- run_main_region(
@@ -317,23 +317,22 @@ plot <- plots[[1]] + ylab("iREC-included catch estimate")
 plot
 ```
 
-### Juan de Fuca Summer Fisheries
 
-The best model for WCVI Summer fishery catch ($C_{summer}$) was identified using AIC-based model selection and was a model with a gamma distribution using a log-link that included summer South Coast ($C_{creel,summer}$), marked and kept status ($S$) and an interaction between summer creel and status:
+#### Southern Georgia Strait
 
-$$C_{summer} = C_{creel,summer} + S + C_{creel,summer}:S
-\label{eq:jdf_summer}$$
+The best model for Southern Georgia Strait summer fishery catch ($C_{summer}$), was also a model with a gaussian distribution that included summer creel ($C_{creel,summer}$) and mark status ($m$) and an intercept. Kept status was dropped from the model during model selection, as were more complex variations and interactions.
 
-This model parameterization allows for filtered creel + calibrated iREC catch in the whole summer period (months 5:9) to be predicted both independently by the unfiltered creel and logbook catch and status (e.g. kept marks). In addition, the effect of the creel summer period on catch can be modified by status. Figure \@ref(fig:fig-jdf-sum-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. These plots show minimal patterns in the residuals and were optimized by this best-fit model chosen by AIC. The residual plots for all models can be found in Appendix \@ref(app:second-appendix).
+$$C_{summer} = C_{creel,summer} + m + 1
+\label{eq:sgs_summer}$$
 
-Figure \@ref(fig:fig-jdf-summer-model) shows an example of the summer model results. Additional modelled relationship plots for the the Juan de Fuca summer fishery can be found in Appendix \@ref(app:third-appendix).
+This model parameterization allows for filtered creel + calibrated iREC catch in the whole summer period (months 5:9) to be predicted independently by the unfiltered creel and logbook catch and mark status (e.g. marked vs. unmarked).  
+
+Figure \@ref(fig:fig-sgs-summer-model) shows the modeled relationship for SGS Summer. Overall, we found a moderate positive linear relationship between summer creel and summer iREC-included catch (p<0.001, pseudo r^2 = 0.71). Overall, there were more unmarked fish than marked fish caught. 
 
 ```{r results example seasonal summer, results='asis', echo=FALSE}
-#| label: fig-jdf-summer-model
-#| fig-cap: "Juan de Fuca Summer fishery modelled relationship between unfiltered creel and total catch estimates including iREC in summer months (5-9). Data points are yearly estimates from 2013 to 2023."
-
-
-cfg <- main_regions[["JDF Summer"]]
+#| label: fig-sgs-summer-model
+#| fig-cap: "Southern Strait of Georgia fishery modelled relationship between summertime unfiltered creel estimate and total catch estimate including iREC in summer months (5-9). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
+cfg <- main_regions[["SGS Summer"]]
 
 plots <- run_main_region(
   model_name    = cfg$model_name,
@@ -347,24 +346,210 @@ plots <- run_main_region(
 
 plot <- plots[[1]] + ylab("iREC-included catch estimate")
 plot
+```
+
+#### Johnstone Strait
+
+The best model for Johnstone Strait summer fishery catch ($C_{summer}$), was a model with a Gamma distribution that included summer creel ($C_{creel,summer}$), kept_status ($k$), mark status ($m$), an interaction between kept status and summer creel, an interaction between mark status and summer creel, and an intercept. More complex variations and interactions were dropped. 
+
+$$C_{summer} = C_{creel,summer} + m + k + C_{creel,summer}:k + C_{creel,summer}:m + 1
+\label{eq:jnst_summer}$$
+
+This model parameterization allows for filtered creel + calibrated iREC catch in the whole summer period (months 5:9) to be predicted independently by the unfiltered creel and logbook catch, mark status (e.g. marked vs. unmarked), and kept status (kept vs. released). In addition, the interactions allow the effect of creel summer on catch (i.e. the slope) to be modified by kept status and mark status separately.  
+
+Figure \@ref(fig:fig-jnst-summer-model) shows the modeled relationship for JNST Summer. Overall, we found a strong non-linear positive relationship between summer creel and summer iREC-included catch (p<0.001, pseudo r^2 = 0.96), the slope of which was modestly modified by kept status (released steeper than kept) and marked status (marked steeper than unmarked). There was an overall effect of mark status, as above, more unmarked fish were encountered than marked fish, and an overall effect of kept_status, more fish kept than released. 
+
+```{r results example seasonal summer, results='asis', echo=FALSE}
+#| label: fig-jnst-summer-model
+#| fig-cap: "Johnstone Strait fishery modelled relationship between summertime unfiltered creel estimate and total catch estimate including iREC in summer months (5-9). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
+cfg <- main_regions[["JNST Summer"]]
+
+plots <- run_main_region(
+  model_name    = cfg$model_name,
+  x_var         = cfg$x_var,
+  x_var_mr      = cfg$x_var_mr,
+  x_var_rr      = cfg$x_var_rr,
+  year_start    = cfg$year_start,
+  season_codes  = cfg$season_codes,
+  fishery_codes = cfg$fishery_codes
+)
+
+ plots[[1]] + ylab("iREC-included catch estimate") 
 
 ```
 
-### Southern BC Spring and Fall Fishery
 
-The best model for Southern BC Spring and Fall fishery catch ($C_{Z}$) was one with a gamma distribution with a log link that included summer creel ($C_{creel,summer}$), status ($S$), finescale fishery ($F$), season ($Z$), and various interactions of these terms:
 
-$$C_{Z} = C_{creel,summer} + Z + S + C_{creel,summer}:F + C_{creel,summer}:S + F:Z, Z \in (\text{spring},\ \text{fall})
-\label{eq:sbc_season}$$
+#### Juan de Fuca
 
-This model parameterization allows for the combined filtered creel and calibrated iREC catch to be predicted by the unfiltered creel and logbook catch in the limited creel summer period (months 7:8), by finescale fishery, by season (spring (months 1:4) or fall (10:12)), and by status. In addition, the effect of the creel summer period on catch can be modified by finescale fishery and status, and the effect of season on catch can be modified by finescale fishery. Figure \@ref(fig:fig-south-sf-residuals) shows the relative fit of the model through residual plots. There are some noticeable patterns in the residuals suggesting a poorer fit to the data, however, currently, this is the best fitting model for southern BC combined spring and fall fisheries.
+The best model for Juan de Fuca Strait summer fishery catch ($C_{summer}$), was a model with a Gamma distribution that included summer creel ($C_{creel,summer}$), kept_status ($k$), mark status ($m$), an interaction between kept status and summer creel, an interaction between mark status and summer creel, and an intercept. More complex variations and interactions were dropped. 
 
-Figure \@ref(fig:fig-jdf-fall-model) shows an example of the combined spring-fall model relationship for Juan de Fuca Fall fisheries. This particular example shows a poorer fit to the data than some of the other fisheries (see Appendix C). However, the estimated fall iREC catch are generally low, and without this model, it is likely that the predicted catch in off-season fisheries would be 0 or close to zero if there was no creel during this period.
+$$C_{summer} = C_{creel,summer} + m + k + C_{creel,summer}:k + C_{creel,summer}:m + 1
+\label{eq:jdf_summer}$$
 
-```{r results example seasonal spring and fall, results='asis', echo=FALSE}
-#| label: fig-jdf-fall-model
-#| fig-cap: "Southern BC Spring and Fall fishery modelled relationship for Juan de Fuca between concentrated summertime unfiltered creel estimate (months 7 and 8) and total iREC catch estimate in spring (months 1:4) and fall (10:12) months. Data points are yearly estimates from 2013 to 2023."
+This model parameterization allows for filtered creel + calibrated iREC catch in the whole summer period (months 5:9) to be predicted independently by the unfiltered creel and logbook catch, mark status (e.g. marked vs. unmarked), and kept status (kept vs. released). In addition, the interactions allow the effect of creel summer on catch (i.e. the slope) to be modified by kept status and mark status separately.  
 
+Figure \@ref(fig:fig-jdf-summer-model) shows the modeled relationship for JDF Summer. Overall, we found a strong non-linear positive relationship between summer creel and summer iREC-included catch (p<0.001, pseudo r^2 = 0.91), the slope of which was modestly modified by kept status (released steeper than kept) and marked status (marked steeper than unmarked). There was an overall effect of mark status, as above, more unmarked fish were encountered than marked fish, and an overall effect of kept_status, more fish kept than released. 
+
+
+```{r results example seasonal summer, results='asis', echo=FALSE}
+#| label: fig-jdf-summer-model
+#| fig-cap: "Juan de Fuca Summer fishery modelled relationship between unfiltered creel and total catch estimates including iREC in summer months (5-9). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
+
+cfg <- main_regions[["JDF Summer"]]
+
+plots <- run_main_region(
+  model_name    = cfg$model_name,
+  x_var         = cfg$x_var,
+  x_var_mr      = cfg$x_var_mr,
+  x_var_rr      = cfg$x_var_rr,
+  year_start    = cfg$year_start,
+  season_codes  = cfg$season_codes,
+  fishery_codes = cfg$fishery_codes
+)
+
+plots[[1]] + ylab("iREC-included catch estimate") + facet_wrap(~mark_status, scales="fixed")
+
+
+```
+
+### Spring and Fall Models
+
+#### WCVI
+The best model for WCVI Spring and Fall AABM fishery catch ($C_{seasonal}$), was a model with a gaussian distribution that included region ($r$), season ($s$), their interaction, and an intercept. Notably, summer creel, marked status, and kept status were dropped from the model during model selection, as were more complex variations of interactions. 
+
+$$C_{seasonal} = r + s + r:s + 1
+\label{eq:wcvi_seasonal}$$
+
+This model parameterization allows for filtered creel + calibrated iREC catch in the off-season to be predicted independently by region (NWCVI vs. SWCVI) and season (spring vs. fall), and for the effect of season to be modified by region.
+
+Figure \@ref(fig:fig-swcvi-aabm-spring-model) shows the SWCVI AABM modeled relationship for Spring. The Fall and NWCVI counterpart plots can be found in Appendix \@ref(app:third-appendix). Overall, we found no relationship between summer creel and off-season iREC-included catch. There was a significant interaction such that SWCVI Spring had more catch than the other regions and season combinations, but no overall main effect of region or season. This flat relationship explains minimal variation in the data (pseudo r^2 = 0.18), but gives an offset (intercept) to use as a predictor for off-season catch. Unlike the summer models for NWCVI and SWCVI, which both demonstrated overall more unmarked catch than marked catch, mark status was not included in the model, indicating similar catch for marked and unmarked fish in the off-season. 
+
+
+```{r results example seasonal summer, results='asis', echo=FALSE}
+#| label: fig-swcvi-aabm-spring-model
+#| fig-cap: "Southern WCVI AABM Summer fishery modelled relationship for between summertime unfiltered creel estimate (months 5 and 9) and total catch estimate that incorporates iREC. Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
+
+cfg <- main_regions[["WCVI Seasonal"]]
+
+plots <- run_main_region(
+  model_name    = cfg$model_name,
+  x_var         = cfg$x_var,
+  x_var_mr      = cfg$x_var_mr,
+  x_var_rr      = cfg$x_var_rr,
+  year_start    = cfg$year_start,
+  season_codes  = cfg$season_codes,
+  fishery_codes = cfg$fishery_codes
+)
+
+
+  (plots[["SWCVI S SPRING AABM"]] + ylab("iREC-included catch estimate")) 
+
+#+ facet_wrap(~management, scales="fixed")
+
+```
+#### Northern Georgia Strait 
+The best model for Northern Georgia Strait off-season fishery catch ($C_{seasonal}$), was a model with a gaussian distribution that included summer creel ($C_{creel,summer}$), kept status ($k$), season ($s$), an interaction between summer creel and season, an interaction between summer creel and kept status, and an intercept. Mark status and more complex variations and interactions were dropped during model selection.
+
+$$C_{seasonal} = C_{creel,summer} + k + s + C_{creel,summer}:s + C_{creel,summer}:k + 1
+\label{eq:ngs_seasonal}$$
+
+This model parameterization allows for off-season filtered creel + calibrated iREC catch to be predicted independently by the unfiltered creel and logbook summer catch, kept status (kept vs. released), mark status (e.g. marked vs. unmarked), and season (spring vs. fall). Furthermore, this model formula allows for the effect of summer creel on off-season catch to be modified by season and kept status.   
+
+Figure \@ref(fig:fig-ngs-spring-model) shows the modeled relationship for NGS Spring. The Fall counterpart plot can be found in Appendix \@ref(app:third-appendix). Overall, we found a moderate positive linear relationship between summer creel and off-season iREC-included catch (p<0.001, pseudo r^2 = 0.57). There was an overall effect of season (more catch in spring than fall), and season altered the slope of the summer creel to seasonal iREC such that the slope is steeper for spring than for fall catch. There was no overall effect of kept status, but kept status modified the slope of the creel summer catch to iREC seasonal catch: the slope is steeper for released than kept fish. Unlike the summer model for NGS, which demonstrated overall more unmarked catch than marked catch, mark status was dropped from this model, indicating similar catch for marked and unmarked fish in the off-season. 
+
+```{r results example seasonal summer, results='asis', echo=FALSE}
+#| label: fig-ngs-spring-model
+#| fig-cap: "Northern Strait of Georgia fishery modelled relationship between summertime unfiltered creel estimate and total catch estimate including iREC in spring (months 1-4). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
+cfg <- main_regions[["NGS Seasonal"]]
+
+plots <- run_main_region(
+  model_name    = cfg$model_name,
+  x_var         = cfg$x_var,
+  x_var_mr      = cfg$x_var_mr,
+  x_var_rr      = cfg$x_var_rr,
+  year_start    = cfg$year_start,
+  season_codes  = cfg$season_codes,
+  fishery_codes = cfg$fishery_codes
+)
+
+plots[["NGS S SPRING"]] + ylab("iREC-included catch estimate")
+```
+#### Southern Georgia Strait 
+The best model for Southern Georgia Strait off-season fishery catch ($C_{seasonal}$), was a model with a gaussian distribution that included summer creel ($C_{creel,summer}$), mark status ($m$), season ($s$), an interaction between summer creel and mark status, and an intercept. Kept status and more complex variations and interactions were dropped during model selection.
+
+$$C_{seasonal} = C_{creel,summer} + m + s + C_{creel,summer}:m + 1
+\label{eq:sgs_seasonal}$$
+
+This model parameterization allows for off-season filtered creel + calibrated iREC catch to be predicted independently by the unfiltered creel and logbook summer catch, mark status (e.g. marked vs. unmarked), and season (spring vs. fall). Furthermore, this model formula allows for the effect of summer creel on off-season catch to be modified by mark status.    
+
+Figure \@ref(fig:fig-sgs-spring-model) shows the modeled relationship for SGS Spring. The Fall counterpart plot can be found in Appendix \@ref(app:third-appendix). Overall, we found a weak positive linear relationship between summer creel and off-season iREC-included catch (p<0.011, pseudo r^2 = 0.39). There was an overall effect of season (more catch in spring than fall). Similar to the summer SGS model, there was an overall effect of mark status (more unmarked than marked catch). However, in this model mark status modified the slope of the creel summer catch to iREC seasonal catch: the slope is steeper for marked than unmarked fish. 
+
+```{r results example seasonal summer, results='asis', echo=FALSE}
+#| label: fig-sgs-spring-model
+#| fig-cap: "Southern Strait of Georgia fishery modelled relationship between summertime unfiltered creel estimate and total catch estimate including iREC in spring (months 1-4). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
+cfg <- main_regions[["SGS Seasonal"]]
+
+plots <- run_main_region(
+  model_name    = cfg$model_name,
+  x_var         = cfg$x_var,
+  x_var_mr      = cfg$x_var_mr,
+  x_var_rr      = cfg$x_var_rr,
+  year_start    = cfg$year_start,
+  season_codes  = cfg$season_codes,
+  fishery_codes = cfg$fishery_codes
+)
+
+plots[["SGS S SPRING"]] + ylab("iREC-included catch estimate")
+```
+
+
+#### Johnstone Strait
+
+The best model for Johnstone Strait seasonal fishery catch ($C_{seasonal}$), was a model with a gaussian distribution that included mark status ($m$) and an intercept. Notably, summer creel, kept status, season, and any more complex variations and interactions were dropped. 
+
+$$C_{seasonal} = m + 1
+\label{eq:jnst_seasonal}$$
+
+This model parameterization allows for filtered creel + calibrated iREC catch in the off-season to be predicted independently by mark status (e.g. marked vs. unmarked). 
+
+Figure \@ref(fig:fig-jnst-spring-model) shows the modeled relationship for JNST Spring. The Fall counterpart plot can be found in Appendix \@ref(app:third-appendix). Overall, we found no relationship between summer creel and off-season iREC-included catch. As in the summer model for JNST, there was a significant effect of mark status, more unmarked fish caught than marked fish. The flat relationship explains minimal variation in the data (pseudo r^2 = 0.08), but gives an offset (intercept) to use as a predictor for off-season catch. 
+
+```{r results example seasonal summer, results='asis', echo=FALSE}
+#| label: fig-jnst-spring-model
+#| fig-cap: "Johnstone Strait fishery modelled relationship between summertime unfiltered creel estimate and total catch estimate including iREC in spring months (1:4). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
+cfg <- main_regions[["JNST Seasonal"]]
+
+plots <- run_main_region(
+  model_name    = cfg$model_name,
+  x_var         = cfg$x_var,
+  x_var_mr      = cfg$x_var_mr,
+  x_var_rr      = cfg$x_var_rr,
+  year_start    = cfg$year_start,
+  season_codes  = cfg$season_codes,
+  fishery_codes = cfg$fishery_codes
+)
+
+ plots[["JOHN ST S SPRING"]] + ylab("iREC-included catch estimate") 
+
+```
+
+
+#### Juan de Fuca 
+
+The best model for Juan de Fuca Strait off-season fishery catch ($C_{seasonal}$), was a model with a Gamma distribution that included summer creel ($C_{creel,summer}$), kept_status ($k$), mark status ($m$), season($s$), an interaction between mark status and summer creel, and an intercept. More complex variations and interactions were dropped. 
+
+$$C_{seasonal} = C_{creel,summer} + m + k + s + C_{creel,summer}:m + 1
+\label{eq:jdf_seasonal}$$
+
+This model parameterization allows for filtered creel + calibrated iREC catch in the off-season to be predicted independently by the summertime unfiltered creel and logbook catch, mark status (e.g. marked vs. unmarked), and kept status (kept vs. released). In addition, the interaction allows the effect of creel summer on off-season catch (i.e. the slope) to be modified by mark status.  
+
+Figure \@ref(fig:fig-jdf-spring-model) shows the modeled relationship for JDF Spring. The Fall counterpart plot can be found in Appendix \@ref(app:third-appendix). Overall, we found a modest non-linear positive relationship between summer creel and seasonal iREC-included catch (p<0.003, pseudo r^2 = 0.43), the slope of which was modified by marked status (marked steeper than unmarked), similar to the summer JDF model. Although there was no overall effect of mark status, the trend was in the opposite direction to the summer JDF model, slightly more marked fish than unmarked fish caught in the off-season (p=0.08). There was an overall effect of kept_status, slightly more fish released than kept (p<0.003), the opposite direction to the summer JDF model. Finally, there was an overall effect of season, where more fish were caught in the spring than the fall.  
+
+
+```{r results example seasonal summer, results='asis', echo=FALSE}
+#| label: fig-jdf-spring-model
+#| fig-cap: "Juan de Fuca Spring fishery modelled relationship between unfiltered creel and total catch estimates including iREC in spring months (1-4). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
 
 cfg <- main_regions[["JDF Seasonal"]]
 
@@ -378,12 +563,15 @@ plots <- run_main_region(
   fishery_codes = cfg$fishery_codes
 )
 
-(plots[["CA JDF S FALL"]] + ylab("iREC-included catch estimate")) 
+plots[["CA JDF S SPRING"]] + ylab("iREC-included catch estimate") 
+
 
 ```
 
-### Haida Gwaii Annual Fisheries
 
+###  Annual Fisheries
+
+#### Haida Gwaii
 The model for the Haida Gwaii fishery was incorporating the historic data (Haida creel + logbook, $C_{historic}$) and status ($S$) as identified in Equation \eqref{eq:haida_gwaii_annual}. Unlike other model fits, we used a Gaussian link instead of a Gamma log because earlier values in the time series were outside the range of the model fit. As identified in Appendix \@ref(apdx-haida-model), the Gamma log link would cause the model to extrapolate unmarked kept catch estimates more the 3 times the historic catch. This is was inconsistent with the much lower increase across the rest of the time series and for other catch statuses.
 
 $$C_{total} = C_{historic} + S 
