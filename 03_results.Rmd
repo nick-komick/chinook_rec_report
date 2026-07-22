@@ -408,7 +408,7 @@ plots <- run_main_region(
   fishery_codes = cfg$fishery_codes
 )
 
-plots[[1]] + ylab("iREC-included catch estimate") + facet_wrap(~mark_status, scales="fixed")
+plots[[1]] + ylab("iREC-included catch estimate") 
 
 
 ```
@@ -572,18 +572,19 @@ plots[["CA JDF S SPRING"]] + ylab("iREC-included catch estimate")
 ###  Annual Fisheries
 
 #### Haida Gwaii
-The model for the Haida Gwaii fishery was incorporating the historic data (Haida creel + logbook, $C_{historic}$) and status ($S$) as identified in Equation \eqref{eq:haida_gwaii_annual}. Unlike other model fits, we used a Gaussian link instead of a Gamma log because earlier values in the time series were outside the range of the model fit. As identified in Appendix \@ref(apdx-haida-model), the Gamma log link would cause the model to extrapolate unmarked kept catch estimates more the 3 times the historic catch. This is was inconsistent with the much lower increase across the rest of the time series and for other catch statuses.
+The best model for the Haida Gwaii annual fishery incorporates the historic data (Haida creel + logbook, $C_{historic}$), kept status ($k$), mark status ($m$), and the interaction between kept and mark status, and an intercept, as identified in Equation \eqref{eq:haida_gwaii_annual}. Unlike other model fits, we used a gaussian link instead of a Gamma log because earlier values in the time series were outside the range of the model fit. As identified in Appendix \@ref(apdx-haida-model), the Gamma log link would cause the model to extrapolate unmarked kept catch estimates more the 3 times the historic catch. This is was inconsistent with the much lower increase across the rest of the time series and for other catch statuses.
 
-$$C_{total} = C_{historic} + S 
+$$C_{annual} = C_{historic} + k + m + k:m + 1 
 \label{eq:haida_gwaii_annual}$$
 
-This model parameterization allows for calibrated iREC catch to be predicted by the unfiltered creel and logbook (historic) catch in the limited creel summer period. In addition, the effect of the creel and logbook (historic) summer period on catch is modified by status. Figure \@ref(fig:fig-nbcaabm-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals.
+This model parameterization allows for calibrated iREC catch to be predicted by the unfiltered creel and logbook (historic) catch in the limited creel summer period. In addition, the effect of the creel and logbook (historic) summer period on catch is modified by kept status and mark status. The interaction between kept and mark status allows the effect of kept status to be moderated by mark status. Figure \@ref(fig:fig-nbcaabm-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals.
 
-Figure \@ref(fig:fig-nbcaabm-model) shows the model results with Haida Gwaii. As above, we see that for each status, as unfiltered creel and logbook catch in the creel summer period increases, so does calibrated iREC catch in the whole summer period.
+Figure \@ref(fig:fig-nbcaabm-model) shows the model results with Haida Gwaii. Overall, we found a strong positive linear relationship between annual Haida creel + logbook and annual iREC catch (p<0.001, pseudo r^2 = 0.91). There were no overall significant effects of either mark or kept status, but a trending effect of mark status (p=0.056), which suggested that there were more unmarked fish encountered than marked fish. Furthermore, the interaction suggests that for unmarked fish, more fish were released than kept, while there were similar numbers of kept and released fish in the marked category. 
+
 
 ```{r results NBC AABM Annual, results='asis', echo=FALSE}
 #| label: fig-nbcaabm-model
-#| fig-cap: "Haida Gwaii annual fishery modelled relationship between historic unfiltered creel estimate and total iREC catch estimates in the whole year. Data points are yearly estimates from 2015 to 2023."
+#| fig-cap: "Haida Gwaii annual fishery modelled relationship between historic unfiltered creel estimate and total iREC catch estimates in the whole year. Data points are yearly estimates from 2015 to 2023. Note varying scales on the y-axes to better visualize the model fit."
 
 cfg <- main_regions[["North AABM"]]
 
@@ -597,27 +598,24 @@ plots <- run_main_region(
   fishery_codes = cfg$fishery_codes
 )
 
-plot <- plots[[1]] + ylab("iREC-included catch estimate")
-plot
+plots[[1]] + ylab("iREC-only catch estimate")
+
 ```
 
-======= \#### Northern BC ISBM Fisheries
+#### Northern BC ISBM Fisheries
 
-*Need to update text*
 
-The best model for Northern BC (NBC) ISBM fisheries was one with a gamma distribution using a log link that included summer historic data (Area 3 and 4 Creel + logbook, $C_{historic,summer}$) and status, with no interaction of these terms.
+The best model for annual Northern BC (NBC) ISBM fisheries was one with a Gamma distribution using a log link that included annual historic data (Area 3 and 4 Creel + logbook, $C_{historic,annual}$), mark status ($m$), and an interaction between historic data and mark status. Kept status and more complex variations and interactions were dropped.  
 
-$$C_{summer} = C_{historic,summer} + S \label{eq:nbc_isbm_summer}$$
+$$C_{annual} = C_{historic,annual} + m + C_{historic,annual}:m \label{eq:nbc_isbm_annual}$$
 
-This model parameterization allows for calibrated iREC catch in the whole summer period (months 5:9) to be predicted both independently by the unfiltered Area 3 and 4 creel and logbook catch in the limited creel summer period (months 7:8) and by status. Figure \@ref(fig:fig-nbcisbm-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. The residuals vs. predicted values show no significant patterns.
+This model parameterization allows for annual calibrated iREC catch to be predicted both independently by the annual unfiltered Area 3 and 4 creel and logbook catch, by mark status and their interaction. Figure \@ref(fig:fig-nbcisbm-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. The residuals vs. predicted values show no significant patterns.
 
-Figure \@ref(fig:fig-nbcisbm-model) shows the summer model results in NBC ISBM. In NBC ISBM fisheries, the kept marked catch is substantially less (\< 1,500 pieces) than the catch of unmarked fish (\< 15,000 pieces). The model fits unmarked catch much better than the marked fish.
+Figure \@ref(fig:fig-nbcisbm-model) shows the annual model results in NBC ISBM. There is a positive non-linear relationship between creel and logbook data and iREC annual catch estimates (p<0.0001, pseudo r^2 = 0.91). The slope of this relationship was slightly steeper for marked fish than unmarked fish. There was a significant effect of mark status, such that overall the marked catch was substantially less (\< 1,500 pieces) than the catch of unmarked fish (\< 15,000 pieces). 
 
 ```{r results NBC ISBM annual, results='asis', echo=FALSE}
 #| label: fig-nbcisbm-model
-#| fig-cap: "NBC ISBM fishery modelled relationship between concentrated unfiltered creel estimate (months 7 and 8) and iREC catch estimates over the whole year. Data points are yearly regional estimates from 2015 to 2023."
-
-#Chosen model
+#| fig-cap: "NBC ISBM fishery modelled relationship between unfiltered creel estimate and iREC catch estimates over the whole year. Data points are yearly regional estimates from 2015 to 2023. Note varying scales on the y-axes to better visualize the model fit."
 
 
 cfg <- main_regions[["North ISBM"]]
@@ -632,8 +630,9 @@ plots <- run_main_region(
   fishery_codes = cfg$fishery_codes
 )
 
-plot <- plots[[1]] + ylab("iREC-included catch estimate")
-plot
+plots[[1]] + ylab("iREC-included catch estimate")
+#+ facet_wrap(~mark_status, scales="fixed")
+
 
 
 ```
@@ -642,17 +641,28 @@ plot
 
 #### Central BC annual fishery
 
-The best model for the Central BC annual fishery was one with a gamma distribution with a log link which included historic estimates (logbook only) and status.
+Central BC was split into two models, one for kept fish and one for released fish where there were almost exclusively zeros provided in the historical data. 
 
-$$ C_{total} = C_{historic,summer} + S \label{eq:cbc_annual}$$
+The best model for the kept Central BC annual catch was one with a Gamma distribution with a log link which included historic estimates (logbook only) and mark status. 
 
-This model parameterization allows for calibrated iREC catch to be predicted both independently by the logbook catch in the limited creel summer period (months 7:8) and by status. Figure \@ref(fig:fig-cbc-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. There were minimal patterns in the residuals.
+$$ C_{irec,annual,kept} = C_{historic,annual} + m \label{eq:cbc_annual_kept}$$
 
-Figure \@ref(fig:fig-cbc-model) shows the CBC model results. Generally for low catch estimates a flat line is predicted, but for unmarked Kept fish, the iREC estimate is an increasing function of summertime logbook catch. As released catch is not captured well by the log book program, the modelling of release data before iREC is likely to not be that informative.
+This model parameterization allows for calibrated iREC catch to be predicted independently by the annual logbook catch and by mark status. Figure \@ref(fig:fig-cbc-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. There were minimal patterns in the residuals.
+
+
+The best model for the released Central BC annual catch was one with a Gamma distribution with a log link which included mark status and an intercept. As historic logbook estimates were mostly zero, this factor was excluded during model selection, as was kept status and various interactions. 
+
+$$ C_{irec,annual,released} = m + 1 \label{eq:cbc_annual_released}$$
+
+This model parameterization allows for calibrated iREC catch to be predicted independently by mark status. Figure \@ref(fig:fig-cbc-residuals) shows the qq plot residuals and a plot of the residuals against predicted values to detect patterns in residuals. There were minimal patterns in the residuals.
+
+Figure \@ref(fig:fig-cbc-model) shows the combined CBC model results. Generally for low catch estimates a flat line is predicted, but for unmarked Kept fish, the iREC estimate is an increasing function of summertime logbook catch. As released catch is not captured well by the log book program, the modelling of release data before iREC is likely to not be that informative. In both models there was an effect of mark status such that there were more unmarked fish encountered than marked fish. There was an overall positive non-linear relationship between kept logbook catch and iREC (p<0.01, pseudo r^2=0.90). 
+
+
 
 ```{r results CBC model, results='asis', echo=FALSE}
 #| label: fig-cbc-model
-#| fig-cap: "CBC annual fishery modelled relationship between concentrated summertime unfiltered creel estimate (months 7 and 8) and annual iREC catch estimates. Data points are yearly estimates from 2015 to 2023."
+#| fig-cap: "CBC annual fishery modelled relationship between annual logbook estimates and annual iREC catch estimates. Data points are yearly estimates from 2015 to 2023. Note varying scales on the y-axes to better visualize the model fit."
 
 cfg <- main_regions[["Central BC ISBM kept"]]
 
@@ -666,7 +676,7 @@ plots <- run_main_region(
   fishery_codes = cfg$fishery_codes
 )
 
-plot <- plots[[1]] + ylab("iREC-included catch estimate")
+plot <- plots[[1]] + ylab("annual iREC catch estimate") + xlab("annual logbook catch estimate")
 plot
 
 ```
