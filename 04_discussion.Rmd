@@ -8,6 +8,34 @@ output:
 
 # Discussion
 
+
+Norah's notes: 
+
+Model results: 
+- there was stronger correlation between creel summer estimates and creel + iREC summer estimates in the summer models compared to the correlation between creel summer estimates and creel + iREC spring and fall estimates in the seasonal models and between logbook or creel summer estimates and i-REC enhanced estimates in the annual models in North and Central BC (see Appendix \@ref(app:third-appendix) for full model output). Indeed, all the summer models retained ($C_{creel,summer}$) as a variable, whereas the seasonal models for WCVI and Johnstone Strait dropped this variable as a predictor and were better described without it.
+
+-Spring WCVI AND JNST: This flat relationship explains minimal variation in the data (pseudo r^2 = 0.18) but it gives us a reasonable offset (intercept) to which we can use as a predictor for off-season catch. The alternative and previous method is to assume zero catch in the spring and fall months in these regions. We see this as an improvement over previous work. While catch prediction in these regions and months could be improved with further investigation, the comparatively low number of fish caught (total ~2000 on average in the spring) and therefore predicted may not warrant extensive
+
+- Spring NGS: higher catch in summer predicts high catch in spring
+
+- mark status falls out of NGS but not SGS seasonal 
+
+- JDF has opposite mark status and kept status trends in summer vs seasonal ... reflects the season mark selective fisheries? 
+= slope modified --> marked steeper than unmarked? Is that a pattern where there is an interaction? what about released steeper than kept? for seasonal: Mark fish stronger relationship between spring and summer?? 
+
+Mark rates and other explored models: 
+- Mark rates imprecision and variability in cwt estimation 
+
+
+
+
+
+
+
+
+
+End Notes 
+
 In this report we describe methods to produce standardized post-season recreational Chinook catch estimates from 2005 to present. Applying and building upon these standardized methods in future years will allow us to continue to maintain and improve catch estimates time series over time. However, the quality of data over the time series varies widely. Higher iREC sample rates of recreational licence holders provide higher precision catch estimates in recent years, while the lack of iREC prior to 2013 and lower sample rates early in the monitoring program lead to lower confidence in earlier years. The primary reason to extend the time series back to 2005 was to provide consistent estimates for the CTC CYER base period (i.e. 2009 to 2015) and the earlier years of the associated cohorts. Future fishery assessment metrics should focus on more recent years (e.g. since the start of iREC) to reduce potential bias and imprecision when assessing recreational fisheries.
 
 When fitting the models between iREC and other catch monitoring programs (i.e. creel and logbooks) to infill catch estimates for pre-iREC years, most of the model fits were better as non-linear relationships. This is potentially related to the quality control filtering process of creel estimates. As effort increases in a given area and month, it likely also increases in adjoining areas and months, resulting in more area and months being included in the regional model fit. However, this may not be the case when catch monitoring program access to fishers is less of a concern. For example, a logbook program may be able to access fishers at lower efforts and provide an estimate when a creel survey may be less likely to encounter and interview fishers. This is potentially the case in the Haida Gwaii region (NBC AABM), where much of the effort is carried out by lodges that commonly participate in logbook programs. In that case, the logbook catch may have a more linear relationship with iREC catch as the bias is more evenly distributed throughout the much shorter, focused summer fishing season. The non-linearity of relationships between traditional surveys and iREC may also result from the difference in scale among the surveys and higher variability when catch estimates are high. Future efforts should aim to refine these relationships and quantify the causes of their non-linearity. 
