@@ -110,7 +110,7 @@ fig_width <- 9
 fig_out_width <- "6in"
 fig_dpi <- 180
 fig_align <- "center"
-fig_pos <- "htb"
+fig_pos <- "H"
 opts_chunk$set(
   collapse = TRUE,
   warning = FALSE,
@@ -160,6 +160,7 @@ library(gt)
 library(patchwork)
 library(DHARMa)
 library(sf)
+library(gtsummary)
 
 
 #library(lme4)
@@ -172,13 +173,18 @@ library(sf)
 
 
 sport_catch_area <- 
-  wrangle_rec_catch("pacRecCatch_db.yaml", by="area", most_recent_data_year=2023)
+  wrangle_rec_catch("pacRecCatch_db.yaml", by="area", most_recent_data_year=2025)
 
 sport_catch_finescale <- 
-  wrangle_rec_catch("pacRecCatch_db.yaml", by="fishery", most_recent_data_year=2023)
+  wrangle_rec_catch("pacRecCatch_db.yaml", by="fishery", most_recent_data_year=2025)
 
 sport_catch_models <- model_rec_catch(sport_catch_finescale, most_recent_data_year=2023)
 
 sport_release_rates <- get_release_rates(sport_catch_models, sport_catch_area)
+
+  load("data/summer_models.RData")
+  load("data/seasonal_models.RData")
+  load("data/north_isbm_models.RData")
+  load("data/north_aabm_models.RData")
 
 ```
