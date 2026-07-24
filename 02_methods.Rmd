@@ -157,7 +157,7 @@ The NBC ISBM fishery is monitored by both a Skeena creel program [@robichaud2025
 
 #### Internet Recreational Effort and Catch (iREC) Reporting Program
 
-The Internet Recreational Effort and Catch (iREC) reporting program is used to develop catch estimates for all tidal waters in Canada’s Pacific Region. Recreational fishing in the Pacific Region requires a Tidal Waters Sport Fishing Licence which have been sold predominantly online since roughly 2010. Several types of licences are sold, distinguished by term length, residency, and age. For this program, recreational licence holders are selected to report online, for one assigned month of their licence term, a detailed record of their fishing activity and catch. Reporting is mandatory (but not currently enforced) and for various reasons not all fishers complete the report; completion rates are typically 50-55%. Using the completed reports, estimates of the total kept and released catch, by mark status are developed for each month and PFMA. Uncalibrated estimates are developed by expanding the average monthly catch per licence by the number of licences eligible to fish in that month. These calculations are stratified by licence type to protect against bias due to differential fishing and reporting rates by licence type. Bias correction factors, described in the section below, are then applied to estimate bias-corrected iREC estimates. The iREC program operation and analytical methodology was initially reviewed at a 2015 Canadian Science Advisory Secretariat (CSAS) regional peer review. The main report stemming from that meeting is the associated Science Advisory Report [@irec_sar_2015]. Appendix \@ref(apdx-irec-mthd) details changes to the methodology that have been made since the initial reviewed version, along with some summaries of the realized sample sizes.
+The Internet Recreational Effort and Catch (iREC) reporting program is used to develop catch estimates for all tidal waters in Canada’s Pacific Region. Recreational fishing in the Pacific Region requires a Tidal Waters Sport Fishing Licence which have been sold predominantly online since roughly 2010. Several types of licences are sold, distinguished by term length, residency, and age. For this program, recreational licence holders are selected to report online, for one assigned month of their licence term, a detailed record of their fishing activity and catch. Reporting is mandatory (but not currently enforced) and for various reasons not all fishers complete the report; completion rates are typically 50-55%. Using the completed reports, estimates of the total kept and released catch, by mark status are developed for each month and PFMA. Uncalibrated estimates are developed by expanding the average monthly catch per licence by the number of licences eligible to fish in that month. These calculations are stratified by licence type to protect against bias due to differential fishing and reporting rates by licence type. Bias correction factors, described in the section below, are then applied to estimate bias-corrected iREC estimates. The iREC program operation and analytical methodology was initially reviewed at a 2015 Canadian Science Advisory Secretariat (CSAS) regional peer review. The main report stemming from that meeting is the associated Science Advisory Report [@irec_sar_2015]. Appendix \@ref(apdx-iREC-mthd) details changes to the methodology that have been made since the initial reviewed version, along with some summaries of the realized sample sizes.
 
 #### iREC to Creel Calibration
 
@@ -165,15 +165,15 @@ iREC catch estimates are bias corrected by scaling estimates using the linear re
 
 $$
 m =  \frac{iREC}{creel}
-\label{eq:irec_correction}
+\label{eq:iREC_correction}
 $$
 
 $$
 iREC^{*}= \frac{iREC}{m}
-\label{eq:irec_calibration}
+\label{eq:iREC_calibration}
 $$
 
-The calibration coefficient $m$ is estimated annually for each licence year (i.e. April 1 to March 31) using all area and month estimates of creel that are of appropriate quality based on the criteria identified in the "South Coast Creel Survey quality control" section of this document. Separate calibration factors are estimated for total kept and released catch, by species, for angling by boat. As both the creel and iREC estimates have uncertainty associated with them, an error-in-variables approach is used to estimate $m$ using JAGS (a hierarchical Bayesian analysis program) [@plummer2003jags] through the `rjags` R package [@rjags]. The specific model code used is provided below, with `creel.obs` representing the creel estimate, `creel.se` representing the standard error of the creel estimate, and `iRec.obs` representing the iREC uncalibrated catch estimate for the same area and time as the creel estimate. The calibration coefficient are used to correct both angling by boat and angling from shore catch estimates.  
+The calibration coefficient $m$ is estimated annually for each licence year (i.e. April 1 to March 31) using all area and month estimates of creel that are of appropriate quality based on the criteria identified in the "South Coast Creel Survey quality control" section of this document. Separate calibration factors are estimated for total kept and released catch, by species, for angling by boat. As both the creel and iREC estimates have uncertainty associated with them, an error-in-variables approach is used to estimate $m$ using JAGS (a hierarchical Bayesian analysis program) [@plummer2003jags] through the `rjags` R package [@rjags]. The specific model code used is provided below, with `creel.obs` representing the creel estimate, `creel.se` representing the standard error of the creel estimate, and `iREC.obs` representing the iREC uncalibrated catch estimate for the same area and time as the creel estimate. The calibration coefficient are used to correct both angling by boat and angling from shore catch estimates. 
 
 ```{r methods jags, echo=TRUE}
 model.jags <- function() {   
@@ -183,11 +183,11 @@ model.jags <- function() {
     creel.true[i] ~ dnorm(creel.obs[i], 1/creel.se[i]*1/creel.se[i])            
     #now for the actual regression equation     
     mu[i] <- beta1 * creel.true[i]      
-    iRec.obs[i] ~ dnorm(mu[i], tau)   
+    iREC.obs[i] ~ dnorm(mu[i], tau)   
   }      
   beta1 ~ dnorm(0, 0.0001)   
   tau ~ dgram(0.01, 0.01) 
-  #a common prior for a variance term in vertical direction     
+  #a common prior for a variance term in vertical diRECtion     
   #derived variables   
   sigma <- 1/sqrt(tau) 
   #std deviation about the regression line
@@ -198,9 +198,10 @@ model.jags <- function() {
 
 In the past, iREC was incorporated into catch estimates in various ways, including an area-specific infilling method for South Coast areas, and at higher stratification level for the CTC's reporting. Neither of these methods were robust or systematic approaches to incorporating iREC at the finest scale possible. Here, we outline a systematic method for combining survey methods to obtain the best kept and released catch estimates in a given month and PFMA by mark status.
 
-We pulled raw recreational catch data from DFO's Catch and Release Estimates (CREST) database, which stores creel, logbook, and iREC data for both marine and freshwater regions. The data was filtered to only marine estimates of legal-sized fish, by mark status, that were kept or released. Catch estimates for NBC — based on creel and logbook estimates from 2005–2023 — and Central BC (CBC) — based only on logbook estimates from 2022–2023 — were incomplete in CREST for these regions. We filtered CREST catch data to only South Coast creel, as described above, to only include creel estimates with complete and representative coverage. These estimates (which do not include logbook data) were then augmented with logbook data where available (i.e., logbook and creel estimates were summed).
+We pulled raw recreational catch data from DFO's Catch and Release Estimates (CREST) database, which stores creel, logbook, and iREC data for both marine and freshwater regions. The data was filtered to only marine estimates of legal-sized fish, by mark status, that were kept or released. Catch estimates for NBC — based on creel and logbook estimates from 2005–2023 — and Central BC (CBC) — based only on logbook estimates from 2022–2023 — were incomplete in CREST for these regions. We filtered CREST catch data to only South Coast creel, as described above, to only include creel estimates with complete and representative coverage. These estimates (which do not include logbook data) were then augmented with logbook data where available (i.e., logbook and creel estimates were summed). The CBC and NBC data were fed into the process separately. 
 
 We implemented the methods described in this technical report in a new `pacRecCatch` R package [@pacRecCatch] that pulls data from CREST and loads in other sources manually (e.g. Northern BC creel). The package has functions that subsequently clean, filter, align, and combine the various survey methods to the final data set as described below. This package should provide a framework to implement further improvements to the recreational catch estimation methods in the future.
+
 
 #### Catch Stratification
 
@@ -212,13 +213,13 @@ To support consolidated recreational catch estimates and meet Treaty obligations
 
 iREC and creel both generally align spatially to PFMA [@pfma_2007], with some areas split to support unique local conditions. However, there are a few areas that were initially not split within iREC, as is done in creel estimates. Some of the splits, such PFMA 2 and 20 (which are both sometimes split into an east and west portion) are combined for this analysis. PFMA 29 was not split into marine and tidal waters in the earlier years of iREC and the total PFMA 29 catch was treated as all marine catch for this analysis. Later years of iREC provided the marine and tidal separation. In these cases, we limit the analysis to just the marine portion of the PFMA. For PFMA 19 and 23, we combine creel data from 2013 until the split was incorporated into iREC in licence year 2014. Although all these splits are used to improve the quality of estimates from the creel program, the collapsing of these splits are not anticipated to substantially affect the relationship between iREC and creel catch estimates.
 
-### Extrapolating South Coast catch with unknown adipose-clip status
+#### Extrapolating South Coast catch with unknown adipose-clip status
 
 All catch data is typically collected in number of marked and unmarked fish kept and released. However, when mark status is unknown, catch estimates can be provided as kept and released catch with unknown mark status. For North and Central Coast data, we extrapolated these unknown mark status' using provided mark rates from lodges. We extrapolate these unknown mark status estimates to marked and unmarked catch using mark rate of the known catch.
 
 The creel data estimation only started estimating catch by adipose clip status in 2009. Before 2009, most Chinook catch from creel surveys (>70%) was estimated only as total kept and released (i.e. unchecked for mark status). We loaded mark rate data from biosamples collected by creel surveys in South Coast areas from 2005 to 2008 and split both kept and released catch by mark status for each year, month, and area combination. Between 2009 and 2026, mark rate was more consistently reported and only 19% of the creeled catch was unchecked for mark status. For iREC, Between 2013 and 2026, 8% of catch was unchecked for mark status. 
 
-From 2009 to present, we calculated mark rate for a given source in a number of different ways and prioritized the assignment of mark rate to the unchecked catch in the order identified below, based on availability. As mark rate can vary by season and region and is relatively stable year to year, we prioritized mark rates first from within the same area, month, and year and then expanded outward grouping into seasons and regions and finally averaging across years for the very few instances where the other categories did not apply. Toi reduce bias, only mark rates that are based on a total catch estimate $\geq 20$ were used. 
+From 2009 to present, we calculated mark rate for a given source in a number of different ways and prioritized the assignment of mark rate to the unchecked catch in the order identified below, based on availability. As mark rate can vary by season and region and is relatively stable year to year, we prioritized mark rates first from within the same area, month, and year and then expanded outward grouping into seasons and regions and finally averaging across years for the very few instances where the other categories did not apply. To reduce bias, only mark rates that are based on a total catch estimate $\geq 20$ were used. 
 
 1. Monthly area - Mark rate for unknown catch calculated from known catch within the same year, month, and area. 
 2. Monthly regional average -  Mark rate for unknown catch calculated from known catch within the same year, month, and averaged across region. 
@@ -227,22 +228,24 @@ From 2009 to present, we calculated mark rate for a given source in a number of 
 6.  Monthly area average across years - Mark rate for unknown catch calculated from known catch within the same area and month, averaged across years. 
 7.  Monthly regional average across years - Mark rate for unknown catch calculated from known catch within the same month, averaged across region and years. 
 
-### Choosing best monthly catch estimate per PFMA
+#### Choosing best monthly catch estimate per PFMA
 
-When identifying the best catch estimate between creel (augmented with logbook data) and calibrated iREC, we used different procedures for Southern BC, compared to Northern and Central BC. This allowed catch estimates to align the unique challenges in delivering catch monitoring programs within these various regions.
+From this point forward we will refer to calibrated iREC as simply "iREC". For South Coast, annual or seasonal catch estimates that are a combination of iREC, filtered creel, and logbook data will be referred to as "Combined creel and iREC catch estimate". Catch estimates that only include data from iREC will be referred to as "iREC catch estimate". Catch estimates that are a only unfiltered creel and logbook data will be referred to as "creel catch estimate". While logbooks are an important part of the catch estimation program, for simplicity we want to emphasize the difference between creel on its own and creel augmented by iREC information. For the North Coast, the nomenclature will be the same but it is to be noted that the creel does not go through the same quality control measures and therefore there is not filtered or unfiltered creel category. For Central Coast, there is no creel program so the catch estimates will be referred to as "logbook catch estimate". 
 
-In Southern BC from 2013 to present, from May to September we use the combined creel and logbook data if the creel passed quality control rules. If the creel failed the quality control in these months, we use calibrated iREC to fill in the gaps. Outside of these months, we use calibrated iREC for October to April. These rules prioritize quality-controlled creel estimates, when most creel survey effort is concentrated, and prioritizes calibrated iREC data during shoulder seasons and anywhere there is a gap in creel coverage. Figure \@ref(fig:fig-area-catch-process) provides a diagram on how the catch data sources are combined.
+When identifying the best catch estimate between creel vs. combined creel and iREC, we used different procedures for Southern BC, compared to Northern and Central BC. This allowed catch estimates to align the unique challenges in delivering catch monitoring programs within these various regions.
 
-For Northern and Central BC, we use calibrated iREC from 2015 onwards. Northern and Central BC creel and log book data is not currently incorporated into iREC calibration.  Therefore, calibrated iREC catch estimates provide more consistent and complete coverage across these regions.  This may change with further improvements in iREC calibration and exploring how to incorporate northern creel and log book programs.  Calibrated iREC catch estimates did not seem to be consistent with other catch data sources before 2015. This is potentially related to iREC not achieving effective sample rates in Northern and Central BC.  Therefore, iREC data was limited to estimates after catch year 2015 for those regions.
+In Southern BC from 2013 to present, from May to September we use the creel data if the creel passed quality control rules. If the creel failed the quality control in these months, we use iREC to fill in the gaps, creating a seasonal combined creel and iREC catch estimate. Outside of these months, we use iREC only for October to April. These rules prioritize quality-controlled creel estimates, when most creel survey effort is concentrated, and prioritizes iREC data during shoulder seasons and anywhere there is a gap in creel coverage. Figure \@ref(fig:fig-area-catch-process) provides a diagram on how the catch data sources are combined.
 
-```{r methods with irec flowchart, out.width="50%", results='asis', echo=FALSE}
+For Northern and Central BC, we use iREC from 2015 onwards because iREC catch estimates did not seem to be consistent with other catch data sources before 2015. This is potentially related to iREC not achieving effective sample rates in Northern and Central BC in 2013-2015. Northern and Central BC creel and log book data is not currently incorporated into iREC calibration but this may change with further improvements in iREC calibration. Furthermore, we use iREC as the best catch estimate in each month in these regions as much of the creel and logbook catch does not account for releases. 
+
+```{r methods with iREC flowchart, out.width="50%", results='asis', echo=FALSE}
 #| label: fig-area-catch-process
 #| fig-cap: "Diagram showing the steps to identifying the best avaiable catch in Southern BC between creel and iREC from 2013 onward."
 
 knitr::include_graphics("img/flowchart_with_irec.png")
 ```
 
-In Figure \@ref(fig:fig-creel-irec-NGS) we demonstrate how iREC fills in the gaps in each PFMA using the Northern Strait of Georgia finescale fishery as an example.
+In Figure \@ref(fig:fig-creel-iREC-NGS) we demonstrate how iREC fills in the gaps in each PFMA using the Northern Strait of Georgia finescale fishery as an example.
 
 
 \begin{landscapepage}
@@ -266,14 +269,14 @@ pfma_yearMonth_catch_estimate_1 <-
          sum_catch_estimate != sum_historic, 
          sum_catch_estimate != sum_irec)
 
-pfma_yearMonth_irec_1 <-
+pfma_yearMonth_iREC_1 <-
   pfma_yearMonth |> 
   filter(sum_catch_estimate == sum_irec)
 ```
 
 
 ```{r echo=FALSE, fig.align="left", fig.height=8, fig.width=8, message=FALSE, warning=FALSE, out.width="8in"}
-#| label: fig-creel-irec-NGS
+#| label: fig-creel-iREC-NGS
 #| fig-cap: Coverage of catch estimates in Northern Strait of Georgia by area and month and chosen best catch estimate between creel and iREC
 
 ngs_catch <-
@@ -282,8 +285,8 @@ ngs_catch <-
   mutate(finescale_fishery = factor(finescale_fishery, 
                                     levels = c("NGS S SPRING", "NGS S SUMMER", "NGS S FALL")))
 
-ngs_irec_catch <-
-  pfma_yearMonth_irec_1|>
+ngs_iREC_catch <-
+  pfma_yearMonth_iREC_1|>
   filter(region == "NGS", year >= 2013) |>
   mutate(finescale_fishery = factor(finescale_fishery, 
                                     levels = c("NGS S SPRING", "NGS S SUMMER", "NGS S FALL")))
@@ -297,7 +300,7 @@ g <-
   scale_y_discrete(limits = rev)+
   guides(fill=guide_legend(title="Filtered creel + logbook estimate")) +
   new_scale_fill() +
-  geom_tile(data = ngs_irec_catch, 
+  geom_tile(data = ngs_iREC_catch, 
             aes(x=year, y=as.factor(month), fill = sum_catch_estimate), 
             colour = "white") +
   scale_fill_gradient(low = col7, high = col8,  na.value = colclear, limits=c(0,15000))+
@@ -317,10 +320,16 @@ g
 
 ## Revised Chinook catch estimates before iREC
 
-Where iREC is unavailable (before 2013 in Southern BC and before 2015 in North/Central BC), we predict iREC-incorporated catch estimates by finescale fishery using a modeled relationship between summertime unfiltered creel estimates without iREC and iREC-incorporated catch estimates (i.e. the "best monthly catch estimate" from above) from the associated years of creel data. For South Coast BC we chose 2013-2023 as a static period to model this relationship and then we predicted catch using summertime unfiltered creel data from 2005-2012. The modeling period for Northern regions is 2015-2023 and the prediction period is 2005-2014. We selected 2005 as the starting point for the predicted period as it is the first year that fish from brood year 2003 are caught in pre-terminal sport fisheries (as age 2s), and 2003 is the earliest brood that could contribute to the the 2009 CYER (as age 6s). The modelling protocol is described below. These seasonal catch estimates are then rolled up into yearly estimates for reporting purposes. This process, shown in Figure \@ref(fig:fig-before-irec-flowchart) below, is automated and accomplished in the modelling function of the `pacRecCatch` R package [@pacRecCatch].
+Where iREC is unavailable (before 2013 in Southern BC and before 2015 in North/Central BC), we predict combined creel and iREC catch estimates by finescale fishery using:
 
-```{r methods before irec flowchart, out.width="65%", results='asis', echo=FALSE}
-#| label: fig-before-irec-flowchart
+1) a modeled relationship between summertime creel catch estimates and summertime combined creel and iREC catch estimates (South Coast summer models)
+1) a modeled relationship between summertime creel catch estimates and seasonal combined creel and iREC catch estimates (South Coast seasonal models). There is not enough creel data outside the summer months to creat a modeled relationship. 
+1) a modeled relationship between annual creel catch estimates and annual iREC catch estimates (North and Central Coast annual models)
+
+For South Coast BC we chose 2013-2023 as a static period to model this relationship and then we predicted catch using summertime creel catch estimates from 2005-2012. The modeling period for Northern regions is 2015-2023 and the prediction period is 2005-2014. We selected 2005 as the starting point for the predicted period as it is the first year that fish from brood year 2003 are caught in pre-terminal sport fisheries (as age 2s), and 2003 is the earliest brood that could contribute to the the 2009 CYER (as age 6s). The modelling protocol is described below. These seasonal catch estimates are then rolled up into yearly estimates for reporting purposes. This process, shown in Figure \@ref(fig:fig-before-iREC-flowchart) below, is automated and accomplished in the modelling function of the `pacRecCatch` R package [@pacRecCatch].
+
+```{r methods before iREC flowchart, out.width="65%", results='asis', echo=FALSE}
+#| label: fig-before-iREC-flowchart
 #| fig-cap: "Diagram showing the steps to identifying expanded catch within all regions in years before iREC is available."
 
 knitr::include_graphics("img/flowchart_before_irec.png")
@@ -328,9 +337,9 @@ knitr::include_graphics("img/flowchart_before_irec.png")
 
 ### Splitting fisheries by season
 
-Following the rules for incorporating iREC into the best catch estimate, we split previous fisheries into spring (months 1:4), summer (months 5:9), and fall (10:12) seasons. Fisheries were split by season in order to better combine estimates since there are not always iREC or creel estimates for each month. We did not split terminal fisheries up by season as they typically are defined by limited time periods for a given stock. Seasonality is also an important consideration for calculating marked released and unmarked kept rates used to evaluate mark-selective fishing (see below for more detail). 
+Following the rules for incorporating iREC into the combined creel and iREC catch estimate, we split previous fisheries into spring (months 1:4), summer (months 5:9), and fall (10:12) seasons. Fisheries were split by season in order to better combine estimates since there are not always iREC or creel estimates for each month. We did not split terminal fisheries up by season as they typically are defined by limited time periods for a given stock. Seasonality is also an important consideration for calculating marked released and unmarked kept rates used to evaluate mark-selective fishing (see below for more detail). 
 
-With many of the fisheries, there is a relatively consistent partial creel and logbook coverage in the summer throughout the time series (from 2005 to 2023). This consistent period of coverage is used to predict the estimated catch in the other years where we don't have iREC. For South Coast fisheries, this data is unfiltered South Coast creel + logbook catch estimates; for North and Central coast this data is referred to as "historical" but is logbook only for Central Coast and a combination of unfiltered Haida or Area 3/4 creel and logbook catch estimates in the North.
+With many of the fisheries, there is a relatively consistent partial creel and logbook coverage in the summer (months 5:9) throughout the time series (from 2005 to 2023). This consistent period of coverage is used to predict the estimated catch in the years where we don't have iREC. The annual models use annual catch to predict. 
 
 ### Modelling protocol
 
@@ -355,7 +364,9 @@ This protocol generated a candidate model for each seasonal and regional groupin
 
 ### Model validation with Salmon Head Recovery Program
 
-We validated the marked kept catch estimates from our top candidate models by regressing both the predominantly observed catch (with iREC; 2013-2023) and the modelled catch (2005-2012) with the number of marked Chinook heads by the Salmon Head  Recovery Program (SHRP), which collects heads from recreational fisheries to recover CWTs. The slope of the linear regression between the kept marked catch and the number of heads across CWT regions and seasons should provide the average submission rate of all recreational fisheries. Since there were no substantial changes to how the SHRP is delivered over both the modeled and observed catch time periods, the slopes should be similar, with any deviations potentially indicating a lack in congruence between the two catch time series.
+We validated the marked kept catch estimates from our top candidate models by regressing both the predominantly observed catch (combined creel and iREC; 2013-2023) and the modeled catch (2005-2012) with the number of marked Chinook heads by the Salmon Head Recovery Program (SHRP), which collects heads from recreational fisheries to recover CWTs. The slope of the linear regression between the kept marked catch and the number of heads across CWT regions and seasons should provide the average submission rate of all recreational fisheries. Since there were no substantial changes to how the SHRP is delivered over both the modeled and observed catch time periods, the slopes should be similar, with any deviations potentially indicating a lack in congruence between the two catch time series.
+
+To provide a clearer comparison, a single outlier observation that consisted of over 6000 head recoveries from the SWVI summer period in 2010 was removed. The majority of the heads originated from a single depot that seemed to have contributed substantially more samples compared to other years.
 
 ## Incorporation of both sets of revised estimates in bilateral PST processes 
 
@@ -373,7 +384,7 @@ Recreational fishery CWT sampling in BC collects marked Chinook and Coho heads f
 
 In order to expand CWT observations to a total "estimated number", an estimated sample rate (i.e., submission rate) is required; sample rate is estimated as the total heads submitted in a spatio-temporal stratum divided by the estimated marked kept catch in that stratum. These sample rates are corrected for lost tags that may occur during sample processing, based on the assumption that other CWT observations in the sample represent the lost CWT.
 
-Historically, there have been numerous gaps and higher uncertainty in recreational catch estimates from periods and regions where fishing effort is typically lower, due to either a complete lack of marked catch estimates or from inconsistencies between recoveries and estimated marked catch (e.g., more samples than marked catches). In such cases, several methods have been used to estimate submission rates. The most common approach has been to apply the average submission rate from other regions and time periods with more complete creel survey-based catch estimates to these data-deficient periods and areas (e.g., Southern BC submission rates may be used to estimate recoveries in Central BC or summer submission rates are used to estimate winter recoveries). In other cases, the assumed maximum or minimum submission rates were applied when estimated rates were extreme and presumed to result from uncertainty in marked kept catch estimates. The implementation of iREC provides complete representation of recreational catch in the Pacific Region [@irec_sar_2015]. Using these iREC estimates, in combination with ongoing creel-based estimates from periods and areas with high fishing effort now allows us to directly estimate submission rates for most spatio-temporal strata. As discussed in @CYER2021, such a transition from indirect to direct estimation of submission rates will improve the accuracy of the resulting estimates.
+Historically, there have been numerous gaps and higher uncertainty in recreational catch estimates from periods and regions where fishing effort is typically lower, due to either a complete lack of marked catch estimates or from inconsistencies between recoveries and estimated marked catch (e.g., more samples than marked catches). In such cases, several methods have been used to estimate submission rates. The most common approach has been to apply the average submission rate from other regions and time periods with more complete creel survey-based catch estimates to these data-deficient periods and areas (e.g., Southern BC submission rates may be used to estimate recoveries in Central BC or summer submission rates are used to estimate winter recoveries). In other cases, the assumed maximum or minimum submission rates were applied when estimated rates were extreme and presumed to result from uncertainty in marked kept catch estimates. The implementation of iREC provides complete representation of recreational catch in the Pacific Region [@irec_sar_2015]. Using these iREC estimates, in combination with ongoing creel-based estimates from periods and areas with high fishing effort now allows us to diRECtly estimate submission rates for most spatio-temporal strata. As discussed in @CYER2021, such a transition from indiRECt to diRECt estimation of submission rates will improve the accuracy of the resulting estimates.
 
 Submission rates for recreational catch may vary both spatially and temporally for other various reasons (e.g., the proportion of guided catch, the presence of creel surveyors, availability of head depots in an area, fisher awareness, and support of the program). To help mitigate this variability, BC marine waters are split into smaller regions that better represent different recreational fisher communities. To better align the CWT estimates with updated recreational catch estimates, Chinook CWT regions were redefined for 2005 through to the present (as shown in Figure \@ref(fig:fig-CwtMap)).
 
