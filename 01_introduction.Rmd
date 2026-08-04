@@ -11,7 +11,7 @@ A key component to meeting PST requirements is to provide estimates of fishery i
 In this report, we describe the catch estimation methods used, and present results on:
 
   1. revised Chinook catch estimates for years with creel or logbook, or both, and iREC (method used for future catch estimates),
-  2. revised Chinook catch estimates for years without iREC back to 2005 (Note that 2005 is the earliest brood contributing to the 2009 CYER base period),
+  2. revised Chinook catch estimates for years without iREC back to 2005 (Note that 2005 is the earliest year that fish contributing to the 2009 CYER base period are caught in ocean fisheries),
   3. revised Chinook coded wire tag estimates to reflect catch estimates,
   4. the incorporation of revised CWT and non-retention estimates into annual Chinook Technical Committee (CTC) processes
 
