@@ -68,7 +68,7 @@ In the past, kept and released catch with unknown adipose clip status
 were split based on mark rate and release rate of the known catch. For
 more information and methods about the SCCS, see the most recent program
 overview and bulletins [e.g. @scab2024]. While the SCCS is the primary
-source of data for the South Coast, logbook data from guides and avid
+data source for the South Coast, logbook data from guides and avid
 angler programs are provided on a voluntary basis and are removed from
 area and month-specific estimates from the creel survey to avoid
 double-counting.
@@ -113,7 +113,7 @@ estimates from the winter months (October through February) fail the
 criteria. The broadest coverage occurs in the protected waters of the
 Strait of Georgia, which has a higher human population density and can
 be fished year-round, and the narrowest coverage occurs on the exposed
-North West Coast of Vancouver Island which is difficult to fish in the
+North West Coast of Vancouver Island (NWCVI) which is difficult to fish in the
 winter and therefore has no creel coverage in the winter months.
 
 There is variability among regions in passing the criteria in the
@@ -124,7 +124,7 @@ islands and inlets that make aerial surveys complex) and logistics (high
 population concentration creates a higher number of launching areas,
 both private and public, which in turn make capturing an appropriate
 proportion of fishers in dockside interviews a challenge). In contrast,
-less populated and more remote parts of Vancouver island have fewer
+less populated and more remote parts of Vancouver Island have fewer
 launching areas which make dockside interviews concentrated on the
 public wharfs and may contribute to the higher quality creel estimates
 (e.g. 87 and 88% of summer estimates passing in NWCVI and Juan de Fuca
@@ -136,7 +136,7 @@ Overall, South Coast creel surveys are improving in quality and the rate
 of passing the criteria has gone from 46% (from 2005-2020) to 70% in the
 last five years (2021-2025).
 
-````{=tex}
+
 \begin{landscapepage}
 
 ```{r methods Loading packages useful functions, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
@@ -227,7 +227,7 @@ ggplot() +
 ```
 
 \end{landscapepage}
-````
+
 
 #### Central Coast Catch Estimation
 
@@ -286,9 +286,8 @@ since roughly 2010. Several types of licences are sold, distinguished by
 term length, residency, and age. For this program, recreational licence
 holders are selected to report online, for one assigned month of their
 licence term, a detailed record of their fishing activity and catch.
-Reporting is mandatory (but not currently enforced) and for various
-reasons not all fishers complete the report; completion rates are
-typically 50-55%. Using the completed reports, estimates of the total
+Reporting is mandatory with completion rates typically at 50 to 55% with the
+more recent reporting years. Using the completed reports, estimates of the total
 kept and released catch, by mark status are developed for each month and
 PFMA. Uncalibrated estimates are developed by expanding the average
 monthly catch per licence by the number of licences eligible to fish in
@@ -507,7 +506,7 @@ data sources are combined.
 For Northern and Central BC, we use iREC from 2015 onwards because iREC
 catch estimates did not seem to be consistent with other catch data
 sources before 2015. This is potentially related to iREC not achieving
-effective sample rates in Northern and Central BC in 2013-2015. Northern
+effective sample rates in Northern and Central BC in 2013 or 2014. Northern
 and Central BC creel and logbook data is not currently incorporated into
 iREC calibration but this may change with further improvements in iREC
 calibration. Furthermore, we use iREC as the best catch estimate in each
@@ -516,7 +515,7 @@ account for releases.
 
 ```{r methods with iREC flowchart, out.width="50%", results='asis', echo=FALSE}
 #| label: fig-area-catch-process
-#| fig-cap: "Diagram showing the steps to identifying the best avaiable catch in Southern BC between creel and iREC from 2013 onward."
+#| fig-cap: "Diagram showing the steps to identifying the best available catch in Southern BC between creel and iREC from 2013 onward."
 
 knitr::include_graphics("img/flowchart_with_irec.png")
 ```
@@ -609,7 +608,7 @@ finescale fishery using:
 2)  a modelled relationship between summertime creel catch estimates and
     seasonal combined creel and iREC catch estimates (South Coast
     seasonal models). There is not enough creel data outside the summer
-    months to create a modeled relationship.
+    months to create a direct modelled relationship.
 3)  a modelled relationship between annual creel catch estimates and
     annual iREC catch estimates (North and Central Coast annual models)
 
@@ -649,8 +648,8 @@ used to evaluate mark-selective fishing (see below for more detail).
 With many of the fisheries, there is a relatively consistent partial
 creel and logbook coverage in the summer (months 5:9) throughout the
 time series (from 2005 to 2023). This consistent period of coverage is
-used to predict the estimated catch in the years where we don't have
-iREC. The annual models use annual catch to predict.
+used to predict the estimated catch in the years when iREC is not available. 
+The annual models use annual catch to predict.
 
 ### Modelling protocol
 
@@ -687,8 +686,8 @@ The automated model selection followed this protocol:
 
 - We then fit to the cleaned data set a global model with the maximum
   number of relevant terms (typically included unfiltered summer creel,
-  region or finescale fishery, mark_status (marked vs. unmarked),
-  kept_status (kept vs. released), management(aabm vs. isbm), and their
+  region or finescale fishery, mark status (marked vs. unmarked),
+  kept status (kept vs. released), management (aabm vs. isbm), and their
   interactions).
 
 - Then we used the dredge function in `MuMIn` package [@mumin] to
@@ -710,7 +709,7 @@ This protocol generated a candidate model for each seasonal and regional
 grouping tested. Since models with different subsets of data (e.g., all
 south coast creel grouped vs. separated by finescale fishery) can not be
 compared with AIC, we ranked models on visual diagnostics and
-pseudo-R\^2 (a goodness of fit test, [@Nakagawa2017]). For all candidate
+pseudo-$R^{2}$ (a goodness of fit test, [@Nakagawa2017]). For all candidate
 models we used the `DHARMa` package [@dharma] to create a qq-plot to
 detect deviations in observations from expected distribution and a plot
 of the residuals against predicted values to detect patterns in
@@ -736,7 +735,7 @@ CWTs. The slope of the linear regression between the kept marked catch
 and the number of heads across CWT regions and seasons should provide
 the average submission rate of all recreational fisheries. Since there
 were no substantial changes to how the SHRP is delivered over both the
-modeled and observed catch time periods, the slopes should be similar,
+modelled and observed catch time periods, the slopes should be similar,
 with any deviations potentially indicating a lack in congruence between
 the two catch time series.
 
@@ -750,7 +749,7 @@ compared to other years.
 
 The Chinook Technical Committee (CTC) produces several annual analyses
 and reports for the Pacific Salmon Commission (PSC). Notably: (1) the
-Catch and Escapement Report which details catch and escapement across
+Catch and Escapement Report which details catch estimates across
 all fisheries [e.g., @CTC2025b]; (2) the Exploitation Rate Analysis
 (ERA) report that uses a cohort analysis on CWT hatchery stocks to
 calculate Calendar Year Exploitation Rates on a stock-specific basis
@@ -806,7 +805,7 @@ Historically, there have been numerous gaps and higher uncertainty in
 recreational catch estimates from periods and regions where fishing
 effort is typically lower, due to either a complete lack of marked catch
 estimates or from inconsistencies between recoveries and estimated
-marked catch (e.g., more samples than marked catches). In such cases,
+marked catch (e.g., more observed samples than marked catch). In such cases,
 several methods have been used to estimate submission rates. The most
 common approach has been to apply the average submission rate from other
 regions and time periods with more complete creel survey-based catch
@@ -979,7 +978,7 @@ With the exception of Juan de Fuca, which did have mark-selective
 fisheries before 2013, all other sport fisheries were non-selective
 before 2013. Since the data is modelled, we did not want to bias the
 previous non-selective fisheries by allowing for selectivity, therefore
-we have fixed the $MRR$ and $UKR$ rates to be equivalent in the modeled
+we have fixed the $MRR$ and $UKR$ rates to be equivalent in the modelled
 data, by calculating a single release rate for marked and unmarked fish
 combined based on the following equation:
 
