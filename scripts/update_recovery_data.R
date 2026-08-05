@@ -31,9 +31,9 @@ mrpAdminMain(c(cmd_params, "2020:2024"), mrp_config_filename, db_password = pw)
 
 
 catch_years <- 2005:2024
-report_filenames <- file.path(cwt_report_dir,paste0("RC042_CDFO_", catch_years, ".csv"))
+report_filenames <- file.path(cwt_report_dir,paste0("RC050_CDFO_", catch_years, ".csv"))
 
-cetl::campImportRecFile(camp_conn_filename = user_settings_filename,
-                        rec_filenames = report_filenames,
+lapply(report_filenames, \(x) cetl::campImportRecFile(camp_conn_filename = user_settings_filename,
+                        rec_filenames = x,
                         test_mode = FALSE,
-                        update_sync_tbl = FALSE)
+                        update_sync_tbl = FALSE))

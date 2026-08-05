@@ -367,7 +367,7 @@ Figure \@ref(fig:fig-jnst-summer-model) shows the modelled relationship for JNST
 cfg <- main_regions[["JNST Summer"]]
 
 plots <- run_main_region(
-  model_name    = "JNST Summer",
+  model_name    = cfg$model_name,
   x_var         = cfg$x_var,
   x_var_mr      = cfg$x_var_mr,
   x_var_rr      = cfg$x_var_rr,
@@ -398,7 +398,7 @@ Figure \@ref(fig:fig-jdf-summer-model) shows the modelled relationship for JDF S
 cfg <- main_regions[["JDF Summer"]]
 
 plots <- run_main_region(
-  model_name    = "JDF Summer",
+  model_name    = cfg$model_name,
   x_var         = cfg$x_var,
   x_var_mr      = cfg$x_var_mr,
   x_var_rr      = cfg$x_var_rr,
