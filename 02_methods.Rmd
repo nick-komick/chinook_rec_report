@@ -127,7 +127,7 @@ proportion of fishers in dockside interviews a challenge). In contrast,
 less populated and more remote parts of Vancouver Island have fewer
 launching areas which make dockside interviews concentrated on the
 public wharfs and may contribute to the higher quality creel estimates
-(e.g. 87 and 88% of summer estimates passing in NWCVI and Juan de Fuca
+(e.g. 87 and 88% of summer estimates passing in NWCVI and Juan de Fuca,
 respectively). Offshore areas are also geographically simpler for aerial
 surveys and consequently have some of the highest rates of passing the
 criteria (e.g. 99% of Area 125).
@@ -261,8 +261,8 @@ around the northern portion in PFMA 1/101. As the logbook program does
 not capture release data, the creel program data has historically been
 used to estimate releases from both lodge and non-lodge catch.
 
-The NBC ISBM fishery is monitored by both a Skeena creel program
-[@robichaud2025creel] and a logbook program run by DFO in PFMAs 3/103
+The NBC ISBM fishery is monitored by both a creel program
+[@robichaud2025creel] and a logbook program in PFMAs 3/103
 and 4/104. It is unclear how the creel program was operated from 2005 to
 2007, however DFO conducted the program from 2008 to 2014 and the North
 Coast Skeena First Nations Stewardship Society has conducted the program
@@ -476,10 +476,7 @@ combination of iREC, filtered creel, and logbook data will be referred
 to as "Combined creel and iREC catch estimate". Catch estimates that
 only include data from iREC will be referred to as "iREC catch
 estimate". Catch estimates that only include unfiltered creel and
-logbook data will be referred to as "creel catch estimate". While
-logbooks are an important part of the catch estimation program, for
-simplicity we want to emphasize the difference between creel on its own
-and creel augmented by iREC information. For the North Coast, the
+logbook data will be referred to as "creel catch estimate". For the North Coast, the
 nomenclature will be the same but it is to be noted that the creel does
 not go through the same quality control measures and therefore there is
 no filtered or unfiltered creel category. For Central Coast, there is no
@@ -524,7 +521,7 @@ In Figure \@ref(fig:fig-creel-iREC-NGS) we demonstrate how iREC fills in
 the gaps in each PFMA using the Northern Strait of Georgia finescale
 fishery as an example.
 
-````{=tex}
+
 \begin{landscapepage}
 
 ```{r methods pfma_month again, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
@@ -594,7 +591,7 @@ g
 ```
 
 \end{landscapepage}
-````
+
 
 ## Revised Chinook catch estimates before iREC
 
