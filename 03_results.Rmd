@@ -839,19 +839,19 @@ out$plot[[2]] <- out$plot[[2]] + labs(title = "updated catch (iREC)")
 out$plot
 ```
 
-For Northern AABM, there is an excellent submission rate of over 30%, using both methods and very similar good fit (R2 \> 90%). This indicates that creel and iREC in this region are both independently a good job at sampling catch. It further may suggest that Haida creel can be used in pace of iREC-only methods.
+For Northern AABM, between 2015 and 2023, there is an excellent submission rate of 24.6% using creel methods and this slightly increases with iREC to 25.6%. Both methods have good fit, R2 = 95% for creel and 93% for iREC. This indicates that creel and iREC in this region are both independently a good job at sampling catch. It further may suggest that Haida creel can be used in pace of iREC-only methods.
 
 ```{r heads-to-creel-northern-aabm, echo=FALSE}
 #| label: fig-heads-to-creel-and-updated-catch-northern-aabm
-#| fig-cap: "Relationship between the northern BC marked kept catch estimates from the creel program (left panel) and the combined creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP"
+#| fig-cap: "Relationship between the northern BC AABM marked kept catch estimates from the creel program (left panel) and the combined creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP"
 northern_regions <- c("North AABM")
 out <- run_catch_heads_group(northern_regions,
                               x_var_original = "historic_plus",
-                              x_var_mr       = "mr_historic_plus")
+                              x_var_mr       = "mr_historic_plus", start_y = 2015, end_y=2023)
 out$plot+ labs(title="iREC")
 ```
 
-In Northern ISBM, iREC improves the fit of the heads to catch relationship (R2 = 76% vs. 70%), and the sample rate remains the same across both methods. This fit is based on only 19 heads so increasing the number of head submissions may result in a tighter relationship in the future.
+In Northern ISBM, iREC improves the fit of the heads to catch relationship (R2 = 78.5% for creel vs. 87.9% for iREC), and the sample rate drops slightly using iREC to 16.9% from 18.1% using creel. 
 
 ```{r heads-to-creel-northern-isbm, echo=FALSE}
 #| label: fig-heads-to-creel-and-updated-catch-northern-isbm
@@ -859,13 +859,13 @@ In Northern ISBM, iREC improves the fit of the heads to catch relationship (R2 =
 northern_regions <- c("North ISBM")
 out <- run_catch_heads_group(northern_regions,
                               x_var_original = "historic_plus",
-                              x_var_mr       = "mr_historic_plus")
+                              x_var_mr       = "mr_historic_plus", start_y = 2015, end_y=2023)
 out$plot[[1]] <- out$plot[[1]] + labs(title = "previous catch (creel)")
 out$plot[[2]] <- out$plot[[2]] + labs(title = "updated catch (iREC)")
 out$plot
 ```
 
-The logbook program catch in Central BC is underestimating catch. When we use iREC we get a more reasonable sample rate.
+It is clear that the logbook program in Central BC is underestimating catch, as the sample rate is 1.15 and when we use iREC we get a more reasonable sample rate of 0.17. The fit is very similar at R2 = 87%. 
 
 ```{r heads-to-creel-cbc, echo=FALSE}
 #| label: fig-heads-to-creel-and-updated-catch-central
@@ -873,7 +873,7 @@ The logbook program catch in Central BC is underestimating catch. When we use iR
 northern_regions <- c("Central BC ISBM kept")
 out <- run_catch_heads_group(northern_regions,
                               x_var_original = "historic_plus",
-                              x_var_mr       = "mr_historic_plus")
+                              x_var_mr       = "mr_historic_plus", start_y = 2015, end_y=2023)
 out$plot[[1]] <- out$plot[[1]] + labs(title = "previous catch (logbook)")
 out$plot[[2]] <- out$plot[[2]] + labs(title = "updated catch (iREC)")
 out$plot
@@ -1076,37 +1076,36 @@ post_iREC <- ggplot(data = post_iREC_catch_model_df,
 
 pre_iREC + post_iREC
 ```
-
+\begin{landscapepage}
 
 \newpage
-\begin{landscape}
+
+We can now visualize updated submission rates to the SHRP across time in each region. A submission rate of 20% of the catch is the desired minimum sampling rate, and some regions are meeting this target while others are not. Figure \@ref(fig:fig-fishery-rates) shows that submission rates fluctuate year to year and between seasons. As noted above, in general, summer submission rates are typically higher than off-season submission rates. Overall, the off-season submission rates could use improvement and are typically under 20%. The off-season submission rates in Juan de Fuca Sport and Southern Georgia Strait tend to be under 10%, and improving these rates is particularly important since off-season catch in each of those areas was over 7000 in 2023. Northern Strait of Georgia also has off-season catch of over 5000 fish in 2023, and could use improvement in off-season submission rates. In contrast, the sum total off-season catch in NWCVI, SWCVI, and Johnstone Strait Sport in 2023 was under 900 fish. 
+
+The summer submission rates in Northern WCVI, Johnstone Strait, and the annual Haida Gwaii rates have typically been over 20% for most of the time series. This is likely due to high lodge participation in the sport head recovery program. Haida Gwaii Sport in particular has consistently high submission rates, which likely contributes to the accuracy of the cwt estimates. Annual submission rates for Northern BC ISBM and Central BC Sport and summer submission rates for Northern Strait of Georgia initially were quite low (</= 10 %) early in the time series, but in the last ten years have had more than half of the submission rates above or very close to the target. This could be due to increasing lodge or guide participation in the SHRP over time. The summer submission rates for Southern WCVI Sport, Southern Strait of Georgia Sport, and Juan de Fuca Sport are all consistently under the 20% target, and have mostly been under 15% in the last ten years. 
 
 
 
-```{r results Fishery Rates, echo=FALSE, fig.height=20, fig.width=18, fig.align="left", out.width="10in"}
+
+Nick's previous figure: 
+
+
+```{r results Fishery Rates, echo=FALSE, fig.height=10, fig.width=9, fig.align="left", out.width="10in"}
 #| label: fig-fishery-rates
-#| fig-cap: "Chinook Head submission rate time series for each CWT region and associated time periods (i.e., season or annual)"
+#| fig-cap: "Chinook Head submission rate time series for each CWT region and associated time periods (i.e., seasonal or annual)"
 
 region_labels <- c(
   "CA JDF" = "Juan de Fuca Sport",
   "CENTRAL S" = "Central BC Sport",
   "JOHN ST" = "Johnstone Strait Sport",
   "NORTH AABM" = "Haida Gwaii Sport",
-  "NORTH ISBM" = "Nothern BC ISBM Sport",
+  "NORTH ISBM" = "Northern BC ISBM Sport",
   "NGS S" = "Strait of Georgia Sport (North)",
   "NWCVI S" = "West Coast Vancouver Island Sport (North)",
   "SGS S" = "Strait of Georgia Sport (South)",
   "SWCVI S" = "West Coast Vancouver Island Sport (South)"
 )
 
-
-
-# all_regions <- c("SGS Summer","NGS Summer","JNST Summer","SWCVI Summer","NWCVI Summer","JDF Summer", "SGS Seasonal","NGS Seasonal","JDF Seasonal","JNST Seasonal","WCVI Seasonal", "North AABM", "North ISBM", "Central BC ISBM kept")
-# 
-# out <- run_catch_heads_group(all_regions,
-#                               x_var_original = "creel_unfiltered_plus",
-#                               x_var_mr       = "mr_creel_plus_summer", start_y = 2005, end_y=2023)
-# creel_to_heads <- out$creel_to_heads
 
 region_df <- 
   creel_to_heads |>
@@ -1145,9 +1144,141 @@ ggplot(data = region_df,
 
 ```
 
-\end{landscape}
+Optional plot showing off-season combined vs. summer 
+
+```{r results Fishery Rates, echo=FALSE, fig.height=10, fig.width=9, fig.align="left", out.width="100%"}
+#| label: fig-fishery-rates-2
+#| fig-cap: "Chinook Head submission rate time series for each CWT region and associated time periods (i.e., season or annual)"
+
+region_labels <- c(
+  "JDF" = "Juan de Fuca Sport",
+  "CBC" = "Central BC Sport",
+  "JNST" = "Johnstone Strait Sport",
+  "NC" = "Northern BC",
+   "NBC AABM" = "Haida Gwaii Sport",
+   "NBC ISBM" = "Northern BC ISBM Sport",
+  "NGS" = "Strait of Georgia Sport (North)",
+  "NWCVI" = "West Coast Vancouver Island Sport (North)",
+  "SGS" = "Strait of Georgia Sport (South)",
+  "SWCVI" = "West Coast Vancouver Island Sport (South)"
+)
+
+region_order<-c("NWCVI", "SWCVI", "NGS", "SGS", "JNST", "JDF", "NBC AABM","NBC ISBM", "CBC")
+
+all_regions <- c("SGS Summer","NGS Summer","JNST Summer","SWCVI Summer","NWCVI Summer","JDF Summer", "SGS Seasonal","NGS Seasonal","JDF Seasonal","JNST Seasonal","WCVI Seasonal", "North AABM", "North ISBM", "Central BC ISBM kept")
+
+out <- run_catch_heads_group(all_regions,
+                              x_var_original = "creel_unfiltered_plus",
+                              x_var_mr       = "mr_creel_plus_summer", start_y = 2005, end_y=2023)
+creel_to_heads2 <- out$creel_to_heads
+
+
+region_df <- 
+  creel_to_heads2 |>
+  mutate(season_combo = case_when(season %in% c("spring", "fall") ~ "off-season",  .default = season))|>
+  mutate(region_combo = case_when(region =="NC" & management == "AABM" ~ "NBC AABM", 
+                                  region =="NC" & management == "ISBM" ~ "NBC ISBM",
+                                  .default = region))|>
+  group_by(year, status, kept_status, mark_status, region_combo, season_combo, estimate_type, estimate_shape_type)|>
+  summarize_if(is.numeric, sum, na.rm = TRUE)|>
+  mutate(submit_rate = head_total / catch_estimate) |>
+  filter(catch_estimate > 0, catch_estimate > head_total)|>
+  mutate(region_combo = factor(region_combo, levels = region_order))|>
+  filter(estimate_type=="catch_estimate")
+
+ggplot(data = region_df,
+       aes(x=year, y=submit_rate, color=season_combo)) +
+  geom_line(linewidth = 1,
+            alpha = 0.6) +
+  geom_point(size = 1)+
+  facet_wrap(~region_combo,
+             ncol = 3,
+             labeller = labeller(region_combo = region_labels)) +
+  scale_color_manual(values =  c("#440154", "#d4be02", "#35b779", "#31688e")) +
+  labs(x = "Year", 
+       y = "Chinook Head Submission Rate", 
+       color = "Season")+
+  theme_bw() +
+  theme(legend.position="bottom") + geom_hline(yintercept = 0.2, 
+             color = "red", 
+             linetype = "dashed", 
+             linewidth = 0.5, show.legend=TRUE) 
+
+
+
+
+```
+Or same figure as Nicks but updated with red line and NBC ISBM
+
+```{r results Fishery Rates, echo=FALSE, fig.height=10, fig.width=9, fig.align="left", out.width="10in"}
+#| label: fig-fishery-rates-3
+#| fig-cap: "Chinook Head submission rate time series for each CWT region and associated time periods (i.e., season or annual)"
+
+region_labels <- c(
+  "JDF" = "Juan de Fuca Sport",
+  "CBC" = "Central BC Sport",
+  "JNST" = "Johnstone Strait Sport",
+  "NC" = "Northern BC",
+   "NBC AABM" = "Haida Gwaii Sport",
+   "NBC ISBM" = "Northern BC ISBM Sport",
+  "NGS" = "Strait of Georgia Sport (North)",
+  "NWCVI" = "West Coast Vancouver Island Sport (North)",
+  "SGS" = "Strait of Georgia Sport (South)",
+  "SWCVI" = "West Coast Vancouver Island Sport (South)"
+)
+
+region_order<-c("NWCVI", "SWCVI", "NGS", "SGS", "JNST", "JDF", "NBC AABM","NBC ISBM", "CBC")
+
+all_regions <- c("SGS Summer","NGS Summer","JNST Summer","SWCVI Summer","NWCVI Summer","JDF Summer", "SGS Seasonal","NGS Seasonal","JDF Seasonal","JNST Seasonal","WCVI Seasonal", "North AABM", "North ISBM", "Central BC ISBM kept")
+
+out <- run_catch_heads_group(all_regions,
+                              x_var_original = "creel_unfiltered_plus",
+                              x_var_mr       = "mr_creel_plus_summer", start_y = 2005, end_y=2023)
+creel_to_heads2 <- out$creel_to_heads
+
+
+region_df <- 
+  creel_to_heads2 |>
+  #mutate(season_combo = case_when(season %in% c("spring", "fall") ~ "off-season",  .default = season))|>
+  mutate(region_combo = case_when(region =="NC" & management == "AABM" ~ "NBC AABM", 
+                                  region =="NC" & management == "ISBM" ~ "NBC ISBM",
+                                  .default = region))|>
+  group_by(year, status, kept_status, mark_status, region_combo, season, estimate_type, estimate_shape_type)|>
+  summarize_if(is.numeric, sum, na.rm = TRUE)|>
+  mutate(submit_rate = head_total / catch_estimate) |>
+  filter(catch_estimate > 0, catch_estimate > head_total)|>
+  mutate(region_combo = factor(region_combo, levels = region_order))|>
+  filter(estimate_type=="catch_estimate")
+
+ggplot(data = region_df,
+       aes(x=year, y=submit_rate, color=season)) +
+  geom_line(linewidth = 1,
+            alpha = 0.6) +
+  geom_point(size = 1)+
+  facet_wrap(~region_combo,
+             ncol = 3,
+             labeller = labeller(region_combo = region_labels)) +
+  scale_color_manual(values =  c("#440154", "#d4be02", "#35b779", "#31688e")) +
+  labs(x = "Year", 
+       y = "Chinook Head Submission Rate", 
+       color = "Season")+
+  theme_bw() +
+  theme(legend.position="bottom") + geom_hline(yintercept = 0.2, 
+             color = "red", 
+             linetype = "dashed", 
+             linewidth = 0.5, show.legend=TRUE)
+
+
+
+```
+
+
+\end{landscapepage}
+
+
+
 \clearpage
-````
+
 
 ## Revised catch data in CTC processes
 
