@@ -30,6 +30,10 @@ Mark rates and other explored models:
 
 
 
+Sport Head validation notes: 
+- good for kept marked catch but doesn't necessarily extend to unmarked or released catch. So maybe need to verify before abandoning in Haida Gwaii. 
+- overall more areas and seasons used with irec, improved the fit in general and more realistic sample rates (which are lower than they should be) 
+- 
 
 
 
