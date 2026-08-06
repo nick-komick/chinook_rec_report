@@ -1294,9 +1294,13 @@ Recreational catch estimate revisions from this analysis were first incorporated
 
 As noted previously, revised estimates derived using the methods described in this report were incorporated into CTC reports starting with the February 2025 ERA. Both kept and released catch estimates are typically reported in the Catch and Escapement report by ERA fishery. Here we plot the difference between the revised kept (Figure \@ref(fig:fig-cande-kept)) and released (Figure \@ref(fig:fig-cande-released)) catch estimates, and those recently reported in the 2024 Catch and Escapement report [@CTC2025b]. Again, we see that the revised catch estimates were generally higher than previously reported estimates that did not incorporate iREC information. In some fisheries, iREC information has been included in recent years (e.g., since 2018 in Strait of Georgia Sport), but our revised estimates incorporate iREC in a standardized way across all fisheries. The largest changes in kept catch occurred in CBC where iREC had not been previously incorporated, but the inclusion of iREC more than doubles recent estimates. Other large changes occur in Strait of Georgia sport before 2012 (iREC has already been incorporated from 2013 onward).
 
-```{r results CandEkept, results='asis', echo=FALSE}
+```{r results CandEkept, results='asis', echo=FALSE, fig.height=6, fig.width=10}
 #| label: fig-cande-kept
 #| fig-cap: "Revised (blue) and previously reported (green) kept catch estimates from 2005-2023. The vertical line on each graph identifies the first year that revised estimates are based on only on observed data (e.g., iREC and creel).  Years before the vertical line are modelled estimates that utilize past catch estimates."
+
+erafishery_order<-c("WCVI AABM S", "WCVI ISBM S", "GEO ST S", "JNST S", "BC JF S", "NBC AABM S","NBC ISBM S", "CBC S")
+
+
 
 era_model_catch <- 
   sport_release_rates %>% 
@@ -1323,7 +1327,8 @@ fishery_model_line <- data.frame(
   erafishery = c("BC JF S", "CBC S", "GEO ST S", 
                  "JNST S", "NBC AABM S", "NBC ISBM S",
                  "WCVI AABM S", "WCVI ISBM S"),
-  xintercept = c(2013, 2015, 2013, 2013, 2015, 2015, 2013, 2013))
+  xintercept = c(2013, 2015, 2013, 2013, 2015, 2015, 2013, 2013))|>
+  mutate(erafishery = factor(erafishery, levels = erafishery_order))
 
 
 rec_summary <- 
@@ -1334,7 +1339,10 @@ rec_summary <-
 total_catch_compare <- 
   era_model_catch  %>% 
   left_join(rec_summary, by = c("erafishery", "year")) |>
-  filter(!is.na(erafishery))
+  filter(!is.na(erafishery)) |>
+  filter(year<2024) |>
+  mutate(erafishery = factor(erafishery, levels = erafishery_order))
+
 
 
 ## Kept only
@@ -1359,7 +1367,7 @@ print(k)
 
 ```
 
-```{r results CandErelease, results='asis', echo=FALSE}
+```{r results CandErelease, results='asis', echo=FALSE, fig.height=6, fig.width=10}
 #| label: fig-cande-released
 #| fig-cap: "Revised (blue) and previously reported (green) legal-sized release catch estimates from 2005-2023. The vertical line on each graph identifies the first year that revised estimates are based only on observed data (e.g., iREC and creel). Years before the vertical line are modelled based on past catch estimates."
 
@@ -1371,7 +1379,9 @@ rec_summary <-
 total_catch_compare <- 
   era_model_catch  %>% 
   left_join(rec_summary, by = c("erafishery", "year")) |>
-  filter(!is.na(erafishery))
+  filter(!is.na(erafishery))|>
+  filter(year<2024)|>
+  mutate(erafishery = factor(erafishery, levels = erafishery_order))
 
 
 ## Released only
@@ -1400,7 +1410,7 @@ The largest changes in released catch also occurred in CBC where previously very
 
 As described in the methods, kept and marked catch estimates are used to expand CWT observations from the SHRP to CWT estimates uploaded to RMIS. Canada updated CWT estimates based on revised catch and published them to RMIS in support of ERA process starting in February 2025. Figure \@ref(fig:fig-indcwtest) shows the time series of total CWT estimates for all ERA indicator stocks, including both the original 2024 estimates and the revised estimates based on updated catch data. As expected, most of the differences between the 2024 and revised CWT estimates are again in earlier years, before the incorporation of iREC (identified by the vertical line). Furthermore, many of the fisheries show more consistent ranges in values over the whole revised time series (e.g., ERA fishery 63 - GEO ST S) compared to those in the 2024 time series. This suggests that the general fishery sample rate has been relatively consistent and that changes in indicator stock CWT estimates were potentially driven more by biases in historic marked catch estimates. Therefore, revised CWT estimates should provide a more consistent time series to evaluate indicator stock impacts.
 
-```{r results indcwtest, results='asis', echo=FALSE}
+```{r results indcwtest, results='asis', echo=FALSE, fig.height=10, fig.width=10}
 #| label: fig-indcwtest
 #| fig-cap: "time series of CWT estimate totals for all PSC indicator stocks within the CTC 2025 ERA for each ERA fishery. The vertical line on each panel identifies the first year that revised CWT estimates used catch estimates based primarily on observed data (e.g., iREC and creel). Years before the vertical line use modelled catch based on past catch estimates."
 
@@ -1412,11 +1422,21 @@ prev_camp <- ctcUtil::open_camp_connection("camp_2024.yaml")
 
 new_cwt_est <- 
   dbGetQuery(new_camp, cwt_est_sql) |>
-  mutate(fishery = paste0(fishery_id, " - ", fishery_name))
+  mutate(fishery = paste0(fishery_id, " - ", fishery_name))|>
+  mutate(fishery = factor(fishery, levels=c("50 - WCVI AABM S", "51 - WCVI ISBM S", "52 - TWCVI TERM S",  "63 - GEO ST S", "64 - TGEO ST TERM S", "61 - JNST S", 
+                "62 - TJNST TERM S", 
+                "65 - BC JF S", "66 - TBC JF TERM S", 
+                "47 - NBC AABM S", "48 - NBC ISBM S", "49 - TNBC TERM S",  "45 - CBC S", "46 - TCBC TERM S")))
+
 
 prev_cwt_est <- 
   dbGetQuery(prev_camp, cwt_est_sql) |>
-  mutate(fishery = paste0(fishery_id, " - ", fishery_name))
+  mutate(fishery = paste0(fishery_id, " - ", fishery_name))|>
+  mutate(fishery = factor(fishery, levels=c("50 - WCVI AABM S", "51 - WCVI ISBM S", "52 - TWCVI TERM S",  "63 - GEO ST S", "64 - TGEO ST TERM S", "61 - JNST S", 
+                "62 - TJNST TERM S", 
+                "65 - BC JF S", "66 - TBC JF TERM S", 
+                "47 - NBC AABM S", "48 - NBC ISBM S", "49 - TNBC TERM S",  "45 - CBC S", "46 - TCBC TERM S")))
+
 
 dbDisconnect(prev_camp)
 dbDisconnect(new_camp)
@@ -1431,7 +1451,10 @@ cwt_fishery_model_line <-
                 "47 - NBC AABM S", "48 - NBC ISBM S", "49 - TNBC TERM S"),
     xintercept = c(2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013,
                    2015, 2015, 2015, 2015, 2015)
-  )
+  )|> mutate(fishery = factor(fishery, levels=c("50 - WCVI AABM S", "51 - WCVI ISBM S", "52 - TWCVI TERM S",  "63 - GEO ST S", "64 - TGEO ST TERM S", "61 - JNST S", 
+                "62 - TJNST TERM S", 
+                "65 - BC JF S", "66 - TBC JF TERM S", 
+                "47 - NBC AABM S", "48 - NBC ISBM S", "49 - TNBC TERM S",  "45 - CBC S", "46 - TCBC TERM S")))
 
 ## CWT Estimate Total time series
 ggplot() +
@@ -1443,7 +1466,7 @@ ggplot() +
                      labels = c("Revised CWT Estimates", "2024 CWT Estimates"))+
   ylab("CWT Estimate (All Indicators)")+
   xlab("Run Year")+
-  facet_wrap(~fishery, scales = "free", ncol=4)+
+  facet_wrap(~fishery, scales = "free", ncol=3)+
   theme_bw() + 
   theme(legend.position="bottom")+
   geom_vline(data = cwt_fishery_model_line, aes(xintercept = xintercept)) +
@@ -1457,7 +1480,7 @@ Kept and released catch estimates are incorporated for most sport fisheries into
 
 We can see that some fisheries have been accounting for releases since 2005, while other fisheries only more recently incorporated release information. With the exception of Juan de Fuca Strait, which did have mark-selective fisheries before 2012, all other sport fisheries were non-selective before 2013. Since the data is modelled, we did not want to bias the previous non-selective fisheries by allowing for selectivity, therefore we have fixed the $MRR$ and $URR$ to be equal in the modelled data, by calculating a single release rate for marked and unmarked fish combined. After 2013, the data is observed and therefore allowed to vary selectively even if no specific mark selective fishery was specified in regulations. When $MRR$ and $URR$ are identical, this indicates non-selectivity. If $MRR$ is higher than $URR$, this indicates marked fish are released at a higher rate than unmarked fish, which would be indicative of preferential selection of unmarked fish for retention. If $URR$ is higher than $MRR$, then marked fish are released at a lower rate than unmarked fish, indicating preferential mark retention. Generally, the $MRR$ and $URR$ results suggest that releases are occurring but there is no strong, consistent selectivity to the releases. This aligns with MSF regulations that are very limited in space and time and are only beginning to be implemented in a small number of sport fisheries.
 
-```{r results mrrukr, results='asis', echo=FALSE, fig.height = 8}
+```{r results mrrukr, results='asis', echo=FALSE, fig.height=10, fig.width=10}
 #| label: fig-mrrukr
 #| fig-cap: "Release rate time series at the finescale fishery level, from 2005 to 2023. Light blue lines are release rates of unmarked fish and dark blue lines are release rates of marked fish from revised data. Green lines are release rates (regardless of mark status) used in the 2024 CNR files applied to the 2024 ERA."
 
@@ -1516,7 +1539,12 @@ sport_mark_rate_mrr <-
   full_join(updated_relese_rates, by=c("year", "region", "management")) |>
   mutate(across(c(mrr, urr), \(x) coalesce(x, 0)),
          region = if_else(region == "NC", "NBC", region),
-         region_mgmt = paste(region, management))
+         region_mgmt = paste(region, management))|> filter(year<2024)|>
+  mutate(region_mgmt = factor(region_mgmt, levels = c("NWCVI AABM","NWCVI ISBM","SWCVI AABM",  
+                     "SWCVI ISBM","NGS ISBM", "SGS ISBM", "JNST ISBM", "JDF ISBM","NBC AABM", 
+                    "NBC ISBM",  "CBC ISBM"
+                     )))
+
 
 mrr_fishery_model_line <-
   data.frame(
@@ -1525,7 +1553,11 @@ mrr_fishery_model_line <-
                     "NWCVI ISBM", "SWCVI ISBM", "JNST ISBM",
                     "NGS ISBM", "SGS ISBM", "JDF ISBM"),
     xintercept = c(rep(2015, 3), rep(2013, 8))
-  )
+  )|>
+  mutate(region_mgmt = factor(region_mgmt, levels = c("NWCVI AABM","NWCVI ISBM","SWCVI AABM",  
+                     "SWCVI ISBM","NGS ISBM", "SGS ISBM", "JNST ISBM", "JDF ISBM","NBC AABM", 
+                    "NBC ISBM",  "CBC ISBM"
+                     )))
 
 mu <- 
   ggplot() +
