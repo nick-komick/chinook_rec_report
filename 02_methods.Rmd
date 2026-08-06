@@ -151,6 +151,14 @@ col7 = "#f8f4ff"
 col8 = "#86449C"
 colclear= "#1C00ff00"
 
+
+fmt_stat <- function(x, digits = 3, scale = 1) {
+  x <- suppressWarnings(as.numeric(x))
+  if (is.na(x)) return("--")
+  format(x * scale, digits = digits)
+}
+
+
 ```
 
 ```{r methods plotting PFMA creel unfiltered, echo=FALSE, message=FALSE, warning=FALSE, fig.height=20, fig.width=18, fig.align="left", out.width="10in"}
