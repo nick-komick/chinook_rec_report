@@ -28,14 +28,10 @@ french_address: |
   ^1^Station biologique du Pacifique\
      Pêches et Océans Canada, 3190 Hammond Bay Road\
      Nanaimo, Colombie-Britannique, V9T 6N7, Canada\
-  \smallskip
-  ^2^Loin, très loin\
-     Une autre galaxie
+  
 phone: "(555) 555-5555"
-author_footnote: "Email: norah.brown@dfo-mpo.gc.ca | telephone: "
-citation_french: "Brown, N.E.M., Komick, N., Gill, L., Hein, K., Houtman, R., Swain, N., Tessier, L., Van Vliet, H.,
-73 Wor, C., and Velez-Espino, A. 2026. Révisions des données de capture récréative du saumon chinook. Can.
-74 Tech. Rep. Fish. Aquat. Sci. nnn: vii + 99 p. https://doi.org/???"
+author_footnote: "Email: norah.brown@dfo-mpo.gc.ca"
+citation_french: "Brown, N.E.M., Komick, N., Gill, L., Hein, K., Houtman, R., Swain, N., Tessier, L., Van Vliet, H., Wor, C., and Velez-Espino, A. 2026. Révisions des données de capture récréative du saumon chinook. Can. Tech. Rep. Fish. Aquat. Sci. nnn: vii + 99 p. https://doi.org/???"
 
 abstract: >
   Recreational catch estimation of Chinook salmon in the Pacific Region has historically been accomplished using a combination of creel surveys and logbook programs. However, there are substantial spatial and temporal gaps in the creel and logbook data, which is restricted to the most heavily fished areas and months. A mandatory Internet Recreational Effort and Catch (iREC) survey has been implemented since July 2012 to resolve these gaps and contribute to recreational catch information. These data have been variably incorporated into the Chinook recreational catch since 2013 (excluding 2012 as a pilot year) in most regions domestically, but this incorporation has not occurred in a standardized way. Furthermore, iREC was not available prior to 2013, creating difficulty when comparing pre-2013 catch to post-2013 catch, a requirement for assessing stock specific impacts limits identified by the Pacific Salmon Treaty for Individual Stock Based Management (ISBM) fisheries. Here, we present (1) revised Chinook catch estimates for years with creel and iREC overlap, (2) revised Chinook catch estimates for years without iREC back to 2005, (3) revised Chinook coded wire tag estimates that incorporate the revised catch estimates, and (4) how these revised estimates are incorporated into annual Chinook Technical Commmittee processes.
