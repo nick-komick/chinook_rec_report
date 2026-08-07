@@ -3,11 +3,9 @@ output:
   pdf_document: default
   html_document: default
 ---
-
-# Methods
-
+\clearpage
+# Methods {#sec:methods}
 ## Revised Chinook catch estimates with iREC
-
 Since the introduction of iREC in 2012, there have been various methods
 used to combine Chinook catch information from creel surveys, logbooks,
 and iREC to produce recreational catch estimates. This has historically
@@ -17,11 +15,9 @@ to incorporate the different sources of catch into a single standardized
 set of recreational catch estimates for all Pacific Region marine
 waters.
 
-### Background on survey methods
-
 We first provide a brief background on the regionally-specific creel and
 logbook programs, coast-wide iREC reporting, and how each contribute to
-Chinook catch estimates in a given month and area. More details on each
+the best Chinook catch estimates in a given month and area. More details on each
 method can be found in relevant technical reports [e.g., @sturhahn2001;
 @english2002; @korman2005evaluation]. We note any improvements to the
 data quality assurance and control that occurred in order to create the
@@ -32,18 +28,7 @@ The marine areas of interest are all Pacific Fishery Management Areas
 on the DFO website [^1].A table of how PFMAs map to broader regions and
 fisheries can be found in Appendix \@ref(apdx-strattab).
 
-[^1]: <https://www.pac.dfo-mpo.gc.ca/fm-gp/maps-cartes/areas-secteurs/index-eng.html>
-
-```{r myfigure, echo=FALSE, message=FALSE, warning=FALSE, out.width="70%"}
-#| label: fig-PFMA
-#| fig-cap: "Pacific Fishery Management Areas"
-
-fig1_path <- "data/pfma-sgpp-eng.png"
-
-knitr::include_graphics(c(fig1_path))
-
-```
-
+### Background on survey methods
 #### South Coast Catch Estimation
 
 South Coast catch estimation is a combination of creel surveys and
@@ -64,6 +49,18 @@ PFMA). Currently, this program estimates the following:
 - Legal sized kept catch based on adipose-clip status (e.g.,
   clipped/marked and unclipped/unmarked)
 
+[^1]: <https://www.pac.dfo-mpo.gc.ca/fm-gp/maps-cartes/areas-secteurs/index-eng.html>
+
+```{r myfigure, echo=FALSE, message=FALSE, warning=FALSE, out.width="100%"}
+#| label: fig-PFMA
+#| fig-cap: "Pacific Fishery Management Areas"
+
+fig1_path <- "data/pfma-sgpp-eng.png"
+
+knitr::include_graphics(c(fig1_path))
+
+```
+
 In the past, kept and released catch with unknown adipose clip status
 were split based on mark rate and release rate of the known catch. For
 more information and methods about the SCCS, see the most recent program
@@ -74,6 +71,98 @@ area and month-specific estimates from the creel survey to avoid
 double-counting.
 
 ##### South Coast Creel Survey quality control
+```{r methods functions, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
+
+col1 = "#e0ecf4"
+col2 = "#0570b0"
+col3 = "lightblue"
+col4 = "lightblue4"
+col5 = "#fddbc7"
+col6 = "#cb181d"
+col7 = "#f8f4ff"
+col8 = "#86449C"
+colclear= "#1C00ff00"
+
+
+fmt_stat <- function(x, digits = 3, scale = 1) {
+  x <- suppressWarnings(as.numeric(x))
+  if (is.na(x)) return("--")
+  format(x * scale, digits = digits)
+}
+
+
+region_order<-c("NWCVI", "SWCVI", "NGS", "SGS", "JNST", "JDF", "NBC AABM","NBC ISBM", "CBC")
+
+Creel_month_PFMA_failed <- 
+  creel_month_PFMA  |>
+  filter(criteria == "failed", year<2026) |>
+  mutate(across(where(is.numeric), ~na_if(., 0))) |>  
+  filter(area %notin% c("3", "4", "10", "126", "26"))|>
+  mutate(region = factor(region, levels = region_order))
+
+
+Creel_month_PFMA_passed <- 
+  creel_month_PFMA |>
+  filter(criteria == "passed", year<2026) |>
+  mutate(across(where(is.numeric), ~na_if(., 0)))|>
+  filter(area %notin% c("3", "4", "10", "126", "26"))|>
+  mutate(region = factor(region, levels = region_order))
+
+region_summer <- creel_month_PFMA %>%
+  filter(region %notin% c("CBC", "NC")) %>%
+  filter(month %in% c(7,8)) %>%
+  filter(area %notin% c(10, 126, 26, 111)) %>%
+  group_by(region, criteria) %>%
+  summarise(n = n(), .groups = "drop") %>%
+  group_by(region) %>%
+  mutate(pct = 100 * n / sum(n)) %>%
+  ungroup()
+
+
+area_summer <- creel_month_PFMA %>%
+  filter(region %notin% c("CBC", "NC")) %>%
+  filter(area %notin% c(10, 126, 26, 111)) %>%
+  filter(month %in% c(7,8)) %>%
+  group_by(area, criteria) %>%
+  summarise(n = n(), .groups = "drop") %>%
+  group_by(area) %>%
+  mutate(pct = 100 * n / sum(n)) %>%
+  ungroup()
+
+all_summary <- creel_month_PFMA %>%
+  filter(region %notin% c("CBC", "NC")) %>%
+  filter(area %notin% c(10, 126, 26, 111)) %>%
+  mutate(region = "All") %>%
+  group_by(region, criteria) %>%
+  summarise(n = n(), .groups = "drop") %>%
+  group_by(region) %>%
+  mutate(pct = 100 * n / sum(n)) %>%
+  ungroup()
+
+all_summary_2005_2020 <- creel_month_PFMA %>%
+  filter(region %notin% c("CBC", "NC")) %>%
+  filter(area %notin% c(10, 126, 26, 111)) %>%
+  filter(year < 2021) %>%
+  mutate(region = "All") %>%
+  group_by(region, criteria) %>%
+  summarise(n = n(), .groups = "drop") %>%
+  group_by(region) %>%
+  mutate(pct = 100 * n / sum(n)) %>%
+  ungroup()
+
+all_summary_2021_2025 <- creel_month_PFMA %>%
+  filter(region %notin% c("CBC", "NC")) %>%
+  filter(area %notin% c(10, 126, 26, 111)) %>%
+  filter(year > 2020) %>%
+  mutate(region = "All") %>%
+  group_by(region, criteria) %>%
+  summarise(n = n(), .groups = "drop") %>%
+  group_by(region) %>%
+  mutate(pct = 100 * n / sum(n)) %>%
+  ungroup()
+
+
+```
 
 Since the SCCSs vary in sampling intensity and spatial-temporal
 coverage, we have introduced systematic quality control of these
@@ -96,12 +185,12 @@ criteria:
 
 These criteria are not applied to areas that have been occasionally
 surveyed but are not targeted and not estimated by the south coast creel
-survey (e.g. PFMA 10, 26, and 126). We refer to the creel estimates that
+survey throughout the whole time series (e.g. PFMA 26, and 126), or are in other regions (eg. 10 in CBC, 3 and 4 in NBC). We refer to the creel estimates that
 pass this quality control as "filtered creel". We use filtered creel
 both to calibrate iREC and as quality controlled estimates, as described
-below (section 2.1.4).
+below.
 
-Across all regions, these criteria exclude 47% of all estimates between
+Across all regions, these criteria exclude `r fmt_stat(all_summary$pct[all_summary$criteria == "failed"])`% of all estimates between
 2005 and 2025 (Figure \@ref(fig:fig-creel-criteria)). In general, creel
 survey effort is concentrated around the highest fishing effort in the
 summer months and in many PFMAs there are no creel surveys during the
@@ -116,68 +205,12 @@ be fished year-round, and the narrowest coverage occurs on the exposed
 North West Coast of Vancouver Island (NWCVI) which is difficult to fish in the
 winter and therefore has no creel coverage in the winter months.
 
-There is variability among regions in passing the criteria in the
-consistently surveyed summer months (July and August). Southern Strait
-of Georgia has the highest proportion of summer estimates failing the
-criteria (52%), which could be in part due to geography (there are many
-islands and inlets that make aerial surveys complex) and logistics (high
-population concentration creates a higher number of launching areas,
-both private and public, which in turn make capturing an appropriate
-proportion of fishers in dockside interviews a challenge). In contrast,
-less populated and more remote parts of Vancouver Island have fewer
-launching areas which make dockside interviews concentrated on the
-public wharfs and may contribute to the higher quality creel estimates
-(e.g. 87 and 88% of summer estimates passing in NWCVI and Juan de Fuca,
-respectively). Offshore areas are also geographically simpler for aerial
-surveys and consequently have some of the highest rates of passing the
-criteria (e.g. 99% of Area 125).
-
-Overall, South Coast creel surveys are improving in quality and the rate
-of passing the criteria has gone from 46% (from 2005-2020) to 70% in the
-last five years (2021-2025).
-
+\newpage
 
 \begin{landscapepage}
-
-```{r methods Loading packages useful functions, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
-
-col1 = "#e0ecf4"
-col2 = "#0570b0"
-col3 = "lightblue"
-col4 = "lightblue4"
-col5 = "#fddbc7"
-col6 = "#cb181d"
-col7 = "#f8f4ff"
-col8 = "#86449C"
-colclear= "#1C00ff00"
-
-
-fmt_stat <- function(x, digits = 3, scale = 1) {
-  x <- suppressWarnings(as.numeric(x))
-  if (is.na(x)) return("--")
-  format(x * scale, digits = digits)
-}
-
-
-```
-
-```{r methods plotting PFMA creel unfiltered, echo=FALSE, message=FALSE, warning=FALSE, fig.height=20, fig.width=18, fig.align="left", out.width="10in"}
+```{r methods plotting PFMA creel unfiltered, echo=FALSE, message=FALSE, warning=FALSE, fig.height=12, fig.width=20, fig.align="left", out.width="100%", fig.asp=NA}
 #| label: fig-creel-criteria
 #| fig-cap: "South Coast creel estimates that passed (blue) or failed (red) quality control criteria by month and PFMA."
-
-creel_month_PFMA <- pacRecCatch::filter_creel_catch("pacRecCatch_db.yaml")
-Creel_month_PFMA_failed <- 
-  creel_month_PFMA  |>
-  filter(criteria == "failed") |>
-  mutate(across(where(is.numeric), ~na_if(., 0))) |>  
-  filter(area %notin% c("3", "4", "10", "126", "26"))
-
-
-Creel_month_PFMA_passed <- 
-  creel_month_PFMA |>
-  filter(criteria == "passed") |>
-  mutate(across(where(is.numeric), ~na_if(., 0)))|>
-  filter(area %notin% c("3", "4", "10", "126", "26"))
 
 ggplot() +
   geom_tile(data=Creel_month_PFMA_passed, aes(x=year, y=as.factor(month), fill = estimate),colour = "white") +
@@ -187,13 +220,14 @@ ggplot() +
   new_scale_fill() +
   geom_tile(data=Creel_month_PFMA_failed, aes(x=year, y=as.factor(month), fill = estimate),colour = "white") +
   scale_fill_gradient(low = col5, high = col6,  na.value = colclear, limits=c(0,20000))+
-  facet_wrap(~region+area, ncol = 6)+
+  facet_wrap(~region+area, ncol = 7)+
   guides(fill=guide_legend(title="Creel estimates that failed criteria")) +
-  labs(title = "Coverage by PFMA", x = "Year", y = "Month") +
+  labs(x = "Year", y = "Month") +
   theme_minimal() + 
   #making the text bigger
   theme(
     legend.position="bottom",
+#     legend.box = "vertical",
     strip.text = element_text(size = 12), #facet wrap labels
     plot.title = element_text(size = 18, face = "bold"),
     axis.title.x = element_text(size = 14), # x-axis title
@@ -203,42 +237,30 @@ ggplot() +
     plot.margin = margin(2, 2, 2, 2)
   )
 
-# region_summary <- creel_month_PFMA %>%
-#   filter(region %notin% c("CBC", "NC")) %>%
-#   filter(area %notin% c(10, 126, 26, 111)) %>%
-#   group_by(region, criteria) %>%
-#   summarise(n = n(), .groups = "drop") %>%
-#   group_by(region) %>%
-#   mutate(pct = 100 * n / sum(n)) %>%
-#   ungroup()
-# 
-# area_summary <- creel_month_PFMA %>%
-#   filter(region %notin% c("CBC", "NC")) %>%
-#   filter(area %notin% c(10, 126, 26, 111)) %>%
-#   group_by(area, criteria) %>%
-#   summarise(n = n(), .groups = "drop") %>%
-#   group_by(area) %>%
-#   mutate(pct = 100 * n / sum(n)) %>%
-#   ungroup()
-
-# all_summary <- creel_month_PFMA %>%
-#   filter(region %notin% c("CBC", "NC")) %>%
-#   filter(area %notin% c(10, 126, 26, 111)) %>%
-#   mutate(region = "All") %>%
-#   group_by(region, criteria) %>%
-#   summarise(n = n(), .groups = "drop") %>%
-#   group_by(region) %>%
-#   mutate(pct = 100 * n / sum(n)) %>%
-#   ungroup()
-
-
 ```
-
 \end{landscapepage}
+\clearpage
 
+There is variability among regions in passing the criteria in the
+consistently surveyed summer months (July and August). Southern Strait
+of Georgia has the highest proportion of summer estimates failing the
+criteria (`r fmt_stat(region_summer$pct[region_summer$region == "SGS" & region_summer$criteria == "failed"])`%), which could be in part due to geography (there are many
+islands and inlets that make aerial surveys complex) and logistics (high
+population concentration creates a higher number of launching areas,
+both private and public, which in turn make capturing an appropriate
+proportion of fishers in dockside interviews a challenge). In contrast,
+less populated and more remote parts of Vancouver Island have fewer
+launching areas which make dockside interviews concentrated on the
+public wharfs and may contribute to the higher quality creel estimates
+(e.g. `r fmt_stat(region_summer$pct[region_summer$region == "NWCVI" & region_summer$criteria == "passed"])` and `r fmt_stat(region_summer$pct[region_summer$region == "JDF" & region_summer$criteria == "passed"])`% of summer estimates passing in NWCVI and Juan de Fuca,
+respectively). Offshore areas are also geographically simpler for aerial
+surveys and consequently have some of the highest rates of passing the
+criteria (e.g. `r fmt_stat(area_summer$pct[area_summer$area == "125" & area_summer$criteria == "passed"])`% of Area 125).
+
+Overall, South Coast creel surveys are improving in quality and the rate
+of passing the criteria has gone from `r fmt_stat(all_summary_2005_2020$pct[all_summary_2005_2020$criteria == "passed"])`% (from 2005-2020) to `r fmt_stat(all_summary_2021_2025$pct[all_summary_2021_2025$criteria == "passed"])`% in the last five years (2021-2025).
 
 #### Central Coast Catch Estimation
-
 Central Coast catch estimation is exclusively logbook data from lodges.
 The PFMAs included in the Central Coast are 6 through 10, and their
 offshore counterparts 106 through 110 (Figure \@ref(fig:fig-PFMA)).
@@ -249,10 +271,9 @@ estimated by the lodges. The release rates provided have been 0% since
 although not all lodges provide logbook catch data, the catch data has
 historically been reported as the total catch for the region. This was
 identified as a bias in the recreational catch estimates that iREC
-inclusion should address.
+inclusion should address. A new creel program in PFMA 10 was excluded from the analysis since it began in 2023.
 
 #### North Coast Catch Estimation
-
 Northern British Columbia (NBC) recreational catch monitoring generally
 aligns with two distinct regions, Haida Gwaii (i.e. NBC aggregate
 abundance based management or AABM) and NBC individual stock-based
@@ -285,7 +306,6 @@ status so those distinctions need to be reconstructed using mark rates
 and release rates.
 
 #### Internet Recreational Effort and Catch (iREC) Reporting Program
-
 The Internet Recreational Effort and Catch (iREC) reporting program is
 used to develop catch estimates for all tidal waters in Canada’s Pacific
 Region. Recreational fishing in the Pacific Region requires a Tidal
@@ -312,7 +332,6 @@ reviewed version, along with some summaries of the realized sample
 sizes.
 
 #### iREC to Creel Calibration
-
 iREC catch estimates are bias corrected by scaling estimates using the
 linear regression slope, $m$, between monthly iREC and corresponding
 creel estimates for angling by boat in each area. Specifically,
@@ -321,7 +340,6 @@ are calculated from uncalibrated estimates ($iREC$) as:
 
 $$m =  \frac{iREC}{creel}
 \label{eq:iREC_correction}$$
-
 $$iREC^{*}= \frac{iREC}{m}
 \label{eq:iREC_calibration}$$
 
@@ -347,7 +365,7 @@ model.jags <- function() {
     #generate what true value may be based on se (notice that dnorm in jags      
     # uses 1/variance for second argument thus 1/SE^2)      
     creel.true[i] ~ dnorm(creel.obs[i], 1/creel.se[i]*1/creel.se[i])            
-    #now for the actual regression equation     
+    #regression equation     
     mu[i] <- beta1 * creel.true[i]      
     iREC.obs[i] ~ dnorm(mu[i], tau)   
   }      
@@ -355,7 +373,7 @@ model.jags <- function() {
   tau ~ dgram(0.01, 0.01) 
   #a common prior for a variance term in vertical direction     
   #derived variables   
-  sigma <- 1/sqrt(tau) 
+  sigma <- 1/sqrt(tau)  
   #std deviation about the regression line
 }
 ```
@@ -385,7 +403,7 @@ summed).
 
 We implemented the methods described in this technical report in a new
 `pacRecCatch` R package [@pacRecCatch] that pulls data from CREST and
-loads in other sources manually (e.g. Northern BC creel). The package
+loads in other sources manually (e.g., Northern BC creel). The package
 has functions that subsequently clean, filter, align, and combine the
 various survey methods to the final data set as described below. This
 package should provide a framework to implement further improvements to
@@ -457,7 +475,7 @@ within the same area, month, and year and then expanded outward grouping
 into seasons and regions and finally averaging across years for the very
 few instances where the other categories did not apply. To reduce bias,
 only mark rates that are based on a total catch estimate $\geq 20$ were
-used.
+used. The mark rate priority order is as follows:
 
 1.  Monthly area - Mark rate for unknown catch calculated from known
     catch within the same year, month, and area.
@@ -481,13 +499,13 @@ used.
 From this point forward we will refer to calibrated iREC as simply
 "iREC". For South Coast, annual or seasonal catch estimates that are a
 combination of iREC, filtered creel, and logbook data will be referred
-to as "Combined creel and iREC catch estimate". Catch estimates that
+to as "Combined creel and iREC catch estimate", or in some plot axes simply "creel + iREC". Catch estimates that
 only include data from iREC will be referred to as "iREC catch
 estimate". Catch estimates that only include unfiltered creel and
 logbook data will be referred to as "creel catch estimate". For the North Coast, the
 nomenclature will be the same but it is to be noted that the creel does
 not go through the same quality control measures and therefore there is
-no filtered or unfiltered creel category. For Central Coast, there is no
+no filtered creel category. For Central Coast, there is no
 creel program so the catch estimates will be referred to as "logbook
 catch estimate".
 
@@ -506,7 +524,9 @@ rules prioritize quality-controlled creel estimates, when most creel
 survey effort is concentrated, and prioritizes iREC data during shoulder
 seasons and anywhere there is a gap in creel coverage. Figure
 \@ref(fig:fig-area-catch-process) provides a diagram on how the catch
-data sources are combined.
+data sources are combined. In Figure \@ref(fig:fig-creel-iREC-NGS) we demonstrate how iREC fills in
+the gaps in each PFMA using the Northern Strait of Georgia finescale
+fishery as an example.
 
 For Northern and Central BC, we use iREC from 2015 onwards because iREC
 catch estimates did not seem to be consistent with other catch data
@@ -518,19 +538,13 @@ calibration. Furthermore, we use iREC as the best catch estimate in each
 month in these regions as much of the creel and logbook catch does not
 account for releases.
 
-```{r methods with iREC flowchart, out.width="50%", results='asis', echo=FALSE}
+```{r methods with iREC flowchart, out.width="100%", results='asis', echo=FALSE}
 #| label: fig-area-catch-process
 #| fig-cap: "Diagram showing the steps to identifying the best available catch in Southern BC between creel and iREC from 2013 onward."
 
-knitr::include_graphics("img/flowchart_with_irec.png")
+knitr::include_graphics("img/flowchart_with_irec_nb.png")
 ```
 
-In Figure \@ref(fig:fig-creel-iREC-NGS) we demonstrate how iREC fills in
-the gaps in each PFMA using the Northern Strait of Georgia finescale
-fishery as an example.
-
-
-\begin{landscapepage}
 
 ```{r methods pfma_month again, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 
@@ -557,19 +571,19 @@ pfma_yearMonth_iREC_1 <-
 ```
 
 
-```{r echo=FALSE, fig.align="left", fig.height=8, fig.width=8, message=FALSE, warning=FALSE, out.width="8in"}
+```{r echo=FALSE, fig.align="left", fig.height=5, fig.width=10, message=FALSE, warning=FALSE, out.width="100%", fig.asp=NA}
 #| label: fig-creel-iREC-NGS
-#| fig-cap: Coverage of catch estimates in Northern Strait of Georgia by area and month and chosen best catch estimate between creel and iREC
+#| fig-cap: Coverage of catch estimates in Northern Strait of Georgia by PFMA and month and chosen best catch estimate between creel and iREC.Blue indicates a filtered creel estimate and purple a calibrated iREC estimate.  
 
 ngs_catch <-
   pfma_yearMonth |>
-  filter(region == "NGS", year >= 2013) |>
+  filter(region == "NGS", between(year, 2013, 2025)) |>
   mutate(finescale_fishery = factor(finescale_fishery, 
                                     levels = c("NGS S SPRING", "NGS S SUMMER", "NGS S FALL")))
 
 ngs_iREC_catch <-
   pfma_yearMonth_iREC_1|>
-  filter(region == "NGS", year >= 2013) |>
+  filter(region == "NGS", between(year, 2013, 2025)) |>
   mutate(finescale_fishery = factor(finescale_fishery, 
                                     levels = c("NGS S SPRING", "NGS S SUMMER", "NGS S FALL")))
 
@@ -580,7 +594,7 @@ g <-
             colour = "white") +
   scale_fill_gradient(low = col1, high = col2,  na.value = colclear, limits=c(0,20000)) +
   scale_y_discrete(limits = rev)+
-  guides(fill=guide_legend(title="Filtered creel + logbook estimate")) +
+  guides(fill=guide_legend(title="creel estimate")) +
   new_scale_fill() +
   geom_tile(data = ngs_iREC_catch, 
             aes(x=year, y=as.factor(month), fill = sum_catch_estimate), 
@@ -588,8 +602,8 @@ g <-
   scale_fill_gradient(low = col7, high = col8,  na.value = colclear, limits=c(0,15000))+
   #facet_wrap(~finescale_fishery_old+AREA, nrow=1)+
   facet_grid(finescale_fishery ~ area, scales = "free_y", space = "free_y") +
-  guides(fill=guide_legend(title="calibrated iREC")) +
-  labs(title = paste0("Coverage by PFMA for Northern Strait of Georgia"),
+  guides(fill=guide_legend(title="iREC")) +
+  labs(title = paste0("Northern Strait of Georgia Sport"),
        x = "Year", y = "Month") +
   theme_bw() + theme_minimal() + geom_vline(xintercept = 2013)+
   theme(legend.position="bottom",
@@ -598,9 +612,7 @@ g <-
 g
 ```
 
-\end{landscapepage}
-
-
+\clearpage
 ## Revised Chinook catch estimates before iREC
 
 Where iREC is unavailable (before 2013 in Southern BC and before 2015 in
@@ -631,11 +643,11 @@ reporting purposes. This process, shown in Figure
 accomplished in the modelling function of the `pacRecCatch` R package
 [@pacRecCatch].
 
-```{r methods before iREC flowchart, out.width="65%", results='asis', echo=FALSE}
+```{r methods before iREC flowchart, out.width="100%", results='asis', echo=FALSE}
 #| label: fig-before-iREC-flowchart
 #| fig-cap: "Diagram showing the steps to identifying expanded catch within all regions in years before iREC is available."
 
-knitr::include_graphics("img/flowchart_before_irec.png")
+knitr::include_graphics("img/flowchart_before_irec_nb.png")
 ```
 
 ### Splitting fisheries by season
@@ -729,11 +741,10 @@ range of estimates observed with the fitted data. Taking these factors
 into account, we selected the model with the best visual diagnostics and
 fit.
 
-### Model validation with Salmon Head Recovery Program
+## Revised estimate validation with Salmon Head Recovery Program
 
-We validated the marked kept catch estimates from our top candidate
-models by regressing both the predominantly observed catch (combined
-creel and iREC; 2013-2023) and the modelled catch (2005-2012) with the
+We validated the marked kept catch estimates from the observed catch (combined
+creel and iREC; 2013-2023) and the modelled catch (2005-2012) by plotting with the
 number of marked Chinook heads by the Salmon Head Recovery Program
 (SHRP), which collects heads from recreational fisheries to recover
 CWTs. The slope of the linear regression between the kept marked catch
@@ -750,44 +761,8 @@ consisted of over 6000 head recoveries from the SWVI summer period in
 depot that seemed to have contributed substantially more samples
 compared to other years.
 
-## Incorporation of both sets of revised estimates in bilateral PST processes
 
-The Chinook Technical Committee (CTC) produces several annual analyses
-and reports for the Pacific Salmon Commission (PSC). Notably: (1) the
-Catch and Escapement Report which details catch estimates across
-all fisheries [e.g., @CTC2025b]; (2) the Exploitation Rate Analysis
-(ERA) report that uses a cohort analysis on CWT hatchery stocks to
-calculate Calendar Year Exploitation Rates on a stock-specific basis
-[e.g., @CTC2025]; and, (3) the Calibration Report, which documents the
-annual PSC Chinook model calibration that utilizes data from the ERA and
-other sources to forecast ocean abundances [e.g., @CTC2024].
-
-Since 2025, both sets of revised catch estimates (modelled from
-2005-2012 and augmented from 2013-2023) have been incorporated into the
-analyses and subsequent results presented within these annual reports.
-Notably, in the Annual Catch and Escapement Report, the total number of
-kept and released Chinook has been updated with the revised catch. Catch
-estimates are used as inputs to the annual ERA in two places: (1) kept
-and marked catch estimates are used to expand CWT observations from the
-SHRP to CWT estimates uploaded to the Regional Mark Information System
-(RMIS[^2]) and subsequently used in backward cohort analyses within the
-ERA; and (2) kept and released catch estimates by mark status from most
-sport fisheries are incorporated into the Chinook non-retention process
-within the ERA.
-
-[^2]: <https://www.rmpc.org/>
-
-An initial update to catch estimates based on the methods defined in
-this technical report was incorporated into the 2025 ERA in order to
-support the transition to analyzing mark selective fisheries within the
-CTC. Subsequent to that update, corrections and improvements have been
-made to the methods and iREC data. A table comparing the creel + logbook
-catch, the catch estimates incorporated into the February 2025 ERA and
-the final estimates using the updated methods within this report is
-provided for kept (Table \@ref(tab:tbl-previous-kept-catch)) and
-released (Table \@ref(tab:tbl-previous-released-catch)) catch.
-
-### Updating CWT estimates
+## Updating CWT estimates
 
 Recreational fishery CWT sampling in BC collects marked Chinook and Coho
 heads from recreational fishers. These heads are obtained through
@@ -995,3 +970,40 @@ mark-selectivity even if no specific mark-selective regulations were
 imposed. Terminal fisheries typically happen in the summer period,
 therefore they were assigned the same $MRR$ and $UKR$ rates as the
 equivalent summer fishery.
+
+## Incorporation of all revised estimates in bilateral PST processes
+
+The Chinook Technical Committee (CTC) produces several annual analyses
+and reports for the Pacific Salmon Commission (PSC). Notably: (1) the
+Catch and Escapement Report which details catch estimates across
+all fisheries [e.g., @CTC2025b]; (2) the Exploitation Rate Analysis
+(ERA) report that uses a cohort analysis on CWT hatchery stocks to
+calculate Calendar Year Exploitation Rates on a stock-specific basis
+[e.g., @CTC2025]; and, (3) the Calibration Report, which documents the
+annual PSC Chinook model calibration that utilizes data from the ERA and
+other sources to forecast ocean abundances [e.g., @CTC2024].
+
+Since 2025, both sets of revised catch estimates (modelled from
+2005-2012 and augmented from 2013-2023) have been incorporated into the
+analyses and subsequent results presented within these annual reports.
+Notably, in the Annual Catch and Escapement Report, the total number of
+kept and released Chinook has been updated with the revised catch. Catch
+estimates are used as inputs to the annual ERA in two places: (1) kept
+and marked catch estimates are used to expand CWT observations from the
+SHRP to CWT estimates uploaded to the Regional Mark Information System
+(RMIS[^2]) and subsequently used in backward cohort analyses within the
+ERA; and (2) kept and released catch estimates by mark status from most
+sport fisheries are incorporated into the Chinook non-retention process
+within the ERA.
+
+[^2]: <https://www.rmpc.org/>
+
+An initial update to catch estimates based on the methods defined in
+this technical report was incorporated into the 2025 ERA in order to
+support the transition to analyzing mark selective fisheries within the
+CTC. Subsequent to that update, corrections and improvements have been
+made to the methods and iREC data. A table comparing the creel + logbook
+catch, the catch estimates incorporated into the February 2025 ERA and
+the final estimates using the updated methods within this report is
+provided for kept (Table \@ref(tab:tbl-previous-kept-catch)) and
+released (Table \@ref(tab:tbl-previous-released-catch)) catch.
