@@ -208,7 +208,7 @@ winter and therefore has no creel coverage in the winter months.
 \newpage
 
 \begin{landscapepage}
-```{r methods plotting PFMA creel unfiltered, echo=FALSE, message=FALSE, warning=FALSE, fig.height=12, fig.width=20, fig.align="left", out.width="100%", fig.asp=NA}
+```{r methods plotting PFMA creel unfiltered, echo=FALSE, message=FALSE, warning=FALSE, fig.height=12, fig.width=20, fig.align="left", out.width="110%", fig.asp=NA}
 #| label: fig-creel-criteria
 #| fig-cap: "South Coast creel estimates that passed (blue) or failed (red) quality control criteria by month and PFMA."
 
@@ -526,7 +526,7 @@ seasons and anywhere there is a gap in creel coverage. Figure
 \@ref(fig:fig-area-catch-process) provides a diagram on how the catch
 data sources are combined. In Figure \@ref(fig:fig-creel-iREC-NGS) we demonstrate how iREC fills in
 the gaps in each PFMA using the Northern Strait of Georgia finescale
-fishery as an example.
+fishery as an example. 
 
 For Northern and Central BC, we use iREC from 2015 onwards because iREC
 catch estimates did not seem to be consistent with other catch data
@@ -538,9 +538,11 @@ calibration. Furthermore, we use iREC as the best catch estimate in each
 month in these regions as much of the creel and logbook catch does not
 account for releases.
 
+
+
 ```{r methods with iREC flowchart, out.width="100%", results='asis', echo=FALSE}
 #| label: fig-area-catch-process
-#| fig-cap: "Diagram showing the steps to identifying the best available catch in Southern BC between creel and iREC from 2013 onward."
+#| fig-cap: "Diagram showing the steps to combining various catch data sources in Southern BC from 2013 onward to obtain revised combined creel and iREC catch estimate."
 
 knitr::include_graphics("img/flowchart_with_irec_nb.png")
 ```
@@ -573,7 +575,7 @@ pfma_yearMonth_iREC_1 <-
 
 ```{r echo=FALSE, fig.align="left", fig.height=5, fig.width=10, message=FALSE, warning=FALSE, out.width="100%", fig.asp=NA}
 #| label: fig-creel-iREC-NGS
-#| fig-cap: Coverage of catch estimates in Northern Strait of Georgia by PFMA and month and chosen best catch estimate between creel and iREC.Blue indicates a filtered creel estimate and purple a calibrated iREC estimate.  
+#| fig-cap: "Chosen best catch estimates in Northern Strait of Georgia by PFMA and month and source. Blue indicates a filtered creel estimate and purple a calibrated iREC estimate. This plot demonstrates the priority rules in Southern BC: filtered creel is chosen if available May to September, otherwise use iREC, and in the off-season (October - April) iREC is chosen."
 
 ngs_catch <-
   pfma_yearMonth |>
@@ -612,7 +614,6 @@ g <-
 g
 ```
 
-\clearpage
 ## Revised Chinook catch estimates before iREC
 
 Where iREC is unavailable (before 2013 in Southern BC and before 2015 in
@@ -643,9 +644,10 @@ reporting purposes. This process, shown in Figure
 accomplished in the modelling function of the `pacRecCatch` R package
 [@pacRecCatch].
 
+
 ```{r methods before iREC flowchart, out.width="100%", results='asis', echo=FALSE}
 #| label: fig-before-iREC-flowchart
-#| fig-cap: "Diagram showing the steps to identifying expanded catch within all regions in years before iREC is available."
+#| fig-cap: "Diagram showing the steps to creating the modelled combined creel and iREC catch estimates before iREC was available (2005-2012)."
 
 knitr::include_graphics("img/flowchart_before_irec_nb.png")
 ```
