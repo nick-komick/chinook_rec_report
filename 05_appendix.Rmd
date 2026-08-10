@@ -301,6 +301,8 @@ models_combined_south<-
 
 fishery_name_south <- sort(unique(models_combined_south$fishery_full_name))
 
+fishery_name_south <-c("Northern West Vancouver Island - AABM", "Northern West Vancouver Island - ISBM", "Southern West Vancouver Island - AABM", "Southern West Vancouver Island - ISBM",  "Northern Strait of Georgia", "Southern Strait of Georgia", "Johnstone Strait","Juan de Fuca Strait")
+
 for (i in 1:length(fishery_name_south)){
   graph_data <- 
     models_combined_south  %>% 
@@ -369,7 +371,7 @@ models_combined_north <-
                                            "NC ISBM" ~ "Northern BC - ISBM",
                                            "CBC" ~ "Central BC")) 
 
-fishery_name_north<- sort(unique(models_combined_north$fishery_full_name))
+fishery_name_north<- c("Northern BC - AABM", "Northern BC - ISBM","Central BC" )
 
 for (i in 1:length(fishery_name_north)) {
   graph_data <- 
