@@ -12,7 +12,7 @@ output:
 In the following section we present the results of revising Chinook catch using both the combined creel and iREC catch estimates for more recent years and modelled estimates for pre-iREC years back to 2005. In addition to revising catch, the relationship between marked kept Chinook catch and CWT sampling through the SHRP is presented, including sample rate time series plots for each CWT region.
 
 ## Revised catch estimates since iREC
-We found that the combined creel and iREC catch estimates were broadly higher than previous creel catch estimates. As an example, Figure \@ref(fig:fig-ngs-catch-revised-1) shows the effect of the summed and revised 2013 to 2023 kept catch estimates for the Northern Straight of Georgia finescale fishery (solid line) compared to the previous creel catch estimates without iREC inclusion (dashed line). Though the relative difference between the two time series vary, the revised combined creel and iREC catch estimates are consistently higher than the previous creel catch estimates. As demonstrated by Figure \@ref(fig:fig-creel-iREC-NGS), calibrated iREC fills in spatial and temporal gaps in creel sampling, so it follows that the summed yearly estimates are typically higher when you include calibrated iREC, especially in regions with many gaps to fill. As the comparison plots for the other fisheries show in Appendix \@ref(app:revised-catch-timeseries), in most cases kept catch was increased with a few exceptions where there was a small reduction in specific years. For example, in Johnstone Strait in 2019, the combined creel and iREC catch estimate was lower than the creel catch estimate (see Appendix \@ref(app:revised-catch-timeseries)). This could be due to overestimation by the unfiltered creel since 7 out of 9 estimates in this region and year failed the criteria and are therefore likely estimating catch based only on a small number of days in a month that is then expanded to the entire month. This could result in a monthly overestimation if for example a long holiday weekend is extrapolated to represent the entire monthly catch.
+In finescale fisheries, we found that the combined creel and iREC catch estimates were broadly higher than previous creel catch estimates. As an example, Figure \@ref(fig:fig-ngs-catch-revised-1) shows the effect of the summed and revised 2013 to 2023 kept catch estimates for the Northern Straight of Georgia finescale fishery (solid line) compared to the previous creel catch estimates without iREC inclusion (dashed line). Though the relative difference between the two time series vary, the revised combined creel and iREC catch estimates are consistently higher than the previous creel catch estimates. As demonstrated by Figure \@ref(fig:fig-creel-iREC-NGS), calibrated iREC fills in spatial and temporal gaps in creel sampling, so it follows that the summed yearly estimates are typically higher when you include calibrated iREC, especially in regions with many gaps to fill. As the comparison plots for the other fisheries show in Appendix \@ref(app:revised-catch-timeseries), in most cases kept catch was increased with a few exceptions where there was a small reduction in specific years. For example, in Johnstone Strait in 2019, the combined creel and iREC catch estimate was lower than the creel catch estimate (see Appendix \@ref(app:revised-catch-timeseries)). This could be due to overestimation by the unfiltered creel since 7 out of 9 estimates in this region and year failed the criteria and are therefore likely estimating catch based only on a small number of days in a month that is then expanded to the entire month. This could result in a monthly overestimation if for example a long holiday weekend is extrapolated to represent the entire monthly catch. Revised catch estimates summed to ERA fishery level are discussed in detail in the reporting section. 
 
 ```{r results example summer m plots, results='asis', echo=FALSE, fig.height=3, fig.width=8, out.width="100%", fig.asp=NA}
 #| label: fig-ngs-catch-revised-1
@@ -1038,7 +1038,7 @@ ggplot(data = region_df,
 
 Revised recreational catch estimates are inputs to the CTC's analyses and reporting processes in three primary ways.
 
-- Reported total kept and released catch
+- Reported total kept and released catch 
 - Marked kept catch estimates are used to estimate CWT recoveries
 - Marked and unmarked release rates are used by the ERA to estimate fishery-related incidental mortality
 
@@ -1091,17 +1091,74 @@ total_catch_compare <-
   mutate(erafishery = factor(erafishery, levels = erafishery_order))
 
 
-total_catch_compare2<- total_catch_compare |> mutate(kept_diff = (updated_kept_total - total_kept)/(updated_kept_total + total_kept))|>  mutate(kept_diff_abs = abs(kept_diff))
+total_catch_compare2<- total_catch_compare |> mutate(kept_diff = (updated_kept_total - total_kept)/(total_kept))|>  mutate(kept_diff_abs = abs(kept_diff))
+
+total_catch_compare3<- total_catch_compare2 |>
+  group_by(erafishery)|>
+  summarize_if(is.numeric, mean, na.rm=TRUE)
+
+
+#### Summarizing all: 
+### make this by finescale fishery old... sum up. 
+models_combined<-
+  sport_catch_models$model_catch |>
+  mutate(region_mgmt = if_else(region %in% c("SWCVI", "NWCVI", "NC"),
+                               paste(region, management), 
+                               region)) |>
+  group_by(year, kept_status, pred_cat, region_mgmt) |> 
+  summarise(across(where(is.double), \(x) sum(x, na.rm = TRUE)), .groups = "drop") |>
+  mutate(fishery_full_name = recode_values(region_mgmt,
+                                           "JDF" ~ "Juan de Fuca Strait",
+                                           "JNST" ~ "Johnstone Strait",
+                                           "NGS" ~ "Northern Strait of Georgia",
+                                           "SGS" ~ "Southern Strait of Georgia",
+                                           "NWCVI AABM" ~ "Northern West Vancouver Island - AABM",
+                                           "SWCVI AABM" ~ "Southern West Vancouver Island - AABM",
+                                           "NWCVI ISBM" ~ "Northern West Vancouver Island - ISBM",
+                                           "SWCVI ISBM" ~ "Southern West Vancouver Island - ISBM", 
+                                            "NC AABM" ~ "Northern BC - AABM",
+                                           "NC ISBM" ~ "Northern BC - ISBM",
+                                           "CBC" ~ "Central BC")) 
+
+models_combined2 <- 
+  models_combined%>% 
+  mutate(erafishery = case_when(
+    grepl("JDF", region_mgmt) ~ "BC JF S",
+    grepl("NGS|SGS", region_mgmt) ~ "GEO ST S",
+    grepl("WCVI", region_mgmt) & grepl("AABM", region_mgmt) ~  "WCVI AABM S",
+    grepl("WCVI", region_mgmt) & grepl("ISBM", region_mgmt) ~  "WCVI ISBM S",
+    grepl("JNST", region_mgmt) ~  "JNST S",
+     grepl("NC AABM", region_mgmt) ~  "NBC AABM S",
+    grepl("NC ISBM", region_mgmt) ~  "NBC ISBM S",
+    grepl("CBC", region_mgmt) ~  "CBC S",
+    .default = NA_character_
+  ))|>
+  group_by(year, erafishery, kept_status)|>
+     summarize_if(is.numeric, sum, na.rm = TRUE)|>
+  mutate(creel_unfiltered_plus = case_when(erafishery %in% c("NBC AABM S", "NBC ISBM S", "CBC S") ~ historic_plus, 
+                                           .default= creel_unfiltered_plus))
+
+ rec_summary2 <- 
+  read.csv("data/rec_summary_2005-2023.csv") %>% 
+  as_tibble() |>
+  rename_with(tolower)|>
+  rename(kept = total_kept, released = legal_releases)|> 
+  dplyr::select(-sublegal_releases)|>
+  pivot_longer(cols=c(kept, released), values_to = "ce_report", names_to="kept_status")
+ 
+ models_combined2<- models_combined2 |> left_join(rec_summary2) |> dplyr::select(year, erafishery, kept_status, creel_unfiltered_plus, catch_estimate_predicted, ce_report)
+
+
+  models_combined2_diffs<-  models_combined2 |> mutate(pdiff_irec_creel = (catch_estimate_predicted - creel_unfiltered_plus)/(creel_unfiltered_plus), pdiff_irec_rep = (catch_estimate_predicted - ce_report)/(ce_report), pdiff_creel_rep = (creel_unfiltered_plus- ce_report)/(ce_report)) |> mutate(diff_irec_creel = (catch_estimate_predicted - creel_unfiltered_plus), diff_irec_rep = (catch_estimate_predicted - ce_report), diff_creel_rep = (creel_unfiltered_plus- ce_report))
+
+    models_combined2_diffs<-  models_combined2_diffs %>%
+ mutate(across(where(is.numeric), ~replace(., is.infinite(.), NA)))
+  
+    models_combined2_avs<-  models_combined2_diffs |> group_by(erafishery, kept_status)|>
+      summarize_if(is.numeric, c(mean=mean, sd=sd), na.rm=TRUE)
+
 ```
-As noted previously, revised estimates derived using the methods described in this report were incorporated into CTC reports starting with the February 2025 ERA. Both kept and released catch estimates are typically reported in the Catch and Escapement report by ERA fishery. Here we plot the difference between the revised kept (Figure \@ref(fig:fig-cande-kept)) and released (Figure \@ref(fig:fig-cande-released)) catch estimates, and those recently reported in the 2024 Catch and Escapement report[@CTC2025b], before revised estimates were available. These estimates are the product of the finescale fishery results found in Appendix \@ref(app:revised-catch-timeseries), summed to the ERA fishery level.    
-
-We found that the revised kept catch estimates were typically higher than previously reported estimates that did not incorporate iREC information. In some fisheries, iREC information has been included in recent years (e.g., since 2018 in Strait of Georgia Sport), but our revised estimates incorporate iREC in a standardized way across all fisheries. The largest changes in kept catch occurred in CBC where iREC had not been previously incorporated, but the inclusion of iREC more than doubles recent estimates (e.g. in 2020 the revised catch is `r fmt_stat(total_catch_compare2$kept_diff[total_catch_compare2$erafishery == "CBC S" & total_catch_compare2$year ==2020], scale=100)`% larger than the previous estimate). This is consistent with the sport head recovery data that indicates previous CBC catch was an underestimate. Other large changes occurred in Strait of Georgia sport before 2012 (iREC has already been incorporated from 2013 onward), where the revised catch is `r fmt_stat(total_catch_compare2$kept_diff[total_catch_compare2$erafishery == "GEO S" & total_catch_compare2$year ==2012], scale=100)` to `r fmt_stat(total_catch_compare2$kept_diff[total_catch_compare2$erafishery == "GEO S" & total_catch_compare2$year==2008], scale=100)`% larger than previous catch. In 2018, NBC ISBM was `r fmt_stat(total_catch_compare2$kept_diff[total_catch_compare2$erafishery == "NBC ISBM S" & total_catch_compare2$year==2018], scale=100)`% higher than the previously used creel catch. 
-
-BC JDF 2018, 2019 have been incoporating iREC for a longer time, but now iREC is updated it's different, previous BCF, new BCF? no?? .... ****  
-
-Most changes are due to iREC inclusion, however there are a few previous errors in reporting that result in incongruous data between the reported estimate in the 2024 C&E report and the unfiltered creel and logbook estimate from the database (see Appendix \@ref(app:revised-catch-timeseries)). For example, in NBC ISBM S 2022 where the reported value in the 2024 ERA was `r fmt_stat(total_catch_compare2$kept_diff_abs[total_catch_compare2$erafishery == "NBC ISBM S" & total_catch_compare2$year==2022], scale=100)`% more than the revised estimate, despite creel and logbook estimate for that finescale fishery being less than the revised estimate ). In this case it is that likely that the true creel and logbook estimate had been revised and updated in the database in recent years but not reflected in the reporting. Another example of downward revision that is in 2005 and 2006 in Johnstone Strait, where methods from Argue et al. 1997 were used to enhance catch based on sport head recoveries. These methods were used in the c&e report from 2012. There are a few revised downward changes that don't appear to be mistakes in reporting, for example NBC ISBM S 2019. 
-
-The largest changes in released catch also occurred in CBC where previously very few releases were counted. This is because lodges in CBC do not report released catch, whereas iREC allows for released catch to be reported. We also now predict releases prior to 2012 in the Strait of Georgia, NBC ISBM, and BC Juan de Fuca, where previously very few releases were reported. The other fisheries had recorded releases but the revised estimates that include iREC increase the number of these released fish.
+As noted previously, revised estimates derived using the methods described in this report were incorporated into CTC reports starting with the February 2025 ERA. Both kept and released catch estimates are typically reported in the Catch and Escapement report by ERA fishery. Here we plot the difference between the revised kept (Figure \@ref(fig:fig-cande-kept)) and released (Figure \@ref(fig:fig-cande-released)) catch estimates, and those recently reported in the 2024 Catch and Escapement report[@CTC2025b], before revised estimates were available. The revised estimates are the product of the finescale fishery results found in Appendix \@ref(app:revised-catch-timeseries), summed to the ERA fishery level. The previously reported catch estimates generally align with the unfiltered creel data, although iREC has been incorporated in some fisheries in recent years. There are also some discrepancies where the reported data does not match either the unfiltered creel data nor the revised estimates and we point out these cases and provide explanations where possible.       
 
 ```{r results CandEkept, results='asis', echo=FALSE, fig.height=5, fig.width=10, out.width="100%", fig.asp=NA}
 #| label: fig-cande-kept
@@ -1123,13 +1180,11 @@ k<-ggplot() +
        y = "Kept Catch",
        x = "Year") +
   theme_bw() +
-  theme(legend.position="bottom")
+  theme(legend.position="bottom") +
+  coord_cartesian(ylim = c(0, NA))
 
 print(k)
 
-
-
-total_catch_compare2<- total_catch_compare |> mutate(kept_diff = (updated_kept_total - total_kept)/(updated_kept_total + total_kept))
 ```
 
 ```{r results CandErelease, results='asis', echo=FALSE, fig.height=5, fig.width=10, out.width="100%", fig.asp=NA}
@@ -1165,17 +1220,24 @@ ggplot() +
        y = "Legal-Size Released Catch",
        x = "Year") +
   theme_bw() +
-  theme(legend.position="bottom")
+  theme(legend.position="bottom")+
+  coord_cartesian(ylim = c(0, NA))
 
 ```
+At the ERA fishery level, as at the finescale fishery level, we found that the revised kept catch estimates were typically higher than previously reported estimates that did not incorporate iREC information. In some fisheries, iREC information had been included in recent years (e.g., since 2018 in Strait of Georgia Sport), but the revised estimates incorporate iREC in a standardized way across all fisheries. The largest percent changes in kept catch occurred in Central BC Sport where iREC had not been previously incorporated, but the inclusion of iREC more than doubles recent estimates (e.g. in 2020 the revised catch is `r fmt_stat(models_combined2_diffs$pdiff_irec_rep[models_combined2_diffs$erafishery == "CBC S" & models_combined2_diffs$year ==2020 & models_combined2_diffs$kept_status =="kept"], scale=100)`% larger than the previous estimate, an addition of `r fmt_stat(models_combined2_diffs$diff_irec_rep[models_combined2_diffs$erafishery == "CBC S" & models_combined2_diffs$year ==2020 & models_combined2_diffs$kept_status =="kept"])` pieces). On average, across the time series, the revised catch was `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "CBC S" & models_combined2_avs$kept_status =="kept"], scale=100)`% higher (an average difference of `r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "CBC S" & models_combined2_avs$kept_status =="kept"])` pieces) than previously reported. This is consistent with the sport head recovery data that indicates previous CBC catch from logbooks was an underestimate. Other large changes occurred in Strait of Georgia sport before 2012 (iREC had already been incorporated from 2013 onward), where the revised catch is `r fmt_stat(models_combined2_diffs$pdiff_irec_rep[models_combined2_diffs$erafishery == "GEO ST S" & models_combined2_diffs$year ==2012 & models_combined2_diffs$kept_status =="kept"], scale=100)` to `r fmt_stat(models_combined2_diffs$pdiff_irec_rep[models_combined2_diffs$erafishery == "GEO ST S" & models_combined2_diffs$year ==2008 & models_combined2_diffs$kept_status =="kept"], scale=100)`% larger (`r fmt_stat(models_combined2_diffs$diff_irec_rep[models_combined2_diffs$erafishery == "GEO ST S" & models_combined2_diffs$year ==2012 & models_combined2_diffs$kept_status =="kept"])` to `r fmt_stat(models_combined2_diffs$diff_irec_rep[models_combined2_diffs$erafishery == "GEO ST S" & models_combined2_diffs$year ==2005 & models_combined2_diffs$kept_status =="kept"])` more pieces) than previous catch. Overall, on average Georgia Strait increased by `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "GEO ST S" & models_combined2_avs$kept_status =="kept"], scale=100)`% from previously reported values. These large changes are expected as this fishery has some of the highest off-season fishing which was not previously well captured and has some of the most challenges with creel surveying. Next, Northern BC ISBM Sport had `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "NBC ISBM S" & models_combined2_avs$kept_status =="kept"], scale=100)`% higher estimates than previously reported on average, an average of `r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "NBC ISBM S" & models_combined2_avs$kept_status =="kept"])` additional pieces per year. The catch from 2005-2007 in Northern ISBM was `r fmt_stat(models_combined2_diffs$pdiff_irec_rep[models_combined2_diffs$erafishery == "NBC ISBM S" & models_combined2_diffs$year ==2005 & models_combined2_diffs$kept_status =="kept"], scale=100)`% higher than previous reported, however, the creel and logbook data has since been updated from ~8000 to ~10,000 pieces, making the percent change to the newly modelled catch at ~11,000 pieces much less dramatic (`r fmt_stat(models_combined2_diffs$pdiff_irec_creel[models_combined2_diffs$erafishery == "NBC ISBM S" & models_combined2_diffs$year ==2005 & models_combined2_diffs$kept_status =="kept"], scale=100)`%). The remainder of the upward revisions were less than 10% change on average across the time series (although individual years varied and were up to 30%). More details can be found in table format in Appendix \@ref(apdx-analytic-improvements).
+
+There were a few downward changes in kept catch, most due to previous errors in reporting that resulted in incongruous data between the reported estimate in the 2024 C&E report and the unfiltered creel and logbook estimate from the database (see Appendix \@ref(app:revised-catch-timeseries)). For example, in NBC ISBM S 2022 where the reported value in the 2024 ERA was `r fmt_stat(models_combined2_diffs$pdiff_irec_rep[models_combined2_diffs$erafishery == "NBC ISBM S" & models_combined2_diffs$year ==2022 & models_combined2_diffs$kept_status =="kept"], scale=-100)`% more than the revised estimate, despite creel and logbook estimate for that finescale fishery being less than the revised estimate). In this case it is that likely that the true creel and logbook estimate had been revised and updated in the database in recent years but not reflected in the reporting. Another example of downward revision is in 2005 and 2006 in Johnstone Strait, where methods from Argue et al. 1997 were used to enhance previously reported catch based on sport head recoveries. These methods were used in the C&E report from 2012 but are now discontinued. In Juan de Fuca Sport in 2018 and 2019, iREC was incorporated in the 2024 C&E report but was overestimated due to an incorrect bias correction factor from the iREC calibration, more details can be found in Appendix \@ref(apdx-analytic-improvements). A downward revision that is consistent with the creel estimate is a `r fmt_stat(models_combined2_diffs$pdiff_irec_rep[models_combined2_diffs$erafishery == "JNST S" & models_combined2_diffs$year ==2019 & models_combined2_diffs$kept_status =="kept"], scale=-100)`% reduction in the Johnstone Strait 2019 estimate using revised methods. This is likely due to poor quality creel causing overestimation as described above. A similar pattern was found in 2021 in the same fishery (`r fmt_stat(models_combined2_diffs$pdiff_irec_rep[models_combined2_diffs$erafishery == "JNST S" & models_combined2_diffs$year ==2021 & models_combined2_diffs$kept_status =="kept"], scale=100)`%). Another downward revision is in NBC ISBM 2019, a `r fmt_stat(models_combined2_diffs$pdiff_irec_rep[models_combined2_diffs$erafishery == "NBC ISBM S" & models_combined2_diffs$year ==2019 & models_combined2_diffs$kept_status =="kept"], scale=-100)`% reduction (or `r fmt_stat(models_combined2_diffs$diff_irec_rep[models_combined2_diffs$erafishery == "NBC ISBM S" & models_combined2_diffs$year ==2019 & models_combined2_diffs$kept_status =="kept"], scale=-1)` fewer pieces). While there is no immediate explanation, the creel and logbook data are likely an overestimation in this case as the revised data fits the Northern BC Sport Head Recovery data much better. The remainder of the negative revisions are under 10% in a given year and can be found in table format in Appendix \@ref(apdx-analytic-improvements).
+
+Released catch was substantially increased from the reported releases, particularly in the pre-iREC period where very few releases were estimated (Figure \@ref(fig:fig-cande-released)). While our models assume that the relationship between the creel estimate and combined creel and iREC estimate does not change between the pre-iREC and the during-iREC periods, this revision necessarily added large amounts of releases for regions where lodges and creel surveys did not request that information. For example, the highest percent changes in released catch occurred in Central BC Sport where previously very almost no releases were reported (an addition of `r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "CBC S" & models_combined2_avs$kept_status =="released"])` pieces on average per year across the time series, `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "CBC S" & models_combined2_avs$kept_status =="released"], scale=100)`% increase). This is because lodges in Central BC do not regularly report released catch, whereas iREC allows for released catch to be reported. In CBC, the static value of ~15000 releases between 2005-2014 is essentially an average of the 2015-2023 period, and a reflection of the models having zero input for releases. In other fisheries, where creel did estimate some small number of releases, the modelled releases can fluctuate and accommodate for changing fisher behaviour over time (e.g. Strait of Georgia, Strait of Juan de Fuca Sport). 
+
+On average across the time series, where releases were partially estimated, the number of releases increased by `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "GEO ST S" & models_combined2_avs$kept_status =="released"], scale=100)`% (`r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "GEO ST S" & models_combined2_avs$kept_status =="released"])` pieces) in the Strait of Georgia, `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "BC JF S" & models_combined2_avs$kept_status =="released"], scale=100)`% (`r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "BC JF S" & models_combined2_avs$kept_status =="released"])` pieces) in Juan de Fuca, `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "JNST S" & models_combined2_avs$kept_status =="released"], scale=100)`% (`r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "JNST S" & models_combined2_avs$kept_status =="released"])` pieces) in Johnstone Strait, `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "WCVI AABM S" & models_combined2_avs$kept_status =="released"], scale=100)`% (`r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "WCVI AABM S" & models_combined2_avs$kept_status =="released"])` pieces) in WCVI AABM and `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "WCVI ISBM S" & models_combined2_avs$kept_status =="released"], scale=100)`% (`r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "WCVI ISBM S" & models_combined2_avs$kept_status =="released"])` pieces) in WCVI ISBM. Northern BC ISBM Sport also had large percent changes, particularly in 2005-2012 period where no releases were previously reported (on average `r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "NBC ISBM S" & models_combined2_avs$kept_status =="released"])` pieces and `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "NBC ISBM S" & models_combined2_avs$kept_status =="released"], scale=100)`% change across the whole time series. Haida Gwaii Sport also had the largest average numeric increases of `r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "NBC AABM S" & models_combined2_avs$kept_status =="released"])` pieces, `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "NBC AABM S" & models_combined2_avs$kept_status =="released"], scale=100)`% change. 
+
+Released catch was revised downwards in a handful of cases. Georgia Strait releases in 2014 were lower than reported in C&E 2024 (`r fmt_stat(models_combined2_diffs$pdiff_irec_rep[models_combined2_diffs$erafishery == "GEO ST S" & models_combined2_diffs$kept_status =="released" & models_combined2_diffs$year ==2014], scale=100)`%), however, the reported value is much higher than the creel value, so this is likely an earlier iteration of iREC that was previously incorporated. WCVI ISBM releases in 2012 follow the same pattern (`r fmt_stat(models_combined2_diffs$pdiff_irec_rep[models_combined2_diffs$erafishery == "WCVI AABM S" & models_combined2_diffs$kept_status =="released" & models_combined2_diffs$year ==2012], scale=100)`%), and as 2012 was the first year of the piloting of iREC, it was possibly included in the reporting and carried forward. NBC in 2019 had a negative revision of `r fmt_stat(models_combined2_diffs$pdiff_irec_rep[models_combined2_diffs$erafishery == "NBC AABM S" & models_combined2_diffs$kept_status =="released" & models_combined2_diffs$year ==2019], scale=100)`%  for released catch. This aligns with the unexplained kept catch downwards revision above for the same year. The remaining negative revisions are all small (</=10%). 
+
+
 \newpage
 ### Updating CWT estimates
-
-As described in the methods, kept and marked catch estimates are used to expand CWT observations from the SHRP to CWT estimates uploaded to RMIS. Canada updated CWT estimates based on revised catch and published them to RMIS in support of ERA process starting in February 2025. Figure \@ref(fig:fig-indcwtest) shows the time series of total CWT estimates for all ERA indicator stocks, including both the original 2024 estimates and the revised estimates based on revised catch data. As expected, most of the differences between the 2024 and revised CWT estimates are again in earlier years, before the incorporation of iREC (identified by the vertical line). Furthermore, many of the fisheries show more consistent ranges in values over the whole revised time series (e.g., ERA fishery 63 - GEO ST S) compared to those in the 2024 time series. This suggests that the general fishery sample rate has been relatively consistent and that changes in indicator stock CWT estimates were potentially driven more by biases in historic marked catch estimates. Therefore, revised CWT estimates should provide a more consistent time series to evaluate indicator stock impacts.
-
-```{r results indcwtest, results='asis', echo=FALSE,fig.height=10, fig.width=10, out.width="100%", fig.asp=NA}
-#| label: fig-indcwtest
-#| fig-cap: "Time series of CWT estimate totals for all PSC indicator stocks within the CTC 2025 ERA for each ERA fishery. The vertical line on each panel identifies the first year that revised CWT estimates used catch estimates based primarily on observed data (e.g., iREC and creel). Years before the vertical line use modelled catch based on past catch estimates."
+```{r results indcwtest2, results='asis', echo=FALSE}
 
 cwt_est_filename <- "data/cwt_est_by_fishery.sql"
 cwt_est_sql <- readChar(cwt_est_filename, file.info(cwt_est_filename)$size)
@@ -1219,6 +1281,21 @@ cwt_fishery_model_line <-
                 "65 - BC JF S", "66 - TBC JF TERM S", 
                 "47 - NBC AABM S", "48 - NBC ISBM S", "49 - TNBC TERM S",  "45 - CBC S", "46 - TCBC TERM S")))
 
+new_cwt_est2<- new_cwt_est |> rename(new_cwt_estimate = cwt_estimate)
+
+cwt_all<- new_cwt_est2 |> left_join(prev_cwt_est) |> mutate(cwt_diff = new_cwt_estimate - cwt_estimate, 
+                                                            cwt_pdiff = (new_cwt_estimate - cwt_estimate)/(cwt_estimate))
+
+
+cwt_all_avg<- cwt_all |> group_by(fishery_name) |> summarize_if(is.numeric, c(mean=mean, sd=sd), na.rm=TRUE)
+
+```
+As described in the methods, kept and marked catch estimates are used to expand CWT observations from the SHRP to CWT estimates uploaded to RMIS. Canada updated CWT estimates based on revised catch and published them to RMIS in support of ERA process starting in February 2025. Figure \@ref(fig:fig-indcwtest) shows the time series of total CWT estimates for all ERA indicator stocks, including both the original 2024 estimates and the revised estimates based on revised catch data. Generally, the revised data increase the total CWT estimates across all time series, although there are some declines in a few cases. As expected, most of the differences between the 2024 and revised CWT estimates are in earlier years, before the incorporation of iREC (identified by the vertical line). The smallest impacts of the revisions occurred in Haida Gwaii Sport, (mean of `r fmt_stat(cwt_all_avg$cwt_pdiff_mean[cwt_all_avg$fishery_name == "NBC AABM S"], scale=100)`% change from previously reported to revised). As above, the largest impacts of the revisions occur in Strait of Georgia Sport (mean of `r fmt_stat(cwt_all_avg$cwt_pdiff_mean[cwt_all_avg$fishery_name == "GEO ST S"], scale=100)`%, an average of `r fmt_stat(cwt_all_avg$cwt_diff_mean[cwt_all_avg$fishery_name == "GEO ST S"])` more CWTs estimated per year) and Central BC Sport (mean of `r fmt_stat(cwt_all_avg$cwt_pdiff_mean[cwt_all_avg$fishery_name == "CBC S"], scale=100)`%, an average of `r fmt_stat(cwt_all_avg$cwt_diff_mean[cwt_all_avg$fishery_name == "CBC S"])` more CWTs estimated), and their terminal fisheries. WCVI AABM also had an average increase of `r fmt_stat(cwt_all_avg$cwt_diff_mean[cwt_all_avg$fishery_name == "WCVI AABM S"])` CWTs per year, a `r fmt_stat(cwt_all_avg$cwt_pdiff_mean[cwt_all_avg$fishery_name == "WCVI AABM S"], scale=100)`% increase, and similar pattern for the terminal component. The remainder of the fisheries had fewer than 100 CWT differences (indicator stocks summed) per year between the revised and reported estimates on average across the time series. This update shows more consistent ranges in values over the whole revised time series (e.g., ERA fishery 64 - T GEO ST TERM S) compared to those in the 2024 time series. This suggests that the general fishery sample rate has been relatively consistent and that changes in indicator stock CWT estimates were potentially driven more by biases in historic marked catch estimates. Therefore, revised CWT estimates should provide a more consistent time series to evaluate indicator stock impacts. 
+
+```{r results indcwtest, results='asis', echo=FALSE,fig.height=10, fig.width=10, out.width="100%", fig.asp=NA}
+#| label: fig-indcwtest
+#| fig-cap: "Time series of CWT estimate totals for all PSC indicator stocks within the CTC 2025 ERA for each ERA fishery. The vertical line on each panel identifies the first year that revised CWT estimates used catch estimates based primarily on observed data (e.g., iREC and creel). Years before the vertical line use modelled catch based on past catch estimates."
+
 ## CWT Estimate Total time series
 ggplot() +
   geom_point(data=new_cwt_est, aes(y=cwt_estimate, x=run_year, col="lightblue4")) + 
@@ -1233,19 +1310,15 @@ ggplot() +
   theme_bw() + 
   theme(legend.position="bottom")+
   geom_vline(data = cwt_fishery_model_line, aes(xintercept = xintercept)) +
-  labs(col = "Data source")
+  labs(col = "Data source")+
+  coord_cartesian(ylim = c(0, NA))
 
 ```
 
+\newpage
+
 ### Updating Chinook non-retention (release) estimates
-
-Kept and released catch estimates are incorporated for most sport fisheries into the Chinook ERA non-retention method. In 2024, the Chinook ERA model was modified to only accounted for Chinook mark selective retention fisheries with the addition of the marked release rate ($MRR$) and unmarked kept rate ($UKR$). We calculated the $MRR$ and $UKR$ at the PFMA- and month-level, and then used a weighted average based on total catch estimate per area and month to generate an $MRR$ and $UKR$ for each finescale fishery. For more direct comparison to $MRR$ in the figures we show the unmarked release rate $URR$ (i.e., $1 - UKR$), although $UKR$ is actually used in the ERA. We can compare these marked and unmarked release rates based on revised catch estimates to release rates generated by the ratio between kept and released fish in the Chinook Non-Retention (CNR) file used in the 2024 ERA (Figure \@ref(fig:fig-mrrukr)). In the revised estimates, we allow release rates to vary by season, whereas in the past, finescale fisheries were not split into seasons and therefore release rates in each ERA fishery applied to all seasons.
-
-We can see that some fisheries have been accounting for releases since 2005, while other fisheries only more recently incorporated release information. With the exception of Juan de Fuca Strait, which did have mark-selective fisheries before 2012, all other sport fisheries were non-selective before 2013. Since the data is modelled, we did not want to bias the previous non-selective fisheries by allowing for selectivity, therefore we have fixed the $MRR$ and $URR$ to be equal in the modelled data, by calculating a single release rate for marked and unmarked fish combined. After 2013, the data is observed and therefore allowed to vary selectively even if no specific mark selective fishery was specified in regulations. When $MRR$ and $URR$ are identical, this indicates non-selectivity. If $MRR$ is higher than $URR$, this indicates marked fish are released at a higher rate than unmarked fish, which would be indicative of preferential selection of unmarked fish for retention. If $URR$ is higher than $MRR$, then marked fish are released at a lower rate than unmarked fish, indicating preferential mark retention. Generally, the $MRR$ and $URR$ results suggest that releases are occurring but there is no strong, consistent selectivity to the releases. This aligns with MSF regulations that are very limited in space and time and are only beginning to be implemented in a small number of sport fisheries.
-
-```{r results mrrukr, results='asis', echo=FALSE, fig.height=10, fig.width=10}
-#| label: fig-mrrukr
-#| fig-cap: "Release rate time series at the finescale fishery level, from 2005 to 2023. Light blue lines are release rates of unmarked fish and dark blue lines are release rates of marked fish from revised data. Green lines are release rates (regardless of mark status) used in the 2024 CNR files applied to the 2024 ERA."
+```{r results mrrukr1, results='asis', echo=FALSE}
 
 fishery_map <-
   sport_catch_models$model_catch %>% 
@@ -1274,13 +1347,24 @@ cnr_canada_sport <-
 finescale_fishery_map <- 
   sport_catch_models$model_catch %>% 
   select(finescale_fishery, region, management) %>% 
-  distinct()
+  distinct() |>
+   mutate(erafishery = case_when(
+    grepl("CA JDF S", finescale_fishery) ~ "BC JF S",
+    grepl("NGS S|SGS S", finescale_fishery) ~ "GEO ST S",
+    grepl("WCVI", finescale_fishery) & grepl("AABM", finescale_fishery) ~  "WCVI AABM S",
+    grepl("WCVI", finescale_fishery) & grepl("ISBM", finescale_fishery) ~  "WCVI ISBM S",
+    grepl("NORTH AABM", finescale_fishery) ~  "NBC AABM S",
+    grepl("NBC ISBM|NORTH ISBM", finescale_fishery) ~  "NBC ISBM S",
+    grepl("CENTRAL", finescale_fishery) ~  "CBC S",
+    grepl("JOHN ST", finescale_fishery) ~  "JNST S",
+    .default = NA_character_
+  )) 
 
 
 updated_relese_rates <-
   sport_release_rates |>
-  inner_join(finescale_fishery_map, by = c("finescale_fishery")) |>
-  group_by(year, region, management) |>
+  inner_join(finescale_fishery_map) |>
+  group_by(year, erafishery) |>
   summarize(marked_kept_total = sum(marked_kept_total, na.rm = TRUE),
             marked_released_total = sum(marked_released_total, na.rm = TRUE),
             unmarked_kept_total = sum(unmarked_kept_total, na.rm = TRUE),
@@ -1293,48 +1377,67 @@ updated_relese_rates <-
                                 unmarked_kept_total + unmarked_released_total,
                                 0.0000001), #small value to prevent divide by zero
          mrr = marked_released_total / mark_total,
-         urr = unmarked_released_total / unmark_total) |>
-  select(year, region, management, mrr, urr)
+         urr = unmarked_released_total / unmark_total, 
+         rr = (marked_released_total + unmarked_released_total) / (mark_total + unmark_total)) |>
+  select(year, erafishery, mrr, urr, rr)
 
 
 sport_mark_rate_mrr <-
   cnr_canada_sport |>
-  full_join(updated_relese_rates, by=c("year", "region", "management")) |>
-  mutate(across(c(mrr, urr), \(x) coalesce(x, 0)),
+  full_join(updated_relese_rates) |>
+  mutate(across(c(mrr, urr, rr), \(x) coalesce(x, 0)),
          region = if_else(region == "NC", "NBC", region),
          region_mgmt = paste(region, management))|> filter(year<2024)|>
   mutate(region_mgmt = factor(region_mgmt, levels = c("NWCVI AABM","NWCVI ISBM","SWCVI AABM",  
                      "SWCVI ISBM","NGS ISBM", "SGS ISBM", "JNST ISBM", "JDF ISBM","NBC AABM", 
                     "NBC ISBM",  "CBC ISBM"
-                     )))
+                     )))|>
+  mutate(erafishery = factor(erafishery, levels = erafishery_order))
 
 
 mrr_fishery_model_line <-
   data.frame(
-    region_mgmt = c("CBC ISBM", "NBC AABM", 
-                    "NBC ISBM", "SWCVI AABM", "NWCVI AABM", 
-                    "NWCVI ISBM", "SWCVI ISBM", "JNST ISBM",
-                    "NGS ISBM", "SGS ISBM", "JDF ISBM"),
-    xintercept = c(rep(2015, 3), rep(2013, 8))
+    erafishery = c("CBC S", "NBC AABM S", 
+                    "NBC ISBM S", "WCVI AABM S", 
+                    "WCVI ISBM S", "JNST S",
+                    "GEO ST S", "BC JF S"),
+    xintercept = c(rep(2015, 3), rep(2013, 5))
   )|>
-  mutate(region_mgmt = factor(region_mgmt, levels = c("NWCVI AABM","NWCVI ISBM","SWCVI AABM",  
-                     "SWCVI ISBM","NGS ISBM", "SGS ISBM", "JNST ISBM", "JDF ISBM","NBC AABM", 
-                    "NBC ISBM",  "CBC ISBM"
-                     )))
+  mutate(erafishery = factor(erafishery, levels = erafishery_order))
 
+rr_sum<- sport_mark_rate_mrr |> group_by(erafishery)|>
+  summarize_if(is.numeric, mean, na.rm=TRUE)
+```
+Kept and released catch estimates are incorporated for most sport fisheries into the ERA non-retention method. In 2024, the Chinook ERA model was modified to account for mark selective retention fisheries with the addition of the marked release rate ($MRR$) and unmarked kept rate ($UKR$) [see @CTC2025 for methods]. We calculated the $MRR$ and $UKR$ at the PFMA- and month-level, and then used a weighted average based on total catch estimate per area and month to generate an $MRR$ and $UKR$ for each finescale fishery. We then calculate a stock-specific MRR and UKR at the ERA fishery level weighted by CWT recoveries. Therefore, in revised estimates, we allow release rates to vary by season, whereas in the past, finescale fisheries were not split into seasons and therefore release rates in each ERA fishery applied to all seasons.
+
+Here, for comparison to previous years ERA-level release rates, we show the summed (non-seasonal and across stocks) marked and unmarked release rates at the ERA level (Figure \@ref(fig:fig-mrrukr2). In particular, for more direct comparison to $MRR$ in the figures we show the unmarked release rate $URR$ (i.e., $1 - UKR$), although $UKR$ is actually used in the ERA. We compare these marked and unmarked release rates based on revised catch estimates to release rates generated by the ratio between kept and released fish in the Chinook Non-Retention (CNR) file used in the 2024 ERA. With the exception of Juan de Fuca Strait, which did have some mark-selective fisheries before 2012, all other sport fisheries were regulated as non-selective before 2013. Since the underlying catch is modelled before 2013 we have fixed the $MRR$ and $URR$ based on modelled catch to be equal (i.e., no mark selectivity), by calculating a single release rate for marked and unmarked fish combined. This removes any potential bias from the modelling process that might have affected marked and unmarked catch estimates differently (e.g., larger uncertainty in modelled marked derived estimates because of lower magnitude of catch). After 2013, the data is observed and therefore allowed to vary selectively even if no specific mark selective fishery was specified in regulations. When $MRR$ and $URR$ are identical, this indicates non-selectivity. If $MRR$ is higher than $URR$, this indicates marked fish are released at a higher rate than unmarked fish, which would be indicative of preferential selection of unmarked fish for retention. If $URR$ is higher than $MRR$, then marked fish are released at a lower rate than unmarked fish, indicating preferential mark retention. 
+
+The Exploitation rate analysis has been accounting for releases since before 2005 for some fisheries (e.g.West Coast Vancouver Island and Haida Gwaii Sport), while for others release information has only recently been incorporated (e.g. since 2019 in Strait of Georgia, Juan de Fuca Sport, and Johnstone Strait Sport). Where release rates were reported, revised release rates are generally higher than reported 2024 CNR release rates, although NBC ISBM S has a few years where the opposite is the case. While only recently incorporated into the ERA, releases have been occurring throughout the time series and release rates have fluctuated over time. The highest average release rates occur in Haida Gwaii (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "NBC AABM S"], scale=100)`%) and Central BC (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "CBC S"], scale=100)`%) which are relatively stable throughout the time series. WCVI ISBM has the lowest release rates on average (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "WCVI ISBM S"], scale=100)`%), followed by Johnstone Strait (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "JNST S"], scale=100)`%) and WCVI AABM (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "WCVI AABM S"], scale=100)`%), all relatively stable throughout time. There not appear to be strong selectivity (MRR>URR) in any of these fisheries. The Strait of Georgia, Juan de Fuca Strait, and Northern BC ISBM have all increased release rates since 2019. In Southern BC, these changes correspond with introductions of mark selective fishing regulations, and indeed mark selectivity is occurring in these fisheries in recent years (MRR > URR). In Northern BC, release rates are increasing but it does not appear to be linked with changes in regulation. Furthermore, there is a higher release rate for unmarked fish than marked fish (URR > MRR) in this fishery, which indicates a selectivity for unmarked fish. This could be a true preference for unmarked fish in this fishery or a product of uncertainty in mark rates. 
+
+```{r results mrrukr2, results='asis', echo=FALSE, fig.height=10, fig.width=10}
+#| label: fig-mrrukr2
+#| fig-cap: "Release rate time series at the finescale fishery level, from 2005 to 2023. Light blue lines are release rates of unmarked fish and dark blue lines are release rates of marked fish from revised data. Green lines are release rates (regardless of mark status) used in the 2024 CNR files applied to the 2024 ERA."
 mu <- 
   ggplot() +
-  geom_point(data=sport_mark_rate_mrr, aes(y=urr, x=year, col="lightblue")) +
-  geom_line(data=sport_mark_rate_mrr, aes(y=urr, x=year, col="lightblue"))+
-  geom_point(data=sport_mark_rate_mrr, aes(y=mrr, x=year, col="lightblue4")) +
-  geom_line(data=sport_mark_rate_mrr, aes(y=mrr, x=year, col="lightblue4"))+
+  geom_point(data=sport_mark_rate_mrr %>% filter(between(year, 2015, 2023)), aes(y=urr, x=year, col="lightblue")) +
+  geom_line(data=sport_mark_rate_mrr %>% filter(between(year, 2015, 2023)), aes(y=urr, x=year, col="lightblue"))+
+  geom_point(data=sport_mark_rate_mrr%>% filter(between(year, 2015, 2023)), aes(y=mrr, x=year, col="lightblue4")) +
+  geom_line(data=sport_mark_rate_mrr%>% filter(between(year, 2015, 2023)), aes(y=mrr, x=year, col="lightblue4"))+
+  geom_point(data=sport_mark_rate_mrr %>% filter(between(year, 2013, 2015), erafishery %notin% c("NBC AABM S", "NBC ISBM S", "CBC S")), aes(y=urr, x=year, col="lightblue")) +
+  geom_line(data=sport_mark_rate_mrr %>% filter(between(year, 2013, 2015), erafishery %notin% c("NBC AABM S", "NBC ISBM S", "CBC S")), aes(y=urr, x=year, col="lightblue"))+
+  geom_point(data=sport_mark_rate_mrr%>% filter(between(year, 2013, 2015), erafishery %notin% c("NBC AABM S", "NBC ISBM S", "CBC S")), aes(y=mrr, x=year, col="lightblue4")) +
+  geom_line(data=sport_mark_rate_mrr%>% filter(between(year, 2013, 2015), erafishery %notin% c("NBC AABM S", "NBC ISBM S", "CBC S")), aes(y=mrr, x=year, col="lightblue4"))+
   geom_point(data=sport_mark_rate_mrr, aes(y=release_rate, x=year, col="lightgreen")) +
   geom_line(data=sport_mark_rate_mrr, aes(y=release_rate, x=year, col="lightgreen"))+
-  scale_color_manual(values=c("lightblue", "lightblue4", "lightgreen"),  
+   geom_point(data=sport_mark_rate_mrr %>% filter(between(year, 2005, 2013)), aes(y=rr, x=year, col="orange")) +
+  geom_line(data=sport_mark_rate_mrr %>% filter(between(year, 2005, 2013)), aes(y=rr, x=year, col="orange"))+
+    geom_point(data=sport_mark_rate_mrr %>% filter(between(year, 2013, 2015), erafishery %in% c("NBC AABM S", "NBC ISBM S", "CBC S")), aes(y=rr, x=year, col="orange")) +
+  geom_line(data=sport_mark_rate_mrr %>% filter(between(year, 2013, 2015), erafishery %in% c("NBC AABM S", "NBC ISBM S", "CBC S")), aes(y=rr, x=year, col="orange"))+
+  scale_color_manual(values=c("lightblue", "lightblue4", "lightgreen", "orange"),  
                      labels = c("Revised Unmarked Release Rate", 
                                 "Revised Marked Release Rate", 
-                                "2024 CNR Release Rate"))+
-  facet_wrap(~region_mgmt) +
+                                "2024 CNR Release Rate", "Revised Release Rate"))+
+  facet_wrap(~erafishery) +
   theme_bw() + 
   geom_vline(data = mrr_fishery_model_line, aes(xintercept = xintercept)) +
   labs(col="Data source",
@@ -1343,4 +1446,7 @@ mu <-
   theme(legend.position = "bottom")
 
 print(mu)
+
+
+
 ```
