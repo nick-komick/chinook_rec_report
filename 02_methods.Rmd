@@ -538,8 +538,6 @@ calibration. Furthermore, we use iREC as the best catch estimate in each
 month in these regions as much of the creel and logbook catch does not
 account for releases.
 
-
-
 ```{r methods with iREC flowchart, out.width="100%", results='asis', echo=FALSE}
 #| label: fig-area-catch-process
 #| fig-cap: "Diagram showing the steps to combining various catch data sources in Southern BC from 2013 onward to obtain revised combined creel and iREC catch estimate."
