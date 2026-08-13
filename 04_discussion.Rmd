@@ -8,8 +8,46 @@ output:
 
 # Discussion
 
+This report reflects an effort to incorporate the best available Canadian recreational catch data into the current domestic and bilateral Chinook salmon stock assessment processes. We describe methods to produce standardized post-season recreational Chinook catch estimates from 2005 to present by integrating the Internet Recreational Effort and Catch (iREC) survey with the creel and logbook programs. The updated recreational catch estimates are more spatially and temporally complete and are better aligned with an independent data set from the salmon head recovery program, than previous estimates. Applying and building upon these standardized methods in future years will allow us to continue to maintain and improve catch estimates time series over time. 
 
-Norah's notes: 
+The revised estimates are broadly higher for both kept and released catch than previously reported, as the updated methods are more spatially and temporally complete than previous methods. The kept catch contributed to CWT estimates that were also generally increased across fisheries. Released catch in particular saw large increases, likely because creel and logbook programs variably included this information before recently due to changes in mark selective fisheries (SFEC request/direction?) . These released catch estimates caused higher release rates than previously reported.
+
+
+iREC paragraph 
+- This reflects decades of work on iREC to roll out and apply it. 
+- public use of iREC/ response rates and creel calibration improvement. 
+- want to show irec calibration over time plot
+
+2005-2013 paragraph 
+The largest changes to reported estimates occur in the modelled period (2005 to 2013), mostly because updated methodology has been applied variably in recent years. 
+
+Variability in data quality drives the difference between big effects and little effects.... eg. CBC eg. SOG. - creel filtering
+- lodges only reporting and no expansion of logbooks
+- high uncertainty in those previous estimates - creel underestimate bc of sample rate for sure
+- poor sample rates in SOG? more driven by SOG south? 
+- SOG worst model fit.... poor quality creel. 
+- candidate for creel improvement. 
+
+
+
+Summarize the findings
+- broadly higher catch estimates for both kept and released estimates
+- likely due to more area + months included in iREC, more complete spatially and temporally
+- Higher uncertainty for modelled data but represents an improvement
+
+Summarize the methods
+- filtered creel quality
+- modelling - we did our best, spring/fall might be better methods out there but better than apples to oranges and better than nothing. 
+- modelling tells us what's important in each fishery (e.g. mark status or kept etc)
+- Mark rates and other explored models: Mark rates imprecision and variability in cwt estimation 
+
+
+
+Summarize domestic lessons learned
+- In addition to updating catch estimates, our report shows which areas and months creel surveys are failing quality control criteria and this could be used to direct creel survey effort in the future. 
+- note that iREC can't be used without creel as it still needs to be calibrated. 
+- Haida Gwaii creel is doing a great job! 
+
 
 Model results: 
 - there was stronger correlation between creel summer estimates and creel + iREC summer estimates in the summer models compared to the correlation between creel summer estimates and creel + iREC spring and fall estimates in the seasonal models and between logbook or creel summer estimates and i-REC enhanced estimates in the annual models in North and Central BC (see Appendix \@ref(app:third-appendix) for full model output). Indeed, all the summer models retained ($C_{creel,summer}$) as a variable, whereas the seasonal models for WCVI and Johnstone Strait dropped this variable as a predictor and were better described without it.
@@ -23,24 +61,17 @@ Model results:
 - JDF has opposite mark status and kept status trends in summer vs seasonal ... reflects the season mark selective fisheries? 
 = slope modified --> marked steeper than unmarked? Is that a pattern where there is an interaction? what about released steeper than kept? for seasonal: Mark fish stronger relationship between spring and summer?? 
 
-Mark rates and other explored models: 
-- Mark rates imprecision and variability in cwt estimation 
-
-
-
 
 
 Sport Head validation notes: 
 - good for kept marked catch but doesn't necessarily extend to unmarked or released catch. So maybe need to verify before abandoning in Haida Gwaii. 
 - overall more areas and seasons used with irec, improved the fit in general and more realistic sample rates (which are lower than they should be) 
-- 
 
 
 
 
-End Notes 
 
-In this report we describe methods to produce standardized post-season recreational Chinook catch estimates from 2005 to present. Applying and building upon these standardized methods in future years will allow us to continue to maintain and improve catch estimates time series over time. However, the quality of data over the time series varies widely. Higher iREC sample rates of recreational licence holders provide higher precision catch estimates in recent years, while the lack of iREC prior to 2013 and lower sample rates early in the monitoring program lead to lower confidence in earlier years. The primary reason to extend the time series back to 2005 was to provide consistent estimates for the CTC CYER base period (i.e. 2009 to 2015) and the earlier years of the associated cohorts. Future fishery assessment metrics should focus on more recent years (e.g. since the start of iREC) to reduce potential bias and imprecision when assessing recreational fisheries.
+However, the quality of data over the time series varies widely. Higher iREC sample rates of recreational licence holders provide higher precision catch estimates in recent years, while the lack of iREC prior to 2013 and lower sample rates early in the monitoring program lead to lower confidence in earlier years. The primary reason to extend the time series back to 2005 was to provide consistent estimates for the CTC CYER base period (i.e. 2009 to 2015) and the earlier years of the associated cohorts. Future fishery assessment metrics should focus on more recent years (e.g. since the start of iREC) to reduce potential bias and imprecision when assessing recreational fisheries.
 
 When fitting the models between iREC and other catch monitoring programs (i.e. creel and logbooks) to infill catch estimates for pre-iREC years, most of the model fits were better as non-linear relationships. This is potentially related to the quality control filtering process of creel estimates. As effort increases in a given area and month, it likely also increases in adjoining areas and months, resulting in more area and months being included in the regional model fit. However, this may not be the case when catch monitoring program access to fishers is less of a concern. For example, a logbook program may be able to access fishers at lower efforts and provide an estimate when a creel survey may be less likely to encounter and interview fishers. This is potentially the case in the Haida Gwaii region (NBC AABM), where much of the effort is carried out by lodges that commonly participate in logbook programs. In that case, the logbook catch may have a more linear relationship with iREC catch as the bias is more evenly distributed throughout the much shorter, focused summer fishing season. The non-linearity of relationships between traditional surveys and iREC may also result from the difference in scale among the surveys and higher variability when catch estimates are high. Future efforts should aim to refine these relationships and quantify the causes of their non-linearity. 
 
