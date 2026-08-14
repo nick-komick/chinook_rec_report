@@ -150,11 +150,32 @@ all_summary_2005_2020 <- creel_month_PFMA %>%
   mutate(pct = 100 * n / sum(n)) %>%
   ungroup()
 
+all_summary_2005_2020b <- creel_month_PFMA %>%
+  filter(region %notin% c("CBC", "NC")) %>%
+  filter(area %notin% c(10, 126, 26, 111)) %>%
+  filter(year < 2021) %>%
+  group_by(region, criteria) %>%
+  summarise(n = n(), .groups = "drop") %>%
+  group_by(region) %>%
+  mutate(pct = 100 * n / sum(n)) %>%
+  ungroup()
+
 all_summary_2021_2025 <- creel_month_PFMA %>%
   filter(region %notin% c("CBC", "NC")) %>%
   filter(area %notin% c(10, 126, 26, 111)) %>%
   filter(year > 2020) %>%
   mutate(region = "All") %>%
+  group_by(region, criteria) %>%
+  summarise(n = n(), .groups = "drop") %>%
+  group_by(region) %>%
+  mutate(pct = 100 * n / sum(n)) %>%
+  ungroup()
+
+
+all_summary_2021_2025b <- creel_month_PFMA %>%
+  filter(region %notin% c("CBC", "NC")) %>%
+  filter(area %notin% c(10, 126, 26, 111)) %>%
+  filter(year > 2020) %>%
   group_by(region, criteria) %>%
   summarise(n = n(), .groups = "drop") %>%
   group_by(region) %>%
