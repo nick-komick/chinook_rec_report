@@ -12,7 +12,69 @@ output:
 In the following section we present the results of revising Chinook catch using both the combined creel and iREC catch estimates for more recent years and modelled estimates for pre-iREC years back to 2005. In addition to revising catch, the relationship between marked kept Chinook catch and CWT sampling through the SHRP is presented, including sample rate time series plots for each CWT region.
 
 ## Revised catch estimates since iREC
-In finescale fisheries, we found that the combined creel and iREC catch estimates were broadly higher than previous creel catch estimates. As an example, Figure \@ref(fig:fig-ngs-catch-revised-1) shows the effect of the summed and revised 2013 to 2023 kept catch estimates for the Northern Straight of Georgia finescale fishery (solid line) compared to the previous creel catch estimates without iREC inclusion (dashed line). Though the relative difference between the two time series vary, the revised combined creel and iREC catch estimates are consistently higher than the previous creel catch estimates. As demonstrated by Figure \@ref(fig:fig-creel-iREC-NGS), calibrated iREC fills in spatial and temporal gaps in creel sampling, so it follows that the summed yearly estimates are typically higher when you include calibrated iREC, especially in regions with many gaps to fill. As the comparison plots for the other fisheries show in Appendix \@ref(app:revised-catch-timeseries), in most cases kept catch was increased with a few exceptions where there was a small reduction in specific years. For example, in Johnstone Strait in 2019, the combined creel and iREC catch estimate was lower than the creel catch estimate (see Appendix \@ref(app:revised-catch-timeseries)). This could be due to overestimation by the unfiltered creel since 7 out of 9 estimates in this region and year failed the criteria and are therefore likely estimating catch based only on a small number of days in a month that is then expanded to the entire month. This could result in a monthly overestimation if for example a long holiday weekend is extrapolated to represent the entire monthly catch. Revised catch estimates summed to ERA fishery level are discussed in detail in the reporting section. 
+```{r results catch1, echo=FALSE}
+#### Summarizing all: 
+models_combineda<-
+  sport_catch_models$model_catch |>
+  mutate(region_mgmt = if_else(region %in% c("SWCVI", "NWCVI", "NC"),
+                               paste(region, management), 
+                               region)) |>
+  group_by(year, kept_status, pred_cat, region_mgmt) |> 
+  summarise(across(where(is.double), \(x) sum(x, na.rm = TRUE)), .groups = "drop") |>
+  mutate(fishery_full_name = recode_values(region_mgmt,
+                                           "JDF" ~ "Juan de Fuca Strait",
+                                           "JNST" ~ "Johnstone Strait",
+                                           "NGS" ~ "Northern Strait of Georgia",
+                                           "SGS" ~ "Southern Strait of Georgia",
+                                           "NWCVI AABM" ~ "Northern West Vancouver Island - AABM",
+                                           "SWCVI AABM" ~ "Southern West Vancouver Island - AABM",
+                                           "NWCVI ISBM" ~ "Northern West Vancouver Island - ISBM",
+                                           "SWCVI ISBM" ~ "Southern West Vancouver Island - ISBM", 
+                                            "NC AABM" ~ "Northern BC - AABM",
+                                           "NC ISBM" ~ "Northern BC - ISBM",
+                                           "CBC" ~ "Central BC")) 
+
+models_combined2a <- 
+  models_combineda%>% 
+  mutate(erafishery = case_when(
+    grepl("JDF", region_mgmt) ~ "BC JF S",
+    grepl("NGS|SGS", region_mgmt) ~ "GEO ST S",
+    grepl("WCVI", region_mgmt) & grepl("AABM", region_mgmt) ~  "WCVI AABM S",
+    grepl("WCVI", region_mgmt) & grepl("ISBM", region_mgmt) ~  "WCVI ISBM S",
+    grepl("JNST", region_mgmt) ~  "JNST S",
+     grepl("NC AABM", region_mgmt) ~  "NBC AABM S",
+    grepl("NC ISBM", region_mgmt) ~  "NBC ISBM S",
+    grepl("CBC", region_mgmt) ~  "CBC S",
+    .default = NA_character_
+  ))|>
+  group_by(year, region_mgmt, erafishery, kept_status)|>
+     summarize_if(is.numeric, sum, na.rm = TRUE)|>
+  mutate(creel_unfiltered_plus = case_when(erafishery %in% c("NBC AABM S", "NBC ISBM S", "CBC S") ~ historic_plus, 
+                                           .default= creel_unfiltered_plus))|> dplyr::select(year, region_mgmt, erafishery, kept_status, creel_unfiltered_plus, catch_estimate_predicted)
+
+
+  models_combined2a_diffs<-  models_combined2a |> mutate(pdiff_irec_creel = (catch_estimate_predicted - creel_unfiltered_plus)/(creel_unfiltered_plus)) |> mutate(diff_irec_creel = (catch_estimate_predicted - creel_unfiltered_plus))
+
+    models_combined2a_diffs<-  models_combined2a_diffs %>%
+ mutate(across(where(is.numeric), ~replace(., is.infinite(.), NA)))
+  
+    models_combined2a_avs<-  models_combined2a_diffs |> group_by(region_mgmt, kept_status)|>
+      summarize_if(is.numeric, c(mean=mean, sd=sd), na.rm=TRUE)
+    
+    models_combined2a_avs_pre2019<-  models_combined2a_diffs |> filter(between(year, 2013, 2018)) |> group_by(region_mgmt, kept_status)|>
+      summarize_if(is.numeric, c(mean=mean, sd=sd), na.rm=TRUE)
+
+    models_combined2a_avs_post2019<-  models_combined2a_diffs |> filter(between(year, 2019, 2023)) |> group_by(region_mgmt, kept_status)|>
+      summarize_if(is.numeric, c(mean=mean, sd=sd), na.rm=TRUE)
+
+
+```
+
+In finescale fisheries, we found that the combined creel and iREC catch estimates were broadly higher than previous creel catch estimates. As an example, Figure \@ref(fig:fig-ngs-catch-revised-1) shows the effect of the summed and revised 2013 to 2023 kept catch estimates for the Northern Straight of Georgia finescale fishery (solid line) compared to the previous creel catch estimates without iREC inclusion (dashed line). Though the relative difference between the two time series vary, the revised combined creel and iREC catch estimates are consistently higher than the previous creel catch estimates. For Northern Georgia Strait, the difference between creel and combined creel and iREC is larger in the early years of the iREC program (mean `r fmt_stat(models_combined2a_avs_pre2019$pdiff_irec_creel_mean[models_combined2a_avs_pre2019$region_mgmt == "NGS" & models_combined2a_avs_pre2019$kept_status =="kept"], scale=100)`% 2013-2018, an average of `r fmt_stat(models_combined2a_avs_pre2019$diff_irec_creel_mean[models_combined2a_avs_pre2019$region_mgmt == "NGS" & models_combined2a_avs_pre2019$kept_status =="kept"])` pieces per year), and less pronounced in more recent years (mean `r fmt_stat(models_combined2a_avs_post2019$pdiff_irec_creel_mean[models_combined2a_avs_post2019$region_mgmt == "NGS" & models_combined2a_avs_post2019$kept_status =="kept"], scale=100)`% and `r fmt_stat(models_combined2a_avs_post2019$diff_irec_creel_mean[models_combined2a_avs_post2019$region_mgmt == "NGS" & models_combined2a_avs_post2019$kept_status =="kept"])` pieces on average per year 2019-2023). This pattern could be a combination of improvements in creel surveying in recent years (see methods: creel quality control) and improvements to the iREC survey which increased the number of survey responses and therefore reduced uncertainty in iREC estimates (see Appendix \@ref(app:apdx-irec-mthd) for more details). In some fisheries, the difference between combined creel and iREC and creel is consistent across all years of iREC (e.g., NWCVI AABM). 
+
+As demonstrated by Figure \@ref(fig:fig-creel-iREC-NGS), iREC fills in spatial and temporal gaps in creel sampling, so it is expected that the summed yearly estimates are typically higher when iREC is included, especially in regions with many gaps to fill. The highest percent differences between the revised estimates (combined creel and iREC) and previous estimates occurred in Strait of Georgia Sport and Central BC Sport. The fishery with the least amount of change across the time series was Haida Gwaii Sport. As the comparison plots for the other fisheries show in Appendix \@ref(app:revised-catch-timeseries), in most cases kept catch was increased with a few exceptions where there was a small reduction in specific years. For example, in Johnstone Strait in 2019, the combined creel and iREC catch estimate was lower than the creel catch estimate (see Appendix \@ref(app:revised-catch-timeseries)). This could be due to overestimation by the unfiltered creel since 7 out of 9 estimates in this region and year failed the criteria and are therefore likely estimating catch based only on a small number of days in a month that is then expanded to the entire month. This could result in a monthly overestimation if for example a long holiday weekend is extrapolated to represent the entire monthly catch. 
+
+Released catch estimates in finescale fisheries were also higher using combined creel and iREC compared to creel (see Appendix \@ref(app:revised-catch-timeseries)). Revised kept and released catch estimates summed to ERA fishery level are discussed in detail below.  
 
 ```{r results example summer m plots, results='asis', echo=FALSE, fig.height=3, fig.width=8, out.width="100%", fig.asp=NA}
 #| label: fig-ngs-catch-revised-1
@@ -54,6 +116,7 @@ ggplot(ngs_graph_data,
   ylab("Kept catch estimate") + 
   xlab("Year") +
   labs(linetype = "Catch Estimate", shape = "Catch Estimate")
+
 
 ```
 
@@ -1029,7 +1092,9 @@ ggplot(data = region_df,
 \end{landscapepage}
 \clearpage
 
-section break done 
+section break  
+
+
 ## Revised catch data in CTC processes
 
 Revised recreational catch estimates are inputs to the CTC's analyses and reporting processes in three primary ways.
@@ -1287,7 +1352,7 @@ cwt_all<- new_cwt_est2 |> left_join(prev_cwt_est) |> mutate(cwt_diff = new_cwt_e
 cwt_all_avg<- cwt_all |> group_by(fishery_name) |> summarize_if(is.numeric, c(mean=mean, sd=sd), na.rm=TRUE)
 
 ```
-As described in the methods, kept and marked catch estimates are used to expand CWT observations from the SHRP to CWT estimates uploaded to RMIS. Canada updated CWT estimates based on revised catch and published them to RMIS in support of ERA process starting in February 2025. Figure \@ref(fig:fig-indcwtest) shows the time series of total CWT estimates for all ERA indicator stocks, including both the original 2024 estimates and the revised estimates based on revised catch data. Generally, the revised data increase the total CWT estimates across all time series, although there are some declines in a few cases. As expected, most of the differences between the 2024 and revised CWT estimates are in earlier years, before the incorporation of iREC (identified by the vertical line). The smallest impacts of the revisions occurred in Haida Gwaii Sport, (mean of `r fmt_stat(cwt_all_avg$cwt_pdiff_mean[cwt_all_avg$fishery_name == "NBC AABM S"], scale=100)`% change from previously reported to revised). As above, the largest impacts of the revisions occur in Strait of Georgia Sport (mean of `r fmt_stat(cwt_all_avg$cwt_pdiff_mean[cwt_all_avg$fishery_name == "GEO ST S"], scale=100)`%, an average of `r fmt_stat(cwt_all_avg$cwt_diff_mean[cwt_all_avg$fishery_name == "GEO ST S"])` more CWTs estimated per year) and Central BC Sport (mean of `r fmt_stat(cwt_all_avg$cwt_pdiff_mean[cwt_all_avg$fishery_name == "CBC S"], scale=100)`%, an average of `r fmt_stat(cwt_all_avg$cwt_diff_mean[cwt_all_avg$fishery_name == "CBC S"])` more CWTs estimated), and their terminal fisheries. WCVI AABM also had an average increase of `r fmt_stat(cwt_all_avg$cwt_diff_mean[cwt_all_avg$fishery_name == "WCVI AABM S"])` CWTs per year, a `r fmt_stat(cwt_all_avg$cwt_pdiff_mean[cwt_all_avg$fishery_name == "WCVI AABM S"], scale=100)`% increase, and similar pattern for the terminal component. The remainder of the fisheries had fewer than 100 CWT differences (indicator stocks summed) per year between the revised and reported estimates on average across the time series. This update shows more consistent ranges in values over the whole revised time series (e.g., ERA fishery 64 - T GEO ST TERM S) compared to those in the 2024 time series. This suggests that the general fishery sample rate has been relatively consistent and that changes in indicator stock CWT estimates were potentially driven more by biases in historic marked catch estimates. Therefore, revised CWT estimates should provide a more consistent time series to evaluate indicator stock impacts. 
+As described in the methods, kept and marked catch estimates are used to expand CWT observations from the SHRP to CWT estimates uploaded to RMIS. Canada updated CWT estimates based on revised catch and published them to RMIS in support of ERA process starting in February 2025. Figure \@ref(fig:fig-indcwtest) shows the time series of total CWT estimates for all ERA indicator stocks, including both the original 2024 estimates and the revised estimates based on revised catch data. Generally, the revised data increase the total CWT estimates across all time series, although there are some declines in a few cases. As expected, most of the differences between the 2024 and revised CWT estimates are in earlier years, before the incorporation of iREC (identified by the vertical line). The smallest impacts of the revisions occurred in Haida Gwaii Sport, (mean of `r fmt_stat(cwt_all_avg$cwt_pdiff_mean[cwt_all_avg$fishery_name == "NBC AABM S"], scale=100)`% change from previously reported to revised). As above, the largest impacts of the revisions occur in Strait of Georgia Sport (mean of `r fmt_stat(cwt_all_avg$cwt_pdiff_mean[cwt_all_avg$fishery_name == "GEO ST S"], scale=100)`%, an average of `r fmt_stat(cwt_all_avg$cwt_diff_mean[cwt_all_avg$fishery_name == "GEO ST S"])` more CWTs estimated per year) and Central BC Sport (mean of `r fmt_stat(cwt_all_avg$cwt_pdiff_mean[cwt_all_avg$fishery_name == "CBC S"], scale=100)`%, an average of `r fmt_stat(cwt_all_avg$cwt_diff_mean[cwt_all_avg$fishery_name == "CBC S"])` more CWTs estimated), and their terminal fisheries. Although it should be noted that Central BC in recent years has used iREC catch in CWT estimation to provide more accurate CWT estimates. WCVI AABM also had an average increase of `r fmt_stat(cwt_all_avg$cwt_diff_mean[cwt_all_avg$fishery_name == "WCVI AABM S"])` CWTs per year, a `r fmt_stat(cwt_all_avg$cwt_pdiff_mean[cwt_all_avg$fishery_name == "WCVI AABM S"], scale=100)`% increase, and similar pattern for the terminal component. The remainder of the fisheries had fewer than 100 CWT differences (indicator stocks summed) per year between the revised and reported estimates on average across the time series. This update shows more consistent ranges in values over the whole revised time series (e.g., ERA fishery 64 - T GEO ST TERM S) compared to those in the 2024 time series. This suggests that the general fishery sample rate has been relatively consistent and that changes in indicator stock CWT estimates were potentially driven more by biases in historic marked catch estimates. Therefore, revised CWT estimates should provide a more consistent time series to evaluate indicator stock impacts. 
 
 ```{r results indcwtest, results='asis', echo=FALSE,fig.height=10, fig.width=10, out.width="100%", fig.asp=NA}
 #| label: fig-indcwtest
