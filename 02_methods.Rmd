@@ -663,28 +663,23 @@ creel and logbook coverage in the summer (months 5:9) throughout the
 time series (from 2005 to 2023). This consistent period of coverage is
 used to predict the estimated catch for all seasons in the years before iREC was available (before 2013 for South Coast). The annual models use annual creel catch estimates to predict pre-2015 iREC catch estimates as catch in Northern and Central BC is too sparse outside the summer months for seasonal estimates. 
 
-### Modelling protocol
+### Model selection
 
-We explored several different model forms to characterize the relationship between creel and either iREC or combined creel and iREC catch estimate. We incorporated an automated model selection process that explored various model forms and distribution families. We developed two sets of models, one with catch data grouped by finescale fishery and another with data grouped by broader sub-region, to allow for finescale fishery differences in model form and family. All models included a grouping variable for catch with four categories (marked kept, marked released, unmarked kept, and unmarked released) in order to have a single underlying model for each total catch estimate (with the exception of Central BC models, which only included marked and unmarked as there are zero estimated releases for this region). We then applied a systematic model selection process to compete candidate models and select a best model for each group as follows:
+We explored several different model forms and distribution families to characterize the relationship between the creel estimate and combined creel and iREC estimate or iREC estimate. All models included a grouping factor for kept catch (kept and released) and marked catch (marked or unmarked), with the exception of Central BC models, which only included marked category as there are zero estimated releases for this region. We developed two sets of models, one with catch data grouped by finescale fishery and another with data grouped by region, to allow for finescale fishery differences in model form and family. Other releveant parameters not applicable to all models included season (spring or fall) and management type (AABM or ISBM). We then applied a systematic model selection process to compete candidate models and select a best model for each group as follows:
 
-- We first constructed global models that included all combinations of relevatn parameters including unfiltered summer creel, region or finescale fishery, mark status (marked or unmarked), kept status (kept or released), management type (AABM or ISBM), and their interactions, with either a gaussian distribution with an identity link or a Gamma distribution with a log link (appropriate for our positive, continuous data).
+
+- We first constructed global models that included all combinations of parameters relevant to data set and their interactions, with either a gaussian distribution with an identity link or a Gamma distribution with a log link (appropriate for our positive, continuous data).
 
 -  We then generated a filtered dataset with no missing values for any component parameters for each global model. 
 
-- We used the dredge function in `MuMIn` R package [@mumin] to
-  generate a model selection table of all subsets of the global model and filtered the table to exclude complex models nested within simpler models with a lower AIC [@Richards2008] and all models with a delta AIC >2 [@BurnhamandAnderson2003], choosing the simplest remaining model (model with least number of terms) as the final model. 
+- We used the dredge function in `MuMIn` R package [@mumin] to generate a model selection table of all subsets of the global model which is ranked by Akaike Information Criterion (AIC), which balances model fit and complexity, with models with the lowest AIC ranking highest. 
+
+- We next filtered the table to exclude complex models nested within simpler models with a lower AIC [@Richards2008] and all models with a delta AIC >2 [@BurnhamandAnderson2003]
+
+- Finally, we chose the simplest remaining model with the least number of terms as the final model for each model group. 
 
 This protocol generated a candidate model for each seasonal and regional
-grouping (both finescale and broader). Since models with different subsets of data (i.e., data from a single finescale fishery vs. data from multiple finescale fisheries) can not be
-compared with AIC, we ranked models on visual diagnostics and
-pseudo-$R^{2}$ (a goodness of fit test, [@Nakagawa2017]). For all candidate
-models we used the `DHARMa` package in R [@dharma] to create a qq-plot to
-detect deviations in observations from expected distribution and a plot
-of the residuals against predicted values to detect patterns in
-residuals. Residual plots of all final models can be found in Appendix
-\@ref(app:second-appendix). We visually assessed whether candidate
-models improved diagnostic plots and looked at test results for deviations between
-observed and simulated dispersion, outliers, and uniformity (Leite et al. 2025). Finally, when the automated process selected the Gamma family, we manually checked the top gaussian alternative for residual fit and favoured models with a gaussian fit unless a Gamma fit substantially improved a candidate model's performance, as linear fits mitigate potentially large swings in predicted estimates outside of the range observed in the fitted data. 
+grouping (both finescale fishery and broader regional). Since models with different subsets of data (i.e., data from a single finescale fishery vs. data from multiple finescale fisheries in a broader region) can not be compared with AIC, we ranked the candidate models for each region or finescale fishery on pseudo-$R^{2}$ (a goodness of fit test, [@Nakagawa2017]), visual assessment of diagnostic qq (used to detect deviations in observations from expected distributions) and residual (used to detect patterns in residuals) plots using the `DHARMa` package in R [@dharma, Appendix \@ref(app:second-appendix)], as well as test results for deviations between observed and simulated dispersion (simulation-based dispersion tests), outliers, and uniformity (Kolmogorov-Smirnov test) (Leite et al. 2025). We chose the model with the best fit, lowest deviation from expected distributions, and least apparent residual patterns. Finally, when the automated process selected the Gamma family, we manually checked the top gaussian alternative for residual fit and favoured models with a gaussian fit unless a Gamma fit substantially improved a candidate model's performance, as linear fits can mitigate potentially large swings in predicted estimates outside of the range observed in the fitted data. 
 
 
 ## Revised estimate validation with Salmon Head Recovery Program
