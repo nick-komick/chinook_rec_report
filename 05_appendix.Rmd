@@ -1276,7 +1276,7 @@ m_north_isbm |>  dplyr::select(-name, -x_var)|>
   )
 ```
 
-## NBC AABM
+
 ```{r appendix-model-selection-northern-aabm, include = FALSE}
  m_north_aabm |>  dplyr::select(-name, -x_var)|>
   gt() |>
@@ -1857,8 +1857,7 @@ all_north_aabm_gaussian_spec <-
 The relationship between historic logbook and iREC catch is expected to be more linear than the previous log link form previously used as logbook estimates have commonly represented the majority of catch. Furthermore, the 2005 to 2007 logbook catch estimates are out side the range of the fitted years. A new generalized linear model was fit using Equation \@ref(eq:haida-new-model) with a Gaussian link that estimates annual historic Haida Gwaii catch ($C_{historic}$) by kept and marked status. 
 
 \begin{equation} 
-$$C_{iREC, annual} = C_{creel, annual} + k + m + k:m + 1 
-\label{eq:haida_gwaii_annual}$$
+C_{iREC, annual} = C_{creel, annual} + k + m + k:m + 1 
 (\#eq:haida-new-model)
 \end{equation}
 
