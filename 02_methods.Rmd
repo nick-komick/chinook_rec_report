@@ -87,7 +87,7 @@ colclear= "#1C00ff00"
 fmt_stat <- function(x, digits = 3, scale = 1) {
   x <- suppressWarnings(as.numeric(x))
   if (is.na(x)) return("--")
-  format(x * scale, digits = digits)
+  format(x * scale, digits = digits, big.mark = ",")
 }
 
 

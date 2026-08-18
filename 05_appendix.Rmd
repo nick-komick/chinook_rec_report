@@ -7,7 +7,7 @@ name_lookup <- read.csv("data/fishery_name_cleaner.csv", stringsAsFactors = FALS
 lookup_vec <- setNames(name_lookup$fishery_full_name, name_lookup$finescale_fishery)
 ```
 
-# Internet Recreational Effort and Catch (iREC) Reporting Program Changes {#apdx-irec-mthd}
+# Internet Recreational Effort and Catch (iREC) Reporting Program Changes {#app:apdx-irec-mthd}
 
 Expanding upon the information above, here we describe how licences are selected for inclusion in the survey. There are several types of licences are sold, distinguished by:
 

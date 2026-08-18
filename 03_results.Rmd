@@ -417,7 +417,7 @@ plot
 \newpage
 #### Johnstone Strait
 
-The best model for Johnstone Strait (JNST) summer combined creel and iREC catch ($C_{creel+iREC,summer}$), was a model with a Gamma distribution that included summer creel ($C_{creel,summer}$), kept_status ($k$), mark status ($m$), an interaction between kept status and summer creel, an interaction between mark status and summer creel, and an intercept. More complex variations and interactions were dropped.
+The best model for Johnstone Strait (JNST) summer combined creel and iREC catch ($C_{creel+iREC,summer}$), was a model with a Gamma distribution that included summer creel ($C_{creel,summer}$), kept status ($k$), mark status ($m$), an interaction between kept status and summer creel, an interaction between mark status and summer creel, and an intercept. More complex variations and interactions were dropped.
 
 $$C_{creel+iREC, summer} = C_{creel,summer} + m + k + C_{creel,summer}:k + C_{creel,summer}:m + 1
 \label{eq:jnst_summer}$$
@@ -800,7 +800,7 @@ out_cbc <- run_catch_heads_group(cbc_region,
                               x_var_mr       = "mr_historic_plus", start_y = 2015, end_y=2023)
 ```
 
-As the total number of heads collected by the SHRP is expected to be primarily driven by the the total kept marked catch in recreational fisheries, the total kept marked catch and total heads collected by the SHRP should be correlated. The strength of the correlation (i.e., $R^{2}$ value) along with the submission rate (i.e., slope) can be used as an indicator of the accuracy of the catch estimate. In contrast to the creel program, the SHRP relies on several sampling approaches (e.g., lodge sampling, public collection points, avid anglers) and should not necessarily be driven by creel survey coverage nor iREC survey completion. To better align with the CWT estimation methods, the catch and heads were spatially grouped by the region defined in Figure \@ref(fig:fig-CwtMap) and the seasonal period. Here we use the sport head recoveries to compare the accuracy of the marked kept catch in the previously used estimates (creel only) and revised estimates (combined creel and iREC observed from 2013-2023 and modelled from 2005-2012). To align with the modelling stratification, we examine these relationships in both the summer season and the off-season in Southern fishery regions and annually in Northern fishery regions.
+As the total number of heads collected by the SHRP is expected to be primarily driven by the the total kept marked catch in recreational fisheries, the total kept marked catch and total heads collected by the SHRP should be correlated. The strength of the correlation (i.e., $R^{2}$ value) along with the submission rate (i.e., slope) can be used as an indicator of the accuracy of the catch estimate. In contrast to the creel program, the SHRP relies on several sampling approaches (e.g., lodge sampling, public collection points, avid anglers) and should not necessarily be driven by creel survey coverage nor iREC survey completion. To better align with the CWT estimation methods, the catch and heads were spatially grouped by the region defined in Figure \@ref(fig:fig-CwtMap) and the seasonal period. Here we use the sport head recoveries to compare the marked kept catch in the previously used estimates (creel only) and revised estimates (combined creel and iREC observed from 2013-2023 and modelled from 2005-2012). To align with the modelling stratification, we examine these relationships in both the summer season and the off-season in Southern fishery regions and annually in Northern fishery regions.
 
 ### Revised catch estimates since iREC
 
@@ -832,14 +832,14 @@ For Haida Gwaii (Northern AABM Sport), between 2015 and 2023, there was an excel
 
 ```{r heads-to-creel-northern-aabm, echo=FALSE, fig.height=4, fig.width=10, out.width="100%", fig.asp=NA}
 #| label: fig-heads-to-creel-and-updated-catch-northern-aabm
-#| fig-cap: "Relationship between the northern BC AABM marked kept catch estimates from the creel program (left panel) and the combined creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP"
+#| fig-cap: "Relationship between the Northern BC AABM marked kept catch estimates from the creel program (left panel) and the combined creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP"
 
 out_north_aabm$plot+ labs(title="iREC")
 ```
 In Northern ISBM, iREC improves the fit of the heads to catch relationship ($R^{2}=$ `r fmt_stat(out_nbc_isbm$r2_creel)` for creel vs. $R^{2}=$ `r fmt_stat(out_nbc_isbm$r2_irec)` for iREC), and the sample rate drops slightly using iREC to `r fmt_stat(out_nbc_isbm$slope_irec, scale=100)`% from `r fmt_stat(out_nbc_isbm$slope_creel, scale=100)`% using creel.
 ```{r heads-to-creel-northern-isbm, echo=FALSE, fig.height=4, fig.width=10, out.width="100%", fig.asp=NA}
 #| label: fig-heads-to-creel-and-updated-catch-northern-isbm
-#| fig-cap: "Relationship between the northern BC ISBM marked kept catch estimates from the creel program (left panel) and the combined creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP"
+#| fig-cap: "Relationship between the Northern BC ISBM marked kept catch estimates from the creel program (left panel) and the combined creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP"
 
 out_nbc_isbm$plot[[1]] <- out_nbc_isbm$plot[[1]] + labs(title = "previous catch (creel)")
 out_nbc_isbm$plot[[2]] <- out_nbc_isbm$plot[[2]] + labs(title = "revised catch (iREC)")
@@ -885,7 +885,7 @@ out_cbc05 <- run_catch_heads_group(cbc_region,
 ```
 We first compare the observed summertime relationship between marked creel catch to recovered heads and that of modelled marked combined creel and iREC catch to recovered heads using data from 2005 to 2012 and regions from the South Coast of BC (Figure \@ref(fig:fig-heads-to-creel-and-updated-catch-summer-2005)). The modelled estimate (right panel) explains `r fmt_stat(out_summer05$r2_irec, scale=100)`% of variation, a good fit and similar to the original creel estimate performance (`r fmt_stat(out_summer05$r2_creel, scale=100)`% left panel). These regressions also have similar slopes, indicating an average sample rate across South Coast regions of `r fmt_stat(out_summer05$slope_creel, scale=100)`% for creel and `r fmt_stat(out_summer05$slope_irec, scale=100)`% for modelled combined creel and iREC. In both cases, the sample rates were higher in the 2005-2012 period than the 2013-2023 period, this is discussed further below.
 
-Next, Figure \@ref(fig:fig-heads-to-creel-and-updated-catch-seasonal-2005) shows the off-season relationship between marked creel catch to recovered heads and modelled iREC only marked catch to recovered heads. In the off-season, the fit is improved: from $R^{2}=$ `r fmt_stat(out_seasonal05$r2_creel)` using creel to $R^{2}=$ `r fmt_stat(out_seasonal05$r2_irec)` using modelled iREC. This is likely because iREC covers more months and areas, it allows more head recoveries to be used (n=`r fmt_stat(out_seasonal05$n_irec)`, vs. n=`r fmt_stat(out_seasonal05$n_creel)`). This validates our use of modelled iREC catch in the off-season. In addition, using creel would indicate a sample rate of `r fmt_stat(out_seasonal05$slope_creel, scale=100)`%, which is much more likely than the 2013-2023 estimate of 2019 but still perhaps a bit high, while the modelled iREC catch indicates a sample rate of `r fmt_stat(out_seasonal05$slope_irec, scale=100)`%, similar to the 2013-2023 period (`r fmt_stat(out_seasonal$r2_irec, scale=100)`%).
+Next, Figure \@ref(fig:fig-heads-to-creel-and-updated-catch-seasonal-2005) shows the off-season relationship between marked creel catch to recovered heads and modelled iREC only marked catch to recovered heads. In the off-season, the fit is improved: from $R^{2}=$ `r fmt_stat(out_seasonal05$r2_creel)` using creel to $R^{2}=$ `r fmt_stat(out_seasonal05$r2_irec)` using modelled iREC. This is likely because iREC covers more months and areas, it allows more head recoveries to be used in more times are areas (n=`r fmt_stat(out_seasonal05$n_irec)`, vs. n=`r fmt_stat(out_seasonal05$n_creel)`). This validates our use of modelled iREC catch in the off-season. In addition, using creel would indicate a sample rate of `r fmt_stat(out_seasonal05$slope_creel, scale=100)`%, which is much more likely than the 2013-2023 estimate of 2019 but still perhaps a bit high, while the modelled iREC catch indicates a sample rate of `r fmt_stat(out_seasonal05$slope_irec, scale=100)`% ($R^{2}=$ `r fmt_stat(out_seasonal$r2_irec)`), similar to the 2013-2023 period.
 
 ```{r heads-to-creel-summer-2005-2012, echo=FALSE, fig.height=4, fig.width=10, out.width="100%", fig.asp=NA}
 #| label: fig-heads-to-creel-and-updated-catch-summer-2005
@@ -907,27 +907,59 @@ out_seasonal05$plot[[2]] <- out_seasonal05$plot[[2]] + labs(title = "revised cat
 out_seasonal05$plot
 ```
 
-Figure \@ref(fig:fig-heads-to-creel-and-updated-catch-nbc-aabm-2005) shows the relationships for the three Northern regions. Again, NBC AABM has a high sample rate (`r fmt_stat(out_north_aabm05$slope_creel, scale=100)`%) and very good fit ($R^{2}=$ `r fmt_stat(out_north_aabm05$r2_creel)`) for the creel program and only slight derivation from this when using modelled iREC data from 2005-2012 (sample rate = `r fmt_stat(out_north_aabm05$slope_irec, scale=100)`%, $R^{2}=$ `r fmt_stat(out_north_aabm05$r2_irec, scale=100)`%). NBC ISBM creel catch estimates in 2005-2012 have a poor fit to the head recoveries ($R^{2}=$ `r fmt_stat(out_nbc_isbm05$r2_creel, scale=100)`%) which is slightly improved by using modelled iREC data ($R^{2}=$ `r fmt_stat(out_nbc_isbm05$r2_irec, scale=100)`%). The sample rates are also lower but similar to the 2013-2023 period, for creel `r fmt_stat(out_nbc_isbm05$slope_creel, scale=100)`% and modelled iREC `r fmt_stat(out_nbc_isbm05$slope_irec, scale=100)`%. CBC ISBM again shows a biased sample rate of `r fmt_stat(out_cbc05$slope_creel, scale=100)`% which is improved to a more realistic `r fmt_stat(out_cbc05$slope_irec, scale=100)`% when modelled iREC is considered. And although the modelled iREC has many static values in this period, the fit is also improved from $R^{2}=$ `r fmt_stat(out_cbc05$r2_creel)` to $R^{2}=$ `r fmt_stat(out_cbc05$r2_irec)`.
+Figure \@ref(fig:fig-heads-to-creel-and-updated-catch-nbc-aabm-2005) shows the relationships for the three Northern regions. Again, NBC AABM has a high sample rate (`r fmt_stat(out_north_aabm05$slope_creel, scale=100)`%) and very good fit ($R^{2}=$ `r fmt_stat(out_north_aabm05$r2_creel)`) for the creel program and only slight derivation from this when using modelled iREC data from 2005-2012 (sample rate = `r fmt_stat(out_north_aabm05$slope_irec, scale=100)`%, $R^{2}=$ `r fmt_stat(out_north_aabm05$r2_irec)`). NBC ISBM creel catch estimates in 2005-2012 have a poor fit to the head recoveries ($R^{2}=$ `r fmt_stat(out_nbc_isbm05$r2_creel)`%) which is slightly improved by using modelled iREC data ($R^{2}=$ `r fmt_stat(out_nbc_isbm05$r2_irec)`). The sample rates are also lower but similar to the 2013-2023 period, for creel `r fmt_stat(out_nbc_isbm05$slope_creel, scale=100)`% and modelled iREC `r fmt_stat(out_nbc_isbm05$slope_irec, scale=100)`%. CBC ISBM again shows a biased sample rate of `r fmt_stat(out_cbc05$slope_creel, scale=100)`% which is improved to a more realistic `r fmt_stat(out_cbc05$slope_irec, scale=100)`% when modelled iREC is considered. And although the modelled iREC has many static values in this period, the fit is also improved from $R^{2}=$ `r fmt_stat(out_cbc05$r2_creel)` to $R^{2}=$ `r fmt_stat(out_cbc05$r2_irec)`.
 
 ```{r heads-to-creel-nbc-aabm-2005, echo=FALSE, fig.height=10, fig.width=10, out.width="100%", fig.asp=NA}
 #| label: fig-heads-to-creel-and-updated-catch-nbc-aabm-2005
-#| fig-cap: "Relationship between the northern BC AABM marked kept catch estimates from the creel program (left panel) and the combined creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP from 2005 to 2015"
+#| fig-cap: "Relationship between marked kept catch from the creel program (left panel) and the combined creel and iREC catch (right panel) compared to the Chinook head recoveries provided to the SHRP from 2005 to 2015 for Haida Gwaii (top row), Northern BC ISBM (middle row) and Central BC (bottom row)."
 
-out_north_aabm05$plot[[1]] <- out_north_aabm05$plot[[1]] + labs(title = "previous catch (creel)")
-out_north_aabm05$plot[[2]] <- out_north_aabm05$plot[[2]] + labs(title = "revised catch (modelled iREC)")
-out_north_aabm05$plot<-out_north_aabm05$plot[[1]]+ out_north_aabm05$plot[[2]]
+out_north_aabm05$plot[[1]] <- 
+  out_north_aabm05$plot[[1]] + 
+  labs(title = "Haida Gwaii Previous Catch (creel)") + 
+  theme(legend.position = "none")
+
+out_north_aabm05$plot[[2]] <- 
+  out_north_aabm05$plot[[2]] + 
+  labs(title = "Haida Gwaii Revised Catch (modelled iREC)") + 
+  theme(legend.position = "none")
+
+out_north_aabm05$plot <-
+  out_north_aabm05$plot[[1]] + 
+  out_north_aabm05$plot[[2]]
 
 
-out_nbc_isbm05$plot[[1]] <- out_nbc_isbm05$plot[[1]] + labs(title = "previous catch (creel)")
-out_nbc_isbm05$plot[[2]] <- out_nbc_isbm05$plot[[2]] + labs(title = "revised catch (modelled iREC)")
+out_nbc_isbm05$plot[[1]] <- 
+  out_nbc_isbm05$plot[[1]] + 
+  labs(title = "NBC ISBM Previous Catch (creel)") + 
+  theme(legend.position = "none")
+
+out_nbc_isbm05$plot[[2]] <- 
+  out_nbc_isbm05$plot[[2]] + 
+  labs(title = "NBC ISBM Revised Catch (modelled iREC)") + 
+  theme(legend.position = "none")
 #out_nbc_isbm05$plot
 
 
-out_cbc05$plot[[1]] <- out_cbc05$plot[[1]] + labs(title = "previous catch (logbook)")
-out_cbc05$plot[[2]] <- out_cbc05$plot[[2]] + labs(title = "revised catch (modelled iREC)")
+out_cbc05$plot[[1]] <- 
+  out_cbc05$plot[[1]] + 
+  labs(title = "Central BC Previous Catch (logbook)") + 
+  theme(legend.position = "none")
+
+out_cbc05$plot[[2]] <- 
+  out_cbc05$plot[[2]] + 
+  labs(title = "Central BC Revised Catch (modelled iREC)") + 
+  theme(legend.position = "none")
 #out_cbc05$plot
 
-out_all<- out_north_aabm05$plot[[1]] + out_north_aabm05$plot[[2]] + out_nbc_isbm05$plot[[1]] + out_nbc_isbm05$plot[[2]] + out_cbc05$plot[[1]] + out_cbc05$plot[[2]] + plot_layout(guides="keep", ncol=2, axes="collect")
+out_all <- 
+  out_north_aabm05$plot[[1]] + 
+  out_north_aabm05$plot[[2]] + 
+  out_nbc_isbm05$plot[[1]] + 
+  out_nbc_isbm05$plot[[2]] + 
+  out_cbc05$plot[[1]] + 
+  out_cbc05$plot[[2]] + 
+  plot_layout(guides="keep", ncol=2, axes="collect")
+
 out_all
 
 ```
@@ -974,7 +1006,8 @@ lm_log_eqn_vec <- function(head_total, catch_estimate){
 creel_to_heads <-
   sport_catch_models$model_catch |>
   filter(status == "marked_kept_total") |> 
-  full_join(pacRecCatch::get_head_totals(), by = c("year", finescale_fishery = "region")) |>
+  full_join(pacRecCatch::get_head_totals(), 
+            by = c("year", finescale_fishery = "region")) |>
   mutate(finescale_fishery = if_else(grepl("NWCVI|SWCVI", finescale_fishery), 
                                      trimws(gsub(" ISBM| AABM", "", finescale_fishery)),
                                      finescale_fishery))  |>
@@ -1060,12 +1093,13 @@ creel_to_heads2 <- out$creel_to_heads
 
 region_df <- 
   creel_to_heads2 |>
-  mutate(season_combo = case_when(season %in% c("spring", "fall") ~ "off-season",  .default = season))|>
+  mutate(season_combo = case_when(season %in% c("spring", "fall") ~ "off-season",  
+                                  .default = season)) |>
   mutate(region_combo = case_when(region =="NC" & management == "AABM" ~ "NBC AABM", 
                                   region =="NC" & management == "ISBM" ~ "NBC ISBM",
-                                  .default = region))|>
-  group_by(year, status, kept_status, mark_status, region_combo, season_combo, estimate_type, estimate_shape_type)|>
-  summarize_if(is.numeric, sum, na.rm = TRUE)|>
+                                  .default = region)) |>
+  group_by(year, status, kept_status, mark_status, region_combo, season_combo, estimate_type, estimate_shape_type) |>
+  summarize_if(is.numeric, sum, na.rm = TRUE) |>
   mutate(submit_rate = head_total / catch_estimate) |>
   filter(catch_estimate > 0, catch_estimate > head_total)|>
   mutate(region_combo = factor(region_combo, levels = region_order))|>
