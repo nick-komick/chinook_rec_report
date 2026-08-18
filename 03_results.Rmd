@@ -814,8 +814,14 @@ For the South Coast, both the summer and seasonal sport head recovery analysis s
 #| label: fig-heads-to-creel-and-updated-catch-summer
 #| fig.cap: "Relationship between the summer marked kept catch estimates from the the creel program (left panel) and the combined creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP from 2013-2023."
 
-out_summer$plot[[1]] <- out_summer$plot[[1]] + labs(title = "previous catch (creel)")
-out_summer$plot[[2]] <- out_summer$plot[[2]] + labs(title = "revised catch (creel + iREC)")
+out_summer$plot[[1]] <- 
+  out_summer$plot[[1]] + 
+  labs(title = "previous catch (creel)", color = "Finescale Fishery")
+
+out_summer$plot[[2]] <- 
+  out_summer$plot[[2]] + 
+  labs(title = "revised catch (creel + iREC)", color = "Finescale Fishery")
+
 out_summer$plot
 ```
 
@@ -823,8 +829,14 @@ out_summer$plot
 #| label: fig-heads-to-creel-and-updated-catch-seasonal
 #| fig-cap: "Relationship between the seasonal (spring/fall) marked kept catch estimates from the creel program (left panel) and the iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP"
 
-out_seasonal$plot[[1]] <- out_seasonal$plot[[1]] + labs(title = "previous catch (creel)")
-out_seasonal$plot[[2]] <- out_seasonal$plot[[2]] + labs(title = "revised catch (iREC)")
+out_seasonal$plot[[1]] <- 
+  out_seasonal$plot[[1]] + 
+  labs(title = "previous catch (creel)", color = "Finescale Fishery")
+
+out_seasonal$plot[[2]] <- 
+  out_seasonal$plot[[2]] + 
+  labs(title = "revised catch (iREC)", color = "Finescale Fishery")
+
 out_seasonal$plot
 ```
 \newpage
@@ -834,15 +846,23 @@ For Haida Gwaii (Northern AABM Sport), between 2015 and 2023, there was an excel
 #| label: fig-heads-to-creel-and-updated-catch-northern-aabm
 #| fig-cap: "Relationship between the Northern BC AABM marked kept catch estimates from the creel program (left panel) and the combined creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP"
 
-out_north_aabm$plot+ labs(title="iREC")
+out_north_aabm$plot + labs(title="iREC") + theme(legend.position = "none")
 ```
 In Northern ISBM, iREC improves the fit of the heads to catch relationship ($R^{2}=$ `r fmt_stat(out_nbc_isbm$r2_creel)` for creel vs. $R^{2}=$ `r fmt_stat(out_nbc_isbm$r2_irec)` for iREC), and the sample rate drops slightly using iREC to `r fmt_stat(out_nbc_isbm$slope_irec, scale=100)`% from `r fmt_stat(out_nbc_isbm$slope_creel, scale=100)`% using creel.
 ```{r heads-to-creel-northern-isbm, echo=FALSE, fig.height=4, fig.width=10, out.width="100%", fig.asp=NA}
 #| label: fig-heads-to-creel-and-updated-catch-northern-isbm
 #| fig-cap: "Relationship between the Northern BC ISBM marked kept catch estimates from the creel program (left panel) and the combined creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP"
 
-out_nbc_isbm$plot[[1]] <- out_nbc_isbm$plot[[1]] + labs(title = "previous catch (creel)")
-out_nbc_isbm$plot[[2]] <- out_nbc_isbm$plot[[2]] + labs(title = "revised catch (iREC)")
+out_nbc_isbm$plot[[1]] <- 
+  out_nbc_isbm$plot[[1]] + 
+  labs(title = "previous catch (creel)") + 
+  theme(legend.position = "none")
+
+out_nbc_isbm$plot[[2]] <- 
+  out_nbc_isbm$plot[[2]] + 
+  labs(title = "revised catch (iREC)") + 
+  theme(legend.position = "none")
+
 out_nbc_isbm$plot
 ```
 
@@ -852,8 +872,16 @@ In Central BC, the logbook program was underestimating catch from 2013-2023, as 
 #| label: fig-heads-to-creel-and-updated-catch-central
 #| fig-cap: "Relationship between Central BC marked kept catch estimates from the logbook program (left panel) and the  iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP"
 
-out_cbc$plot[[1]] <- out_cbc$plot[[1]] + labs(title = "previous catch (logbook)")
-out_cbc$plot[[2]] <- out_cbc$plot[[2]] + labs(title = "revised catch (iREC)")
+out_cbc$plot[[1]] <- 
+  out_cbc$plot[[1]] + 
+  labs(title = "previous catch (logbook)") + 
+  theme(legend.position = "none")
+
+out_cbc$plot[[2]] <- 
+  out_cbc$plot[[2]] + 
+  labs(title = "revised catch (iREC)") + 
+  theme(legend.position = "none")
+
 out_cbc$plot
 ```
 
@@ -891,8 +919,14 @@ Next, Figure \@ref(fig:fig-heads-to-creel-and-updated-catch-seasonal-2005) shows
 #| label: fig-heads-to-creel-and-updated-catch-summer-2005
 #| fig-cap: "Relationship between the summer marked kept catch estimates from the the creel program (left panel) and the modelled combined creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP in 2005-2012"
 
-out_summer05$plot[[1]] <- out_summer05$plot[[1]] + labs(title = "previous catch (creel)")
-out_summer05$plot[[2]] <- out_summer05$plot[[2]] + labs(title = "revised catch (modelled combined creel and iREC)")
+out_summer05$plot[[1]] <- 
+  out_summer05$plot[[1]] + 
+  labs(title = "previous catch (creel)", color = "Finescale Fishery")
+
+out_summer05$plot[[2]] <- 
+  out_summer05$plot[[2]] + 
+  labs(title = "revised catch (modelled combined creel and iREC)", color = "Finescale Fishery")
+
 out_summer05$plot
 
 
@@ -907,7 +941,7 @@ out_seasonal05$plot[[2]] <- out_seasonal05$plot[[2]] + labs(title = "revised cat
 out_seasonal05$plot
 ```
 
-Figure \@ref(fig:fig-heads-to-creel-and-updated-catch-nbc-aabm-2005) shows the relationships for the three Northern regions. Again, NBC AABM has a high sample rate (`r fmt_stat(out_north_aabm05$slope_creel, scale=100)`%) and very good fit ($R^{2}=$ `r fmt_stat(out_north_aabm05$r2_creel)`) for the creel program and only slight derivation from this when using modelled iREC data from 2005-2012 (sample rate = `r fmt_stat(out_north_aabm05$slope_irec, scale=100)`%, $R^{2}=$ `r fmt_stat(out_north_aabm05$r2_irec)`). NBC ISBM creel catch estimates in 2005-2012 have a poor fit to the head recoveries ($R^{2}=$ `r fmt_stat(out_nbc_isbm05$r2_creel)`%) which is slightly improved by using modelled iREC data ($R^{2}=$ `r fmt_stat(out_nbc_isbm05$r2_irec)`). The sample rates are also lower but similar to the 2013-2023 period, for creel `r fmt_stat(out_nbc_isbm05$slope_creel, scale=100)`% and modelled iREC `r fmt_stat(out_nbc_isbm05$slope_irec, scale=100)`%. CBC ISBM again shows a biased sample rate of `r fmt_stat(out_cbc05$slope_creel, scale=100)`% which is improved to a more realistic `r fmt_stat(out_cbc05$slope_irec, scale=100)`% when modelled iREC is considered. And although the modelled iREC has many static values in this period, the fit is also improved from $R^{2}=$ `r fmt_stat(out_cbc05$r2_creel)` to $R^{2}=$ `r fmt_stat(out_cbc05$r2_irec)`.
+Figure \@ref(fig:fig-heads-to-creel-and-updated-catch-nbc-aabm-2005) shows the relationships for the three Northern regions. Again, Haida Gwaii has a high sample rate (`r fmt_stat(out_north_aabm05$slope_creel, scale=100)`%) and very good fit ($R^{2}=$ `r fmt_stat(out_north_aabm05$r2_creel)`) for the creel program and only slight derivation from this when using modelled iREC data from 2005-2012 (sample rate = `r fmt_stat(out_north_aabm05$slope_irec, scale=100)`%, $R^{2}=$ `r fmt_stat(out_north_aabm05$r2_irec)`). NBC ISBM creel catch estimates in 2005-2012 have a poor fit to the head recoveries ($R^{2}=$ `r fmt_stat(out_nbc_isbm05$r2_creel)`%) which is slightly improved by using modelled iREC data ($R^{2}=$ `r fmt_stat(out_nbc_isbm05$r2_irec)`). The sample rates are also lower but similar to the 2013-2023 period, for creel `r fmt_stat(out_nbc_isbm05$slope_creel, scale=100)`% and modelled iREC `r fmt_stat(out_nbc_isbm05$slope_irec, scale=100)`%. Central BC ISBM again shows a biased sample rate of `r fmt_stat(out_cbc05$slope_creel, scale=100)`% which is improved to a more realistic `r fmt_stat(out_cbc05$slope_irec, scale=100)`% when modelled iREC is considered. And although the modelled iREC has many static values in this period, the fit is also improved from $R^{2}=$ `r fmt_stat(out_cbc05$r2_creel)` to $R^{2}=$ `r fmt_stat(out_cbc05$r2_irec)`.
 
 ```{r heads-to-creel-nbc-aabm-2005, echo=FALSE, fig.height=10, fig.width=10, out.width="100%", fig.asp=NA}
 #| label: fig-heads-to-creel-and-updated-catch-nbc-aabm-2005
@@ -1057,7 +1091,7 @@ The SHRP has generally run consistently over the transition time between the mod
 
 In Figure \@ref(fig:fig-fishery-rates-2) we visualize updated submission rates to the SHRP across time in each region. A submission rate of 20% of the catch is the desired minimum sampling rate, and some regions are meeting this target while others are not. Submission rates fluctuate year to year and between seasons. Above, for the South coast and North AABM (Haida Gwaii) we noted a decline in submission rates from the 2005-2012 period to the 2013-2023 period, reflected both in creel and combined creel and iREC data, but the opposite trend in NBC ISBM and CBC. Overall, while there are some trends over time in submission rates, there is no clear and consistent step change occurring in 2013 (or 2015 for Northern regions) that would indicate that pre- and post-iREC are separate catch regimes. Furthermore, when combining all regions and comparing the model fit before iREC (Figure \@ref(fig:fig-heads-kept-iREC) left panel) and with iREC (Figure \@ref(fig:fig-heads-kept-iREC) right panel), CWT sample rates are fairly consistent with a before iREC average sample rate (i.e., slope) of `r format(unname(coef(pre_iREC_lm)[1]), digits = 3)` and an iREC period sample rate of `r format(unname(coef(post_iREC_lm)[1]), digits = 3)` with similar adjusted $R^{2}$ values. This suggests that there is no consistent bias in the modelled vs. observed combined creel and iREC estimates. 
 
-The summer submission rates in Northern WCVI, Johnstone Strait, and the annual Haida Gwaii rates have typically been over 20% for most of the time series. This is likely due to high lodge participation in the sport head recovery program. Haida Gwaii Sport in particular has consistently high submission rates, which likely contributes to the accuracy of the cwt estimates. Annual submission rates for Northern BC ISBM and Central BC Sport and summer submission rates for Northern Strait of Georgia initially were quite low (</= 10 %) early in the time series, but in the last ten years have had more than half of the submission rates above or very close to the target. This could be due to increasing lodge or guide participation in the SHRP over time. The summer submission rates for Southern WCVI Sport, Southern Strait of Georgia Sport, and Juan de Fuca Sport are all consistently under the 20% target, and have mostly been under 15% in the last ten years.
+The summer submission rates in Northern WCVI, Johnstone Strait, and the annual Haida Gwaii rates have typically been over 20% for most of the time series. This is likely due to high lodge participation in the sport head recovery program. Haida Gwaii Sport in particular has consistently high submission rates, which likely contributes to the accuracy of the CWT estimates. Annual submission rates for Northern BC ISBM and Central BC Sport and summer submission rates for Northern Strait of Georgia initially were quite low ($\leq$10%) early in the time series, but in the last ten years have had more than half of the submission rates above or very close to the target. This could be due to increasing lodge, guide, and avid angler participation in the SHRP over time. The summer submission rates for Southern WCVI Sport, Southern Strait of Georgia Sport, and Juan de Fuca Sport are all consistently under the 20% target, and have mostly been under 15% in the last ten years.
 
 As noted above, in general, summer submission rates are typically higher than off-season submission rates. Overall, the off-season submission rates could use improvement and are typically under 20%. The off-season submission rates in Juan de Fuca Sport and Southern Georgia Strait tend to be under 10%, and improving these rates is of particular importance since off-season catch in each of those areas was over 7000 in 2023. Northern Strait of Georgia also had off-season catch of over 5000 in 2023, and could use improvement in off-season submission rates. In contrast, the sum total off-season catch in NWCVI, SWCVI, and Johnstone Strait Sport in 2023 was under 900. Overall, all regions outside of Haida Gwaii would benefit from increased participation in the sport head recovery program to strengthen cwt estimates.
 
