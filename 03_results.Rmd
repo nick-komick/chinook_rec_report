@@ -1098,6 +1098,7 @@ As noted above, in general, summer submission rates are typically higher than of
 \newpage
 
 \begin{landscapepage}
+
 ```{r results Fishery Rates, echo=FALSE, fig.height=8, fig.width=12, fig.align="left", out.width="100%", fig.asp=NA}
 #| label: fig-fishery-rates-2
 #| fig-cap: "Chinook Head submission rate time series for each CWT region and associated time periods (i.e., season or annual)"
@@ -1127,20 +1128,19 @@ creel_to_heads2 <- out$creel_to_heads
 
 region_df <- 
   creel_to_heads2 |>
-  mutate(season_combo = case_when(season %in% c("spring", "fall") ~ "off-season",  
-                                  .default = season)) |>
   mutate(region_combo = case_when(region =="NC" & management == "AABM" ~ "NBC AABM", 
                                   region =="NC" & management == "ISBM" ~ "NBC ISBM",
                                   .default = region)) |>
-  group_by(year, status, kept_status, mark_status, region_combo, season_combo, estimate_type, estimate_shape_type) |>
+  group_by(year, status, kept_status, mark_status, region_combo, season, estimate_type, estimate_shape_type) |>
   summarize_if(is.numeric, sum, na.rm = TRUE) |>
   mutate(submit_rate = head_total / catch_estimate) |>
   filter(catch_estimate > 0, catch_estimate > head_total)|>
   mutate(region_combo = factor(region_combo, levels = region_order))|>
-  filter(estimate_type=="catch_estimate")
+  filter(estimate_type=="catch_estimate")|>
+  filter(catch_estimate>75)
 
 ggplot(data = region_df,
-       aes(x=year, y=submit_rate, color=season_combo)) +
+       aes(x=year, y=submit_rate, color=season)) +
   geom_line(linewidth = 1,
             alpha = 0.6) +
   geom_point(size = 1)+
@@ -1157,6 +1157,8 @@ ggplot(data = region_df,
              linetype = "dashed", 
              linewidth = 0.5, show.legend=TRUE) 
 ```
+
+
 \end{landscapepage}
 \clearpage
 

@@ -310,9 +310,7 @@ used to estimate releases from both lodge and non-lodge catch.
 
 The NBC ISBM fishery is monitored by both a creel program
 [@robichaud2025creel] and a logbook program in PFMAs 3/103
-and 4/104. It is unclear how the creel program was operated from 2005 to
-2007, however DFO conducted the program from 2008 to 2014 and the North
-Coast Skeena First Nations Stewardship Society has conducted the program
+and 4/104. The creel program has been operated first by DFO starting in 1995, it was not operated in 2005 or 2007 [@VanTongeren2010], however it ran each year from 2008 to 2014 and the North Coast Skeena First Nations Stewardship Society has conducted the program
 since 2015. Before 2019, the Skeena creel program covered June to
 August. Since 2019, coverage has been extended to include the May and
 September long weekends. Creel estimates are corrected for vessels that
