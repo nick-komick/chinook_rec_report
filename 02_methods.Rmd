@@ -524,12 +524,7 @@ the gaps in each PFMA using the Northern Strait of Georgia finescale
 fishery as an example. 
 
 For Northern and Central BC, we use iREC from 2015 onwards (as opposed to 2013) because iREC
-catch estimates did not seem to be consistent with other catch data
-sources before 2015 and iREC did not achieve effective sample rates in Northern and Central BC in 2013 or 2014. Northern
-and Central BC creel and logbook data is not currently incorporated into
-iREC calibration, and therefore iREC in these regions is calibrated against South Coast creel, but this may change with further improvements in iREC
-calibration. Furthermore, we use iREC as the best catch estimate in each
-month in these regions as much of the creel and logbook catch does not
+catch estimates did not seem to be consistent with other catch data sources before 2015 and iREC did not achieve effective sample rates in Northern and Central BC in 2013 or 2014. Northern and Central BC creel and logbook data is not currently incorporated into iREC calibration, and therefore iREC in these regions is calibrated against South Coast creel, but this may change with further improvements in iREC calibration. Furthermore, we use iREC as the best catch estimate in each month in these regions as much of the creel and logbook catch does not
 account for releases.
 
 ```{r methods with iREC flowchart, out.width="100%", results='asis', echo=FALSE}
@@ -629,10 +624,8 @@ estimates from 2005-2012. The modelling period for Northern regions is
 the starting point for the predicted period as it is the first year that
 fish from brood year 2003 are caught in pre-terminal sport fisheries (as
 age 2s), and 2003 is the earliest brood that could contribute to the the
-2009 CYER (as age 6s), and thus be relevant to the 2009-2015 base period. The modelling protocol is described below. These
-seasonal catch estimates are then rolled up into yearly estimates for
-reporting purposes. This process, shown in Figure
-\@ref(fig:fig-before-iREC-flowchart) below, is automated and
+2009 CYER (as age 6s), and thus be relevant to the 2009-2015 base period. The modelling protocol is described below. These seasonal catch estimates are then rolled up into yearly estimates for
+reporting purposes. This process, shown in Figure \@ref(fig:fig-before-iREC-flowchart) below, is automated and
 accomplished in the modelling function of the `pacRecCatch` R package
 [@pacRecCatch].
 
@@ -666,7 +659,7 @@ used to predict the estimated catch for all seasons in the years before iREC was
 We explored several different model forms and distribution families to characterize the relationship between the creel estimate and combined creel and iREC estimate or iREC estimate. All models included a grouping factor for kept catch (kept and released) and marked catch (marked or unmarked), with the exception of Central BC models, which only included marked category as there are zero estimated releases for this region. We developed two sets of models, one with catch data grouped by finescale fishery and another with data grouped by region, to allow for finescale fishery differences in model form and family. Other releveant parameters not applicable to all models included season (spring or fall) and management type (AABM or ISBM). We then applied a systematic model selection process to compete candidate models and select a best model for each group as follows:
 
 
-- We first constructed global models that included all combinations of parameters relevant to data set and their interactions, with either a gaussian distribution with an identity link or a Gamma distribution with a log link (appropriate for our positive, continuous data).
+- We first constructed global models that included all combinations of parameters relevant to data set and their interactions, with either a Gaussian distribution with an identity link or a Gamma distribution with a log link (appropriate for our positive, continuous data).
 
 -  We then generated a filtered dataset with no missing values for any component parameters for each global model. 
 
@@ -677,24 +670,15 @@ We explored several different model forms and distribution families to character
 - Finally, we chose the simplest remaining model with the least number of terms as the final model for each model group. 
 
 This protocol generated a candidate model for each seasonal and regional
-grouping (both finescale fishery and broader regional). Since models with different subsets of data (i.e., data from a single finescale fishery vs. data from multiple finescale fisheries in a broader region) can not be compared with AIC, we ranked the candidate models for each region or finescale fishery on pseudo-$R^{2}$ (a goodness of fit test, [@Nakagawa2017]), visual assessment of diagnostic qq (used to detect deviations in observations from expected distributions) and residual (used to detect patterns in residuals) plots using the `DHARMa` package in R [@dharma, Appendix \@ref(app:second-appendix)], as well as test results for deviations between observed and simulated dispersion (Dharma type dispersion test, Dharma quantiles test), outliers (Dharma outlier test), and uniformity (Kolmogorov-Smirnov test) [see @dharma for test details]. We chose the model with the best fit, lowest deviation from expected distributions, and least apparent residual patterns. Finally, when the automated process selected the Gamma family, we manually checked the top gaussian alternative for residual fit and favoured models with a gaussian fit unless a Gamma fit substantially improved a candidate model's performance, as linear fits can mitigate potentially large swings in predicted estimates outside of the range observed in the fitted data. 
+grouping (both finescale fishery and broader regional). Since models with different subsets of data (i.e., data from a single finescale fishery vs. data from multiple finescale fisheries in a broader region) can not be compared with AIC, we ranked the candidate models for each region or finescale fishery on pseudo-$R^{2}$ (a goodness of fit test, [@Nakagawa2017]), visual assessment of diagnostic qq (used to detect deviations in observations from expected distributions) and residual (used to detect patterns in residuals) plots using the `DHARMa` package in R [@dharma, Appendix \@ref(app:second-appendix)], as well as test results for deviations between observed and simulated dispersion (Dharma type dispersion test, Dharma quantiles test), outliers (Dharma outlier test), and uniformity (Kolmogorov-Smirnov test) [see @dharma for test details]. We chose the model with the best fit, lowest deviation from expected distributions, and least apparent residual patterns. Finally, when the automated process selected the Gamma family, we manually checked the top Gaussian alternative for residual fit and favoured models with a Gaussian fit unless a Gamma fit substantially improved a candidate model's performance, as linear fits can mitigate potentially large swings in predicted estimates outside of the range observed in the fitted data. 
 
 
 ## Revised estimate validation with Salmon Head Recovery Program
 
 We validated the marked kept catch estimates from the observed catch (combined
-creel and iREC; 2013-2023) and the modelled catch (2005-2012) by plotting them in relation to the number of marked Chinook heads by the Salmon Head Recovery Program
-(SHRP), which collects heads from recreational fisheries to recover
-CWTs. The slope of the linear regression between the kept marked catch
-and the number of heads across CWT regions and seasons should provide
-the average submission rate of all recreational fisheries. Since there
-were no substantial changes to how the SHRP is delivered over both the
-modelled and observed catch time periods, the slopes should be similar,
-with any deviations potentially indicating a lack in congruence between
-the two catch time series. To provide a clearer comparison, we removed a single outlying observation that consisted of over 6000 head recoveries from the South West Coast Vancouver Island (SWCVI) summer period in
-2010 where the majority of the heads originated from a single
-depot that contributed substantially more samples
-compared to other years.
+creel and iREC; 2013-2023) and the modelled catch (2005-2012) by plotting them in relation to the number of marked Chinook heads by the Salmon Head Recovery Program (SHRP), which collects heads from recreational fisheries to recover CWTs. As the total number of heads collected by the SHRP is expected to be primarily driven by the the total kept marked catch in recreational fisheries, the total kept marked catch and total heads collected by the SHRP should be correlated. The slope of the linear regression between the kept marked catch and the number of heads across CWT regions and seasons should provide the average submission rate of all recreational fisheries. The strength of the correlation (i.e., $R^{2}$ value) along with the submission rate can be used as an indicator of the accuracy of the catch estimate. 
+
+Here we use the sport head recoveries to compare the marked kept catch in the previously used estimates (creel only) and revised estimates (combined creel and iREC observed from 2013-2023 and modelled from 2005-2012). To align with the modelling stratification, we examine these relationships in both the summer season and the off-season in Southern fishery regions and annually in Northern fishery regions. In contrast to the creel program, the SHRP relies on several sampling approaches (e.g., lodge sampling, public collection points, avid anglers) and should not necessarily be driven by creel survey coverage nor iREC survey completion. Since there were no substantial changes to how the SHRP is delivered over both the modelled and observed catch time periods, the slopes should be similar, with any deviations potentially indicating a lack in congruence between the two catch time series. To better align with the CWT estimation methods, the catch and heads were spatially grouped by the region defined in Figure \@ref(fig:fig-CwtMap) and the seasonal period. To provide a clearer comparison, we removed a single outlying observation that consisted of over 6000 head recoveries from the South West Coast Vancouver Island (SWCVI) summer period in 2010 where the majority of the heads originated from a single depot that contributed substantially more samples compared to other years.
 
 
 ## Updating CWT estimates
