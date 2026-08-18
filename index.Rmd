@@ -164,26 +164,26 @@ library(gtsummary)
 "%notin%" <- Negate("%in%")
 
 #uncomment this section to pull fresh... but can use stored data for troubleshooting
- sport_catch_area <- 
-   wrangle_rec_catch("pacRecCatch_db.yaml", by="area", most_recent_data_year=2025)
- 
- sport_catch_finescale <- 
-   wrangle_rec_catch("pacRecCatch_db.yaml", by="fishery", most_recent_data_year=2025)
- 
- sport_catch_models <- model_rec_catch(sport_catch_finescale, most_recent_data_year=2023)
- 
- sport_release_rates <- get_release_rates(sport_catch_models, sport_catch_area)
- 
- creel_month_PFMA <- pacRecCatch::filter_creel_catch("pacRecCatch_db.yaml")
- 
- save(
-   sport_catch_area,
-  sport_catch_finescale,
-  sport_catch_models,
-  sport_release_rates,
-  creel_month_PFMA,
-  file = "data/sport_data.RData"
- )
+# sport_catch_area <- 
+#   wrangle_rec_catch("pacRecCatch_db.yaml", by="area", most_recent_data_year=2025)
+# 
+# sport_catch_finescale <- 
+#   wrangle_rec_catch("pacRecCatch_db.yaml", by="fishery", most_recent_data_year=2025)
+# 
+# sport_catch_models <- model_rec_catch(sport_catch_finescale, most_recent_data_year=2023)
+# 
+# sport_release_rates <- get_release_rates(sport_catch_models, sport_catch_area)
+# 
+# creel_month_PFMA <- pacRecCatch::filter_creel_catch("pacRecCatch_db.yaml")
+# 
+# save(
+#   sport_catch_area,
+#  sport_catch_finescale,
+#  sport_catch_models,
+#  sport_release_rates,
+#  creel_month_PFMA,
+#  file = "data/sport_data.RData"
+# )
 
 
   load("data/sport_data.RData")
