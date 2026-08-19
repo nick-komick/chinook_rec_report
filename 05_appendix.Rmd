@@ -7,17 +7,15 @@ name_lookup <- read.csv("data/fishery_name_cleaner.csv", stringsAsFactors = FALS
 lookup_vec <- setNames(name_lookup$fishery_full_name, name_lookup$finescale_fishery)
 ```
 
-# Internet Recreational Effort and Catch (iREC) Reporting Program Changes {#app:apdx-irec-mthd}
+# Internet Recreational Effort and Catch (iREC) Reporting Program Selection Changes {#app:apdx-irec-mthd}
 
-Expanding upon the information above, here we describe how licences are selected for inclusion in the survey. There are several types of licences are sold, distinguished by:
+Since the iREC survey began in 2012, several changes have been made to how annual recreational licences are selected for inclusion in each survey month. For example, the selection rate for 1-, 3-, and 5‑day (“term”) licences was 25% during licence years 2012–2019, but has been 100% since the 2020 licence year. All changes to selection procedures take effect at the start of a new licence year (April 1st). Here we describe how licences are selected for inclusion in the survey and how this has changed since the program began. Recent improvements to iREC quality control and calibration are described in Appendix \@ref(apdx-analytic-improvements).  
 
+There are several types of licences are sold, distinguished by:
 - *Term Length:* Annual (valid from purchase date until March 31) or term (1, 3, or 5 days)
 - *Residency:* Canadian or non-Canadian
 - *Age:* Juvenile, Adult, or Senior
-
-Since the iREC survey began in 2012, several changes have been made to how annual recreational licences are selected for inclusion in each survey month. For example, the selection rate for 1-, 3-, and 5‑day (“term”) licences was 25% during licence years 2012–2019, but has been 100% since the 2020 licence year. All changes to selection procedures take effect at the start of a new licence year (April 1st).
-
-When selecting annual licences, purchase month is expected to be correlated with the type of fishing and target species of the licence holder. Licences bought in May or June are more likely targeting Coho and Chinook than those bought in September and October when the purchasers are more likely potentially targeting shellfish and finfish other than salmon. Accordingly, with each update in the selection approach, we mitigated bias caused by differential representation of licences by purchase month as described below.
+These factors along with month purchased contribute to the selection process. When selecting annual licences, purchase month is expected to be correlated with the type of fishing and target species of the licence holder. Licences bought in May or June are more likely targeting Coho and Chinook than those bought in September and October when the purchasers are more likely potentially targeting shellfish and finfish other than salmon. Accordingly, with each update in the selection approach, we mitigated bias caused by differential representation of licences by purchase month as described below.
 
 Originally, a targeted number of licences was selected by simple random sampling from all licences sold up until immediately prior to the start of a given survey month. This selection represented the “Pre” sample. To ensure representation of fishers with licences purchased within the survey month, a “Post” sample was taken at the end of the survey month. The advantage taking a Pre sample was that those licence holders could be notified by email prior to the survey onset, allowing anglers to report their fishing through the month with less recall bias. From survey onset in July 2012 through March 2014, licences were vulnerable to selection for a given survey month regardless of whether they had been selected to report for earlier months under the same licence. As expected, some licence holders were selected to report for several months, leading to concerns in such cases over survey fatigue affecting the accuracy of reports for subsequent months, or the likelihood of them even being completed.
 
@@ -1014,8 +1012,6 @@ res_gam <- simulateResiduals(sport_catch_models$model_list$central_isbm_kept, pl
 
 # Model Statistical Tables {#app:fourth-appendix}
 
-## Summer models
-
 ```{r appendix-model-table-NWCVI-summer, message=FALSE, warning=FALSE, results='asis', echo=FALSE}
 NWCVI_summer_model_table <- sport_catch_models$model_list[["NWCVI_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
@@ -1029,6 +1025,7 @@ NWCVI_summer_model_table
 
 ```
 
+
 ```{r appendix-model-table-SWCVI-summer,message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 SWCVI_summer_model_table <- sport_catch_models$model_list[["SWCVI_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
@@ -1040,6 +1037,7 @@ SWCVI_summer_model_table <- sport_catch_models$model_list[["SWCVI_summer_model"]
 SWCVI_summer_model_table
 
 ```
+
 
 ```{r appendix-model-table-NGS-summer, echo = FALSE}
 NGS_summer_model_table <- sport_catch_models$model_list[["NGS_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
@@ -1053,6 +1051,7 @@ NGS_summer_model_table
 
 ```
 
+
 ```{r appendix-model-table-SGS-summer, echo = FALSE}
 SGS_summer_model_table<- sport_catch_models$model_list[["SGS_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
@@ -1064,6 +1063,7 @@ SGS_summer_model_table<- sport_catch_models$model_list[["SGS_summer_model"]]  |>
 SGS_summer_model_table
 
 ```
+
 
 ```{r appendix-model-table-jnst-summer, echo = FALSE}
 jnst_summer_model_table <- sport_catch_models$model_list[["jnst_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
@@ -1077,6 +1077,7 @@ jnst_summer_model_table
 
 ```
 
+
 ```{r appendix-model-table-jdf-summer, echo = FALSE}
 jdf_summer_model_table <- sport_catch_models$model_list[["jdf_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
@@ -1089,7 +1090,6 @@ jdf_summer_model_table
 
 ```
 
-## Seasonal models
 
 ```{r appendix-model-table-WCVI-seasonal, echo = FALSE}
 seasonal_WCVI_table <- sport_catch_models$model_list[["seasonal_WCVI"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
@@ -1103,6 +1103,7 @@ seasonal_WCVI_table
 
 ```
 
+
 ```{r appendix-model-table-NGS-seasonal, echo = FALSE}
 seasonal_NGS_only_table <- sport_catch_models$model_list[["seasonal_NGS_only"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
@@ -1114,6 +1115,7 @@ seasonal_NGS_only_table <- sport_catch_models$model_list[["seasonal_NGS_only"]] 
 seasonal_NGS_only_table
 
 ```
+
 
 ```{r appendix-model-table-SGS-seasonal, echo = FALSE}
 seasonal_SGS_only_table <- sport_catch_models$model_list[["seasonal_SGS_only"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
@@ -1139,6 +1141,7 @@ seasonal_JNST_table
 
 ```
 
+
 ```{r appendix-model-table-JDF-seasonal, echo = FALSE}
 seasonal_JDF_table <- sport_catch_models$model_list[["seasonal_JDF"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
@@ -1151,7 +1154,6 @@ seasonal_JDF_table
 
 ```
 
-## Annual models
 
 ```{r appendix-model-table-north-aabm, echo = FALSE}
 north_aabm_table <- sport_catch_models$model_list[["north_aabm"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
@@ -1165,6 +1167,7 @@ north_aabm_table
 
 ```
 
+
 ```{r appendix-model-table-north-isbm, echo = FALSE}
 north_isbm_table <- sport_catch_models$model_list[["north_isbm"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
@@ -1177,6 +1180,7 @@ north_isbm_table
 
 ```
 
+
 ```{r appendix-model-table-central-isbm-kept, echo = FALSE}
 central_isbm_kept_table <- sport_catch_models$model_list[["central_isbm_kept"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
@@ -1188,6 +1192,7 @@ central_isbm_kept_table <- sport_catch_models$model_list[["central_isbm_kept"]] 
 central_isbm_kept_table
 
 ```
+
 
 ```{r appendix-model-table-central-isbm-released, echo = FALSE}
 central_isbm_released_table <- sport_catch_models$model_list[["central_isbm_released"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
@@ -1227,6 +1232,14 @@ m6 |>
     column_labels.font.weight = "bold",
     table.width               = pct(100)
   )
+
+
+# m6 |>
+#     dplyr::select(-name, -x_var, -McFadden)|>
+#  csas_table()
+# 
+
+
 ```
 
 ## Seasonal models
@@ -1832,18 +1845,16 @@ In addition to redefining the Haida Gwaii model for historic catch, the NBC ISBM
 
 During a review of the mark rates used to estimate marked and unmarked catch, a couple of issues were found and corrected. The first was an issue within including historic creel mark rates from 2005 to 2007. The code did not correctly link the additional data effectively and excluded the mark rate data in some circumstances. The revised code now correctly combines the historic creel mark rate data to more effectively estimate marked vs unmarked catch in southern BC. Furthermore, the regional aggregation of mark rates was using a different definition of regions provide from creel. The analysis was updated to use a consistent set of regions to estimate regional mark rates when infilling for low quality area mark rates.
 
-When reviewing how the quality control flags were handled when combining creel reported areas into to iREC areas we found that the quality control flags were combined incorrectly. The only iREC area that this affects was PFMA 20 from 2013 to 2019 in some months. As PFMA 20 is operationally covered by two separate creel programs, in some cases part of PFMA 20 may have a quality creel estimate while the other may not. When combined it would identify the whole PFMA 20 as being a quality creel and potentially use less quality creel data instead of iREC for the whole area. This was fixed and now Juan de Fuca catch has a more consistent relationship with creel over the whole time series of this study. With the split of PFMA 20 in iREC reporting starting in 2020, this was no longer an issue and quality creel estimates either portion of PFMA 20 can be used as the final catch estimate.
+When reviewing how the quality control flags were handled when combining creel reported areas into to iREC areas we found that the quality control flags were combined incorrectly. The only iREC area that this affects was PFMA 20 from 2013 to 2019 in some months. As PFMA 20 is operationally covered by two separate creel programs, in some cases part of PFMA 20 may have a quality creel estimate while the other may not. When combined it would identify the whole PFMA 20 as being a quality creel and potentially use less quality creel data instead of iREC for the whole area. This was fixed and now Juan de Fuca catch has a more consistent relationship with creel over the whole time series of this study. With the split of PFMA 20 in iREC reporting starting in 2020, this was no longer an issue and quality creel estimates either portion of PFMA 20 can be used as the final catch estimate. This flag update applies also to 2013 estimates for PFMAs 19 and 23, after which the split was incorporated into iREC. In addition to the PFMA split quality flags affecting our analysis, they were also identified as affecting iREC calibration analysis for licence years 2013 to 2019. 
 
-In addition to the PFMA 20 split affecting quality flags, the split was also identified as affecting iREC calibration for licence years 2013 to 2019. Furthermore, there was some zero iREC estimates incorporated into the calibration that reduced the calibration factor. With the review and and update, calibration factors increased and the resulting Chinook catch estimates decreased. That brought calibrated iREC catch estimates more inline with creel estimates for those re-calibrated years. The previous and new bias calibration factors (BCF) are provided in Table \@ref(tab:tbl-irec-bcf-update). We also identified the need to standardize the data quality processes across all past years of the iREC survey. The new iREC data incorporates this further standardization.
-
-
+The iREC calibration procedure was re-run on all years following the split flag update and several other improvements to the iREC data, notably: additions to data quality procedures (like excluding invalid date records), extending standardized data quality procedures back to 2012 (from 2018), variance calculated by season, and iREC estimates of zero excluded from calibration (S. Yalcin, pers.comm.). The previous and new bias calibration factors (BCF) are provided in Table \@ref(tab:tbl-irec-bcf-update). With the review and and update, calibration factors generally increased and the resulting Chinook catch estimates decreased. That brought calibrated iREC catch estimates more inline with creel estimates for those re-calibrated years. 
 
 ```{r tbl-irec-bcf-update, results='asis', echo=FALSE}
 
-data.frame(Year = 2013:2019, 
-           `Previous BCF` = c(1.23995, 1.52486, 0.96162, 0.99172, 1.05085, 0.81565, 0.96953),
-           `New BCF` = c(1.346448253, 1.652511113, 1.136145855, 1.128551046, 1.297545485, 1.121328127, 1.204708319)) |>
-  csas_table(caption = "Update iREC Bias Correction Factors (BCF) based on corrections to early year calibration methods for Chinook Kept Catch")
+data.frame(Year = 2013:2025, 
+           `Previous BCF` = c(1.23995, 1.52486, 0.96162, 0.99172, 1.05085, 0.81565, 0.96953, 0.98011, 0.95788, 0.95207, 0.92134, 0.91018, "---"),
+           `New BCF` = c(1.23883, 1.53755, 1.02190, 1.09236, 1.12951, 1.13866, 1.21334, 0.99033,0.95462, 0.96606,0.94872,0.92654,1.01719)) |>
+  csas_table(caption = "Updated iREC Bias Correction Factors (BCF) for Chinook Kept Catch")
 
 ```
 
