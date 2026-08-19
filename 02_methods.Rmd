@@ -287,8 +287,7 @@ offshore counterparts 106 through 110 (Figure \@ref(fig:fig-PFMA)).
 Catch data is not typically recorded by marked and kept status, so those
 distinctions are reconstructed using mark rate and release rates
 estimated by the lodges. The release rates provided have been 0% since
-2005, likely an inaccuracy that could be informed by iREC. Although not all lodges provide logbook catch data, the catch data has
-historically been reported as the total catch for the region. This was
+2005, likely an inaccuracy that could be informed by iREC. Although not all lodges provide logbook catch data, the catch data has historically been reported as the total catch for the region. This was
 identified as a bias in the recreational catch estimates that iREC
 inclusion should address. A new creel program in PFMA 10 was excluded from the analysis since it began in 2023 but may provide additional data to improve catch estimates in the future.
 
@@ -314,8 +313,7 @@ and 4/104. The creel program has been operated first by DFO starting in 1995, it
 since 2015. Before 2019, the Skeena creel program covered June to
 August. Since 2019, coverage has been extended to include the May and
 September long weekends. Creel estimates are corrected for vessels that
-provide logbook data, allowing the two catch sources to be combined. For
-this analysis, we include PFMA 5/105 in NBC ISBM. However, the area is
+provide logbook data, allowing the two catch sources to be combined. For this analysis, we include PFMA 5/105 in NBC ISBM. However, the area is
 more remote and has limited catch monitoring data. As in the Central
 Coast, logbook data are not typically collected by marked and kept
 status so those distinctions need to be reconstructed using mark
@@ -356,37 +354,7 @@ $$m =  \frac{iREC}{creel}
 $$iREC^{*}= \frac{iREC}{m}
 \label{eq:iREC_calibration}$$
 
-The calibration coefficient $m$ is estimated for each licence
-year (i.e., April 1 to March 31) using all area and month creel estimates that meet the inclusion criteria defined in the "South Coast Creel Survey quality control" section above. Separate calibration factors are estimated for total kept and
-released catch, by species, for angling by boat. As both the creel and
-iREC estimates have uncertainty associated with them, an
-error-in-variables approach is used to estimate $m$ using JAGS (a
-hierarchical Bayesian analysis program) [@plummer2003jags] through the
-`rjags` R package [@rjags]. The specific model code used is provided
-below, with `creel.obs` representing the creel estimate, `creel.se`
-representing the standard error of the creel estimate, and `iREC.obs`
-representing the iREC uncalibrated catch estimate for the same area and
-time as the creel estimate. The calibration coefficient are used to
-correct both angling by boat and angling from shore catch estimates.
-
-```{r methods jags, echo=TRUE}
-model.jags <- function() {   
-  for(i in 1:Ndata) {      
-    #generate what true value may be based on se (notice that dnorm in jags      
-    # uses 1/variance for second argument thus 1/SE^2)      
-    creel.true[i] ~ dnorm(creel.obs[i], 1/creel.se[i]*1/creel.se[i])            
-    #regression equation     
-    mu[i] <- beta1 * creel.true[i]      
-    iREC.obs[i] ~ dnorm(mu[i], tau)   
-  }      
-  beta1 ~ dnorm(0, 0.0001)   
-  tau ~ dgram(0.01, 0.01) 
-  #a common prior for a variance term in vertical direction     
-  #derived variables   
-  sigma <- 1/sqrt(tau)  
-  #std deviation about the regression line
-}
-```
+The calibration coefficient $m$ is estimated for each licence year (i.e., April 1 to March 31) using all area and month creel estimates that meet the inclusion criteria defined in the "South Coast Creel Survey quality control" section above. Separate calibration factors are estimated for total kept and released catch, by species, for angling by boat. As both the creel and iREC estimates have uncertainty associated with them, an error-in-variables approach is used to estimate $m$ using JAGS (a hierarchical Bayesian analysis program) [@plummer2003jags] through the `rjags` R package [@rjags]. The specific model code used is provided in Appendix \@ref(apdx-irec-calib). The calibration coefficient is used to correct both angling by boat and angling from shore catch estimates.
 
 ### Combining survey methods for best catch estimates
 
@@ -472,24 +440,7 @@ within the same area, month, and year and then expanded outward grouping
 into seasons and regions and finally averaging across years for the very
 few instances where the other categories did not apply. To reduce bias,
 only mark rates that are based on a total catch estimate $\geq 20$ were
-used. The mark rate priority order is as follows:
-
-1.  Monthly area - Mark rate for unknown catch calculated from known
-    catch within the same year, month, and area.
-2.  Monthly regional average - Mark rate for unknown catch calculated
-    from known catch within the same year, month, and averaged across
-    region.
-3.  Seasonal area average - Mark rate for unknown catch calculated from
-    known catch within the same year, area and averaged across season.
-4.  Seasonal regional average - Mark rate for unknown catch calculated
-    from known catch within the same year, averaged across season and
-    region.
-5.  Monthly area average across years - Mark rate for unknown catch
-    calculated from known catch within the same area and month, averaged
-    across years.
-6.  Monthly regional average across years - Mark rate for unknown catch
-    calculated from known catch within the same month, averaged across
-    region and years.
+used. 
 
 #### Choosing best monthly catch estimate per PFMA
 
