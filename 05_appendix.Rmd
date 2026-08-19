@@ -214,6 +214,36 @@ irec_responses_graph
 
 \clearpage
 
+# iREC calibration JAGs model {#app:apdx-irec-calib}
+The specific model code used for iREC calibration is provided
+below, with `creel.obs` representing the creel estimate, `creel.se`
+representing the standard error of the creel estimate, and `iREC.obs`
+representing the iREC uncalibrated catch estimate for the same area and
+time as the creel estimate.
+
+```{r methods jags, echo=TRUE}
+model.jags <- function() {   
+  for(i in 1:Ndata) {      
+    #generate what true value may be based on se (notice that dnorm in jags      
+    # uses 1/variance for second argument thus 1/SE^2)      
+    creel.true[i] ~ dnorm(creel.obs[i], 1/creel.se[i]*1/creel.se[i])            
+    #regression equation     
+    mu[i] <- beta1 * creel.true[i]      
+    iREC.obs[i] ~ dnorm(mu[i], tau)   
+  }      
+  beta1 ~ dnorm(0, 0.0001)   
+  tau ~ dgram(0.01, 0.01) 
+  #a common prior for a variance term in vertical direction     
+  #derived variables   
+  sigma <- 1/sqrt(tau)  
+  #std deviation about the regression line
+}
+```
+
+
+\clearpage
+
+
 # Stratification Mapping {#apdx-strattab}
 
 ```{r methods strattab, echo=FALSE, message=FALSE, warning=FALSE}
@@ -1011,7 +1041,6 @@ res_gam <- simulateResiduals(sport_catch_models$model_list$central_isbm_kept, pl
 \clearpage
 
 # Model Statistical Tables {#app:fourth-appendix}
-
 ```{r appendix-model-table-NWCVI-summer, message=FALSE, warning=FALSE, results='asis', echo=FALSE}
 NWCVI_summer_model_table <- sport_catch_models$model_list[["NWCVI_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
