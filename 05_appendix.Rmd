@@ -1577,45 +1577,6 @@ creel_to_heads |>
 
 When comparing the model fit before iREC (Figure \@ref(fig:fig-heads-kept-iREC) left panel) and with iREC (Figure \@ref(fig:fig-heads-kept-iREC) right panel), CWT sample rates are fairly consistent with a before iREC average sample rate (i.e., slope) of `r format(unname(coef(pre_iREC_lm)[1]), digits = 3)` and an iREC period sample rate of `r format(unname(coef(post_iREC_lm)[1]), digits = 3)` with similar adjusted $r²$ values. This suggests that there is no consistent bias in the modelled marked kept catch estimates, when compared to the estimates that include iREC. The time series of sample rates (i.e., submission rates) for each region is shown in Figure \@ref(fig:fig-fishery-rates).
 
-```{r results Pre iREC Head to Kept Mark Catch, echo=FALSE}
-#| label: fig-heads-kept-iREC
-#| fig-cap: "Chinook heads to marked kept catch based on combined creel and iREC. Each point is a yearly CWT Region based on the seasonal or annual time period in the southern or nothern portions of BC (i.e., NBC and CBC), respectively.  The left panel shows the relationship from 2005 to 2012 and the right panel shows the relationship from 2013 to 2023"
-
-pre_iREC <-
-  ggplot(data = pre_iREC_catch_model_df,
-         aes(x=catch_estimate_predicted, y=head_total)) +
-  geom_point(size=2) +
-  geom_smooth(method='lm', formula= y~x + 0) +
-  geom_text(x = 500, 
-            y = max(pre_iREC_catch_model_df$head_total, na.rm = TRUE) * 0.9, 
-            label = lm_eqn_vec(pre_iREC_catch_model_df$head_total, 
-                               pre_iREC_catch_model_df$catch_estimate_predicted), 
-            parse = TRUE, 
-            hjust=0, 
-            vjust=0) +
-  labs( title = "All Regions - Before iREC",
-        x = "Chinook Marked Kept Catch",
-        y = "Chinook Head Recoveries")+
-  theme_bw()
-
-post_iREC <- ggplot(data = post_iREC_catch_model_df,
-                    aes(x=catch_estimate_predicted, y=head_total)) +
-  geom_point(size=2) +
-  geom_smooth(method='lm', formula= y~x + 0) +
-  geom_text(x = 500, 
-            y =  max(post_iREC_catch_model_df$head_total, na.rm= TRUE) * 0.9, 
-            label = lm_eqn_vec(post_iREC_catch_model_df$head_total, 
-                               post_iREC_catch_model_df$catch_estimate_predicted), 
-            parse = TRUE, 
-            hjust=0, 
-            vjust=0) +
-  labs(title = "All Regions - Combined iREC and Creel",
-       x = "Chinook Marked Kept Catch",
-       y = "Chinook Head Recoveries") +
-  theme_bw()
-
-pre_iREC + post_iREC
-```
 
 
 ```{r heads-to-creel-results2, echo=FALSE}
