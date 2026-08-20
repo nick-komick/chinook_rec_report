@@ -678,6 +678,14 @@ align the CWT estimates with updated recreational catch estimates,
 Chinook CWT regions were redefined for 2005 through to the present (as
 shown in Figure \@ref(fig:fig-CwtMap)).
 
+In addition to redefining the spatial regions of CWT estimates, the
+temporal periods for submission rates and resulting CWT estimates were
+adjusted to align with the seasonal periods applied to the updated catch
+estimates: Spring (January to April), Summer (May to September), Fall
+(October to December). The exception is for Northern and Central BC where annual submission rates are used, as
+spring and fall fisheries are too small to estimate total CWT recoveries
+separately.
+
 ```{r cwtmap, echo=FALSE, message=FALSE, warning=FALSE, fig.height = 8}
 #| label: fig-CwtMap
 #| fig-cap: "New spatial regions used to estimate CWT recoveries."
@@ -743,13 +751,6 @@ whole_bc_map_gg
 
 ```
 
-In addition to redefining the spatial regions of CWT estimates, the
-temporal periods for submission rates and resulting CWT estimates were
-adjusted to align with the seasonal periods applied to the updated catch
-estimates: Spring (January to April), Summer (May to September), Fall
-(October to December). The exception is for Northern and Central BC where annual submission rates are used, as
-spring and fall fisheries are too small to estimate total CWT recoveries
-separately.
 
 #### Changes to Indirect CWT Estimation Methods
 
