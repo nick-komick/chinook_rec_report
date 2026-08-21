@@ -387,7 +387,7 @@ for (i in 1:length(fishery_name_south)){
                            linetype = estimate_shape_type)) +
     geom_point(size = 2.5) +
     geom_line() +
-    scale_color_manual(values = c("green", "#31688e", "#31688e", "#440154"),
+    scale_color_manual(values = c(col_purple, col_green, col_green, col_orange),
                        name = "Catch Estimate") +
     scale_shape_manual(values = c(16, 16, 1, 2)) +
     scale_linetype_manual(values = c(1, 1, 1, 2)) +
@@ -437,7 +437,7 @@ for (i in 1:length(fishery_name_south)){
                            linetype = estimate_shape_type)) +
     geom_point(size = 2.5) +
     geom_line() +
-    scale_color_manual(values = c("green", "#31688e", "#31688e", "#440154"),
+    scale_color_manual(values = c(col_purple, col_green, col_green, col_orange),
                        name = "Catch Estimate") +
     scale_shape_manual(values = c(16, 16, 1, 2)) +
     scale_linetype_manual(values = c(1, 1, 1, 2)) +
@@ -666,7 +666,7 @@ for (i in 1:length(fishery_name_south)){
                            linetype = estimate_shape_type)) +
     geom_point(size = 2.5) +
     geom_line() +
-    scale_color_manual(values = c("#31688e", "#31688e", "#440154"),
+    scale_color_manual(values = c(col_green,col_green,col_orange),
                        name = "Catch Estimate") +
     scale_shape_manual(values = c(16, 1, 2)) +
     scale_linetype_manual(values = c(1, 1, 2)) +
@@ -737,7 +737,7 @@ for (i in 1:length(fishery_name_north)) {
                            linetype = estimate_shape_type)) +
     geom_point(size = 2.5) +
     geom_line() +
-    scale_color_manual(values = c("#440154", "#31688e", "#31688e"),
+    scale_color_manual(values = c(col_orange,col_green,col_green),
                        name = "Catch Estimate") +
     scale_shape_manual(values = c(2, 16, 1)) +
     scale_linetype_manual(values = c(2, 1, 1)) +
@@ -811,7 +811,7 @@ for (i in 1:length(fishery_name_south)){
                            linetype = estimate_shape_type)) +
     geom_point(size = 2.5) +
     geom_line() +
-    scale_color_manual(values = c("#31688e", "#31688e", "#440154"),
+    scale_color_manual(values = c(col_green, col_green, col_orange),
                        name = "Catch Estimate") +
     scale_shape_manual(values = c(16, 1, 2)) +
     scale_linetype_manual(values = c(1, 1, 2)) +
@@ -881,7 +881,7 @@ for (i in 1:length(fishery_name_north)) {
                            linetype = estimate_shape_type)) +
     geom_point(size = 2.5) +
     geom_line() +
-    scale_color_manual(values = c("#440154", "#31688e", "#31688e"),
+    scale_color_manual(values = c(col_orange, col_green, col_green),
                        name = "Catch Estimate") +
     scale_shape_manual(values = c(2, 16, 1)) +
     scale_linetype_manual(values = c(2, 1, 1)) +
@@ -1039,7 +1039,6 @@ res_gam <- simulateResiduals(sport_catch_models$model_list$central_isbm_kept, pl
 ```
 
 \clearpage
-
 # Model Statistical Tables {#app:fourth-appendix}
 ```{r appendix-model-table-NWCVI-summer, message=FALSE, warning=FALSE, results='asis', echo=FALSE}
 NWCVI_summer_model_table <- sport_catch_models$model_list[["NWCVI_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
@@ -1236,110 +1235,192 @@ central_isbm_released_table
 ```
 
 \clearpage
-
+::: {.landscape data-latex=""}
 # Model Selection Tables {#app:fifth-appendix}
-
-## Summer models
 ```{r appendix-model-selection-summer, echo = FALSE}
 
 m6 |>
-    dplyr::select(-name, -x_var)|>
+  mutate(n_var = round(n_var, 0))|>
+    dplyr::select(-name, -residual_check, -x_var, -McFadden, -AIC, -full_formula, -slope_creel, -r2_creel, -slope_irec, -r2_irec, -n_creel, -n_irec)|>
+  relocate(region_name, family, chosen_formula, delta_aic, n_var, r2glm) |>
   gt() |>
   tab_header(title = "Summer Fishery Model Comparison") |>
   tab_source_note("Ranked by residual fit and pseudo-R-squared") |>
-  fmt_number(columns = where(is.numeric), decimals = 3) |>
-  tab_style(
-    style     = cell_fill(color = "#e8f4f8"),
-    locations = cells_body(rows = seq(1, nrow(m6), 2))
+  fmt_number(columns = where(is.numeric) & !matches("n_var"), decimals = 2) |>
+  cols_width(
+    chosen_formula ~ px(300),
+    region_name ~ px(100),
+    family ~ px(80),
+    everything()   ~ px(40)
   ) |>
   tab_style(
-    style     = list(cell_text(weight = "bold"), cell_fill(color = "#dbe9f5")),
-    locations = cells_body(rows = 1)
+    style     = cell_text(weight = "bold"),
+    locations = cells_body(columns = disp_p, rows = disp_p < 0.05)
   ) |>
-  tab_options(
-    table.font.size           = px(12),
-    column_labels.font.weight = "bold",
-    table.width               = pct(100)
+  tab_style(
+    style     = cell_text(weight = "bold"),
+    locations = cells_body(columns = out_p, rows = out_p < 0.05)
+  ) |>
+  tab_style(
+    style     = cell_text(weight = "bold"),
+    locations = cells_body(columns = uni_p, rows = uni_p < 0.05)
+  ) |>
+  tab_style(
+    style     = cell_text(weight = "bold"),
+    locations = cells_body(columns = quant_p, rows = quant_p < 0.05)
+  ) |>
+    tab_options(
+    table.font.size            = px(12),
+    column_labels.font.weight  = "bold",
+    table.width                = pct(100), 
+    data_row.padding           = px(15),
+    table_body.hlines.color    = "gray70",
+    table_body.hlines.width    = px(1),
+    table_body.hlines.style    = "solid"
   )
 
 
-# m6 |>
-#     dplyr::select(-name, -x_var, -McFadden)|>
-#  csas_table()
-# 
+ # m6 |>
+ #    dplyr::select(-name, -x_var, -McFadden)|>
+ # csasdowntex::csas_table(
+ #                     caption = "Caption text",
+ #                     landscape = TRUE,
+ #                     font_size = 7,
+ #                     repeat_header = TRUE, longtable = TRUE)
 
 
 ```
 
-## Seasonal models
+
 ```{r appendix-model-selection-seasonal, echo = FALSE}
 
 m_seasonal_all |>
-    dplyr::select(-name, -x_var)|>
+  mutate(n_var = round(n_var, 0))|>
+    dplyr::select(-name, -residual_check, -x_var, -McFadden, -AIC, -full_formula, -slope_creel, -r2_creel, -slope_irec, -r2_irec, -n_creel, -n_irec)|>
+  relocate(region_name, family, chosen_formula, delta_aic, n_var, r2glm) |>
   gt() |>
   tab_header(title = "Seasonal Fishery Model Comparison") |>
-  tab_source_note("Ranked by pseudo-R-squared") |>
-  fmt_number(columns = where(is.numeric), decimals = 3) |>
-  tab_style(
-    style     = cell_fill(color = "#e8f4f8"),
-    locations = cells_body(rows = seq(1, nrow(m_seasonal_all), 2))
+  tab_source_note("Ranked by residual fit and pseudo-R-squared") |>
+  fmt_number(columns = where(is.numeric) & !matches("n_var"), decimals = 2) |>
+  cols_width(
+    chosen_formula ~ px(300),
+    region_name ~ px(100),
+    family ~ px(80),
+    everything()   ~ px(40)
   ) |>
   tab_style(
-    style     = list(cell_text(weight = "bold"), cell_fill(color = "#dbe9f5")),
-    locations = cells_body(rows = 1)
+    style     = cell_text(weight = "bold"),
+    locations = cells_body(columns = disp_p, rows = disp_p < 0.05)
   ) |>
-  tab_options(
-    table.font.size           = px(12),
-    column_labels.font.weight = "bold",
-    table.width               = pct(100)
+  tab_style(
+    style     = cell_text(weight = "bold"),
+    locations = cells_body(columns = out_p, rows = out_p < 0.05)
+  ) |>
+  tab_style(
+    style     = cell_text(weight = "bold"),
+    locations = cells_body(columns = uni_p, rows = uni_p < 0.05)
+  ) |>
+  tab_style(
+    style     = cell_text(weight = "bold"),
+    locations = cells_body(columns = quant_p, rows = quant_p < 0.05)
+  ) |>
+    tab_options(
+    table.font.size            = px(12),
+    column_labels.font.weight  = "bold",
+    table.width                = pct(100), 
+    data_row.padding           = px(15),
+    table_body.hlines.color    = "gray70",
+    table_body.hlines.width    = px(1),
+    table_body.hlines.style    = "solid"
   )
 ```
 
-## Annual models
 ```{r appendix-model-selection-northern-isbm, echo = FALSE}
 
-m_north_isbm |>  dplyr::select(-name, -x_var)|>
+m_north_isbm |>
+  mutate(n_var = round(n_var, 0))|>
+    dplyr::select(-name, -residual_check, -x_var, -McFadden, -AIC, -full_formula, -slope_creel, -r2_creel, -slope_irec, -r2_irec, -n_creel, -n_irec)|>
+  relocate(region_name, family, chosen_formula, delta_aic, n_var, r2glm) |>
   gt() |>
-  tab_header(title = "Northern Fishery Model Comparison") |>
-  tab_source_note("Ranked by pseudo-R-squared") |>
-  fmt_number(columns = where(is.numeric), decimals = 3) |>
-  tab_style(
-    style     = cell_fill(color = "#e8f4f8"),
-    locations = cells_body(rows = seq(1, nrow(m_north_isbm), 2))
+  tab_header(title = "Northern BC ISBM and Crental BC ISBM Model Comparison") |>
+  tab_source_note("Ranked by residual fit and pseudo-R-squared") |>
+  fmt_number(columns = where(is.numeric) & !matches("n_var"), decimals = 2) |>
+  cols_width(
+    chosen_formula ~ px(300),
+    region_name ~ px(100),
+    family ~ px(80),
+    everything()   ~ px(40)
   ) |>
   tab_style(
-    style     = list(cell_text(weight = "bold"), cell_fill(color = "#dbe9f5")),
-    locations = cells_body(rows = 1)
+    style     = cell_text(weight = "bold"),
+    locations = cells_body(columns = disp_p, rows = disp_p < 0.05)
   ) |>
-  tab_options(
-    table.font.size           = px(12),
-    column_labels.font.weight = "bold",
-    table.width               = pct(100)
+  tab_style(
+    style     = cell_text(weight = "bold"),
+    locations = cells_body(columns = out_p, rows = out_p < 0.05)
+  ) |>
+  tab_style(
+    style     = cell_text(weight = "bold"),
+    locations = cells_body(columns = uni_p, rows = uni_p < 0.05)
+  ) |>
+  tab_style(
+    style     = cell_text(weight = "bold"),
+    locations = cells_body(columns = quant_p, rows = quant_p < 0.05)
+  ) |>
+    tab_options(
+    table.font.size            = px(12),
+    column_labels.font.weight  = "bold",
+    table.width                = pct(100), 
+    data_row.padding           = px(15),
+    table_body.hlines.color    = "gray70",
+    table_body.hlines.width    = px(1),
+    table_body.hlines.style    = "solid"
   )
 ```
 
 
-```{r appendix-model-selection-northern-aabm, include = FALSE}
- m_north_aabm |>  dplyr::select(-name, -x_var)|>
+```{r appendix-model-selection-northern-aabm, echo = FALSE}
+ m_north_aabm |>
+  mutate(n_var = round(n_var, 0))|>
+    dplyr::select(-name, -residual_check, -x_var, -McFadden, -AIC, -full_formula, -slope_creel, -r2_creel, -slope_irec, -r2_irec, -n_creel, -n_irec)|>
+  relocate(region_name, family, chosen_formula, delta_aic, n_var, r2glm) |>
   gt() |>
   tab_header(title = "Northern AABM Fishery Model Comparison") |>
-  tab_source_note("Ranked by pseudo-R-squared") |>
-  fmt_number(columns = where(is.numeric), decimals = 3) |>
-  tab_style(
-    style     = cell_fill(color = "#e8f4f8"),
-    locations = cells_body(rows = seq(1, nrow(m_north_aabm), 2))
+  tab_source_note("Ranked by residual fit and pseudo-R-squared") |>
+  fmt_number(columns = where(is.numeric) & !matches("n_var"), decimals = 2) |>
+  cols_width(
+    chosen_formula ~ px(300),
+    region_name ~ px(100),
+    family ~ px(80),
+    everything()   ~ px(40)
   ) |>
   tab_style(
-    style     = list(cell_text(weight = "bold"), cell_fill(color = "#dbe9f5")),
-    locations = cells_body(rows = 1)
+    style     = cell_text(weight = "bold"),
+    locations = cells_body(columns = disp_p, rows = disp_p < 0.05)
   ) |>
-  tab_options(
-    table.font.size           = px(12),
-    column_labels.font.weight = "bold",
-    table.width               = pct(100)
+  tab_style(
+    style     = cell_text(weight = "bold"),
+    locations = cells_body(columns = out_p, rows = out_p < 0.05)
+  ) |>
+  tab_style(
+    style     = cell_text(weight = "bold"),
+    locations = cells_body(columns = uni_p, rows = uni_p < 0.05)
+  ) |>
+  tab_style(
+    style     = cell_text(weight = "bold"),
+    locations = cells_body(columns = quant_p, rows = quant_p < 0.05)
+  ) |>
+    tab_options(
+    table.font.size            = px(12),
+    column_labels.font.weight  = "bold",
+    table.width                = pct(100), 
+    data_row.padding           = px(15),
+    table_body.hlines.color    = "gray70",
+    table_body.hlines.width    = px(1),
+    table_body.hlines.style    = "solid"
   )
 ```
-
+:::
 \clearpage
 
 # Model Output {#app:third-appendix}

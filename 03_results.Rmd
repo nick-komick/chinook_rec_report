@@ -99,14 +99,16 @@ ggplot(ngs_graph_data,
        aes(y = catch_estimate,
            x = year,
            shape = estimate_type,
-           linetype = estimate_type))+
-  geom_point(size = 2.5,
-             colour = "#440154")+
-  geom_line(colour = "#440154") +
+           linetype = estimate_type, colour = estimate_type))+
+  geom_point(size = 2.5)+
+  geom_line() +
   scale_shape_manual(values = c(16, 1),
                      labels = c("revised catch (creel + iREC)", "previous catch (creel)")
   ) +
   scale_linetype_manual(values = c(1, 2),
+                        labels = c("revised catch (creel + iREC)", "previous catch (creel)")
+  ) +
+   scale_colour_manual(values = c(col_green, col_orange),
                         labels = c("revised catch (creel + iREC)", "previous catch (creel)")
   ) +
   scale_x_continuous(breaks = c(2013, 2015, 2017, 2019, 2021, 2023)) +
@@ -115,7 +117,7 @@ ggplot(ngs_graph_data,
   theme_bw() + 
   ylab("Kept catch estimate") + 
   xlab("Year") +
-  labs(linetype = "Catch Estimate", shape = "Catch Estimate")
+  labs(linetype = "Catch Estimate Type", shape = "Catch Estimate Type", col="Catch Estimate Type")
 
 
 ```
@@ -143,14 +145,16 @@ ggplot(ngs_graph_data2,
        aes(y = catch_estimate,
            x = year,
            shape = estimate_type,
-           linetype = estimate_type))+
-  geom_point(size = 2.5,
-             colour = "#440154")+
-  geom_line(colour = "#440154") +
+           linetype = estimate_type, colour=estimate_type))+
+  geom_point(size = 2.5)+
+  geom_line() +
   scale_shape_manual(values = c(16, 1),
                      labels = c("revised catch (creel + iREC)", "previous catch (creel)")
   ) +
   scale_linetype_manual(values = c(1, 2),
+                        labels = c("revised catch (creel + iREC)", "previous catch (creel)")
+  ) +
+  scale_colour_manual(values = c(col_green, col_orange),
                         labels = c("revised catch (creel + iREC)", "previous catch (creel)")
   ) +
   scale_x_continuous(breaks = c(2013, 2015, 2017, 2019, 2021, 2023)) +
@@ -159,7 +163,7 @@ ggplot(ngs_graph_data2,
   theme_bw() + 
   ylab("Released catch estimate") + 
   xlab("Year") +
-  labs(linetype = "Catch Estimate", shape = "Catch Estimate")
+  labs(linetype = "Catch Estimate Type", shape = "Catch Estimate Type", col="Catch Estimate Type")
 
 
 ```
@@ -329,6 +333,7 @@ run_main_region <- function(model_name, x_var, x_var_mr, x_var_rr, year_start,
 
 ```
 
+/clearpage
 ### Summer models
 
 #### Northern WCVI
@@ -359,8 +364,7 @@ plots <- run_main_region(
 )
 
 
-  (plots[["NWCVI S SUMMER ISBM"]] + ylab("summer creel + iREC catch estimate") + xlab("summer creel catch estimate") ) 
-
+  (plots[["NWCVI S SUMMER ISBM"]] + ylab("summer creel + iREC catch estimate") + xlab("summer creel catch estimate") )
 
 ```
 \newpage
@@ -889,7 +893,16 @@ Between 2015 and 2023, submission rates in Haida Gwaii (Northern AABM Sport) wer
 #| label: fig-heads-to-creel-and-updated-catch-northern-aabm
 #| fig-cap: "Relationship between the Northern BC AABM marked kept catch estimates from the creel program (left panel) and the combined creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP between 2015 and 2023."
 
-out_north_aabm$plot + labs(title="iREC") + theme(legend.position = "none")
+out_north_aabm$plot[[1]] <- 
+  out_north_aabm$plot[[1]] + 
+  labs(title = "previous catch (creel)") + scale_colour_manual(values=c(col_orange)) + scale_fill_manual(values=c(col_orange))
+
+out_north_aabm$plot[[2]] <- 
+  out_north_aabm$plot[[2]] + 
+  labs(title = "revised catch (iREC)")+ scale_colour_manual(values=c(col_blue))
+
+out_north_aabm$plot+ theme(legend.position = "none") 
+
 ```
 In Northern ISBM, iREC improves the fit of the heads to catch relationship ($R^{2}=$ `r fmt_stat(out_nbc_isbm$r2_creel)` for creel vs. $R^{2}=$ `r fmt_stat(out_nbc_isbm$r2_irec)` for iREC), and the sample rate drops slightly using iREC to `r fmt_stat(out_nbc_isbm$slope_irec, scale=100)`% from `r fmt_stat(out_nbc_isbm$slope_creel, scale=100)`% using creel.
 ```{r heads-to-creel-northern-isbm, echo=FALSE, fig.height=4, fig.width=10, out.width="100%", fig.asp=NA}
@@ -899,12 +912,12 @@ In Northern ISBM, iREC improves the fit of the heads to catch relationship ($R^{
 out_nbc_isbm$plot[[1]] <- 
   out_nbc_isbm$plot[[1]] + 
   labs(title = "previous catch (creel)") + 
-  theme(legend.position = "none")
+  theme(legend.position = "none")  + scale_colour_manual(values=c(col_orange))
 
 out_nbc_isbm$plot[[2]] <- 
   out_nbc_isbm$plot[[2]] + 
   labs(title = "revised catch (iREC)") + 
-  theme(legend.position = "none")
+  theme(legend.position = "none")+ scale_colour_manual(values=c(col_blue))
 
 out_nbc_isbm$plot
 ```
@@ -918,12 +931,12 @@ In Central BC, the logbook program was underestimating catch from 2013-2023, wit
 out_cbc$plot[[1]] <- 
   out_cbc$plot[[1]] + 
   labs(title = "previous catch (logbook)") + 
-  theme(legend.position = "none")
+  theme(legend.position = "none") + scale_colour_manual(values=c(col_orange))
 
 out_cbc$plot[[2]] <- 
   out_cbc$plot[[2]] + 
   labs(title = "revised catch (iREC)") + 
-  theme(legend.position = "none")
+  theme(legend.position = "none")+ scale_colour_manual(values=c(col_blue))
 
 out_cbc$plot
 ```
@@ -993,12 +1006,12 @@ Figure \@ref(fig:fig-heads-to-creel-and-updated-catch-nbc-aabm-2005) shows the r
 out_north_aabm05$plot[[1]] <- 
   out_north_aabm05$plot[[1]] + 
   labs(title = "Haida Gwaii Previous Catch (creel)") + 
-  theme(legend.position = "none")
+  theme(legend.position = "none") + scale_colour_manual(values=c(col_orange))
 
 out_north_aabm05$plot[[2]] <- 
   out_north_aabm05$plot[[2]] + 
   labs(title = "Haida Gwaii Revised Catch (modelled iREC)") + 
-  theme(legend.position = "none")
+  theme(legend.position = "none")+ scale_colour_manual(values=c(col_blue))
 
 out_north_aabm05$plot <-
   out_north_aabm05$plot[[1]] + 
@@ -1008,24 +1021,24 @@ out_north_aabm05$plot <-
 out_nbc_isbm05$plot[[1]] <- 
   out_nbc_isbm05$plot[[1]] + 
   labs(title = "NBC ISBM Previous Catch (creel)") + 
-  theme(legend.position = "none")
+  theme(legend.position = "none")+ scale_colour_manual(values=c(col_orange))
 
 out_nbc_isbm05$plot[[2]] <- 
   out_nbc_isbm05$plot[[2]] + 
   labs(title = "NBC ISBM Revised Catch (modelled iREC)") + 
-  theme(legend.position = "none")
+  theme(legend.position = "none")+ scale_colour_manual(values=c(col_blue))
 #out_nbc_isbm05$plot
 
 
 out_cbc05$plot[[1]] <- 
   out_cbc05$plot[[1]] + 
   labs(title = "Central BC Previous Catch (logbook)") + 
-  theme(legend.position = "none")
+  theme(legend.position = "none")+ scale_colour_manual(values=c(col_orange))
 
 out_cbc05$plot[[2]] <- 
   out_cbc05$plot[[2]] + 
   labs(title = "Central BC Revised Catch (modelled iREC)") + 
-  theme(legend.position = "none")
+  theme(legend.position = "none")+ scale_colour_manual(values=c(col_blue))
 #out_cbc05$plot
 
 out_all <- 
@@ -1352,11 +1365,13 @@ Next, Northern BC ISBM Sport had `r fmt_stat(models_combined2_avs$pdiff_irec_rep
 
 ## Kept only
 k<-ggplot() +
-  geom_point(data=total_catch_compare, aes(y=updated_kept_total, x=year, col="lightblue4")) + 
-  geom_line(data=total_catch_compare, aes(y=updated_kept_total, x=year, col="lightblue4"))+
-  geom_point(data=total_catch_compare, aes(y=total_kept, x=year, col="lightgreen")) + 
-  geom_line(data=total_catch_compare, aes(y=total_kept, x=year, col="lightgreen"))+
-  scale_color_manual(values=c("lightblue4", "lightgreen"),  
+  scale_shape_identity() +
+  scale_linetype_identity() +
+  geom_point(data=total_catch_compare, aes(y=updated_kept_total, x=year, col=col_green, shape = 16)) + 
+  geom_line(data=total_catch_compare, aes(y=updated_kept_total, x=year, col=col_green, linetype = 1))+
+  geom_point(data=total_catch_compare, aes(y=total_kept, x=year, col=col_purple, shape = 1)) + 
+  geom_line(data=total_catch_compare, aes(y=total_kept, x=year, col=col_purple, linetype = 2))+
+  scale_color_manual(values=c(col_green, col_purple),  
                      labels = c("Revised estimates", "2024 C&E Report"))+
   facet_wrap(~erafishery, 
              scales = "free", 
@@ -1392,11 +1407,13 @@ total_catch_compare <-
 
 ## Released only
 ggplot() +
-  geom_point(data=total_catch_compare, aes(y=updated_released_total, x=year, col="lightblue4")) + 
-  geom_line(data=total_catch_compare, aes(y=updated_released_total, x=year, col="lightblue4"))+
-  geom_point(data=total_catch_compare, aes(y=legal_releases, x=year, col="lightgreen")) + 
-  geom_line(data=total_catch_compare, aes(y=legal_releases, x=year, col="lightgreen"))+
-  scale_color_manual(values=c("lightblue4", "lightgreen"),  
+   scale_shape_identity() +
+  scale_linetype_identity() +
+  geom_point(data=total_catch_compare, aes(y=updated_released_total, x=year, col=col_green, shape=16)) + 
+  geom_line(data=total_catch_compare, aes(y=updated_released_total, x=year, col=col_green, linetype=1))+
+  geom_point(data=total_catch_compare, aes(y=legal_releases, x=year, col=col_purple, shape=1)) + 
+  geom_line(data=total_catch_compare, aes(y=legal_releases, x=year, col=col_purple, linetype=2))+
+  scale_color_manual(values=c(col_green,col_purple),  
                      labels = c("Revised estimates", "2024 C&E Report"))+
   facet_wrap(~erafishery, 
              scales = "free", 
@@ -1483,11 +1500,13 @@ Figure \@ref(fig:fig-indcwtest) shows the time series of total CWT estimates for
 
 ## CWT Estimate Total time series
 ggplot() +
-  geom_point(data=new_cwt_est, aes(y=cwt_estimate, x=run_year, col="lightblue4")) + 
-  geom_line(data=new_cwt_est, aes(y=cwt_estimate, x=run_year, col="lightblue4"))+
-  geom_point(data=prev_cwt_est, aes(y=cwt_estimate, x=run_year, col="lightgreen")) + 
-  geom_line(data=prev_cwt_est, aes(y=cwt_estimate, x=run_year, col="lightgreen"))+
-  scale_color_manual(values=c( "lightblue4", "lightgreen"),
+   scale_shape_identity() +
+  scale_linetype_identity() +
+  geom_point(data=new_cwt_est, aes(y=cwt_estimate, x=run_year, col=col_green, shape=16)) + 
+  geom_line(data=new_cwt_est, aes(y=cwt_estimate, x=run_year, col=col_green, linetype=1))+
+  geom_point(data=prev_cwt_est, aes(y=cwt_estimate, x=run_year, col=col_purple, shape=1)) + 
+  geom_line(data=prev_cwt_est, aes(y=cwt_estimate, x=run_year, col=col_purple, linetype=2))+
+  scale_color_manual(values=c(col_green, col_purple),
                      labels = c("Revised CWT Estimates", "2024 CWT Estimates"))+
   ylab("CWT Estimate (All Indicators)")+
   xlab("Run Year")+
@@ -1599,33 +1618,52 @@ The ERA has been accounting for releases since before 2005 for some fisheries (e
 
 ```{r results mrrukr2, results='asis', echo=FALSE, fig.height=10, fig.width=10}
 #| label: fig-mrrukr2
-#| fig-cap: "Release rate time series at the finescale fishery level, from 2005 to 2023. Light blue lines are release rates of unmarked fish and dark blue lines are release rates of marked fish from revised data. Green lines are release rates (regardless of mark status) used in the 2024 CNR files applied to the 2024 ERA."
+#| fig-cap: "Release rate time series at the finescale fishery level, from 2005 to 2023. Light green lines are release rates of unmarked fish and dark green lines are release rates of marked fish from revised data. Orange lines are release rates (regardless of mark status) used in the 2024 CNR files applied to the 2024 ERA."
 mu <- 
   ggplot() +
-  geom_point(data=sport_mark_rate_mrr %>% filter(between(year, 2015, 2023)), aes(y=urr, x=year, col="lightblue")) +
-  geom_line(data=sport_mark_rate_mrr %>% filter(between(year, 2015, 2023)), aes(y=urr, x=year, col="lightblue"))+
-  geom_point(data=sport_mark_rate_mrr%>% filter(between(year, 2015, 2023)), aes(y=mrr, x=year, col="lightblue4")) +
-  geom_line(data=sport_mark_rate_mrr%>% filter(between(year, 2015, 2023)), aes(y=mrr, x=year, col="lightblue4"))+
-  geom_point(data=sport_mark_rate_mrr %>% filter(between(year, 2013, 2015), erafishery %notin% c("NBC AABM S", "NBC ISBM S", "CBC S")), aes(y=urr, x=year, col="lightblue")) +
-  geom_line(data=sport_mark_rate_mrr %>% filter(between(year, 2013, 2015), erafishery %notin% c("NBC AABM S", "NBC ISBM S", "CBC S")), aes(y=urr, x=year, col="lightblue"))+
-  geom_point(data=sport_mark_rate_mrr%>% filter(between(year, 2013, 2015), erafishery %notin% c("NBC AABM S", "NBC ISBM S", "CBC S")), aes(y=mrr, x=year, col="lightblue4")) +
-  geom_line(data=sport_mark_rate_mrr%>% filter(between(year, 2013, 2015), erafishery %notin% c("NBC AABM S", "NBC ISBM S", "CBC S")), aes(y=mrr, x=year, col="lightblue4"))+
-  geom_point(data=sport_mark_rate_mrr, aes(y=release_rate, x=year, col="lightgreen")) +
-  geom_line(data=sport_mark_rate_mrr, aes(y=release_rate, x=year, col="lightgreen"))+
-   geom_point(data=sport_mark_rate_mrr %>% filter(between(year, 2005, 2013)), aes(y=rr, x=year, col="orange")) +
-  geom_line(data=sport_mark_rate_mrr %>% filter(between(year, 2005, 2013)), aes(y=rr, x=year, col="orange"))+
-    geom_point(data=sport_mark_rate_mrr %>% filter(between(year, 2013, 2015), erafishery %in% c("NBC AABM S", "NBC ISBM S", "CBC S")), aes(y=rr, x=year, col="orange")) +
-  geom_line(data=sport_mark_rate_mrr %>% filter(between(year, 2013, 2015), erafishery %in% c("NBC AABM S", "NBC ISBM S", "CBC S")), aes(y=rr, x=year, col="orange"))+
-  scale_color_manual(values=c("lightblue", "lightblue4", "lightgreen", "orange"),  
-                     labels = c("Revised Unmarked Release Rate", 
-                                "Revised Marked Release Rate", 
-                                "2024 CNR Release Rate", "Revised Release Rate"))+
+  scale_shape_identity() +
+  scale_linetype_identity() +
+  geom_point(data = sport_mark_rate_mrr %>% filter(between(year, 2015, 2023)),
+             aes(y = urr, x = year, col = "Revised Unmarked Release Rate")) +
+  geom_line(data = sport_mark_rate_mrr %>% filter(between(year, 2015, 2023)),
+            aes(y = urr, x = year, col = "Revised Unmarked Release Rate")) +
+  geom_point(data = sport_mark_rate_mrr %>% filter(between(year, 2015, 2023)),
+             aes(y = mrr, x = year, col = "Revised Marked Release Rate")) +
+  geom_line(data = sport_mark_rate_mrr %>% filter(between(year, 2015, 2023)),
+            aes(y = mrr, x = year, col = "Revised Marked Release Rate")) +
+  geom_point(data = sport_mark_rate_mrr %>% filter(between(year, 2013, 2015), erafishery %notin% c("NBC AABM S", "NBC ISBM S", "CBC S")),
+             aes(y = urr, x = year, col = "Revised Unmarked Release Rate")) +
+  geom_line(data = sport_mark_rate_mrr %>% filter(between(year, 2013, 2015), erafishery %notin% c("NBC AABM S", "NBC ISBM S", "CBC S")),
+            aes(y = urr, x = year, col = "Revised Unmarked Release Rate")) +
+  geom_point(data = sport_mark_rate_mrr %>% filter(between(year, 2013, 2015), erafishery %notin% c("NBC AABM S", "NBC ISBM S", "CBC S")),
+             aes(y = mrr, x = year, col = "Revised Marked Release Rate")) +
+  geom_line(data = sport_mark_rate_mrr %>% filter(between(year, 2013, 2015), erafishery %notin% c("NBC AABM S", "NBC ISBM S", "CBC S")),
+            aes(y = mrr, x = year, col = "Revised Marked Release Rate")) +
+  geom_point(data = sport_mark_rate_mrr,
+             aes(y = release_rate, x = year, col = "2024 CNR Release Rate"), shape = 1) +
+  geom_line(data = sport_mark_rate_mrr,
+            aes(y = release_rate, x = year, col = "2024 CNR Release Rate"), linetype = 2) +
+  geom_point(data = sport_mark_rate_mrr %>% filter(between(year, 2005, 2013)),
+             aes(y = rr, x = year, col = "Revised Release Rate"), shape = 16) +
+  geom_line(data = sport_mark_rate_mrr %>% filter(between(year, 2005, 2013)),
+            aes(y = rr, x = year, col = "Revised Release Rate"), linetype = 1) +
+  geom_point(data = sport_mark_rate_mrr %>% filter(between(year, 2013, 2015), erafishery %in% c("NBC AABM S", "NBC ISBM S", "CBC S")),
+             aes(y = rr, x = year, col = "Revised Release Rate", shape = 16)) +
+  geom_line(data = sport_mark_rate_mrr %>% filter(between(year, 2013, 2015), erafishery %in% c("NBC AABM S", "NBC ISBM S", "CBC S")),
+            aes(y = rr, x = year, col = "Revised Release Rate"), linetype=1) +
+  scale_color_manual(
+    name = "Data source",
+    values = c(
+      "Revised Unmarked Release Rate" = col_green_light,
+      "Revised Marked Release Rate"   = col_green_dark,
+      "2024 CNR Release Rate"         = col_purple,
+      "Revised Release Rate"          = col_green
+    )
+  ) +
   facet_wrap(~erafishery) +
-  theme_bw() + 
+  theme_bw() +
   geom_vline(data = mrr_fishery_model_line, aes(xintercept = xintercept)) +
-  labs(col="Data source",
-       x = "Year",
-       y = "Release Rate") +
+  labs(x = "Year", y = "Release Rate") +
   theme(legend.position = "bottom")
 
 print(mu)
