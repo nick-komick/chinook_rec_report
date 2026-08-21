@@ -241,7 +241,7 @@ winter and therefore has no creel coverage in the winter months.
 \begin{landscapepage}
 ```{r methods plotting PFMA creel unfiltered, echo=FALSE, message=FALSE, warning=FALSE, fig.height=12, fig.width=20, fig.align="left", out.width="110%", fig.asp=NA}
 #| label: fig-creel-criteria
-#| fig-cap: "South Coast creel estimates that passed (blue) or failed (red) quality control criteria by month and PFMA."
+#| fig-cap: "South Coast creel estimates that passed (yellow) or failed (red) quality control criteria by month and PFMA."
 
 ggplot() +
   geom_tile(data=Creel_month_PFMA_passed, aes(x=year, y=as.factor(month), fill = estimate),colour = "white") +
@@ -543,7 +543,7 @@ g <-
             colour = "white") +
   scale_fill_gradient(low = col_yellow_light, high = col_yellow,  na.value = colclear, limits=c(0,20000)) +
   scale_y_discrete(limits = rev)+
-  guides(fill=guide_legend(title="creel estimate")) +
+  guides(fill=guide_legend(title="Passing creel estimates")) +
   new_scale_fill() +
   geom_tile(data = ngs_iREC_catch, 
             aes(x=year, y=as.factor(month), fill = sum_catch_estimate), 
@@ -551,7 +551,7 @@ g <-
   scale_fill_gradient(low = col_blue_light, high = col_blue,  na.value = colclear, limits=c(0,15000))+
   #facet_wrap(~finescale_fishery_old+AREA, nrow=1)+
   facet_grid(finescale_fishery ~ area, scales = "free_y", space = "free_y") +
-  guides(fill=guide_legend(title="iREC")) +
+  guides(fill=guide_legend(title="iREC estimates")) +
   labs(title = paste0("Northern Strait of Georgia Sport"),
        x = "Year", y = "Month") +
   theme_bw() + theme_minimal() + geom_vline(xintercept = 2013)+
