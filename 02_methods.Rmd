@@ -73,16 +73,26 @@ double-counting.
 ##### South Coast Creel Survey quality control
 ```{r methods functions, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 
-col1 = "#e0ecf4"
-col2 = "#0570b0"
-col3 = "lightblue"
+col_blue_light = "#def3ff"
+col_blue = "#0072B2"
+col_lightblue = "#56B4E9"
 col4 = "lightblue4"
-col5 = "#fddbc7"
-col6 = "#cb181d"
-col7 = "#f8f4ff"
-col8 = "#86449C"
+col_orange_light = "#ffd6b5"
+col_orange = "#D55E00"
+col_purple_light = "#faf2f6"
+col_purple = "#CC79A7"
 colclear= "#1C00ff00"
-
+col_green_light = "#00dea1"
+col_green = "#009E73"
+col_green_dark = "#005e45"
+col_yellow_light = "#ffe9b9"
+col_yellow = "#E69F00"
+col_red = "#950606"
+col_red_light = "#fcaaaa"
+col_black = "#000000"
+col_black_light = "#cfcfcf"
+col_grey = "#536878"
+col_grey_light = "#dde3e7"
 
 fmt_stat <- function(x, digits = 3, scale = 1) {
   x <- suppressWarnings(as.numeric(x))
@@ -235,12 +245,12 @@ winter and therefore has no creel coverage in the winter months.
 
 ggplot() +
   geom_tile(data=Creel_month_PFMA_passed, aes(x=year, y=as.factor(month), fill = estimate),colour = "white") +
-  scale_fill_gradient(low = col1, high = col2,  na.value = colclear, limits=c(0,20000)) +
+  scale_fill_gradient(low = col_yellow_light, high = col_yellow,  na.value = colclear, limits=c(0,20000)) +
   scale_y_discrete(limits=rev)+
   guides(fill=guide_legend(title="Creel estimates that passed criteria")) +
   new_scale_fill() +
   geom_tile(data=Creel_month_PFMA_failed, aes(x=year, y=as.factor(month), fill = estimate),colour = "white") +
-  scale_fill_gradient(low = col5, high = col6,  na.value = colclear, limits=c(0,20000))+
+  scale_fill_gradient(low = col_red_light, high = col_red,  na.value = colclear, limits=c(0,20000))+
   facet_wrap(~region+area, ncol = 7)+
   guides(fill=guide_legend(title="Creel estimates that failed criteria")) +
   labs(x = "Year", y = "Month") +
@@ -394,7 +404,6 @@ by PFMA and partial PFMAs, organized by monthly ranges used for catch
 estimation. The CTC Exploitation Rate Analysis (ERA) fisheries are
 fishery definitions that the CTC reports to estimate stock-specific
 exploitation rates [@CTC1988].
-
 To support consolidated recreational catch estimates and meet PST
 obligations, particularly those involving mark-selective fisheries,
 Canada recently reorganized the Canadian fishery stratification levels
@@ -532,14 +541,14 @@ g <-
   geom_tile(data = ngs_catch, 
             aes(x=year, y=as.factor(month), fill = sum_catch_estimate), 
             colour = "white") +
-  scale_fill_gradient(low = col1, high = col2,  na.value = colclear, limits=c(0,20000)) +
+  scale_fill_gradient(low = col_yellow_light, high = col_yellow,  na.value = colclear, limits=c(0,20000)) +
   scale_y_discrete(limits = rev)+
   guides(fill=guide_legend(title="creel estimate")) +
   new_scale_fill() +
   geom_tile(data = ngs_iREC_catch, 
             aes(x=year, y=as.factor(month), fill = sum_catch_estimate), 
             colour = "white") +
-  scale_fill_gradient(low = col7, high = col8,  na.value = colclear, limits=c(0,15000))+
+  scale_fill_gradient(low = col_blue_light, high = col_blue,  na.value = colclear, limits=c(0,15000))+
   #facet_wrap(~finescale_fishery_old+AREA, nrow=1)+
   facet_grid(finescale_fishery ~ area, scales = "free_y", space = "free_y") +
   guides(fill=guide_legend(title="iREC")) +
