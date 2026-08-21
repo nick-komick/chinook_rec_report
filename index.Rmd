@@ -81,6 +81,7 @@ bibliography: bib/refs.bib
 header-includes:
  - \usepackage{float}
  - \usepackage[table, xcdraw]{xcolor}
+ - \usepackage{pdflscape}
  
 execute:
   echo: false
