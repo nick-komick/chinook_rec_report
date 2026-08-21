@@ -1147,14 +1147,55 @@ The SHRP has generally run consistently over the transition between the 2005 - 2
 
 In Figure \@ref(fig:fig-fishery-rates-2) we visualize updated submission rates to the SHRP across time in each region. A submission rate of 20% of the catch is the desired minimum sampling rate, and some regions are meeting this target while others are not. Submission rates fluctuate year to year and between seasons. Above, for the South Coast and Northern BC AABM (Haida Gwaii) we noted a decline in submission rates from the 2005-2012 period to the 2013-2023 period, reflected both in creel and combined creel and iREC data, but the opposite trend in Northern BC ISBM and Central BC. Overall, while there are some trends over time in submission rates, there is no clear and consistent step change occurring in 2013 (or 2015 for Northern regions) that would indicate that pre- and post-iREC are separate catch regimes. Furthermore, when combining all regions and comparing the model fit before iREC (Figure \@ref(fig:fig-heads-kept-iREC) left panel) and with iREC (Figure \@ref(fig:fig-heads-kept-iREC) right panel), CWT sample rates are fairly consistent with a before iREC average sample rate (i.e., slope) of `r format(unname(coef(pre_iREC_lm)[1])*100, digits = 3)`% and an iREC period sample rate of `r format(unname(coef(post_iREC_lm)[1])*100, digits = 3)`% with similar adjusted $R^{2}$ values. This suggests that there is no consistent bias in the modelled versus observed combined creel and iREC estimates. 
 
-The summer submission rates in Northern WCVI, Johnstone Strait, and the annual Haida Gwaii rates have typically been over 20% for most of the time series. This is likely due to high lodge participation in the sport head recovery program. Haida Gwaii Sport in particular has consistently high submission rates, which likely contributes to the accuracy of the CWT estimates. Annual submission rates for Northern BC ISBM and Central BC Sport and summer submission rates for Northern Strait of Georgia initially were quite low ($\leq$ 10%) early in the time series, but in the last ten years have had more than half of the submission rates above or very close to the target. This could be due to increasing lodge, guide, and avid angler participation in the SHRP over time. The summer submission rates for Southern WCVI Sport, Southern Strait of Georgia Sport, and Juan de Fuca Sport are all consistently under the 20% target, and have mostly been under 15% in the last ten years.
+```{r results Pre iREC Head to Kept Mark Catch, echo=FALSE}
+#| label: fig-heads-kept-iREC
+#| fig-cap: "Chinook heads to marked kept catch based on combined creel and iREC. Each point is a yearly CWT Region based on the seasonal or annual time period in the southern or nothern portions of BC (i.e., NBC and CBC), respectively.  The left panel shows the relationship from 2005 to 2012 and the right panel shows the relationship from 2013 to 2023"
 
-As noted above, in general, summer submission rates are typically higher than off-season submission rates. Overall, the off-season submission rates could use improvement and are typically under 20%. The off-season submission rates in Juan de Fuca Sport and Southern Georgia Strait tend to be under 10%, and improving these rates is of particular importance since off-season catch in each of those areas was over 7000 in 2023. Northern Strait of Georgia also had off-season catch of over 5000 in 2023, and could use improvement in off-season submission rates. In contrast, the sum total off-season catch in Northern WCVI, Southern WCVI, and Johnstone Strait Sport in 2023 was under 900. Overall, all regions outside of Haida Gwaii would benefit from increased participation in the SHRP to strengthen cwt estimates.
+pre_iREC <-
+  ggplot(data = pre_iREC_catch_model_df,
+         aes(x=catch_estimate_predicted, y=head_total)) +
+  geom_point(size=2) +
+  geom_smooth(method='lm', formula= y~x + 0) +
+  geom_text(x = 500, 
+            y = max(pre_iREC_catch_model_df$head_total, na.rm = TRUE) * 0.9, 
+            label = lm_eqn_vec(pre_iREC_catch_model_df$head_total, 
+                               pre_iREC_catch_model_df$catch_estimate_predicted), 
+            parse = TRUE, 
+            hjust=0, 
+            vjust=0) +
+  labs( title = "All Regions - Before iREC",
+        x = "Chinook Marked Kept Catch",
+        y = "Chinook Head Recoveries")+
+  theme_bw()
+
+post_iREC <- ggplot(data = post_iREC_catch_model_df,
+                    aes(x=catch_estimate_predicted, y=head_total)) +
+  geom_point(size=2) +
+  geom_smooth(method='lm', formula= y~x + 0) +
+  geom_text(x = 500, 
+            y =  max(post_iREC_catch_model_df$head_total, na.rm= TRUE) * 0.9, 
+            label = lm_eqn_vec(post_iREC_catch_model_df$head_total, 
+                               post_iREC_catch_model_df$catch_estimate_predicted), 
+            parse = TRUE, 
+            hjust=0, 
+            vjust=0) +
+  labs(title = "All Regions - Combined iREC and Creel",
+       x = "Chinook Marked Kept Catch",
+       y = "Chinook Head Recoveries") +
+  theme_bw()
+
+pre_iREC + post_iREC
+```
+
+The summer submission rates in Northern WCVI, Johnstone Strait, and the annual Haida Gwaii rates have typically been over 20% for most of the time series. This is likely due to high lodge participation in the sport head recovery program. Haida Gwaii Sport in particular has consistently high submission rates, which likely contributes to the accuracy of the CWT estimates. Annual submission rates for Northern BC ISBM and Central BC Sport and summer submission rates for Northern Strait of Georgia initially were quite low ($\le 10$%) early in the time series, but in the last ten years have had more than half of the submission rates above or very close to the target. This could be due to increasing lodge, guide, and avid angler participation in the SHRP over time. The summer submission rates for Southern WCVI Sport, Southern Strait of Georgia Sport, and Juan de Fuca Sport are all consistently under the 20% target, and have mostly been under 15% in the last ten years.
+
+As noted above, in general, summer submission rates are typically higher than off-season submission rates. Overall, the off-season submission rates could use improvement and are typically under 20%. The off-season submission rates in Juan de Fuca Sport and Southern Georgia Strait tend to be under 10%, and improving these rates is of particular importance since off-season catch in each of those areas was over 7,000 in 2023. Northern Strait of Georgia also had off-season catch of over 5,000 in 2023, and could use improvement in off-season submission rates. In contrast, the sum total off-season catch in Northern WCVI, Southern WCVI, and Johnstone Strait Sport in 2023 was under 900. Overall, all regions outside of Haida Gwaii would benefit from increased participation in the SHRP to reduce the uncertainty of indicator stock assessments.
+
 
 \begin{landscapepage}
 ```{r results Fishery Rates, echo=FALSE, fig.height=8, fig.width=12, fig.align="left", out.width="100%", fig.asp=NA}
 #| label: fig-fishery-rates-2
-#| fig-cap: "Chinook sport head submission rates by CWT region and associated time periods (spring, fall, summer, or annual)"
+#| fig-cap: "Chinook sport head submission rates by CWT region and associated time periods (spring, fall, summer, or annual).  Direct estimates (solid circles) are estimates based on data from the region and season, regional averages (hollow circles) are based on the average of all data within the year used for the specific season, and regional smoothing (hollow triagle) is based on the seasonal average from two years before and after the specific year."
 
 region_labels <- c(
   "JDF" = "Juan de Fuca Sport",
@@ -1201,24 +1242,59 @@ region_combo_model_line <-
     xintercept = c(rep(2015, 3), rep(2013, 6))
   )|>  mutate(region_combo = factor(region_combo, levels = region_order))
 
-ggplot(data = region_df,
-       aes(x=year, y=submit_rate, color=season)) +
+
+readr::read_csv("./data/cwt_sample_rates.csv", col_types = "ciicid") |>
+  rename_with(tolower) |>
+  select(region_labels = reg_description,
+         year = sts_year,
+         season,
+         submit_rate = sts_submit_rate,
+         est_method_name ) |>
+  filter(year < 2025) |>
+  mutate(obs_catch_year = if_else(grepl("NBC|Central BC", region_labels),
+                                  2015,
+                                  2013),
+         est_method_name = if_else(est_method_name == "Temporal Average",
+                                   "Direct Estimate",
+                                   est_method_name),
+         est_method_name = factor(est_method_name, 
+                                levels = c("Direct Estimate", 
+                                           "Regional Average",
+                                           "Regional Smoothing")),
+         region_labels = factor(region_labels, 
+                                levels = c("NBC - Haidi Gwaii Sport", 
+                                           "NBC - Prince Rupert Sport",
+                                           "Central BC Sport",
+                                           "Northwest Vancouver Island Sport",
+                                           "Southwest Vancouver Island Sport",
+                                           "Queen Charlotte Strait",
+                                           "North Strait of Georgia",
+                                           "South Strait of Georgia",
+                                           "Juan de Fuca Sport"))) |>
+  ggplot(aes(x=year, y=submit_rate, color=season)) +
   geom_line(linewidth = 1,
             alpha = 0.6) +
-    geom_vline(data = region_combo_model_line, aes(xintercept = xintercept)) +
-  geom_point(size = 1)+
-  facet_wrap(~region_combo,
-             ncol = 3,
-             labeller = labeller(region_combo = region_labels)) +
+  geom_vline(aes(xintercept = obs_catch_year)) +
+  geom_point(aes(shape = est_method_name),
+             size = 2)+
+  facet_wrap(vars(region_labels),
+             ncol = 3) +
   scale_color_manual(values =  c("#440154", "#d4be02", "#35b779", "#31688e")) +
+  scale_shape_manual(values = c("Direct Estimate" = 16,   # solid circle
+                                "Regional Average" = 1,    # hollow circle
+                                "Regional Smoothing" = 2)) + # hollow triangle
   labs(x = "Year", 
        y = "Chinook Head Submission Rate", 
-       color = "Season")+
+       color = "Season",
+       shape = "Estimation Method")+
   theme_bw() +
-  theme(legend.position="bottom") + geom_hline(yintercept = 0.2, 
+  theme(legend.position="bottom") + 
+  geom_hline(yintercept = 0.2, 
              color = "red", 
              linetype = "dashed", 
-             linewidth = 0.5, show.legend=TRUE) 
+             linewidth = 0.5, 
+             show.legend=TRUE) 
+
 ```
 \end{landscapepage}
 
@@ -1353,11 +1429,13 @@ models_combined2 <-
 ```
 Here we present the difference between the revised kept and released catch estimates, and those reported in the CTC's 2024 Catch and Escapement report[@CTC2025b], before revised estimates were available (Figure \@ref(fig:fig-cande-kept) and Figure \@ref(fig:fig-cande-released)). The revised estimates are the product of the finescale fishery results found in Appendix \@ref(app:revised-catch-timeseries), summed to the ERA fishery level. The previously reported catch estimates generally align with the unfiltered creel data, although iREC had been incorporated inconsistently into estimates for some fisheries in recent years. There are also some discrepancies where the reported data does not match either the unfiltered creel data nor the revised estimates and we point out these cases and provide explanations where possible. 
 
+
 In line with the trends we observed as at the finescale fishery level, we found that the revised kept catch estimates were typically higher than estimates reported prior to the revision. The largest percent changes in kept catch occurred in Central BC Sport where iREC had not been previously incorporated, but the inclusion of iREC more than doubles recent estimates (e.g. in 2020 the revised catch is `r fmt_stat(models_combined2_diffs$pdiff_irec_rep[models_combined2_diffs$erafishery == "CBC S" & models_combined2_diffs$year ==2020 & models_combined2_diffs$kept_status =="kept"], scale=100)`% larger than the previous estimate, an addition of `r fmt_stat(models_combined2_diffs$diff_irec_rep[models_combined2_diffs$erafishery == "CBC S" & models_combined2_diffs$year ==2020 & models_combined2_diffs$kept_status =="kept"])` pieces). On average, across the time series, the revised catch was `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "CBC S" & models_combined2_avs$kept_status =="kept"], scale=100)`% higher (an average difference of `r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "CBC S" & models_combined2_avs$kept_status =="kept"])` pieces) than previously reported. This is consistent with the SHRP data which indicate that previous CBC catch estimates based on logbooks were underestimated. 
 
 Strait of Georgia sport catch estimates prior to 2013 (i.e., pre-iREC) also changed substantially with revised catch: on average `r fmt_stat(models_combined2_avs_pre2013$pdiff_irec_rep_mean[models_combined2_avs_pre2013$erafishery == "GEO ST S"  & models_combined2_avs_pre2013$kept_status =="kept"], scale=100)`% larger (`r fmt_stat(models_combined2_diffs$diff_irec_rep[models_combined2_diffs$erafishery == "GEO ST S" & models_combined2_diffs$year ==2012 & models_combined2_diffs$kept_status =="kept"])` to `r fmt_stat(models_combined2_diffs$diff_irec_rep[models_combined2_diffs$erafishery == "GEO ST S" & models_combined2_diffs$year ==2005 & models_combined2_diffs$kept_status =="kept"])` more pieces) than pre-revision catch. However, post-2013 the average kept catch percent change was extremely small at `r fmt_stat(models_combined2_avs_post2013$pdiff_irec_rep_mean[models_combined2_avs_post2013$erafishery == "GEO ST S"  & models_combined2_avs_post2013$kept_status =="kept"], scale=100)`%, likely because iREC had already been incorporated into these values starting in reporting year 2018. The large differences between creel estimates and combined creel and iREC estimates in this fishery are expected in part due to this fishery having some of the highest off-season fishing among Canadian fisheries, which has been poorly captured due to this region's creel surveys facing some of the greatest challenges in implementation. 
 
 Next, Northern BC ISBM Sport had `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "NBC ISBM S" & models_combined2_avs$kept_status =="kept"], scale=100)`% higher estimates than previously reported on average, an average of `r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "NBC ISBM S" & models_combined2_avs$kept_status =="kept"])` additional pieces per year. The modelled catch from 2005-2007 in Northern ISBM was `r fmt_stat(models_combined2_diffs$pdiff_irec_rep[models_combined2_diffs$erafishery == "NBC ISBM S" & models_combined2_diffs$year ==2005 & models_combined2_diffs$kept_status =="kept"], scale=100)`% higher than previously reported, however, the creel and logbook data has since been updated to ~10,000 pieces (a static average of 2008-2012), making the percent change to the newly modelled catch at ~11,000 pieces much less dramatic (`r fmt_stat(models_combined2_diffs$pdiff_irec_creel[models_combined2_diffs$erafishery == "NBC ISBM S" & models_combined2_diffs$year ==2005 & models_combined2_diffs$kept_status =="kept"], scale=100)`%). The remainder of the upward revisions were less than 10% change on average across the time series (although individual years varied by up to 30%).
+
 
 ```{r results CandEkept, results='asis', echo=FALSE, fig.height=5, fig.width=10, out.width="100%", fig.asp=NA}
 #| label: fig-cande-kept
@@ -1390,7 +1468,7 @@ print(k)
 
 ```{r results CandErelease, results='asis', echo=FALSE, fig.height=5, fig.width=10, out.width="100%", fig.asp=NA}
 #| label: fig-cande-released
-#| fig-cap: "Revised (blue) and previously reported (green) legal-sized released catch estimates from 2005-2023. The vertical line on each graph identifies the first year that revised estimates are based only on observed data (e.g., iREC and creel). Years before the vertical line are modelled based on past catch estimates."
+#| fig-cap: "Revised (blue) and previously reported (green) legal-sized released catch estimates from 2005-2023. The vertical line on each graph identifies the first year that revised estimates are based only on observed data (e.g., iREC and creel). Years before the vertical line are modelled based on past legal-sized released catch estimates."
 
 rec_summary <- 
   read.csv("data/rec_summary_2005-2023.csv") |>
@@ -1434,8 +1512,8 @@ Revised released catch estimates are generally higher than the values reported i
 
 In other fisheries, where creel and/or logbooks did produce some estimated releases, the revised releases fluctuate, generally reflecting changing fisher behaviour and regulations over time (e.g. recent introduction of Chinook non-retention and mark selective fisheries in the Strait of Georgia and Strait of Juan de Fuca Sport have increased the number of released fish since 2019). For these fisheries, the revised releases were higher than previous estimates by an average of `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "GEO ST S" & models_combined2_avs$kept_status =="released"], scale=100)`% (`r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "GEO ST S" & models_combined2_avs$kept_status =="released"])` pieces) in the Strait of Georgia, `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "BC JF S" & models_combined2_avs$kept_status =="released"], scale=100)`% (`r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "BC JF S" & models_combined2_avs$kept_status =="released"])` pieces) in Juan de Fuca, `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "JNST S" & models_combined2_avs$kept_status =="released"], scale=100)`% (`r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "JNST S" & models_combined2_avs$kept_status =="released"])` pieces) in Johnstone Strait, `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "WCVI AABM S" & models_combined2_avs$kept_status =="released"], scale=100)`% (`r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "WCVI AABM S" & models_combined2_avs$kept_status =="released"])` pieces) in WCVI AABM and `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "WCVI ISBM S" & models_combined2_avs$kept_status =="released"], scale=100)`% (`r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "WCVI ISBM S" & models_combined2_avs$kept_status =="released"])` pieces) in WCVI ISBM. Northern BC ISBM Sport also had large percent changes, particularly in 2005-2012 period where no releases were previously reported (on average `r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "NBC ISBM S" & models_combined2_avs$kept_status =="released"])` pieces and `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "NBC ISBM S" & models_combined2_avs$kept_status =="released"], scale=100)`% change across the whole time series. Haida Gwaii Sport also had the largest average numeric increases of `r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "NBC AABM S" & models_combined2_avs$kept_status =="released"])` pieces, equating to a `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "NBC AABM S" & models_combined2_avs$kept_status =="released"], scale=100)`% change. 
 
-Released catch was revised downwards in a handful of cases. Strait of Georgia revised releases in 2014 were lower than those reported in 2024 (`r fmt_stat(models_combined2_diffs$pdiff_irec_rep[models_combined2_diffs$erafishery == "GEO ST S" & models_combined2_diffs$kept_status =="released" & models_combined2_diffs$year ==2014], scale=100)`%), however, this was due to the incorporation of iREC estimates that have since been revised. We observed the same pattern in 2012 for WCVI ISBM, coinciding with the piloting of iREC for this fishery, which was likely incorporated into reported estimates. Released catch is discussed more in the revised release rate section below. 
 
+Released catch was revised downwards in a handful of cases. Strait of Georgia revised releases in 2014 were lower than those reported in 2024 (`r fmt_stat(models_combined2_diffs$pdiff_irec_rep[models_combined2_diffs$erafishery == "GEO ST S" & models_combined2_diffs$kept_status =="released" & models_combined2_diffs$year ==2014], scale=100)`%), however, this was due to the incorporation of iREC estimates that have since been revised. We observed the same pattern in 2012 for WCVI ISBM, coinciding with the piloting of iREC for this fishery, which was likely incorporated into reported estimates. Released catch is discussed more in the revised release rate section below. 
 
 \newpage
 ### Updating CWT estimates
@@ -1496,7 +1574,7 @@ Figure \@ref(fig:fig-indcwtest) shows the time series of total CWT estimates for
 
 ```{r results indcwtest, results='asis', echo=FALSE,fig.height=10, fig.width=10, out.width="100%", fig.asp=NA}
 #| label: fig-indcwtest
-#| fig-cap: "Time series of CWT estimate totals for all PSC indicator stocks within the CTC 2025 ERA for each ERA fishery. The vertical line on each panel identifies the first year that revised CWT estimates used catch estimates based primarily on observed data (e.g., iREC and creel). Years before the vertical line use modelled catch based on past catch estimates."
+#| fig-cap: "Time series of ERA indicator CWT estimate totals for all PSC indicator stocks within the CTC 2025 ERA for each ERA fishery. The vertical line on each panel identifies the first year that revised CWT estimates used catch estimates based primarily on observed data (e.g., iREC and creel). Years before the vertical line use modelled catch based on past catch estimates."
 
 ## CWT Estimate Total time series
 ggplot() +
@@ -1613,6 +1691,7 @@ rr_sum<- sport_mark_rate_mrr |> group_by(erafishery)|>
   summarize_if(is.numeric, mean, na.rm=TRUE)
 ```
 Annual marked and unmarked release rates based on revised catch estimates and summed across stocks are presented for 2005 to 2023 along with undifferentiated release rates applied in the CTC's 2024 ERA in Figure \@ref(fig:fig-mrrukr2. Unmarked release rate is presented as  $1 - UKR$ to facilitate direct comparison with $MRR$, though untransformed $UKR$ is used in the ERA. With the exception of Juan de Fuca Strait, which did have some mark-selective fisheries before 2012, all other sport fisheries were regulated as non-selective before 2013. Since the underlying catch is modelled before 2013 we have fixed the $MRR$ and $URR$ based on modelled catch to be equal (i.e., no mark selectivity), by calculating a single release rate for marked and unmarked fish combined. This removes any potential bias from the modelling process that might have affected marked and unmarked catch estimates differently (e.g., larger uncertainty in modelled marked derived estimates because of lower magnitude of catch). After 2013, the data is observed and therefore allowed to vary selectively even if no specific mark selective fishery was specified in regulations. When $MRR$ and $URR$ are identical, this indicates non-selectivity. If $MRR$ is higher than $URR$, this indicates marked fish are released at a higher rate than unmarked fish, which would be indicative of preferential selection of unmarked fish for retention. If $URR$ is higher than $MRR$, then marked fish are released at a lower rate than unmarked fish, indicating preferential mark retention. 
+
 
 The ERA has been accounting for releases since before 2005 for some fisheries (e.g.West Coast Vancouver Island and Haida Gwaii Sport), while for others release information has only recently been incorporated (e.g. since 2019 in Strait of Georgia, Juan de Fuca Sport, and Johnstone Strait Sport). Where release rates were reported, revised release rates are generally higher than reported 2024 CNR release rates, although NBC ISBM S has a few years where the opposite is the case. While only recently incorporated into the ERA, releases have been occurring throughout the time series and release rates have fluctuated over time. The highest average release rates occur in Haida Gwaii (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "NBC AABM S"], scale=100)`%) and Central BC (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "CBC S"], scale=100)`%) which are relatively stable throughout the time series. WCVI ISBM has the lowest release rates on average (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "WCVI ISBM S"], scale=100)`%), followed by Johnstone Strait (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "JNST S"], scale=100)`%) and WCVI AABM (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "WCVI AABM S"], scale=100)`%), all relatively stable throughout time. There does not appear to be strong selectivity (MRR>URR) in any of these fisheries. Release rates have increased in the Strait of Georgia, Juan de Fuca Strait, and Northern BC ISBM have all increased release rates since 2019. In Southern BC, these changes correspond with introductions of mark selective fishing regulations, and indeed mark selectivity is occurring in these fisheries in recent years (MRR > URR). In Northern BC, release rates are increasing but it does not appear to be linked with changes in regulation. Furthermore, there is a higher release rate for unmarked fish than marked fish (MRR < URR) in this fishery, which indicates a selectivity for unmarked fish. This could be a true preference for unmarked fish in this fishery or a product of uncertainty in mark rates. 
 
