@@ -1182,7 +1182,7 @@ As noted above, in general, summer submission rates are typically higher than of
 \begin{landscapepage}
 ```{r results Fishery Rates, echo=FALSE, fig.height=8, fig.width=12, fig.align="left", out.width="100%", fig.asp=NA}
 #| label: fig-fishery-rates-2
-#| fig-cap: "Chinook sport head submission rates by CWT region and associated time periods (spring, fall, summer, or annual)"
+#| fig-cap: "Chinook sport head submission rates by CWT region and associated time periods (spring, fall, summer, or annual).  Direct estimates (solid circles) are estimates based on data from the region and season, regional averages (hollow circles) are based on the average of all data within the year used for the specific season, and regional smoothing (hollow triagle) is based on the seasonal average from two years before and after the specific year."
 
 region_labels <- c(
   "JDF" = "Juan de Fuca Sport",
@@ -1229,24 +1229,59 @@ region_combo_model_line <-
     xintercept = c(rep(2015, 3), rep(2013, 6))
   )|>  mutate(region_combo = factor(region_combo, levels = region_order))
 
-ggplot(data = region_df,
-       aes(x=year, y=submit_rate, color=season)) +
+
+readr::read_csv("./data/cwt_sample_rates.csv", col_types = "ciicid") |>
+  rename_with(tolower) |>
+  select(region_labels = reg_description,
+         year = sts_year,
+         season,
+         submit_rate = sts_submit_rate,
+         est_method_name ) |>
+  filter(year < 2025) |>
+  mutate(obs_catch_year = if_else(grepl("NBC|Central BC", region_labels),
+                                  2015,
+                                  2013),
+         est_method_name = if_else(est_method_name == "Temporal Average",
+                                   "Direct Estimate",
+                                   est_method_name),
+         est_method_name = factor(est_method_name, 
+                                levels = c("Direct Estimate", 
+                                           "Regional Average",
+                                           "Regional Smoothing")),
+         region_labels = factor(region_labels, 
+                                levels = c("NBC - Haidi Gwaii Sport", 
+                                           "NBC - Prince Rupert Sport",
+                                           "Central BC Sport",
+                                           "Northwest Vancouver Island Sport",
+                                           "Southwest Vancouver Island Sport",
+                                           "Queen Charlotte Strait",
+                                           "North Strait of Georgia",
+                                           "South Strait of Georgia",
+                                           "Juan de Fuca Sport"))) |>
+  ggplot(aes(x=year, y=submit_rate, color=season)) +
   geom_line(linewidth = 1,
             alpha = 0.6) +
-    geom_vline(data = region_combo_model_line, aes(xintercept = xintercept)) +
-  geom_point(size = 1)+
-  facet_wrap(~region_combo,
-             ncol = 3,
-             labeller = labeller(region_combo = region_labels)) +
+  geom_vline(aes(xintercept = obs_catch_year)) +
+  geom_point(aes(shape = est_method_name),
+             size = 2)+
+  facet_wrap(vars(region_labels),
+             ncol = 3) +
   scale_color_manual(values =  c("#440154", "#d4be02", "#35b779", "#31688e")) +
+  scale_shape_manual(values = c("Direct Estimate" = 16,   # solid circle
+                                "Regional Average" = 1,    # hollow circle
+                                "Regional Smoothing" = 2)) + # hollow triangle
   labs(x = "Year", 
        y = "Chinook Head Submission Rate", 
-       color = "Season")+
+       color = "Season",
+       shape = "Estimation Method")+
   theme_bw() +
-  theme(legend.position="bottom") + geom_hline(yintercept = 0.2, 
+  theme(legend.position="bottom") + 
+  geom_hline(yintercept = 0.2, 
              color = "red", 
              linetype = "dashed", 
-             linewidth = 0.5, show.legend=TRUE) 
+             linewidth = 0.5, 
+             show.legend=TRUE) 
+
 ```
 \end{landscapepage}
 
