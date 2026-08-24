@@ -78,7 +78,7 @@ As demonstrated by Figure \@ref(fig:fig-creel-iREC-NGS), iREC fills in spatial a
 
 ```{r results example summer m plots, results='asis', echo=FALSE, fig.height=3, fig.width=8, out.width="100%", fig.asp=NA}
 #| label: fig-ngs-catch-revised-1
-#| fig-cap: "North Strait of Georgia yearly kept catch estimates based on both previous unfiltered creel/logbook estimates and the revised estimates that include iREC"
+#| fig-cap: "Northern Strait of Georgia yearly kept catch estimates based on both previous unfiltered creel/logbook estimates (orange) and the revised estimates that include iREC (green)."
 
 
 ### make this by finescale fishery old... sum up. 
@@ -124,7 +124,7 @@ ggplot(ngs_graph_data,
 
 ```{r results example summer m plots 2, results='asis', echo=FALSE, fig.height=3, fig.width=8, out.width="100%", fig.asp=NA}
 #| label: fig-ngs-catch-revised-2-released
-#| fig-cap: "North Strait of Georgia yearly released catch estimates based on both previous unfiltered creel/logbook estimates and the revised estimates that include iREC"
+#| fig-cap: "Northern Strait of Georgia yearly released catch estimates based on both previous unfiltered creel/logbook estimates (orange) and the revised estimates that include iREC (green)."
 
 
 ### make this by finescale fishery old... sum up. 
@@ -1508,7 +1508,7 @@ print(k)
 
 ```{r results CandErelease, results='asis', echo=FALSE, fig.height=5, fig.width=10, out.width="100%", fig.asp=NA}
 #| label: fig-cande-released
-#| fig-cap: "Revised (blue) and previously reported (green) legal-sized released catch estimates from 2005-2023. The vertical line on each graph identifies the first year that revised estimates are based only on observed data (e.g., iREC and creel). Years before the vertical line are modelled based on past legal-sized released catch estimates."
+#| fig-cap: "Revised (green) and previously reported (purple) legal-sized released catch estimates from 2005-2023. The vertical line on each graph identifies the first year that revised estimates are based only on observed data (e.g., iREC and creel). Years before the vertical line are modelled based on past legal-sized released catch estimates."
 
 rec_summary <- 
   read.csv("data/rec_summary_2005-2023.csv") |>
@@ -1737,7 +1737,7 @@ The ERA has been accounting for releases since before 2005 for some fisheries (e
 
 ```{r results mrrukr2, results='asis', echo=FALSE, fig.height=10, fig.width=10}
 #| label: fig-mrrukr2
-#| fig-cap: "Release rate time series at the finescale fishery level, from 2005 to 2023. Light green lines are release rates of unmarked fish and dark green lines are release rates of marked fish from revised data. Orange lines are release rates (regardless of mark status) used in the 2024 CNR files applied to the 2024 ERA."
+#| fig-cap: "Release rate time series at the finescale fishery level, from 2005 to 2023. Light green lines are release rates of unmarked fish and dark green lines are release rates of marked fish from revised data. Purple lines are release rates (regardless of mark status) used in the 2024 CNR files applied to the 2024 ERA."
 mu <- 
   ggplot() +
   scale_shape_identity() +
