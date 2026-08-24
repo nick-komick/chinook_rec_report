@@ -244,9 +244,7 @@ model.jags <- function() {
 
 \clearpage
 
-
 # Stratification Mapping {#apdx-strattab}
-
 ```{r methods strattab, echo=FALSE, message=FALSE, warning=FALSE}
 #| label: tbl-stratatab
 
@@ -302,8 +300,306 @@ csas_table(strat_table, format = "latex")
 ```
 
 \clearpage
+# Revised and previous estimates at the Finescale Fishery level from 2005-2023 {#app:revised-catch-timeseries}
 
-# Estimate discrepancies 2005-2023 {#app:revised-catch-timeseries3}
+Revised and previous estimates at previous finescale fishery scale (i.e., without seasonal component). 
+
+```{r m plots, results='asis', echo=FALSE}
+#| label: fig-catch-revised-1-appendix
+#| fig-cap: "Revised yearly kept catch estimates"
+
+### make this by finescale fishery old... sum up. 
+models_combined_south<-
+  sport_catch_models$model_catch |>
+  filter(region %notin% c("CBC", "NC")) |>
+  mutate(region_mgmt = if_else(region %in% c("SWCVI", "NWCVI"),
+                               paste(region, management), 
+                               region)) |>
+  group_by(year, kept_status, pred_cat, region_mgmt) |> 
+  summarise(across(where(is.double), \(x) sum(x, na.rm = TRUE)), .groups = "drop") |>
+  mutate(fishery_full_name = recode_values(region_mgmt,
+                                           "JDF" ~ "Juan de Fuca Strait",
+                                           "JNST" ~ "Johnstone Strait",
+                                           "NGS" ~ "Northern Strait of Georgia",
+                                           "SGS" ~ "Southern Strait of Georgia",
+                                           "NWCVI AABM" ~ "Northern West Vancouver Island - AABM",
+                                           "SWCVI AABM" ~ "Southern West Vancouver Island - AABM",
+                                           "NWCVI ISBM" ~ "Northern West Vancouver Island - ISBM",
+                                           "SWCVI ISBM" ~ "Southern West Vancouver Island - ISBM")) 
+
+fishery_name_south <- sort(unique(models_combined_south$fishery_full_name))
+
+fishery_name_south <-c("Northern West Vancouver Island - AABM", "Northern West Vancouver Island - ISBM", "Southern West Vancouver Island - AABM", "Southern West Vancouver Island - ISBM",  "Northern Strait of Georgia", "Southern Strait of Georgia", "Johnstone Strait","Juan de Fuca Strait")
+
+for (i in 1:length(fishery_name_south)){
+  graph_data <- 
+    models_combined_south  %>% 
+    filter(fishery_full_name == fishery_name_south[i],
+           between(year, 2005, 2023),
+           kept_status == "kept") %>%
+    select(year, creel_unfiltered_plus, catch_estimate_predicted) %>%
+    pivot_longer(c(creel_unfiltered_plus, catch_estimate_predicted),
+                 names_to = "estimate_type",
+                 values_to = "catch_estimate") |>
+    mutate(estimate_type = recode_values(estimate_type,
+                                      "creel_unfiltered_plus" ~ "Unfiltered creel and logbook",
+                                      "catch_estimate_predicted" ~ "Combined iREC and Creel"),
+           estimate_shape_type = if_else(year < 2013 & estimate_type == "Combined iREC and Creel",
+                                         "Retrospectively Modelled",
+                                         estimate_type))
+  graph_data <-
+    graph_data |>
+    filter(year == 2013, estimate_type == "Combined iREC and Creel") |>
+    mutate(estimate_shape_type = "Retrospectively Modelled") |>
+    bind_rows(graph_data)
+  
+  m <- 
+    ggplot(graph_data, aes(y = catch_estimate,
+                           x = year,
+                           color = estimate_shape_type,
+                           shape = estimate_shape_type,
+                           linetype = estimate_shape_type)) +
+    geom_point(size = 2.5) +
+    geom_line() +
+    scale_color_manual(values = c(col_green,col_green,col_orange),
+                       name = "Catch Estimate") +
+    scale_shape_manual(values = c(16, 1, 2)) +
+    scale_linetype_manual(values = c(1, 1, 2)) +
+    scale_x_continuous(breaks = seq.int(2005, 2023, by = 2)) +
+    theme_bw() +
+    geom_vline(aes(xintercept = 2013)) +
+    labs(title = fishery_name_south[i],
+         y = "Kept catch estimate",
+         x = "Year",
+         color = "Catch Estimate", 
+         shape = "Catch Estimate", 
+         linetype = "Catch Estimate")+
+  coord_cartesian(ylim = c(0, NA))
+  
+  print(m)
+}
+```
+
+```{r m plots, results='asis', echo=FALSE}
+#| label: fig-catch-revised-2-appendix
+#| fig-cap: "revised yearly catch estimates"
+
+
+
+### make this by finescale fishery old... sum up. 
+models_combined_north <-
+  sport_catch_models$model_catch |>
+  filter(region %in% c("CBC", "NC")) |>
+  mutate(region_mgmt = if_else(region %in% c("NC"),
+                               paste(region, management), 
+                               region)) |>
+  group_by(year, kept_status, pred_cat, region_mgmt) |> 
+  summarise(across(where(is.double), \(x) sum(x, na.rm = TRUE)), .groups = "drop") |>
+  mutate(fishery_full_name = recode_values(region_mgmt,
+                                           "NC AABM" ~ "Northern BC - AABM",
+                                           "NC ISBM" ~ "Northern BC - ISBM",
+                                           "CBC" ~ "Central BC")) 
+
+fishery_name_north<- c("Northern BC - AABM", "Northern BC - ISBM","Central BC" )
+
+for (i in 1:length(fishery_name_north)) {
+  graph_data <- 
+    models_combined_north  %>% 
+    filter(fishery_full_name == fishery_name_north[i],
+           between(year, 2005, 2023),
+           kept_status == "kept") %>%
+    select(year, historic, catch_estimate_predicted) %>%
+    pivot_longer(c(historic, catch_estimate_predicted),
+                 names_to = "estimate_type",
+                 values_to = "catch_estimate") |>
+    mutate(estimate_type = recode_values(estimate_type,
+                                      "historic" ~ "Creel and logbook",
+                                      "catch_estimate_predicted" ~ "iREC"),
+           estimate_shape_type = if_else(year < 2015 & estimate_type == "iREC",
+                                         "Retrospectively Modelled",
+                                         estimate_type))
+  graph_data <-
+    graph_data |>
+    filter(year == 2015, estimate_type == "iREC") |>
+    mutate(estimate_shape_type = "Retrospectively Modelled") |>
+    bind_rows(graph_data)  
+  
+  m <- 
+    ggplot(graph_data, aes(y = catch_estimate,
+                           x = year,
+                           color = estimate_shape_type,
+                           shape = estimate_shape_type,
+                           linetype = estimate_shape_type)) +
+    geom_point(size = 2.5) +
+    geom_line() +
+    scale_color_manual(values = c(col_orange,col_green,col_green),
+                       name = "Catch Estimate") +
+    scale_shape_manual(values = c(2, 16, 1)) +
+    scale_linetype_manual(values = c(2, 1, 1)) +
+    scale_x_continuous(breaks = seq.int(2005, 2023, by = 2)) +
+    theme_bw() +
+    geom_vline(aes(xintercept = 2015)) +
+    labs(title = fishery_name_north[i],
+         y = "Kept catch estimate",
+         x = "Year",
+         color = "Catch Estimate", 
+         shape = "Catch Estimate", 
+         linetype = "Catch Estimate")
+  
+  print(m)
+}
+```
+```{r m plots, results='asis', echo=FALSE}
+#| label: fig-catch-revised-released-1-appendix
+#| fig-cap: "Revised yearly released catch estimates"
+
+### make this by finescale fishery old... sum up. 
+models_combined_south<-
+  sport_catch_models$model_catch |>
+  filter(region %notin% c("CBC", "NC")) |>
+  mutate(region_mgmt = if_else(region %in% c("SWCVI", "NWCVI"),
+                               paste(region, management), 
+                               region)) |>
+  group_by(year, kept_status, pred_cat, region_mgmt) |> 
+  summarise(across(where(is.double), \(x) sum(x, na.rm = TRUE)), .groups = "drop") |>
+  mutate(fishery_full_name = recode_values(region_mgmt,
+                                           "JDF" ~ "Juan de Fuca Strait",
+                                           "JNST" ~ "Johnstone Strait",
+                                           "NGS" ~ "Northern Strait of Georgia",
+                                           "SGS" ~ "Southern Strait of Georgia",
+                                           "NWCVI AABM" ~ "Northern West Vancouver Island - AABM",
+                                           "SWCVI AABM" ~ "Southern West Vancouver Island - AABM",
+                                           "NWCVI ISBM" ~ "Northern West Vancouver Island - ISBM",
+                                           "SWCVI ISBM" ~ "Southern West Vancouver Island - ISBM")) 
+
+fishery_name_south <- sort(unique(models_combined_south$fishery_full_name))
+
+fishery_name_south <-c("Northern West Vancouver Island - AABM", "Northern West Vancouver Island - ISBM", "Southern West Vancouver Island - AABM", "Southern West Vancouver Island - ISBM",  "Northern Strait of Georgia", "Southern Strait of Georgia", "Johnstone Strait","Juan de Fuca Strait")
+
+for (i in 1:length(fishery_name_south)){
+  graph_data <- 
+    models_combined_south  %>% 
+    filter(fishery_full_name == fishery_name_south[i],
+           between(year, 2005, 2023),
+           kept_status == "released") %>%
+    select(year, creel_unfiltered_plus, catch_estimate_predicted) %>%
+    pivot_longer(c(creel_unfiltered_plus, catch_estimate_predicted),
+                 names_to = "estimate_type",
+                 values_to = "catch_estimate") |>
+    mutate(estimate_type = recode_values(estimate_type,
+                                      "creel_unfiltered_plus" ~ "Unfiltered creel and logbook",
+                                      "catch_estimate_predicted" ~ "Combined iREC and Creel"),
+           estimate_shape_type = if_else(year < 2013 & estimate_type == "Combined iREC and Creel",
+                                         "Retrospectively Modelled",
+                                         estimate_type))
+  graph_data <-
+    graph_data |>
+    filter(year == 2013, estimate_type == "Combined iREC and Creel") |>
+    mutate(estimate_shape_type = "Retrospectively Modelled") |>
+    bind_rows(graph_data)
+  
+  m <- 
+    ggplot(graph_data, aes(y = catch_estimate,
+                           x = year,
+                           color = estimate_shape_type,
+                           shape = estimate_shape_type,
+                           linetype = estimate_shape_type)) +
+    geom_point(size = 2.5) +
+    geom_line() +
+    scale_color_manual(values = c(col_blue, col_blue, col_orange),
+                       name = "Catch Estimate") +
+    scale_shape_manual(values = c(16, 1, 2)) +
+    scale_linetype_manual(values = c(1, 1, 2)) +
+    scale_x_continuous(breaks = seq.int(2005, 2023, by = 2)) +
+    theme_bw() +
+    geom_vline(aes(xintercept = 2013)) +
+    labs(title = fishery_name_south[i],
+         y = "Released catch estimate",
+         x = "Year",
+         color = "Catch Estimate", 
+         shape = "Catch Estimate", 
+         linetype = "Catch Estimate")
+  
+  print(m)
+}
+```
+
+```{r m plots, results='asis', echo=FALSE}
+#| label: fig-catch-revised-released-2-appendix
+#| fig-cap: "revised yearly released catch estimates"
+
+
+
+### make this by finescale fishery old... sum up. 
+models_combined_north <-
+  sport_catch_models$model_catch |>
+  filter(region %in% c("CBC", "NC")) |>
+  mutate(region_mgmt = if_else(region %in% c("NC"),
+                               paste(region, management), 
+                               region)) |>
+  group_by(year, kept_status, pred_cat, region_mgmt) |> 
+  summarise(across(where(is.double), \(x) sum(x, na.rm = TRUE)), .groups = "drop") |>
+  mutate(fishery_full_name = recode_values(region_mgmt,
+                                           "NC AABM" ~ "Northern BC - AABM",
+                                           "NC ISBM" ~ "Northern BC - ISBM",
+                                           "CBC" ~ "Central BC")) 
+
+fishery_name_north<- c("Northern BC - AABM", "Northern BC - ISBM","Central BC" )
+
+for (i in 1:length(fishery_name_north)) {
+  graph_data <- 
+    models_combined_north  %>% 
+    filter(fishery_full_name == fishery_name_north[i],
+           between(year, 2005, 2023),
+           kept_status == "released") %>%
+    select(year, historic, catch_estimate_predicted) %>%
+    pivot_longer(c(historic, catch_estimate_predicted),
+                 names_to = "estimate_type",
+                 values_to = "catch_estimate") |>
+    mutate(estimate_type = recode_values(estimate_type,
+                                      "historic" ~ "Creel and logbook",
+                                      "catch_estimate_predicted" ~ "iREC"),
+           estimate_shape_type = if_else(year < 2015 & estimate_type == "iREC",
+                                         "Retrospectively Modelled",
+                                         estimate_type))
+  graph_data <-
+    graph_data |>
+    filter(year == 2015, estimate_type == "iREC") |>
+    mutate(estimate_shape_type = "Retrospectively Modelled") |>
+    bind_rows(graph_data)  
+  
+  m <- 
+    ggplot(graph_data, aes(y = catch_estimate,
+                           x = year,
+                           color = estimate_shape_type,
+                           shape = estimate_shape_type,
+                           linetype = estimate_shape_type)) +
+    geom_point(size = 2.5) +
+    geom_line() +
+    scale_color_manual(values = c(col_orange, col_blue, col_blue),
+                       name = "Catch Estimate") +
+    scale_shape_manual(values = c(2, 16, 1)) +
+    scale_linetype_manual(values = c(2, 1, 1)) +
+    scale_x_continuous(breaks = seq.int(2005, 2023, by = 2)) +
+    theme_bw() +
+    geom_vline(aes(xintercept = 2015)) +
+    labs(title = fishery_name_north[i],
+         y = "Released catch estimate",
+         x = "Year",
+         color = "Catch Estimate", 
+         shape = "Catch Estimate", 
+         linetype = "Catch Estimate")
+  
+  print(m)
+}
+```
+\clearpage
+
+# Revised, reported and previous catch estimates at ERA level from 2005-2023 {#app:revised-catch-timeseries3}
+Here we present data similar to Appendix \@ref(app:revised-catch-timeseries), but rolled up to the ERA level and including previously reported information. This helps identify where reporting matches more closely with creel estimates or combined creel and iREC estimates. 
+
+
+
 ```{r m plots, results='asis', echo=FALSE}
 #| label: fig-catch-revised-3-appendix
 #| fig-cap: "Revised yearly catch estimates"
@@ -535,7 +831,7 @@ for (i in 1:length(fishery_name_north)) {
                            linetype = estimate_shape_type)) +
     geom_point(size = 2.5) +
     geom_line() +
-    scale_color_manual(values = c("green","#440154", "#31688e", "#31688e"),
+    scale_color_manual(values = c(col_purple,col_orange, col_blue, col_blue),
                        name = "Catch Estimate") +
     scale_shape_manual(values = c(2, 2, 16, 1)) +
     scale_linetype_manual(values = c(2, 2, 1, 1)) +
@@ -585,7 +881,7 @@ for (i in 1:length(fishery_name_north)) {
                            linetype = estimate_shape_type)) +
     geom_point(size = 2.5) +
     geom_line() +
-    scale_color_manual(values = c("green","#440154", "#31688e", "#31688e"),
+    scale_color_manual(values = c(col_purple,col_orange, col_blue, col_blue),
                        name = "Catch Estimate") +
     scale_shape_manual(values = c(2, 2, 16, 1)) +
     scale_linetype_manual(values = c(2, 2, 1, 1)) +
@@ -605,305 +901,6 @@ for (i in 1:length(fishery_name_north)) {
  
  
 ```
-
-
-\clearpage
-# Revised Estimates 2005-2023 {#app:revised-catch-timeseries}
-
-```{r m plots, results='asis', echo=FALSE}
-#| label: fig-catch-revised-1-appendix
-#| fig-cap: "Revised yearly kept catch estimates"
-
-### make this by finescale fishery old... sum up. 
-models_combined_south<-
-  sport_catch_models$model_catch |>
-  filter(region %notin% c("CBC", "NC")) |>
-  mutate(region_mgmt = if_else(region %in% c("SWCVI", "NWCVI"),
-                               paste(region, management), 
-                               region)) |>
-  group_by(year, kept_status, pred_cat, region_mgmt) |> 
-  summarise(across(where(is.double), \(x) sum(x, na.rm = TRUE)), .groups = "drop") |>
-  mutate(fishery_full_name = recode_values(region_mgmt,
-                                           "JDF" ~ "Juan de Fuca Strait",
-                                           "JNST" ~ "Johnstone Strait",
-                                           "NGS" ~ "Northern Strait of Georgia",
-                                           "SGS" ~ "Southern Strait of Georgia",
-                                           "NWCVI AABM" ~ "Northern West Vancouver Island - AABM",
-                                           "SWCVI AABM" ~ "Southern West Vancouver Island - AABM",
-                                           "NWCVI ISBM" ~ "Northern West Vancouver Island - ISBM",
-                                           "SWCVI ISBM" ~ "Southern West Vancouver Island - ISBM")) 
-
-fishery_name_south <- sort(unique(models_combined_south$fishery_full_name))
-
-fishery_name_south <-c("Northern West Vancouver Island - AABM", "Northern West Vancouver Island - ISBM", "Southern West Vancouver Island - AABM", "Southern West Vancouver Island - ISBM",  "Northern Strait of Georgia", "Southern Strait of Georgia", "Johnstone Strait","Juan de Fuca Strait")
-
-for (i in 1:length(fishery_name_south)){
-  graph_data <- 
-    models_combined_south  %>% 
-    filter(fishery_full_name == fishery_name_south[i],
-           between(year, 2005, 2023),
-           kept_status == "kept") %>%
-    select(year, creel_unfiltered_plus, catch_estimate_predicted) %>%
-    pivot_longer(c(creel_unfiltered_plus, catch_estimate_predicted),
-                 names_to = "estimate_type",
-                 values_to = "catch_estimate") |>
-    mutate(estimate_type = recode_values(estimate_type,
-                                      "creel_unfiltered_plus" ~ "Unfiltered creel and logbook",
-                                      "catch_estimate_predicted" ~ "Combined iREC and Creel"),
-           estimate_shape_type = if_else(year < 2013 & estimate_type == "Combined iREC and Creel",
-                                         "Retrospectively Modelled",
-                                         estimate_type))
-  graph_data <-
-    graph_data |>
-    filter(year == 2013, estimate_type == "Combined iREC and Creel") |>
-    mutate(estimate_shape_type = "Retrospectively Modelled") |>
-    bind_rows(graph_data)
-  
-  m <- 
-    ggplot(graph_data, aes(y = catch_estimate,
-                           x = year,
-                           color = estimate_shape_type,
-                           shape = estimate_shape_type,
-                           linetype = estimate_shape_type)) +
-    geom_point(size = 2.5) +
-    geom_line() +
-    scale_color_manual(values = c(col_green,col_green,col_orange),
-                       name = "Catch Estimate") +
-    scale_shape_manual(values = c(16, 1, 2)) +
-    scale_linetype_manual(values = c(1, 1, 2)) +
-    scale_x_continuous(breaks = seq.int(2005, 2023, by = 2)) +
-    theme_bw() +
-    geom_vline(aes(xintercept = 2013)) +
-    labs(title = fishery_name_south[i],
-         y = "Kept catch estimate",
-         x = "Year",
-         color = "Catch Estimate", 
-         shape = "Catch Estimate", 
-         linetype = "Catch Estimate")+
-  coord_cartesian(ylim = c(0, NA))
-  
-  print(m)
-}
-```
-
-```{r m plots, results='asis', echo=FALSE}
-#| label: fig-catch-revised-2-appendix
-#| fig-cap: "revised yearly catch estimates"
-
-
-
-### make this by finescale fishery old... sum up. 
-models_combined_north <-
-  sport_catch_models$model_catch |>
-  filter(region %in% c("CBC", "NC")) |>
-  mutate(region_mgmt = if_else(region %in% c("NC"),
-                               paste(region, management), 
-                               region)) |>
-  group_by(year, kept_status, pred_cat, region_mgmt) |> 
-  summarise(across(where(is.double), \(x) sum(x, na.rm = TRUE)), .groups = "drop") |>
-  mutate(fishery_full_name = recode_values(region_mgmt,
-                                           "NC AABM" ~ "Northern BC - AABM",
-                                           "NC ISBM" ~ "Northern BC - ISBM",
-                                           "CBC" ~ "Central BC")) 
-
-fishery_name_north<- c("Northern BC - AABM", "Northern BC - ISBM","Central BC" )
-
-for (i in 1:length(fishery_name_north)) {
-  graph_data <- 
-    models_combined_north  %>% 
-    filter(fishery_full_name == fishery_name_north[i],
-           between(year, 2005, 2023),
-           kept_status == "kept") %>%
-    select(year, historic, catch_estimate_predicted) %>%
-    pivot_longer(c(historic, catch_estimate_predicted),
-                 names_to = "estimate_type",
-                 values_to = "catch_estimate") |>
-    mutate(estimate_type = recode_values(estimate_type,
-                                      "historic" ~ "Creel and logbook",
-                                      "catch_estimate_predicted" ~ "iREC"),
-           estimate_shape_type = if_else(year < 2015 & estimate_type == "iREC",
-                                         "Retrospectively Modelled",
-                                         estimate_type))
-  graph_data <-
-    graph_data |>
-    filter(year == 2015, estimate_type == "iREC") |>
-    mutate(estimate_shape_type = "Retrospectively Modelled") |>
-    bind_rows(graph_data)  
-  
-  m <- 
-    ggplot(graph_data, aes(y = catch_estimate,
-                           x = year,
-                           color = estimate_shape_type,
-                           shape = estimate_shape_type,
-                           linetype = estimate_shape_type)) +
-    geom_point(size = 2.5) +
-    geom_line() +
-    scale_color_manual(values = c(col_orange,col_green,col_green),
-                       name = "Catch Estimate") +
-    scale_shape_manual(values = c(2, 16, 1)) +
-    scale_linetype_manual(values = c(2, 1, 1)) +
-    scale_x_continuous(breaks = seq.int(2005, 2023, by = 2)) +
-    theme_bw() +
-    geom_vline(aes(xintercept = 2015)) +
-    labs(title = fishery_name_north[i],
-         y = "Kept catch estimate",
-         x = "Year",
-         color = "Catch Estimate", 
-         shape = "Catch Estimate", 
-         linetype = "Catch Estimate")
-  
-  print(m)
-}
-```
-```{r m plots, results='asis', echo=FALSE}
-#| label: fig-catch-revised-released-1-appendix
-#| fig-cap: "Revised yearly released catch estimates"
-
-### make this by finescale fishery old... sum up. 
-models_combined_south<-
-  sport_catch_models$model_catch |>
-  filter(region %notin% c("CBC", "NC")) |>
-  mutate(region_mgmt = if_else(region %in% c("SWCVI", "NWCVI"),
-                               paste(region, management), 
-                               region)) |>
-  group_by(year, kept_status, pred_cat, region_mgmt) |> 
-  summarise(across(where(is.double), \(x) sum(x, na.rm = TRUE)), .groups = "drop") |>
-  mutate(fishery_full_name = recode_values(region_mgmt,
-                                           "JDF" ~ "Juan de Fuca Strait",
-                                           "JNST" ~ "Johnstone Strait",
-                                           "NGS" ~ "Northern Strait of Georgia",
-                                           "SGS" ~ "Southern Strait of Georgia",
-                                           "NWCVI AABM" ~ "Northern West Vancouver Island - AABM",
-                                           "SWCVI AABM" ~ "Southern West Vancouver Island - AABM",
-                                           "NWCVI ISBM" ~ "Northern West Vancouver Island - ISBM",
-                                           "SWCVI ISBM" ~ "Southern West Vancouver Island - ISBM")) 
-
-fishery_name_south <- sort(unique(models_combined_south$fishery_full_name))
-
-fishery_name_south <-c("Northern West Vancouver Island - AABM", "Northern West Vancouver Island - ISBM", "Southern West Vancouver Island - AABM", "Southern West Vancouver Island - ISBM",  "Northern Strait of Georgia", "Southern Strait of Georgia", "Johnstone Strait","Juan de Fuca Strait")
-
-for (i in 1:length(fishery_name_south)){
-  graph_data <- 
-    models_combined_south  %>% 
-    filter(fishery_full_name == fishery_name_south[i],
-           between(year, 2005, 2023),
-           kept_status == "released") %>%
-    select(year, creel_unfiltered_plus, catch_estimate_predicted) %>%
-    pivot_longer(c(creel_unfiltered_plus, catch_estimate_predicted),
-                 names_to = "estimate_type",
-                 values_to = "catch_estimate") |>
-    mutate(estimate_type = recode_values(estimate_type,
-                                      "creel_unfiltered_plus" ~ "Unfiltered creel and logbook",
-                                      "catch_estimate_predicted" ~ "Combined iREC and Creel"),
-           estimate_shape_type = if_else(year < 2013 & estimate_type == "Combined iREC and Creel",
-                                         "Retrospectively Modelled",
-                                         estimate_type))
-  graph_data <-
-    graph_data |>
-    filter(year == 2013, estimate_type == "Combined iREC and Creel") |>
-    mutate(estimate_shape_type = "Retrospectively Modelled") |>
-    bind_rows(graph_data)
-  
-  m <- 
-    ggplot(graph_data, aes(y = catch_estimate,
-                           x = year,
-                           color = estimate_shape_type,
-                           shape = estimate_shape_type,
-                           linetype = estimate_shape_type)) +
-    geom_point(size = 2.5) +
-    geom_line() +
-    scale_color_manual(values = c(col_green, col_green, col_orange),
-                       name = "Catch Estimate") +
-    scale_shape_manual(values = c(16, 1, 2)) +
-    scale_linetype_manual(values = c(1, 1, 2)) +
-    scale_x_continuous(breaks = seq.int(2005, 2023, by = 2)) +
-    theme_bw() +
-    geom_vline(aes(xintercept = 2013)) +
-    labs(title = fishery_name_south[i],
-         y = "Released catch estimate",
-         x = "Year",
-         color = "Catch Estimate", 
-         shape = "Catch Estimate", 
-         linetype = "Catch Estimate")
-  
-  print(m)
-}
-```
-
-```{r m plots, results='asis', echo=FALSE}
-#| label: fig-catch-revised-released-2-appendix
-#| fig-cap: "revised yearly released catch estimates"
-
-
-
-### make this by finescale fishery old... sum up. 
-models_combined_north <-
-  sport_catch_models$model_catch |>
-  filter(region %in% c("CBC", "NC")) |>
-  mutate(region_mgmt = if_else(region %in% c("NC"),
-                               paste(region, management), 
-                               region)) |>
-  group_by(year, kept_status, pred_cat, region_mgmt) |> 
-  summarise(across(where(is.double), \(x) sum(x, na.rm = TRUE)), .groups = "drop") |>
-  mutate(fishery_full_name = recode_values(region_mgmt,
-                                           "NC AABM" ~ "Northern BC - AABM",
-                                           "NC ISBM" ~ "Northern BC - ISBM",
-                                           "CBC" ~ "Central BC")) 
-
-fishery_name_north<- c("Northern BC - AABM", "Northern BC - ISBM","Central BC" )
-
-for (i in 1:length(fishery_name_north)) {
-  graph_data <- 
-    models_combined_north  %>% 
-    filter(fishery_full_name == fishery_name_north[i],
-           between(year, 2005, 2023),
-           kept_status == "released") %>%
-    select(year, historic, catch_estimate_predicted) %>%
-    pivot_longer(c(historic, catch_estimate_predicted),
-                 names_to = "estimate_type",
-                 values_to = "catch_estimate") |>
-    mutate(estimate_type = recode_values(estimate_type,
-                                      "historic" ~ "Creel and logbook",
-                                      "catch_estimate_predicted" ~ "iREC"),
-           estimate_shape_type = if_else(year < 2015 & estimate_type == "iREC",
-                                         "Retrospectively Modelled",
-                                         estimate_type))
-  graph_data <-
-    graph_data |>
-    filter(year == 2015, estimate_type == "iREC") |>
-    mutate(estimate_shape_type = "Retrospectively Modelled") |>
-    bind_rows(graph_data)  
-  
-  m <- 
-    ggplot(graph_data, aes(y = catch_estimate,
-                           x = year,
-                           color = estimate_shape_type,
-                           shape = estimate_shape_type,
-                           linetype = estimate_shape_type)) +
-    geom_point(size = 2.5) +
-    geom_line() +
-    scale_color_manual(values = c(col_orange, col_green, col_green),
-                       name = "Catch Estimate") +
-    scale_shape_manual(values = c(2, 16, 1)) +
-    scale_linetype_manual(values = c(2, 1, 1)) +
-    scale_x_continuous(breaks = seq.int(2005, 2023, by = 2)) +
-    theme_bw() +
-    geom_vline(aes(xintercept = 2015)) +
-    labs(title = fishery_name_north[i],
-         y = "Released catch estimate",
-         x = "Year",
-         color = "Catch Estimate", 
-         shape = "Catch Estimate", 
-         linetype = "Catch Estimate")
-  
-  print(m)
-}
-```
-
-
-
-\clearpage
-
 
 # Model Residuals {#app:second-appendix}
 
@@ -1948,7 +1945,7 @@ With the initial corrections to the calibration with iREC data, we explored the 
 - South Westcoast Vancouver Island
 - Juan de Fuca Strait
 
-We compared groupings of fisheries and the results can be found in Appendix \@ref(fifth-appendix). The summer models were a better fit for the six regions separately while the seasonal models allowed for the combination of North and South WCVi into WCVI. Splitting the summer and seasonal model into the separate regions improved the consistency between the creel and the modelled catch estimate.
+We compared groupings of fisheries and the results can be found in Appendix \@ref(app:fifth-appendix). The summer models were a better fit for the six regions separately while the seasonal models allowed for the combination of Northern and Southern WCVI into WCVI. Splitting the summer and seasonal model into the separate regions improved the consistency between the creel and the modelled catch estimate.
 
 ## Other Analytical Improvements
 
@@ -1958,20 +1955,20 @@ During a review of the mark rates used to estimate marked and unmarked catch, a 
 
 When reviewing how the quality control flags were handled when combining creel reported areas into to iREC areas we found that the quality control flags were combined incorrectly. The only iREC area that this affects was PFMA 20 from 2013 to 2019 in some months. As PFMA 20 is operationally covered by two separate creel programs, in some cases part of PFMA 20 may have a quality creel estimate while the other may not. When combined it would identify the whole PFMA 20 as being a quality creel and potentially use less quality creel data instead of iREC for the whole area. This was fixed and now Juan de Fuca catch has a more consistent relationship with creel over the whole time series of this study. With the split of PFMA 20 in iREC reporting starting in 2020, this was no longer an issue and quality creel estimates either portion of PFMA 20 can be used as the final catch estimate. This flag update applies also to 2013 estimates for PFMAs 19 and 23, after which the split was incorporated into iREC. In addition to the PFMA split quality flags affecting our analysis, they were also identified as affecting iREC calibration analysis for licence years 2013 to 2019. 
 
-The iREC calibration procedure was re-run on all years following the split flag update and several other improvements to the iREC data, notably: additions to data quality procedures (like excluding invalid date records), extending standardized data quality procedures back to 2012 (from 2018), variance calculated by season, and iREC estimates of zero excluded from calibration (S. Yalcin, pers.comm.). The previous and new bias calibration factors (BCF) are provided in Table \@ref(tab:tbl-irec-bcf-update) and Table \@ref(tab:tbl-irec-bcf-update2), for kept and released BCFs, respectively. With the review and and update, calibration factors generally increased and the resulting Chinook catch estimates decreased. That brought calibrated iREC catch estimates more inline with creel estimates for those re-calibrated years. Kept BCFs are approaching 1 in recent years (mean 0.99 +/- 0.03 SD from 2020-2025), whereas released BCFs are more variable and further from 1 (mean 0.85 +/- 0.14 SD from 2020-2025). 
+The iREC calibration procedure was re-run on all years following the split flag update and several other improvements to the iREC data, notably: additions to data quality procedures (like excluding invalid date records), extending standardized data quality procedures back to 2012 (from 2018), variance calculated by season, and iREC estimates of zero excluded from calibration (S. Yalcin, pers.comm.). The previous and new bias calibration factors (BCF) are provided in Table \@ref(tab:tbl-irec-bcf-update) and Table \@ref(tab:tbl-irec-bcf-update2), for kept and released BCFs, respectively. With the review and and update, calibration factors generally increased and the resulting Chinook catch estimates decreased. That brought calibrated iREC catch estimates more inline with creel estimates for those re-calibrated years. Kept BCFs are approaching 1 in recent years (mean 0.99 +/- 0.02 SD from 2020-2024), whereas released BCFs are more variable and further from 1 (mean 0.98 +/- 0.15 SD from 2020-2024). 
 
 ```{r tbl-irec-bcf-update, results='asis', echo=FALSE}
 
-data.frame(Year = 2013:2025, 
-           `Previous BCF` = c(1.23995, 1.52486, 0.96162, 0.99172, 1.05085, 0.81565, 0.96953, 0.98011, 0.95788, 0.95207, 0.92134, 0.91018, "---"),
-           `New BCF` = c(1.23883, 1.53755, 1.02190, 1.09236, 1.12951, 1.13866, 1.21334, 0.99033,0.95462, 0.96606,0.94872,0.92654,1.01719)) |>
+data.frame(Year = 2013:2024, 
+           `Previous BCF` = c(1.23995, 1.52486, 0.96162, 0.99172, 1.05085, 0.81565, 0.96953, 0.98011, 0.95788, 0.95207, 0.92134, 0.91018),
+           `New BCF` = c(1.23883, 1.53755, 1.02190, 1.09236, 1.12951, 1.13866, 1.21334, 0.99033,0.95462, 0.96606,0.94872,0.92654)) |>
   csas_table(caption = "Updated iREC Bias Correction Factors (BCF) for Chinook Kept Catch")
 
 ```
 
-```{r tbl-irec-bcf-update_2, results='asis', echo=FALSE}
+```{r tbl-irec-bcf-update2, results='asis', echo=FALSE}
 
-data.frame(Year = 2013:2025, 
+data.frame(Year = 2013:2024, 
            `Previous BCF` = c(1.020830,
 1.94642,
 1.21112,
@@ -1983,8 +1980,7 @@ data.frame(Year = 2013:2025,
 0.78808,
 0.69782,
 1.02521,
-0.74061,
- "---"),
+0.74061),
            `New BCF` = c(0.97775,
 1.88884,
 1.35704,
@@ -1996,8 +1992,7 @@ data.frame(Year = 2013:2025,
 0.82657,
 0.70825,
 1.05946,
-0.74900,
-0.79168
+0.74900
 )) |>
   csas_table(caption = "Updated iREC Bias Correction Factors (BCF) for Chinook Released Catch")
 
