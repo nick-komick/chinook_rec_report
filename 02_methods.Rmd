@@ -5,7 +5,7 @@ output:
 ---
 \clearpage
 # Methods {#sec:methods}
-## Revised Chinook catch estimates with iREC
+## Revised Chinook catch estimates with iREC 
 Since the introduction of iREC in 2012, there have been various methods
 used to combine Chinook catch information from creel surveys, logbooks,
 and iREC to produce recreational catch estimates. This has historically
@@ -69,7 +69,7 @@ angler programs are provided on a voluntary basis and are removed from
 area and month-specific estimates from the creel survey to avoid
 double-counting.
 
-##### South Coast Creel Survey quality control
+##### South Coast Creel Survey quality control {qc}
 ```{r methods functions, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 
 col_blue_light = "#def3ff"
@@ -215,9 +215,8 @@ criteria:
 
 These criteria are not applied to areas that have been occasionally
 surveyed but are not targeted and not estimated by the South Coast creel
-survey throughout the whole time series (e.g., PFMA 26, and 126), or are in other regions (e.g., PFMA 10 in CBC, 3 and 4 in NBC). We refer to the creel estimates that pass this quality control as "filtered creel". We use filtered creel
-both to calibrate iREC and as quality controlled estimates, as described
-below.
+survey throughout the whole time series (e.g., PFMA 26, and 126), or are in other regions (e.g., PFMA 10 in CBC, 3 and 4 in NBC). We refer to the creel estimates that pass this quality control as "filtered creel". We use these filtered creel
+both to calibrate iREC (section \@ref(calib)) and as quality controlled estimates (section \@ref(best)), as described below.
 
 Across all regions, these criteria exclude `r fmt_stat(all_summary$pct[all_summary$criteria == "failed"])`% of all estimates between
 2005 and 2025 (Figure \@ref(fig:fig-creel-criteria)). In general, creel
@@ -341,14 +340,14 @@ PFMA. Uncalibrated estimates are developed by expanding the average
 monthly catch per licence by the number of licences eligible to fish in
 that month. These calculations are stratified by licence type to protect
 against bias due to differential fishing and reporting rates by licence
-type. Bias correction factors (BCFs), described in the section below, are then
+type. Bias correction factors (BCFs), described in Section \@ref(calib), are then
 applied to estimate bias-corrected iREC estimates. The iREC program
 operation and analytical methodology was initially reviewed at a 2015
 Canadian Science Advisory Secretariat (CSAS) regional peer review. The
 main report stemming from that meeting is the associated Science
 Advisory Report [@irec_sar_2015]. Appendix \@ref(app:apdx-irec-mthd) provides details on changes in methodology since the 2015 review as well as summaries of realized sample sizes. 
 
-#### iREC to Creel Calibration
+#### iREC to Creel Calibration {calib}
 iREC catch estimates are bias corrected by scaling estimates using the
 linear regression slope, $m$, between monthly iREC and corresponding creel 
 estimates for angling by boat in each area, referred to as the calibration 
@@ -363,7 +362,7 @@ iREC^{*}= \frac{iREC}{m}
 \label{eq:iREC_calibration}
 \end{equation}
 
-The calibration coefficient $m$ is estimated for each licence year (i.e., April 1 to March 31) using all area and month creel estimates that meet the inclusion criteria defined in the "South Coast Creel Survey quality control" section above. Separate calibration factors are estimated for total kept and released catch, by species, for angling by boat. As both the creel and iREC estimates have uncertainty associated with them, an error-in-variables approach is used to estimate $m$ using JAGS [a hierarchical Bayesian analysis program, @plummer2003jags] through the `rjags` R package [@rjags]. The specific model code used is provided in Appendix \@ref(app:apdx-irec-calib). The calibration coefficient is used to correct both angling by boat and angling from shore catch estimates. The calibration coefficient can also be more easily understood as a Bias Correction Factor (the inverse of m), which allows it to be multiplied by iREC to get calibrated iREC. 
+The calibration coefficient $m$ is estimated for each licence year (i.e., April 1 to March 31) using all area and month creel estimates that meet the inclusion criteria defined in Section \@ref(qc), above. Separate calibration factors are estimated for total kept and released catch, by species, for angling by boat. As both the creel and iREC estimates have uncertainty associated with them, an error-in-variables approach is used to estimate $m$ using JAGS [a hierarchical Bayesian analysis program, @plummer2003jags] through the `rjags` R package [@rjags]. The specific model code used is provided in Appendix \@ref(app:apdx-irec-calib). The calibration coefficient is used to correct both angling by boat and angling from shore catch estimates. The calibration coefficient can also be more easily understood as a Bias Correction Factor (the inverse of m), which allows it to be multiplied by iREC to get calibrated iREC. 
 
 ### Combining survey methods for best catch estimates
 In the past, iREC was incorporated into catch estimates in various ways,
@@ -381,11 +380,7 @@ marine estimates of legal-sized fish, by mark status, that were kept or
 released. Catch estimates for Northern BC (based on creel and logbook estimates)
 and Central BC (based only on logbook estimates) were incomplete in
 CREST and therefore were fed into the process separately. We filtered
-CREST catch data to only South Coast creel, as described above, to only
-include creel estimates with complete and representative coverage. These
-estimates (which do not include logbook data) were then augmented with
-logbook data where available (i.e., logbook and creel estimates were
-summed).
+CREST catch data to only South Coast creel that passed the quality control criteria (Section \@ref(qc)), in order to only include creel estimates with complete and representative coverage. These estimates (which do not include logbook data) were then augmented with logbook data where available (i.e., logbook and creel estimates were summed).
 
 We implemented the methods described in this technical report in a new
 `pacRecCatch` R package [@pacRecCatch] that pulls data from CREST and
@@ -442,7 +437,7 @@ few instances where the other categories did not apply. To reduce bias,
 only mark rates that are based on a total catch estimate $\geq 20$ were
 used. 
 
-#### Choosing best monthly catch estimate per PFMA
+#### Choosing best monthly catch estimate per PFMA {best}
 From this point forward we will refer to calibrated iREC as simply
 "iREC". For South Coast, catch estimates that are a
 combination of iREC, filtered creel, and logbook data will be referred
@@ -562,7 +557,7 @@ estimates from 2005-2012. The modelling period for Northern and Central BC regio
 the starting point for the predicted period as it is the first year that
 fish from brood year 2003 are caught in pre-terminal sport fisheries (as
 age 2s), and 2003 is the earliest brood that could contribute to the the
-2009 CYER (as age 6s), and thus be relevant to the 2009-2015 base period. The modelling protocol is described below. These seasonal catch estimates are then rolled up into yearly estimates for reporting purposes. This process, shown in Figure \@ref(fig:fig-before-iREC-flowchart) below, is automated and
+2009 CYER (as age 6s), and thus be relevant to the 2009-2015 base period. The modelling protocol is described below. These seasonal catch estimates are then rolled up into yearly estimates for reporting purposes. This process, shown in Figure \@ref(fig:fig-before-iREC-flowchart), is automated and
 accomplished in the modelling function of the `pacRecCatch` R package
 [@pacRecCatch].
 
@@ -575,7 +570,7 @@ knitr::include_graphics("img/flowchart_before_irec_nb.png")
 
 ### Splitting fisheries by season
 Following the procedure for incorporating iREC into the combined creel and
-iREC catch estimate (see "Choosing best monthly catch estimate per PFMA" section above), we split previous South Coast fisheries into spring (months 1:4), summer (months 5:9), and fall (10:12) seasons. Fisheries were split by season in order to better combine estimates since there are not always iREC or creel estimates for each month. We did not split terminal fisheries up by season as they typically are defined by limited time periods for a given stock. Seasonality is also an important consideration for calculating marked released and unmarked kept rates used to evaluate mark-selective fishing (see Updating Chinook non-retention (release) estimates section for more detail).
+iREC catch estimate (see Section \@ref(best)), we split previous South Coast fisheries into spring (months 1:4), summer (months 5:9), and fall (10:12) seasons. Fisheries were split by season in order to better combine estimates since there are not always iREC or creel estimates for each month. We did not split terminal fisheries up by season as they typically are defined by limited time periods for a given stock. Seasonality is also an important consideration for calculating marked released and unmarked kept rates used to evaluate mark-selective fishing (see Section \@ref(mrr) for more detail).
 
 We chose not to split Northern and Central BC by season since iREC data show that for these regions fishing in the off-season is uncommon and there is not enough iREC data to support informative separate seasonal models in each fishery. However, the annual models do incorporate all months, so off-season fishing is still captured when available.  
 
@@ -772,7 +767,7 @@ the region for that season, as the knowledge and implementation of the
 SHRP are not expected to vary substantially across years within a region
 (e.g., head depot operations are generally consistent).
 
-## Updating Chinook non-retention (release) estimates
+## Updating Chinook non-retention (release) estimates {mrr}
 In 2025, in an attempt to account for mark-selective fisheries, the CTC
 updated its exploitation rate analysis (ERA) to a model that supports
 mark-selective fisheries [@CTC2025]. Therefore, the ERA requires the
