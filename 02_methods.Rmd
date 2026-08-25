@@ -364,7 +364,7 @@ $$m =  \frac{iREC}{creel}
 $$iREC^{*}= \frac{iREC}{m}
 \label{eq:iREC_calibration}$$
 
-The calibration coefficient $m$ is estimated for each licence year (i.e., April 1 to March 31) using all area and month creel estimates that meet the inclusion criteria defined in the "South Coast Creel Survey quality control" section above. Separate calibration factors are estimated for total kept and released catch, by species, for angling by boat. As both the creel and iREC estimates have uncertainty associated with them, an error-in-variables approach is used to estimate $m$ using JAGS (a hierarchical Bayesian analysis program) [@plummer2003jags] through the `rjags` R package [@rjags]. The specific model code used is provided in Appendix \@ref(app:apdx-irec-calib). The calibration coefficient is used to correct both angling by boat and angling from shore catch estimates. The calibration coefficient can also be more easily understood as a Bias Correction Factor (the inverse of m), which allows it to be multiplied by iREC to get calibrated iREC. 
+The calibration coefficient $m$ is estimated for each licence year (i.e., April 1 to March 31) using all area and month creel estimates that meet the inclusion criteria defined in the "South Coast Creel Survey quality control" section above. Separate calibration factors are estimated for total kept and released catch, by species, for angling by boat. As both the creel and iREC estimates have uncertainty associated with them, an error-in-variables approach is used to estimate $m$ using JAGS [a hierarchical Bayesian analysis program, @plummer2003jags] through the `rjags` R package [@rjags]. The specific model code used is provided in Appendix \@ref(app:apdx-irec-calib). The calibration coefficient is used to correct both angling by boat and angling from shore catch estimates. The calibration coefficient can also be more easily understood as a Bias Correction Factor (the inverse of m), which allows it to be multiplied by iREC to get calibrated iREC. 
 
 
 ### Combining survey methods for best catch estimates
@@ -426,9 +426,7 @@ a few areas that were initially lumped within iREC during the beginning of the p
 All catch data is typically collected as number of marked and unmarked
 fish kept and released. However, when mark status is unknown, catch
 estimates can be provided as kept and released catch with unknown mark
-status. We extrapolate these unknown mark status estimates to marked and unmarked catch using mark
-rate of the known catch. For North and Central Coast data, we extrapolated these unknown
-mark status' using mark rates provided by lodges. 
+status. We extrapolate these unknown mark status estimates to marked and unmarked catch using mark rate of the known catch. For North and Central Coast data, we extrapolated these unknown mark status' using mark rates provided by lodges. 
 
 South Coast creel only started estimating catch by adipose clip
 status in 2009. Before 2009, most Chinook catch from creel surveys
@@ -482,11 +480,9 @@ data sources are combined. In Figure \@ref(fig:fig-creel-iREC-NGS) we demonstrat
 the gaps in each PFMA using the Northern Strait of Georgia finescale
 fishery as an example. 
 
-For Northern and Central BC, we use iREC from 2015 onwards (as opposed to 2013) because iREC
-catch estimates did not seem to be consistent with other catch data sources before 2015 and iREC did not achieve effective sample rates in Northern and Central BC in 2013 or 2014. Northern and Central BC creel and logbook data is not currently incorporated into iREC calibration, and therefore iREC in these regions is calibrated against South Coast creel, but this may change with further improvements in iREC calibration. Furthermore, we use iREC as the best catch estimate in each month in these regions as much of the creel and logbook catch does not
-account for releases.
+For Northern and Central BC, we use iREC from 2015 onwards (as opposed to 2013) because iREC catch estimates did not seem to be consistent with other catch data sources before 2015 and iREC did not achieve effective sample rates in Northern and Central BC in 2013 or 2014. Northern and Central BC creel and logbook data is not currently incorporated into iREC calibration, and therefore iREC in these regions is calibrated against South Coast creel, but this may change with further improvements in iREC calibration. Furthermore, we use iREC as the best catch estimate in each month in these regions as much of the creel and logbook catch does not account for releases.
 
-```{r methods with iREC flowchart, out.width="100%", results='asis', echo=FALSE}
+```{r methods with iREC flowchart, out.width="90%", results='asis', echo=FALSE}
 #| label: fig-area-catch-process
 #| fig-cap: "Diagram showing the steps to combining various catch data sources in Southern BC from 2013 onward to obtain revised combined creel and iREC catch estimate."
 
@@ -563,7 +559,7 @@ g
 ## Revised Chinook catch estimates before iREC
 
 Where iREC is unavailable (before 2013 in Southern BC and before 2015 in
-North/Central BC), we predict combined creel and iREC catch estimates by
+North and Central BC), we predict combined creel and iREC catch estimates by
 finescale fishery using:
 
 1)  a modelled relationship between summertime creel catch estimates and
@@ -583,13 +579,12 @@ estimates from 2005-2012. The modelling period for Northern regions is
 the starting point for the predicted period as it is the first year that
 fish from brood year 2003 are caught in pre-terminal sport fisheries (as
 age 2s), and 2003 is the earliest brood that could contribute to the the
-2009 CYER (as age 6s), and thus be relevant to the 2009-2015 base period. The modelling protocol is described below. These seasonal catch estimates are then rolled up into yearly estimates for
-reporting purposes. This process, shown in Figure \@ref(fig:fig-before-iREC-flowchart) below, is automated and
+2009 CYER (as age 6s), and thus be relevant to the 2009-2015 base period. The modelling protocol is described below. These seasonal catch estimates are then rolled up into yearly estimates for reporting purposes. This process, shown in Figure \@ref(fig:fig-before-iREC-flowchart) below, is automated and
 accomplished in the modelling function of the `pacRecCatch` R package
 [@pacRecCatch].
 
 
-```{r methods before iREC flowchart, out.width="100%", results='asis', echo=FALSE}
+```{r methods before iREC flowchart, out.width="90%", results='asis', echo=FALSE}
 #| label: fig-before-iREC-flowchart
 #| fig-cap: "Depiction of modelling process to estimate combined creel and iREC catch for South Coast BC in years before iREC is available. Note, the process for Northern and Central BC is the same, except that the post-iREC period does not begin until 2015."
 
