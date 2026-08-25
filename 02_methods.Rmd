@@ -358,11 +358,14 @@ linear regression slope, $m$, between monthly iREC and corresponding creel
 estimates for angling by boat in each area, referred to as the calibration 
 coefficient. Specifically, calibrated iREC point estimates ($iREC^{*}$) of 
 boat-based angling catch are calculated from uncalibrated estimates ($iREC$) as:
-
-$$m =  \frac{iREC}{creel}
-\label{eq:iREC_correction}$$
-$$iREC^{*}= \frac{iREC}{m}
-\label{eq:iREC_calibration}$$
+\begin{equation}
+m =  \frac{iREC}{creel}
+\label{eq:iREC_correction}
+\end{equation}
+\begin{equation}
+iREC^{*}= \frac{iREC}{m}
+\label{eq:iREC_calibration}
+\end{equation}
 
 The calibration coefficient $m$ is estimated for each licence year (i.e., April 1 to March 31) using all area and month creel estimates that meet the inclusion criteria defined in the "South Coast Creel Survey quality control" section above. Separate calibration factors are estimated for total kept and released catch, by species, for angling by boat. As both the creel and iREC estimates have uncertainty associated with them, an error-in-variables approach is used to estimate $m$ using JAGS [a hierarchical Bayesian analysis program, @plummer2003jags] through the `rjags` R package [@rjags]. The specific model code used is provided in Appendix \@ref(app:apdx-irec-calib). The calibration coefficient is used to correct both angling by boat and angling from shore catch estimates. The calibration coefficient can also be more easily understood as a Bias Correction Factor (the inverse of m), which allows it to be multiplied by iREC to get calibrated iREC. 
 
@@ -782,8 +785,10 @@ has the lowest uncertainty, based on the assumption that periods with
 the lowest uncertainty will have the highest number of heads contributed
 to the program.
 
-$$\bar{s} = \frac{\sum_i h_i s_i}{\sum_i h_i}
-\label{eq:cwt_wght_avg}$$
+\begin{equation}
+\bar{s} = \frac{\sum_i h_i s_i}{\sum_i h_i}
+\label{eq:cwt_wght_avg}
+\end{equation}
 
 **Method 2:** In some circumstances, the average annual submission rate
 derived from Method 1 may still produce an outlier. This typically
@@ -805,11 +810,15 @@ provided in @CYER2024] by finescale fishery in conjunction with the
 revised catch estimates. In a given CTC finescale fishery, $MRR$ and
 $UKR$ are calculated based on the catch, $C$, using the following:
 
-$$MRR = C_{marked, released} / (C_{marked, released} + C_{marked, kept})
-\label{eq:mrr}$$
+\begin{equation}
+MRR = C_{marked, released} / (C_{marked, released} + C_{marked, kept})
+\label{eq:mrr}
+\end{equation}
 
-$$UKR = C_{unmarked, kept} / (C_{unmarked, released} + C_{unmarked, kept})
-\label{eq:ukr}$$
+\begin{equation}
+UKR = C_{unmarked, kept} / (C_{unmarked, released} + C_{unmarked, kept})
+\label{eq:ukr}
+\end{equation}
 
 We calculated the $MRR$ and $UKR$ at an area and month scale and then
 use a weighted average based on total catch per area and month to
@@ -825,9 +834,10 @@ previous non-selective fisheries by allowing for selectivity, therefore
 we have fixed the $MRR$ and $UKR$ rates to be equivalent in the modelled
 data, by calculating a single release rate for marked and unmarked fish
 combined based on the following equation:
-
-$$MRR = 1 - UKR
-\label{eq:none_selective_mrr}$$
+\begin{equation}
+MRR = 1 - UKR
+\label{eq:none_selective_mrr}
+\end{equation}
 
 After 2013, the data is observed and therefore allowed to vary in
 mark-selectivity even if no specific mark-selective regulations were
