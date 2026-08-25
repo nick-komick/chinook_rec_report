@@ -310,8 +310,8 @@ logbook data programs are used to monitor each of these regions.
 Haida Gwaii covers the marine waters consisting of PFMAs 1, 2 (East and
 West), 101, 102, and 142. Recreational catch monitoring is carried out
 using a combination of a creel program run by the Haida Nation and
-lodge-submitted logbooks. The creel program has operated since 1999,
-typically from late May to the middle of September. Lodges
+lodge-submitted logbooks. The creel program has operated since 1995,
+typically from late May to the middle of September [@Searing2000]. One difference from the Southern BC creel program is that boat effort counts are completed in some areas by boat instead of aerial survey. Lodges
 represent the majority of the catch around Haida Gwaii, particularly
 around the northern portion in PFMA 1/101. As the logbook program does
 not capture release data, the creel program data has historically been
@@ -522,7 +522,7 @@ pfma_yearMonth_iREC_1 <-
 
 ```{r echo=FALSE, fig.align="left", fig.height=5, fig.width=10, message=FALSE, warning=FALSE, out.width="100%", fig.asp=NA}
 #| label: fig-creel-iREC-NGS
-#| fig-cap: "Chosen best catch estimates in Northern Strait of Georgia by PFMA and month and source. Blue indicates a filtered creel estimate and purple a calibrated iREC estimate. This plot demonstrates the priority rules in Southern BC: filtered creel is chosen if available May to September, otherwise use iREC, and in the off-season (October - April) iREC is chosen."
+#| fig-cap: "Chosen best catch estimates in Northern Strait of Georgia by PFMA and month and source. Yellow indicates a filtered creel estimate and blue a calibrated iREC estimate. This plot demonstrates the priority rules in Southern BC: filtered creel is chosen if available May to September, otherwise use iREC, and in the off-season (October - April) iREC is chosen."
 
 ngs_catch <-
   pfma_yearMonth |>
