@@ -497,7 +497,7 @@ plots <- run_main_region(
 ```
 
 \newpage
-#### Juan de Fuca
+#### Juan de Fuca Strait
 
 The best model for Juan de Fuca (JDF) Strait summer combined creel and iREC catch ($C_{creel+iREC,summer}$), was a model with a Gamma distribution that included summer creel ($C_{creel,summer}$), kept_status ($k$), mark status ($m$), an interaction between kept status and summer creel, an interaction between mark status and summer creel, and an intercept. More complex variations and interactions were dropped.
 \begin{equation}
@@ -511,7 +511,7 @@ Figure \@ref(fig:fig-jdf-summer-model) shows the modelled relationship for JDF S
 
 ```{r results example seasonal summer, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-jdf-summer-model
-#| fig-cap: "Juan de Fuca Summer fishery modelled relationship between unfiltered creel and total catch estimates including iREC in summer months (5-9). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
+#| fig-cap: "Juan de Fuca Strait Summer fishery modelled relationship between unfiltered creel and total catch estimates including iREC in summer months (5-9). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
 
 cfg <- main_regions[["JDF Summer"]]
 
@@ -581,7 +581,7 @@ Figure \@ref(fig:fig-ngs-spring-model) shows the modelled relationship for NGS S
 
 ```{r results example seasonal summer, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-ngs-spring-model
-#| fig-cap: "Northern Strait of Georgia fishery modelled relationship between summertime unfiltered creel estimate and total catch estimate including iREC in spring (months 1-4). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
+#| fig-cap: "Northern Strait of Georgia fishery modelled relationship between summertime unfiltered creel estimate and total catch estimate including iREC in spring (months 1 to 4). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
 cfg <- main_regions[["NGS Seasonal"]]
 
 plots <- run_main_region(
@@ -610,7 +610,7 @@ Figure \@ref(fig:fig-sgs-spring-model) shows the modelled relationship for SGS S
 
 ```{r results example seasonal summer, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-sgs-spring-model
-#| fig-cap: "Southern Strait of Georgia fishery modelled relationship between summertime unfiltered creel estimate and total catch estimate including iREC in spring (months 1-4). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
+#| fig-cap: "Southern Strait of Georgia fishery modelled relationship between summertime unfiltered creel estimate and total catch estimate including iREC in spring (months 1 to 4). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
 cfg <- main_regions[["SGS Seasonal"]]
 
 plots <- run_main_region(
@@ -640,7 +640,7 @@ Figure \@ref(fig:fig-jnst-spring-model) shows the modelled relationship for JNST
 
 ```{r results example seasonal summer, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-jnst-spring-model
-#| fig-cap: "Johnstone Strait fishery modelled relationship between summertime unfiltered creel estimate and total catch estimate including iREC in spring months (1:4). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
+#| fig-cap: "Johnstone Strait fishery modelled relationship between summertime unfiltered creel estimate and total catch estimate including iREC in spring (months 1 to 4). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
 cfg <- main_regions[["JNST Seasonal"]]
 
 plots <- run_main_region(
@@ -657,7 +657,7 @@ plots <- run_main_region(
 
 ```
 \newpage
-#### Juan de Fuca
+#### Juan de Fuca Strait
 
 The best model for Juan de Fuca Strait off-season iREC catch ($C_{iREC, seasonal}$), was a model with a Gamma distribution that included summer creel ($C_{creel,summer}$), kept status ($k$), mark status ($m$), season($s$), an interaction between mark status and summer creel, and an intercept. More complex variations and interactions were dropped.
 \begin{equation}
@@ -671,7 +671,7 @@ Figure \@ref(fig:fig-jdf-spring-model) shows the modelled relationship for JDF S
 
 ```{r results example seasonal summer, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-jdf-spring-model
-#| fig-cap: "Juan de Fuca Spring fishery modelled relationship between unfiltered creel and total catch estimates including iREC in spring months (1-4). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
+#| fig-cap: "Juan de Fuca Spring fishery modelled relationship between unfiltered creel and total catch estimates including iREC in spring months (1 to 4). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
 
 cfg <- main_regions[["JDF Seasonal"]]
 
@@ -722,7 +722,7 @@ plots[[1]] + ylab("annual iREC catch estimate") + xlab("annual creel catch estim
 
 ```
 \newpage
-#### Northern BC ISBM Fisheries
+#### Northern BC ISBM
 
 The best model for annual Northern BC (NBC) ISBM iREC catch was one with a Gamma distribution using a log link that included annual creel catch, $C_{creel,annual}$), mark status ($m$), and an interaction between historic data and mark status. Kept status and more complex variations and interactions were dropped.
 \begin{equation}
@@ -757,7 +757,7 @@ plots[[1]] +  ylab("annual iREC catch estimate") + xlab("annual creel catch esti
 
 ```
 \newpage
-#### Central BC annual fishery
+#### Central BC
 
 Central BC was split into two models, one for kept fish and one for released fish where there were almost exclusively zeros provided in the historical data. The best model for the kept Central BC annual catch was one with a Gamma distribution with a log link which included logbook catch and mark status. The best model for the released Central BC annual catch was one with a Gamma distribution with a log link which included mark status and an intercept. As historic logbook estimates were mostly zero, this factor was excluded during model selection, as was kept status and various interactions.
 \begin{equation}
