@@ -299,7 +299,7 @@ distinctions are reconstructed using mark rate and release rates
 estimated by the lodges. The release rates provided have been 0% since
 2005, likely an inaccuracy that could be informed by iREC. Although not all lodges provide logbook catch data, the catch data has historically been reported as the total catch for the region. This was
 identified as a bias in the recreational catch estimates that iREC
-inclusion should address. A new creel program in PFMA 10 was excluded from the analysis since it began in 2023 but may provide additional data to improve catch estimates in the future.
+inclusion should address. 
 
 #### North Coast Catch Estimation
 Northern British Columbia (NBC) recreational catch monitoring generally
@@ -311,7 +311,7 @@ Haida Gwaii covers the marine waters consisting of PFMAs 1, 2 (East and
 West), 101, 102, and 142. Recreational catch monitoring is carried out
 using a combination of a creel program run by the Haida Nation and
 lodge-submitted logbooks. The creel program has operated since 1995,
-typically from late May to the middle of September [@Searing2000]. One difference from the Southern BC creel program is that boat effort counts are completed in some areas by boat instead of aerial survey. Lodges
+typically from late May to the middle of September [@Searing2000]. One difference from the South Coast creel program is that some boat effort counts are conducted by boat instead of aerial survey. Lodges
 represent the majority of the catch around Haida Gwaii, particularly
 around the northern portion in PFMA 1/101. As the logbook program does
 not capture release data, the creel program data has historically been
@@ -345,7 +345,7 @@ PFMA. Uncalibrated estimates are developed by expanding the average
 monthly catch per licence by the number of licences eligible to fish in
 that month. These calculations are stratified by licence type to protect
 against bias due to differential fishing and reporting rates by licence
-type. Bias correction factors, described in the section below, are then
+type. Bias correction factors (BCFs), described in the section below, are then
 applied to estimate bias-corrected iREC estimates. The iREC program
 operation and analytical methodology was initially reviewed at a 2015
 Canadian Science Advisory Secretariat (CSAS) regional peer review. The
@@ -364,7 +364,8 @@ $$m =  \frac{iREC}{creel}
 $$iREC^{*}= \frac{iREC}{m}
 \label{eq:iREC_calibration}$$
 
-The calibration coefficient $m$ is estimated for each licence year (i.e., April 1 to March 31) using all area and month creel estimates that meet the inclusion criteria defined in the "South Coast Creel Survey quality control" section above. Separate calibration factors are estimated for total kept and released catch, by species, for angling by boat. As both the creel and iREC estimates have uncertainty associated with them, an error-in-variables approach is used to estimate $m$ using JAGS (a hierarchical Bayesian analysis program) [@plummer2003jags] through the `rjags` R package [@rjags]. The specific model code used is provided in Appendix \@ref(app:apdx-irec-calib). The calibration coefficient is used to correct both angling by boat and angling from shore catch estimates.
+The calibration coefficient $m$ is estimated for each licence year (i.e., April 1 to March 31) using all area and month creel estimates that meet the inclusion criteria defined in the "South Coast Creel Survey quality control" section above. Separate calibration factors are estimated for total kept and released catch, by species, for angling by boat. As both the creel and iREC estimates have uncertainty associated with them, an error-in-variables approach is used to estimate $m$ using JAGS (a hierarchical Bayesian analysis program) [@plummer2003jags] through the `rjags` R package [@rjags]. The specific model code used is provided in Appendix \@ref(app:apdx-irec-calib). The calibration coefficient is used to correct both angling by boat and angling from shore catch estimates. The calibration coefficient can also be more easily understood as a Bias Correction Factor (the inverse of m), which allows it to be multiplied by iREC to get calibrated iREC. 
+
 
 ### Combining survey methods for best catch estimates
 
@@ -380,7 +381,7 @@ We pulled raw recreational catch data from DFO's Catch and Release
 Estimates (CREST) database, which stores creel, logbook, and iREC data
 for both marine and freshwater regions. The data was filtered to only
 marine estimates of legal-sized fish, by mark status, that were kept or
-released. Catch estimates for NBC (based on creel and logbook estimates)
+released. Catch estimates for Northern BC (based on creel and logbook estimates)
 and Central BC (based only on logbook estimates) were incomplete in
 CREST and therefore were fed into the process separately. We filtered
 CREST catch data to only South Coast creel, as described above, to only
@@ -435,16 +436,14 @@ status in 2009. Before 2009, most Chinook catch from creel surveys
 for mark status). We loaded mark rate data from biosamples collected by
 creel surveys in South Coast areas from 2005 to 2008 and split both kept
 and released catch by mark status for each year, month, and area
-combination. Between 2009 and 2026, mark rate was more consistently
+combination. Between 2009 and 2025, mark rate was more consistently
 reported and only 19% of the creeled catch was unchecked for mark
-status. For iREC, between 2013 and 2026, 8% of catch was unchecked for
+status. For iREC, between 2013 and 2025, 8% of catch was unchecked for
 mark status.
 
 From 2009 to present, we calculated mark rate for a given source in a
 number of different ways and prioritized the assignment of mark rate to
-the unchecked catch in the order identified below, based on
-availability. As mark rate can vary by season and region and is
-relatively stable year to year, we prioritized mark rates first from
+the unchecked catch based on availability. As mark rate can vary by season and region and is relatively stable year to year, we prioritized mark rates first from
 within the same area, month, and year and then expanded outward grouping
 into seasons and regions and finally averaging across years for the very
 few instances where the other categories did not apply. To reduce bias,
