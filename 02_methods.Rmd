@@ -766,8 +766,8 @@ Despite improvements in CWT recovery strata and the associated complete
 spatio-temporal coverage in recreational catch, in rare cases for
 certain strata, the combination of the marked catch estimate and head
 submissions may still lead to substantial outliers in submission rates.
-Approximately 2.5% of all observed CWT recoveries are associated with
-regions and time periods with an estimated marked catch of zero or
+Approximately 2.3% of all observed CWT recoveries are associated with
+regions and time periods with an estimated marked catch of less than 100 or
 result in extreme submission rates (i.e., less than 2% or greater than
 40%), mostly in years prior to iREC (pre-2013) where we rely only on
 modelled catch.
@@ -874,4 +874,4 @@ made to both the methods and iREC data. A comparison of the creel and logbook
 catch, the catch estimates incorporated into the February 2025 ERA and,
 the final estimates using the updated methods within this report are
 provided in Table \@ref(tab:tbl-previous-kept-catch) and
-Table \@ref(tab:tbl-previous-released-catch) for kept and released catch, respectively (Appendix \@ref(apdx-analytic-improvements).
+Table \@ref(tab:tbl-previous-released-catch) for kept and released catch, respectively (Appendix \@ref(apdx-analytic-improvements)).
