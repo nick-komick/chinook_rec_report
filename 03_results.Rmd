@@ -945,7 +945,10 @@ out_summer$plot[[2]] <-
   out_summer$plot[[2]] + 
   labs(title = "Revised Catch (creel + iREC)")
 
-out_summer$plot
+out_summer$plot+ plot_annotation(
+  title = 'South Coast',
+  subtitle = 'Summer fisheries'
+)
 ```
 
 ```{r heads-to-creel-seasonal, echo=FALSE, fig.height=4, fig.width=10, out.width="100%", fig.asp=NA}
@@ -954,7 +957,7 @@ out_summer$plot
 
 out_seasonal$plot[[1]] <- 
   out_seasonal$plot[[1]] + 
-  labs(title = "Previous Catch (creel)")+ theme(legend.position = "none") 
+  labs(title = "Previous Catch (creel)")  + theme(legend.position = "none") 
 
 out_seasonal$plot[[2]] <- 
   out_seasonal$plot[[2]] + 
@@ -964,7 +967,10 @@ out_seasonal$plot[[2]]$layers[[1]]$aes_params$colour <- col_blue   # geom_point
 out_seasonal$plot[[2]]$layers[[2]]$aes_params$colour <- col_blue   # geom_smooth
 out_seasonal$plot[[2]]$layers[[2]]$aes_params$fill   <- col_blue   # geom_smooth ribbon
 
-out_seasonal$plot
+out_seasonal$plot+ plot_annotation(
+  title = 'South Coast',
+  subtitle = 'Seasonal fisheries'
+)
 
 
 ```
@@ -988,7 +994,9 @@ out_north_aabm$plot[[2]]$layers[[2]]$aes_params$colour <- col_blue   # geom_smoo
 out_north_aabm$plot[[2]]$layers[[2]]$aes_params$fill   <- col_blue   # geom_smooth ribbon
 
 
-out_north_aabm$plot
+out_north_aabm$plot + plot_annotation(
+  title = 'Haida creel (Northern BC AABM)'
+)
 
 ```
 In Northern ISBM, iREC improves the fit of the heads to catch relationship ($R^{2}=$ `r fmt_stat(out_nbc_isbm$r2_creel)` for creel vs. $R^{2}=$ `r fmt_stat(out_nbc_isbm$r2_irec)` for iREC), and the sample rate drops slightly using iREC to `r fmt_stat(out_nbc_isbm$slope_irec, scale=100)`% from `r fmt_stat(out_nbc_isbm$slope_creel, scale=100)`% using creel.
@@ -1011,7 +1019,9 @@ out_nbc_isbm$plot[[2]]$layers[[1]]$aes_params$colour <- col_blue   # geom_point
 out_nbc_isbm$plot[[2]]$layers[[2]]$aes_params$colour <- col_blue   # geom_smooth
 out_nbc_isbm$plot[[2]]$layers[[2]]$aes_params$fill   <- col_blue   # geom_smooth ribbon
 
-out_nbc_isbm$plot
+out_nbc_isbm$plot+ plot_annotation(
+  title = 'Northern BC ISBM'
+)
 ```
 
 ```{r heads-to-creel-cbc, echo=FALSE, fig.height=4, fig.width=8, out.width="100%", fig.asp=NA}
@@ -1033,7 +1043,9 @@ out_cbc$plot[[2]]$layers[[2]]$aes_params$colour <- col_blue   # geom_smooth
 out_cbc$plot[[2]]$layers[[2]]$aes_params$fill   <- col_blue   # geom_smooth ribbon
 
 
-out_cbc$plot
+out_cbc$plot+ plot_annotation(
+  title = 'Central BC'
+)
 ```
 
 
@@ -1078,7 +1090,10 @@ out_summer05$plot[[2]] <-
   out_summer05$plot[[2]] + 
   labs(title = "Revised Catch (modelled combined creel and iREC)")
 
-out_summer05$plot
+out_summer05$plot+ plot_annotation(
+  title = 'South Coast',
+  subtitle = 'Summer fisheries'
+)
 
 
 ```
@@ -1087,7 +1102,7 @@ out_summer05$plot
 #| label: fig-heads-to-creel-and-updated-catch-seasonal-2005
 #| fig-cap: "Relationship between the seasonal marked kept catch estimates from the the creel program (left panel) and the modelled iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP between 2005 and 2012."
 
-out_seasonal05$plot[[1]] <- out_seasonal05$plot[[1]] + labs(title = "Previous Catch (creel)")
+out_seasonal05$plot[[1]] <- out_seasonal05$plot[[1]] + labs(title = "Previous Catch (creel)") + theme(legend.position = "none") 
 out_seasonal05$plot[[2]] <- out_seasonal05$plot[[2]] + labs(title = "Revised Catch (modelled iREC)")
 
 
@@ -1095,7 +1110,10 @@ out_seasonal05$plot[[2]]$layers[[1]]$aes_params$colour <- col_blue   # geom_poin
 out_seasonal05$plot[[2]]$layers[[2]]$aes_params$colour <- col_blue   # geom_smooth
 out_seasonal05$plot[[2]]$layers[[2]]$aes_params$fill   <- col_blue   # geom_smooth ribbon
 
-out_seasonal05$plot
+out_seasonal05$plot+ plot_annotation(
+  title = 'South Coast',
+  subtitle = 'Seasonal fisheries'
+)
 
 
 
@@ -1264,27 +1282,25 @@ The SHRP has generally run consistently over the transition between the 2005 - 2
 
 In Figure \@ref(fig:fig-fishery-rates-2) we visualize updated submission rates to the SHRP across time in each region. A submission rate of 20% of the catch is the desired minimum sampling rate, and some regions are meeting this target while others are not. Submission rates fluctuate year to year and between seasons. Above, for the South Coast and Northern BC AABM (Haida Gwaii) we noted a decline in submission rates from the 2005-2012 period to the 2013-2023 period, reflected both in creel and combined creel and iREC data, but the opposite trend in Northern BC ISBM and Central BC. Overall, while there are some trends over time in submission rates, there is no clear and consistent step change occurring in 2013 (or 2015 for Northern regions) that would indicate that pre- and post-iREC are separate catch regimes. Furthermore, when combining all regions and comparing the model fit before iREC (Figure \@ref(fig:fig-heads-kept-iREC) left panel) and with iREC (Figure \@ref(fig:fig-heads-kept-iREC) right panel), CWT sample rates are fairly consistent with a before iREC average sample rate (i.e., slope) of `r format(unname(coef(pre_iREC_lm)[1])*100, digits = 3)`% and an iREC period sample rate of `r format(unname(coef(post_iREC_lm)[1])*100, digits = 3)`% with similar $R^{2}$ values. This suggests that there is no consistent bias in the modelled versus observed combined creel and iREC estimates. 
 
-The summer submission rates in Northern WCVI, Johnstone Strait, and the annual Haida Gwaii rates have typically been over 20% for most of the time series. This is likely due to high lodge participation in the sport head recovery program. Haida Gwaii Sport in particular has consistently high submission rates, which likely contributes to the accuracy of the CWT estimates. Annual submission rates for Northern BC ISBM and Central BC Sport and summer submission rates for Northern Strait of Georgia initially were quite low ($\le 10$%) early in the time series, but in the last ten years have had more than half of the submission rates above or very close to the target. This could be due to increasing lodge, guide, and avid angler participation in the SHRP over time. The summer submission rates for Southern WCVI Sport, Southern Strait of Georgia Sport, and Juan de Fuca Sport are all consistently under the 20% target, and have mostly been under 15% in the last ten years.
+The summer submission rates in Northern WCVI, Johnstone Strait, and the annual Haida Gwaii rates have typically been over 20% for most of the time series. This is likely due to high lodge participation in the sport head recovery program in these regions. Haida Gwaii Sport in particular has consistently high submission rates, which likely contributes to the accuracy of the CWT estimates. Annual submission rates for Central BC Sport and summer submission rates for Northern Strait of Georgia initially were quite low ($\le 10$%) early in the time series, but in the last ten years have had more than half of the submission rates above or very close to the target. This could be due to increasing lodge, guide, and avid angler participation in the SHRP over time. NBC ISBM initially had a similar pattern but has been under 15% for the last five years. The summer submission rates for Southern WCVI Sport, Southern Strait of Georgia Sport, and Juan de Fuca Sport are all consistently under the 20% target, and have mostly been under 15% in the last ten years.
 
-As noted above, in general, summer submission rates are typically higher than off-season submission rates. Overall, the off-season submission rates could use improvement and are typically under 20%. The off-season submission rates in Juan de Fuca Strait and Southern Strait of Georgia tend to be under 10%, and improving these rates is of particular importance since off-season catch in each of those areas was over 7,000 in 2023. Northern Strait of Georgia also had off-season catch of over 5,000 in 2023, and could use improvement in off-season submission rates. In contrast, the sum total off-season catch in Northern WCVI, Southern WCVI, and Johnstone Strait Sport in 2023 was under 900. Overall, all regions outside of Haida Gwaii would benefit from increased participation in the SHRP to reduce the uncertainty of indicator stock assessments.
-
+As noted above, in general, summer submission rates are typically higher than off-season (i.e., spring and fall) submission rates, where regular off-season fishing occurs. Overall, the off-season submission rates could use improvement and are typically under 20%. The off-season submission rates in Juan de Fuca Strait and Southern Strait of Georgia tend to be under 10%, and improving these rates is of particular importance since off-season catch in each of those areas was over 7,000 in 2023. Northern Strait of Georgia also had off-season catch of over 5,000 in 2023, and could use improvement in off-season submission rates. In contrast, the sum total off-season catch in Northern WCVI, Southern WCVI, and Johnstone Strait Sport in 2023 was under 900, and rate, where calculated, are in line with or higher than summer rates. Overall, all regions outside of Haida Gwaii would benefit from increased participation in the SHRP to reduce the uncertainty of indicator stock assessments.
 
 \begin{landscapepage}
-```{r results Fishery Rates, echo=FALSE, fig.height=8, fig.width=12, fig.align="left", out.width="100%", fig.asp=NA}
+```{r results Fishery Rates, echo=FALSE, fig.height=8, fig.width=12, fig.align="left", out.width="90%", fig.asp=NA}
 #| label: fig-fishery-rates-2
 #| fig-cap: "Chinook sport head submission rates by CWT region and associated time periods (spring, fall, summer, or annual).  Direct estimates (solid circles) are estimates based on data from the region and season, regional averages (hollow circles) are based on the average of all data within the year used for the specific season, and regional smoothing (hollow triagle) is based on the seasonal average from two years before and after the specific year."
 
 region_labels <- c(
   "JDF" = "Juan de Fuca Sport",
   "CBC" = "Central BC Sport",
-  "JNST" = "Johnstone Strait Sport",
-  "NC" = "Northern BC",
-   "NBC AABM" = "Haida Gwaii Sport",
-   "NBC ISBM" = "Northern BC ISBM Sport",
-  "NGS" = "Strait of Georgia Sport (North)",
-  "NWCVI" = "West Coast Vancouver Island Sport (North)",
-  "SGS" = "Strait of Georgia Sport (South)",
-  "SWCVI" = "West Coast Vancouver Island Sport (South)"
+  "JNST" = "Queen Charlotte Strait",
+   "NBC AABM" = "NBC - Haida Gwaii Sport",
+   "NBC ISBM" = "NBC - Prince Rupert Sport",
+  "NGS" = "North Strait of Georgia",
+  "NWCVI" = "Northwest Vancouver Island Sport",
+  "SGS" = "South Strait of Georgia",
+  "SWCVI" = "Southwest Vancouver Island Sport"
 )
 
 region_order<-c("NWCVI", "SWCVI", "NGS", "SGS", "JNST", "JDF", "NBC AABM","NBC ISBM", "CBC")
@@ -1347,7 +1363,17 @@ readr::read_csv("./data/cwt_sample_rates.csv", col_types = "ciicid") |>
                                            "Juan de Fuca Sport", 
                                            "NBC - Haidi Gwaii Sport", 
                                            "NBC - Prince Rupert Sport",
-                                           "Central BC Sport"))) |>
+                                           "Central BC Sport")), 
+         region_labels = forcats::fct_recode(region_labels,
+                       "Northern West Coast Vancouver Island"       = "Northwest Vancouver Island Sport",
+                       "Southern West Coast Vancouver Island"       = "Southwest Vancouver Island Sport",
+                       "Northern Strait of Georgia"  = "North Strait of Georgia",
+                       "Southern Strait of Georgia"  = "South Strait of Georgia",
+                       "Johnstone Strait" = "Queen Charlotte Strait",
+                       "Juan de Fuca"      = "Juan de Fuca Sport",
+                       "Haida Gwaii (Northern BC AABM)"       = "NBC - Haidi Gwaii Sport",
+                       "Northern BC ISBM"     = "NBC - Prince Rupert Sport",
+                       "Central BC"        = "Central BC Sport")) |>
   ggplot(aes(x=year, y=submit_rate, color=season)) +
   geom_line(linewidth = 1,
             alpha = 0.6) +
@@ -1375,9 +1401,9 @@ readr::read_csv("./data/cwt_sample_rates.csv", col_types = "ciicid") |>
 ```
 \end{landscapepage}
 
-```{r results Pre iREC Head to Kept Mark Catch, echo=FALSE}
+```{r results Pre iREC Head to Kept Mark Catch, echo=FALSE, fig.height=4, fig.width=10, out.width="100%", fig.asp=NA}
 #| label: fig-heads-kept-iREC
-#| fig-cap: "Chinook heads to marked kept catch based on combined creel and iREC. Each point is a yearly CWT Region based on the seasonal or annual time period in the southern or nothern portions of BC (i.e., NBC and CBC), respectively.  The left panel shows the relationship from 2005 to 2012 and the right panel shows the relationship from 2013 to 2023"
+#| fig-cap: "Chinook heads to marked kept catch based on combined creel and iREC. Each point is a yearly CWT Region based on the seasonal or annual time period in the Southern or Northern portions of BC (i.e., NBC and CBC), respectively. The left panel shows the relationship from 2005 to 2012 and the right panel shows the relationship from 2013 to 2023"
 
 pre_iREC <-
   ggplot(data = pre_iREC_catch_model_df,

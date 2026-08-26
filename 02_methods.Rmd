@@ -5,7 +5,7 @@ output:
 ---
 \clearpage
 # Methods {#sec:methods}
-## Revised Chinook catch estimates with iREC 
+## Revised Chinook catch estimates with iREC
 Since the introduction of iREC in 2012, there have been various methods
 used to combine Chinook catch information from creel surveys, logbooks,
 and iREC to produce recreational catch estimates. This has historically
@@ -236,7 +236,7 @@ winter and therefore has no creel coverage in the winter months.
 \newpage
 
 \begin{landscapepage}
-```{r methods plotting PFMA creel unfiltered, echo=FALSE, message=FALSE, warning=FALSE, fig.height=12, fig.width=20, fig.align="left", out.width="110%", fig.asp=NA}
+```{r methods plotting PFMA creel unfiltered, echo=FALSE, message=FALSE, warning=FALSE, fig.height=12, fig.width=20,  out.width="110%", fig.asp=NA, fig.align='left'}
 #| label: fig-creel-criteria
 #| fig-cap: "South Coast creel estimates that passed (yellow) or failed (red) quality control criteria by month and PFMA."
 
@@ -536,7 +536,7 @@ g <-
         legend.box.just = "left") 
 g
 ```
-## Revised Chinook catch estimates before iREC
+## Revised Chinook catch estimates without iREC
 Where iREC is unavailable (before 2013 in South Coast and before 2015 in
 Northernand Central BC), we predict combined creel and iREC catch estimates by
 finescale fishery using:

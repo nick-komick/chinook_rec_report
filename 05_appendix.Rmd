@@ -9,12 +9,15 @@ lookup_vec <- setNames(name_lookup$fishery_full_name, name_lookup$finescale_fish
 
 # iREC Reporting Program Selection Changes {#app:apdx-irec-mthd}
 
-Since the iREC survey began in 2012, several changes have been made to how annual recreational licences are selected for inclusion in each survey month. For example, the selection rate for 1-, 3-, and 5‑day (“term”) licences was 25% during licence years 2012–2019, but has been 100% since the 2020 licence year. All changes to selection procedures take effect at the start of a new licence year (April 1st). Here we describe how licences are selected for inclusion in the survey and how this has changed since the program began. Recent improvements to iREC quality control and calibration are described in Appendix \@ref(apdx-analytic-improvements).  
+Since the iREC survey began in 2012, several changes have been made to how annual recreational licences are selected for inclusion in each survey month. For example, the selection rate for 1-, 3-, and 5‑day (“term”) licences was 25% during licence years 2012–2019, but has been 100% since the 2020 licence year. All changes to selection procedures take effect at the start of a new licence year (April 1st). Here we describe how licences are selected for inclusion in the survey and how this has changed since the program began. Recent improvements to iREC quality control and calibration are described in Appendix \@ref(apdx-analytic-improvements).
 
 There are several types of licences are sold, distinguished by:
-- *Term Length:* Annual (valid from purchase date until March 31) or term (1, 3, or 5 days)
-- *Residency:* Canadian or non-Canadian
-- *Age:* Juvenile, Adult, or Senior
+
+\- *Term Length:* Annual (valid from purchase date until March 31) or term (1, 3, or 5 days)
+
+\- *Residency:* Canadian or non-Canadian
+
+\- *Age:* Juvenile, Adult, or Senior
 
 These factors along with month purchased contribute to the selection process. When selecting annual licences, purchase month is expected to be correlated with the type of fishing and target species of the licence holder. Licences bought in May or June are more likely targeting Coho and Chinook than those bought in September and October when the purchasers are more likely potentially targeting shellfish and finfish other than salmon. Accordingly, with each update in the selection approach, we mitigated bias caused by differential representation of licences by purchase month as described below.
 
@@ -216,11 +219,8 @@ irec_responses_graph
 \clearpage
 
 # iREC calibration JAGs model {#app:apdx-irec-calib}
-The specific model code used for iREC calibration is provided
-below, with `creel.obs` representing the creel estimate, `creel.se`
-representing the standard error of the creel estimate, and `iREC.obs`
-representing the iREC uncalibrated catch estimate for the same area and
-time as the creel estimate.
+
+The specific model code used for iREC calibration is provided below, with `creel.obs` representing the creel estimate, `creel.se` representing the standard error of the creel estimate, and `iREC.obs` representing the iREC uncalibrated catch estimate for the same area and time as the creel estimate.
 
 ```{r methods jags, echo=TRUE}
 model.jags <- function() {   
@@ -241,10 +241,10 @@ model.jags <- function() {
 }
 ```
 
-
 \clearpage
 
 # Stratification Mapping {#apdx-strattab}
+
 ```{r methods strattab, echo=FALSE, message=FALSE, warning=FALSE}
 #| label: tbl-stratatab
 
@@ -300,9 +300,10 @@ csas_table(strat_table, format = "latex")
 ```
 
 \clearpage
-# Revised and previous estimates at the Finescale Fishery level from 2005-2023 {#app:revised-catch-timeseries}
 
-Revised and previous estimates at previous finescale fishery scale (i.e., without seasonal component). 
+# Revised estimates by Finescale Fishery (2005-2023) {#app:revised-catch-timeseries}
+
+Revised and previous estimates at previous finescale fishery scale (i.e., without seasonal component).
 
 ```{r m plots, results='asis', echo=FALSE}
 #| label: fig-catch-revised-1-appendix
@@ -432,7 +433,7 @@ for (i in 1:length(fishery_name_north)) {
                            linetype = estimate_shape_type)) +
     geom_point(size = 2.5) +
     geom_line() +
-    scale_color_manual(values = c(col_orange,col_green,col_green),
+    scale_color_manual(values = c(col_orange,col_blue,col_blue),
                        name = "Catch Estimate") +
     scale_shape_manual(values = c(2, 16, 1)) +
     scale_linetype_manual(values = c(2, 1, 1)) +
@@ -449,6 +450,7 @@ for (i in 1:length(fishery_name_north)) {
   print(m)
 }
 ```
+
 ```{r m plots, results='asis', echo=FALSE}
 #| label: fig-catch-revised-released-1-appendix
 #| fig-cap: "Revised yearly released catch estimates"
@@ -506,7 +508,7 @@ for (i in 1:length(fishery_name_south)){
                            linetype = estimate_shape_type)) +
     geom_point(size = 2.5) +
     geom_line() +
-    scale_color_manual(values = c(col_blue, col_blue, col_orange),
+    scale_color_manual(values = c(col_green, col_green, col_orange),
                        name = "Catch Estimate") +
     scale_shape_manual(values = c(16, 1, 2)) +
     scale_linetype_manual(values = c(1, 1, 2)) +
@@ -593,12 +595,12 @@ for (i in 1:length(fishery_name_north)) {
   print(m)
 }
 ```
+
 \clearpage
 
-# Revised, reported and previous catch estimates at ERA level from 2005-2023 {#app:revised-catch-timeseries3}
-Here we present data similar to Appendix \@ref(app:revised-catch-timeseries), but rolled up to the ERA level and including previously reported information. This helps identify where reporting matches more closely with creel estimates or combined creel and iREC estimates. 
+# Revised estimates by ERA Fishery (2005-2023)  {#app:revised-catch-timeseries3}
 
-
+Here we present data similar to Appendix \@ref(app:revised-catch-timeseries), but rolled up to the ERA level and including previously reported information. This helps identify where reporting matches more closely with creel estimates or combined creel and iREC estimates.
 
 ```{r m plots, results='asis', echo=FALSE}
 #| label: fig-catch-revised-3-appendix
@@ -755,8 +757,6 @@ for (i in 1:length(fishery_name_south)){
  
 
 ```
-
-
 
 ```{r m plots, results='asis', echo=FALSE}
 #| label: fig-catch-revised-4-appendix
@@ -1028,7 +1028,7 @@ res_gam <- simulateResiduals(sport_catch_models$model_list$central_isbm_kept, pl
 
 ```
 
-``` {r Modelling CBC subsetting appendix released, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
+```{r Modelling CBC subsetting appendix released, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 #| label: fig-cbc-residuals-released
 #| fig-cap: "Validation plots for CBC annual released model"
 
@@ -1037,7 +1037,9 @@ res_gam <- simulateResiduals(sport_catch_models$model_list$central_isbm_kept, pl
 ```
 
 \clearpage
+
 # Model Statistical Tables {#app:fourth-appendix}
+
 ```{r appendix-model-table-NWCVI-summer, message=FALSE, warning=FALSE, results='asis', echo=FALSE}
 NWCVI_summer_model_table <- sport_catch_models$model_list[["NWCVI_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
@@ -1051,7 +1053,6 @@ NWCVI_summer_model_table
 
 ```
 
-
 ```{r appendix-model-table-SWCVI-summer,message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 SWCVI_summer_model_table <- sport_catch_models$model_list[["SWCVI_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
@@ -1063,7 +1064,6 @@ SWCVI_summer_model_table <- sport_catch_models$model_list[["SWCVI_summer_model"]
 SWCVI_summer_model_table
 
 ```
-
 
 ```{r appendix-model-table-NGS-summer, echo = FALSE}
 NGS_summer_model_table <- sport_catch_models$model_list[["NGS_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
@@ -1077,7 +1077,6 @@ NGS_summer_model_table
 
 ```
 
-
 ```{r appendix-model-table-SGS-summer, echo = FALSE}
 SGS_summer_model_table<- sport_catch_models$model_list[["SGS_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
@@ -1089,7 +1088,6 @@ SGS_summer_model_table<- sport_catch_models$model_list[["SGS_summer_model"]]  |>
 SGS_summer_model_table
 
 ```
-
 
 ```{r appendix-model-table-jnst-summer, echo = FALSE}
 jnst_summer_model_table <- sport_catch_models$model_list[["jnst_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
@@ -1103,7 +1101,6 @@ jnst_summer_model_table
 
 ```
 
-
 ```{r appendix-model-table-jdf-summer, echo = FALSE}
 jdf_summer_model_table <- sport_catch_models$model_list[["jdf_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
@@ -1115,7 +1112,6 @@ jdf_summer_model_table <- sport_catch_models$model_list[["jdf_summer_model"]]  |
 jdf_summer_model_table
 
 ```
-
 
 ```{r appendix-model-table-WCVI-seasonal, echo = FALSE}
 seasonal_WCVI_table <- sport_catch_models$model_list[["seasonal_WCVI"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
@@ -1129,7 +1125,6 @@ seasonal_WCVI_table
 
 ```
 
-
 ```{r appendix-model-table-NGS-seasonal, echo = FALSE}
 seasonal_NGS_only_table <- sport_catch_models$model_list[["seasonal_NGS_only"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
@@ -1141,7 +1136,6 @@ seasonal_NGS_only_table <- sport_catch_models$model_list[["seasonal_NGS_only"]] 
 seasonal_NGS_only_table
 
 ```
-
 
 ```{r appendix-model-table-SGS-seasonal, echo = FALSE}
 seasonal_SGS_only_table <- sport_catch_models$model_list[["seasonal_SGS_only"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
@@ -1167,7 +1161,6 @@ seasonal_JNST_table
 
 ```
 
-
 ```{r appendix-model-table-JDF-seasonal, echo = FALSE}
 seasonal_JDF_table <- sport_catch_models$model_list[["seasonal_JDF"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
@@ -1179,7 +1172,6 @@ seasonal_JDF_table <- sport_catch_models$model_list[["seasonal_JDF"]]  |>  tbl_r
 seasonal_JDF_table
 
 ```
-
 
 ```{r appendix-model-table-north-aabm, echo = FALSE}
 north_aabm_table <- sport_catch_models$model_list[["north_aabm"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
@@ -1193,7 +1185,6 @@ north_aabm_table
 
 ```
 
-
 ```{r appendix-model-table-north-isbm, echo = FALSE}
 north_isbm_table <- sport_catch_models$model_list[["north_isbm"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
@@ -1206,7 +1197,6 @@ north_isbm_table
 
 ```
 
-
 ```{r appendix-model-table-central-isbm-kept, echo = FALSE}
 central_isbm_kept_table <- sport_catch_models$model_list[["central_isbm_kept"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
@@ -1218,7 +1208,6 @@ central_isbm_kept_table <- sport_catch_models$model_list[["central_isbm_kept"]] 
 central_isbm_kept_table
 
 ```
-
 
 ```{r appendix-model-table-central-isbm-released, echo = FALSE}
 central_isbm_released_table <- sport_catch_models$model_list[["central_isbm_released"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
@@ -1233,8 +1222,10 @@ central_isbm_released_table
 ```
 
 \clearpage
+
 ::: {.landscape data-latex=""}
 # Model Selection Tables {#app:fifth-appendix}
+
 ```{r appendix-model-selection-summer, echo = FALSE}
 
 m6 |>
@@ -1288,7 +1279,6 @@ m6 |>
 
 
 ```
-
 
 ```{r appendix-model-selection-seasonal, echo = FALSE}
 
@@ -1376,7 +1366,6 @@ m_north_isbm |>
   )
 ```
 
-
 ```{r appendix-model-selection-northern-aabm, echo = FALSE}
  m_north_aabm |>
   mutate(n_var = round(n_var, 0))|>
@@ -1419,6 +1408,7 @@ m_north_isbm |>
   )
 ```
 :::
+
 \clearpage
 
 # Model Output {#app:third-appendix}
@@ -1479,7 +1469,6 @@ run_appendix_region <- function(model_name, x_var, x_var_mr, x_var_rr, year_star
 }
 ```
 
-
 ## Summer models
 
 ```{r summer-appendix-compute, echo=FALSE}
@@ -1500,17 +1489,16 @@ summer_plots <- purrr::map(summer_sections, function(sec) {
 names(summer_plots) <- summer_sections
 ```
 
-
 ```{r summer-print-nwcvi, results='asis', echo=FALSE}
 (summer_plots[["NWCVI Summer"]][["NWCVI S SUMMER AABM"]]+ ylab("summer creel + iREC catch estimate") + xlab("summer creel catch estimate") ) + (summer_plots[["NWCVI Summer"]][["NWCVI S SUMMER ISBM"]]+ ylab("summer creel + iREC catch estimate") + xlab("summer creel catch estimate")) + plot_layout(guides="collect")
 
 ```
 
-
 ```{r summer-print-swcvi, results='asis', echo=FALSE}
 (summer_plots[["SWCVI Summer"]][["SWCVI S SUMMER AABM"]]+ ylab("summer creel + iREC catch estimate") + xlab("summer creel catch estimate") ) + (summer_plots[["SWCVI Summer"]][["SWCVI S SUMMER ISBM"]]+ ylab("summer creel + iREC catch estimate") + xlab("summer creel catch estimate")) + plot_layout(guides="collect")
 
 ```
+
 ```{r summer-print-ngs, results='asis', echo=FALSE}
 summer_plots[["NGS Summer"]][["NGS S SUMMER"]] + ylab("summer creel + iREC catch estimate") + xlab("summer creel catch estimate")
 ```
@@ -1519,8 +1507,6 @@ summer_plots[["NGS Summer"]][["NGS S SUMMER"]] + ylab("summer creel + iREC catch
 
 summer_plots[["SGS Summer"]][["SGS S SUMMER"]] + ylab("summer creel + iREC catch estimate") + xlab("summer creel catch estimate")
 ```
-
-
 
 ```{r summer-print-jnst, results='asis', echo=FALSE}
 summer_plots[["JNST Summer"]][["JOHN ST S SUMMER"]] + ylab("summer creel + iREC catch estimate") + xlab("summer creel catch estimate")
@@ -1552,8 +1538,6 @@ seasonal_plots <- purrr::map(seasonal_sections, function(sec) {
 names(seasonal_plots) <- seasonal_sections
 ```
 
-
-
 ```{r seasonal-print-wcvi, results='asis', echo=FALSE}
 (seasonal_plots[["WCVI Seasonal"]][["NWCVI S SPRING AABM"]] + ylab("seasonal iREC catch estimate") + xlab("summer creel catch estimate") ) + 
   (seasonal_plots[["WCVI Seasonal"]][["NWCVI S FALL AABM"]] + ylab("seasonal iREC catch estimate") + xlab("summer creel catch estimate") ) + 
@@ -1569,7 +1553,6 @@ names(seasonal_plots) <- seasonal_sections
 
 ```
 
-
 ```{r seasonal-print-sgs, results='asis', echo=FALSE}
 (seasonal_plots[["SGS Seasonal"]][["SGS S SPRING"]]+ ylab("seasonal iREC catch estimate") + xlab("summer creel catch estimate") ) + (seasonal_plots[["SGS Seasonal"]][["SGS S FALL"]]+ ylab("seasonal iREC catch estimate") + xlab("summer creel catch estimate")) + plot_layout(guides="collect")
 
@@ -1580,13 +1563,10 @@ names(seasonal_plots) <- seasonal_sections
 
 ```
 
-
 ```{r seasonal-print-jdf, results='asis', echo=FALSE}
 (seasonal_plots[["JDF Seasonal"]][["CA JDF S SPRING"]]+ ylab("seasonal iREC catch estimate") + xlab("summer creel catch estimate") ) + (seasonal_plots[["JDF Seasonal"]][["CA JDF S FALL"]]+ ylab("seasonal iREC catch estimate") + xlab("summer creel catch estimate")) + plot_layout(guides="collect")
 
 ```
-
-
 
 ## Annual models
 
@@ -1738,8 +1718,7 @@ Before the development of this report, updated recreational catch estimates wher
 \begin{equation} 
 C_{total,summer} = C_{historic, summer} + S + C_{historic, summer}:S 
 (\#eq:haida-prev-summer-model)
-\end{equation}
-\begin{equation} 
+\end{equation} \begin{equation} 
 C_{total,Z} = Z + S + C_{historic, summer}:Z, Z \in (spring, fall) 
 (\#eq:haida-prev-season-model)
 \end{equation}
@@ -1842,7 +1821,7 @@ all_north_aabm_gaussian_spec <-
 
 ```
 
-The relationship between historic logbook and iREC catch is expected to be more linear than the previous log link form previously used as logbook estimates have commonly represented the majority of catch. Furthermore, the 2005 to 2007 logbook catch estimates are out side the range of the fitted years. A new generalized linear model was fit using Equation \@ref(eq:haida-new-model) with a Gaussian link that estimates annual historic Haida Gwaii catch ($C_{historic}$) by kept and marked status. 
+The relationship between historic logbook and iREC catch is expected to be more linear than the previous log link form previously used as logbook estimates have commonly represented the majority of catch. Furthermore, the 2005 to 2007 logbook catch estimates are out side the range of the fitted years. A new generalized linear model was fit using Equation \@ref(eq:haida-new-model) with a Gaussian link that estimates annual historic Haida Gwaii catch ($C_{historic}$) by kept and marked status.
 
 \begin{equation} 
 C_{iREC, annual} = C_{creel, annual} + k + m + k:m + 1 
@@ -1866,7 +1845,7 @@ csasdowntex::csas_table(fit_aic_df,
 
 ```
 
-AICs are presented for previous summer and seasonal model fits with the new gaussian "New Annual Gaussian Fit" in Table \@ref(tab:tbl-haida-gwaii-model-fit), although since these are fit on separate datasets they can not be directly compared. The Gamma model fit on the same data set as the new model is compared in  Appendix \@ref(fifth-appendix). While the gaussian model has a higher AIc than the Gamma model, it has a much  better residual fit and aligns better with sport head recovery data. The new model fit substantially reduces the estimate of unmarked kept catch during the 2005 to 2007 years and increases the estimate of unmarked releases, particularly in 2005 (Figure \@ref(fig:fig-nbc-aabm-catch-diff))  compared to the previous model fit. As there is very limited change in the marked kept and released estimate, the new model fit should not substantially change the ERA or CWT estimates.
+AICs are presented for previous summer and seasonal model fits with the new gaussian "New Annual Gaussian Fit" in Table \@ref(tab:tbl-haida-gwaii-model-fit), although since these are fit on separate datasets they can not be directly compared. The Gamma model fit on the same data set as the new model is compared in Appendix \@ref(fifth-appendix). While the gaussian model has a higher AIc than the Gamma model, it has a much better residual fit and aligns better with sport head recovery data. The new model fit substantially reduces the estimate of unmarked kept catch during the 2005 to 2007 years and increases the estimate of unmarked releases, particularly in 2005 (Figure \@ref(fig:fig-nbc-aabm-catch-diff)) compared to the previous model fit. As there is very limited change in the marked kept and released estimate, the new model fit should not substantially change the ERA or CWT estimates.
 
 ```{r NBC AABM New Model Predictions appendix, results='asis', echo=FALSE}
 #| label: fig-nbc-aabm-new-catch
@@ -1938,8 +1917,8 @@ catch_diff |>
 
 With the initial corrections to the calibration with iREC data, we explored the model fit and how catch was modified in each finescale fishery. The original analysis only had a single model fit for the summer and seasonal models in Southern BC. We found that these models would reduce the kept catch in certain finescale fisheries and years that did not seem consistent with the expectation that the creel lacked coverage and should have been a slight underestimate. As the creel program is operated differently in various portions of Southern BC, we explored splitting the model into separate summer models for the following regions:
 
-- South Strait of Georgia 
-- North Strait of Georgia 
+- South Strait of Georgia
+- North Strait of Georgia
 - Johnstone Strait
 - North Westcoast Vancouver Island
 - South Westcoast Vancouver Island
@@ -1949,13 +1928,13 @@ We compared groupings of fisheries and the results can be found in Appendix \@re
 
 ## Other Analytical Improvements
 
-In addition to redefining the Haida Gwaii model for historic catch, the NBC ISBM model historic catch was updated to extrapolate catch for the 2005 to 2007 period. The past version of the analysis did not estimate NBC ISBM catch for 2005 to 2007 because no historic catch estimates were provided. To allow the model to estimate those years, we used to average historic catch estimates from 2008 to 2012 to fit the model for the earlier years. This will allow the historic catch model to estimate total catch for the 2005 to 2007 period in a consistent approach to more recent years. Furthermore, we no longer rely on the average sample rate of surrounding regions to estimate the CWT sample rate of NBC ISBM in those years. NBC ISBM was also updated to reflect an annual model, whereas previously it was seasonal. 
+In addition to redefining the Haida Gwaii model for historic catch, the NBC ISBM model historic catch was updated to extrapolate catch for the 2005 to 2007 period. The past version of the analysis did not estimate NBC ISBM catch for 2005 to 2007 because no historic catch estimates were provided. To allow the model to estimate those years, we used to average historic catch estimates from 2008 to 2012 to fit the model for the earlier years. This will allow the historic catch model to estimate total catch for the 2005 to 2007 period in a consistent approach to more recent years. Furthermore, we no longer rely on the average sample rate of surrounding regions to estimate the CWT sample rate of NBC ISBM in those years. NBC ISBM was also updated to reflect an annual model, whereas previously it was seasonal.
 
 During a review of the mark rates used to estimate marked and unmarked catch, a couple of issues were found and corrected. The first was an issue within including historic creel mark rates from 2005 to 2007. The code did not correctly link the additional data effectively and excluded the mark rate data in some circumstances. The revised code now correctly combines the historic creel mark rate data to more effectively estimate marked vs unmarked catch in southern BC. Furthermore, the regional aggregation of mark rates was using a different definition of regions provide from creel. The analysis was updated to use a consistent set of regions to estimate regional mark rates when infilling for low quality area mark rates.
 
-When reviewing how the quality control flags were handled when combining creel reported areas into to iREC areas we found that the quality control flags were combined incorrectly. The only iREC area that this affects was PFMA 20 from 2013 to 2019 in some months. As PFMA 20 is operationally covered by two separate creel programs, in some cases part of PFMA 20 may have a quality creel estimate while the other may not. When combined it would identify the whole PFMA 20 as being a quality creel and potentially use less quality creel data instead of iREC for the whole area. This was fixed and now Juan de Fuca catch has a more consistent relationship with creel over the whole time series of this study. With the split of PFMA 20 in iREC reporting starting in 2020, this was no longer an issue and quality creel estimates either portion of PFMA 20 can be used as the final catch estimate. This flag update applies also to 2013 estimates for PFMAs 19 and 23, after which the split was incorporated into iREC. In addition to the PFMA split quality flags affecting our analysis, they were also identified as affecting iREC calibration analysis for licence years 2013 to 2019. 
+When reviewing how the quality control flags were handled when combining creel reported areas into to iREC areas we found that the quality control flags were combined incorrectly. The only iREC area that this affects was PFMA 20 from 2013 to 2019 in some months. As PFMA 20 is operationally covered by two separate creel programs, in some cases part of PFMA 20 may have a quality creel estimate while the other may not. When combined it would identify the whole PFMA 20 as being a quality creel and potentially use less quality creel data instead of iREC for the whole area. This was fixed and now Juan de Fuca catch has a more consistent relationship with creel over the whole time series of this study. With the split of PFMA 20 in iREC reporting starting in 2020, this was no longer an issue and quality creel estimates either portion of PFMA 20 can be used as the final catch estimate. This flag update applies also to 2013 estimates for PFMAs 19 and 23, after which the split was incorporated into iREC. In addition to the PFMA split quality flags affecting our analysis, they were also identified as affecting iREC calibration analysis for licence years 2013 to 2019.
 
-The iREC calibration procedure was re-run on all years following the split flag update and several other improvements to the iREC data, notably: additions to data quality procedures (like excluding invalid date records), extending standardized data quality procedures back to 2012 (from 2018), variance calculated by season, and iREC estimates of zero excluded from calibration (S. Yalcin, pers.comm.). The previous and new bias calibration factors (BCF) are provided in Table \@ref(tab:tbl-irec-bcf-update) and Table \@ref(tab:tbl-irec-bcf-update2), for kept and released BCFs, respectively. With the review and and update, calibration factors generally increased and the resulting Chinook catch estimates decreased. That brought calibrated iREC catch estimates more inline with creel estimates for those re-calibrated years. Kept BCFs are approaching 1 in recent years (mean 0.99 +/- 0.02 SD from 2020-2024), whereas released BCFs are more variable and further from 1 (mean 0.98 +/- 0.15 SD from 2020-2024). 
+The iREC calibration procedure was re-run on all years following the split flag update and several other improvements to the iREC data, notably: additions to data quality procedures (like excluding invalid date records), extending standardized data quality procedures back to 2012 (from 2018), variance calculated by season, and iREC estimates of zero excluded from calibration (S. Yalcin, pers.comm.). The previous and new bias calibration factors (BCF) are provided in Table \@ref(tab:tbl-irec-bcf-update) and Table \@ref(tab:tbl-irec-bcf-update2), for kept and released BCFs, respectively. With the review and and update, calibration factors generally increased and the resulting Chinook catch estimates decreased. That brought calibrated iREC catch estimates more inline with creel estimates for those re-calibrated years. Kept BCFs are approaching 1 in recent years (mean 0.99 +/- 0.02 SD from 2020-2024), whereas released BCFs are more variable and further from 1 (mean 0.98 +/- 0.15 SD from 2020-2024).
 
 ```{r tbl-irec-bcf-update, results='asis', echo=FALSE}
 
@@ -1998,7 +1977,7 @@ data.frame(Year = 2013:2024,
 
 ```
 
-Finally, in this report we have improved the model fitting process using automated model selection, expanding the status variable to kept status and mark status to allow for an interaction, and adding a management term where appropriate to test for differences in ISBM and AABM fisheries. We did explore other model forms such as modelling total kept and total released catch and including mark rate and release rate as continuous predictors, but ultimately the variability in mark rate between data sources made these models more uncertain and were less flexible for combining for our various reporting requirements. With the various improvements made previously discussed, we reviewed the model fits and chose the model form that better fit the improved catch estimates. The changes from February 2025 to current analysis are detailed in the following table. 
+Finally, in this report we have improved the model fitting process using automated model selection, expanding the status variable to kept status and mark status to allow for an interaction, and adding a management term where appropriate to test for differences in ISBM and AABM fisheries. We did explore other model forms such as modelling total kept and total released catch and including mark rate and release rate as continuous predictors, but ultimately the variability in mark rate between data sources made these models more uncertain and were less flexible for combining for our various reporting requirements. With the various improvements made previously discussed, we reviewed the model fits and chose the model form that better fit the improved catch estimates. The changes from February 2025 to current analysis are detailed in the following table.
 
 ## Changes to Catch
 
