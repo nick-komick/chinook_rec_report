@@ -70,7 +70,7 @@ models_combined2a <-
 
 ```
 
-In finescale fisheries, we found that the combined creel and iREC catch estimates were generally higher than creel catch estimates. For example, Figure \@ref(fig:fig-ngs-catch-revised-1) shows the effect of the summed and revised 2013 to 2023 kept catch estimates for the Northern Straight of Georgia finescale fishery (solid line) compared to the previous creel catch estimates without iREC inclusion (dashed line). Though the relative difference between the two time series vary, the revised combined creel and iREC catch estimates are consistently higher than the previous creel catch estimates. For Northern Strait of Georgia, the difference between creel and combined creel and iREC is larger in the early years of the iREC program (mean `r fmt_stat(models_combined2a_avs_pre2019$pdiff_irec_creel_mean[models_combined2a_avs_pre2019$region_mgmt == "NGS" & models_combined2a_avs_pre2019$kept_status =="kept"], scale=100)`% 2013-2018, an average of `r fmt_stat(models_combined2a_avs_pre2019$diff_irec_creel_mean[models_combined2a_avs_pre2019$region_mgmt == "NGS" & models_combined2a_avs_pre2019$kept_status =="kept"])` pieces per year), and less pronounced in more recent years (mean `r fmt_stat(models_combined2a_avs_post2019$pdiff_irec_creel_mean[models_combined2a_avs_post2019$region_mgmt == "NGS" & models_combined2a_avs_post2019$kept_status =="kept"], scale=100)`% and `r fmt_stat(models_combined2a_avs_post2019$diff_irec_creel_mean[models_combined2a_avs_post2019$region_mgmt == "NGS" & models_combined2a_avs_post2019$kept_status =="kept"])` pieces on average per year 2019-2023). This pattern is likely a combination of improvements in creel surveying in recent years (see methods: creel quality control) and improvements to the iREC survey which increased the number of survey responses and therefore reduced uncertainty in iREC estimates (see Appendix \@ref(app:apdx-irec-mthd) for more details). In some fisheries, the difference between combined creel and iREC and creel is consistent across all years of iREC (e.g., NWCVI AABM). Released catch estimates in finescale fisheries were also higher using combined creel and iREC compared to creel and generally consistent through time (see Figure \@ref(fig-ngs-catch-revised-2-released)). The released estimates generated a larger difference than the kept estimates, on average a `r fmt_stat(models_combined2a_avs$pdiff_irec_creel_mean[models_combined2a_avs$region_mgmt == "NGS" & models_combined2a_avs$kept_status =="released"], scale=100)`% increase (`r fmt_stat(models_combined2a_avs$diff_irec_creel_mean[models_combined2a_avs$region_mgmt == "NGS" & models_combined2a_avs$kept_status =="released"])` pieces per year). Revised kept and released catch estimates summed to ERA fishery level are discussed in detail below.
+In finescale fisheries, we found that the combined creel and iREC catch estimates were generally higher than creel catch estimates. For example, Figure \@ref(fig:fig-ngs-catch-revised-1) shows the effect of the summed and revised 2013 to 2023 kept catch estimates for the Northern Straight of Georgia finescale fishery (solid line) compared to the previous creel catch estimates without iREC inclusion (dashed line). Though the relative difference between the two time series vary, the revised combined creel and iREC catch estimates are consistently higher than the previous creel catch estimates. For Northern Strait of Georgia, the difference between creel and combined creel and iREC is larger in the early years of the iREC program (mean `r fmt_stat(models_combined2a_avs_pre2019$pdiff_irec_creel_mean[models_combined2a_avs_pre2019$region_mgmt == "NGS" & models_combined2a_avs_pre2019$kept_status =="kept"], scale=100)`% 2013-2018, an average of `r fmt_stat(models_combined2a_avs_pre2019$diff_irec_creel_mean[models_combined2a_avs_pre2019$region_mgmt == "NGS" & models_combined2a_avs_pre2019$kept_status =="kept"])` pieces per year), and less pronounced in more recent years (mean `r fmt_stat(models_combined2a_avs_post2019$pdiff_irec_creel_mean[models_combined2a_avs_post2019$region_mgmt == "NGS" & models_combined2a_avs_post2019$kept_status =="kept"], scale=100)`% and `r fmt_stat(models_combined2a_avs_post2019$diff_irec_creel_mean[models_combined2a_avs_post2019$region_mgmt == "NGS" & models_combined2a_avs_post2019$kept_status =="kept"])` pieces on average per year 2019-2023). This pattern is likely a combination of improvements in creel surveying in recent years (see Section \@ref(qc)) and improvements to the iREC survey which increased the number of survey responses and therefore reduced uncertainty in iREC estimates (see Appendix \@ref(app:apdx-irec-mthd) for more details). In some fisheries, the difference between combined creel and iREC and creel is consistent across all years of iREC (e.g., NWCVI AABM). Released catch estimates in finescale fisheries were also higher using combined creel and iREC compared to creel and generally consistent through time (see Figure \@ref(fig:fig-ngs-catch-revised-2-released)). The released estimates generated a larger difference than the kept estimates, on average a `r fmt_stat(models_combined2a_avs$pdiff_irec_creel_mean[models_combined2a_avs$region_mgmt == "NGS" & models_combined2a_avs$kept_status =="released"], scale=100)`% increase (`r fmt_stat(models_combined2a_avs$diff_irec_creel_mean[models_combined2a_avs$region_mgmt == "NGS" & models_combined2a_avs$kept_status =="released"])` pieces per year). Revised kept and released catch estimates summed to ERA fishery level are discussed in detail below.
 
 As demonstrated by Figure \@ref(fig:fig-creel-iREC-NGS), iREC fills in spatial and temporal gaps in creel sampling, so it is expected that the summed yearly estimates are typically higher when iREC is included, especially in regions with many gaps to fill. The highest percent differences between the revised estimates (combined creel and iREC) and previous estimates occurred in Southern Strait of Georgia and Central BC. The fishery with the least amount of change across the time series was Haida Gwaii. This pattern holds for other fisheries with few exceptions (Appendix \@ref(app:revised-catch-timeseries)). In a few cases, the combined creel and iREC catch estimate was lower than the creel catch, for example in Johnstone Strait in 2019 (see Appendix \@ref(app:revised-catch-timeseries)). This could be due to overestimation by the unfiltered creel since seven out of nine estimates in this region and year failed the inclusion criteria. This could result in a monthly overestimation if, for example, a long holiday weekend is extrapolated to represent the entire monthly catch. 
 
@@ -339,9 +339,10 @@ run_main_region <- function(model_name, x_var, x_var_mr, x_var_rr, year_start,
 #### Northern WCVI
 
 The best model for Northern WCVI summer combined creel and iREC catch ($C_{creel+iREC, summer}$), was a model with a Gaussian distribution that included summer creel catch ($C_{creel,summer}$), marked status ($m$) and management ($M$), an interaction between mark status and management, and an intercept. Kept status was dropped from the model during model selection, as were more complex variations of interactions.
-
-$$C_{creel+iREC, summer} = C_{creel,summer} + M + m + M:m + 1
-\label{eq:nwcvi_summer}$$
+\begin{equation}
+C_{creel+iREC, summer} = C_{creel,summer} + M + m + M:m + 1
+\label{eq:nwcvi_summer}
+\end{equation}
 
 This model parameterization allows for combined creel and iREC catch to be predicted independently by the creel catch, management type (e.g., AABM or ISBM), and mark status (e.g., marked or unmarked). In addition, the interaction between management and mark status allows the effect of management type on combined creel and iREC catch to be modified by mark status.
 
@@ -371,10 +372,10 @@ plots <- run_main_region(
 #### Southern WCVI
 
 The best model for Southern WCVI Summer combined creel and iREC catch ($C_{creel+iREC, summer}$), was a model with a Gaussian distribution that included summer creel catch ($C_{creel,summer}$), kept status ($k$) , marked status ($m$) and management ($M$), an interaction between kept status and summer creel, an interaction between mark status and summer creel, and an intercept. More complex variations and interactions were dropped during model selection.
-
-$$C_{creel+iREC, summer} = C_{creel,summer} + M + m + k + C_{creel,summer}:k + C_{creel,summer}:m + 1
-\label{eq:swcvi_summer}$$
-
+\begin{equation}
+C_{creel+iREC, summer} = C_{creel,summer} + M + m + k + C_{creel,summer}:k + C_{creel,summer}:m + 1
+\label{eq:swcvi_summer}
+\end{equation}
 This model parameterization allows for combined creel and iREC catch to be predicted by the creel catch, management type, mark status, and kept status (kept or released). In addition, the interactions allow the effect of creel summer on catch (i.e., the slope) to be modified by kept status and mark status separately.
 
 Figure \@ref(fig:fig-swcvi-aabm-summer-model) shows the AABM modelled relationship for SWCVI Summer. The ISBM counterpart plot can be found in Appendix \@ref(app:third-appendix). Overall, we found a strong positive linear relationship between summer combined creel and iREC catch and summer creel catch (p\<0.001, pseudo $R^{2} = 0.98$), the slope of which was modestly modified by kept status (released steeper than kept) and marked status (unmarked steeper than marked). No significant independent effects were found for kept or mark status. There was significant effect of management (AABM fisheries had more consistent and high catch overall compared to ISBM fisheries). 
@@ -404,9 +405,10 @@ plots <- run_main_region(
 #### Northern Strait of Georgia
 
 The best model for Northern Strait of Georgia (NGS) summer combined creel and iREC catch ($C_{creel+iREC, summer}$), was a model with a Gaussian distribution that included summer creel ($C_{creel,summer}$) and mark status ($m$) and an intercept. Kept status was dropped from the model during model selection, as were more complex variations and interactions.
-
-$$C_{creel+iREC, summer} = C_{creel,summer} + m + 1
-\label{eq:ngs_summer}$$
+\begin{equation}
+C_{creel+iREC, summer} = C_{creel,summer} + m + 1
+\label{eq:ngs_summer}
+\end{equation}
 
 This model parameterization allows for summer combined creel and iREC catch to be predicted independently by the unfiltered creel and logbook catch and mark status.
 
@@ -435,10 +437,10 @@ plot
 #### Southern Strait of Georgia
 
 The best model for Southern Strait of Georgia (SGS) summer combined creel and iREC catch ($C_{creel+iREC,summer}$), was also a model with a Gaussian distribution that included summer creel catch ($C_{creel,summer}$) and mark status ($m$) and an intercept. Kept status was dropped from the model during model selection, as were more complex variations and interactions.
-
-$$C_{creel+iREC, summer} = C_{creel,summer} + m + 1
-\label{eq:sgs_summer}$$
-
+\begin{equation}
+C_{creel+iREC, summer} = C_{creel,summer} + m + 1
+\label{eq:sgs_summer}
+\end{equation}
 This model parameterization allows for combined creel and iREC catch to be predicted independently by the creel catch and mark status (e.g., marked vs. unmarked).
 
 Figure \@ref(fig:fig-sgs-summer-model) shows the modelled relationship for SGS Summer. Overall, we found a moderate positive linear relationship between summer combined creel and iREC catch and summer creel catch (p\<0.001, pseudo $R^{2} = 0.71$). Overall, there were more unmarked fish than marked fish encountered.
@@ -466,9 +468,10 @@ plot
 #### Johnstone Strait
 
 The best model for Johnstone Strait (JNST) summer combined creel and iREC catch ($C_{creel+iREC,summer}$), was a model with a Gamma distribution that included summer creel ($C_{creel,summer}$), kept status ($k$), mark status ($m$), an interaction between kept status and summer creel, an interaction between mark status and summer creel, and an intercept. More complex variations and interactions were dropped.
-
-$$C_{creel+iREC, summer} = C_{creel,summer} + m + k + C_{creel,summer}:k + C_{creel,summer}:m + 1
-\label{eq:jnst_summer}$$
+\begin{equation}
+C_{creel+iREC, summer} = C_{creel,summer} + m + k + C_{creel,summer}:k + C_{creel,summer}:m + 1
+\label{eq:jnst_summer}
+\end{equation}
 
 This model parameterization allows for combined creel and iREC catch in the whole summer period (months 5 to 9) to be predicted independently by the unfiltered creel and logbook catch, mark status (e.g., marked vs. unmarked), and kept status (kept vs. released). In addition, the interactions allow the effect of creel summer on combined catch (i.e., the slope) to be modified by kept status and mark status separately.
 
@@ -497,9 +500,10 @@ plots <- run_main_region(
 #### Juan de Fuca Strait
 
 The best model for Juan de Fuca (JDF) Strait summer combined creel and iREC catch ($C_{creel+iREC,summer}$), was a model with a Gamma distribution that included summer creel ($C_{creel,summer}$), kept_status ($k$), mark status ($m$), an interaction between kept status and summer creel, an interaction between mark status and summer creel, and an intercept. More complex variations and interactions were dropped.
-
-$$C_{creel+iREC, summer} = C_{creel,summer} + m + k + C_{creel,summer}:k + C_{creel,summer}:m + 1
-\label{eq:jdf_summer}$$
+\begin{equation}
+C_{creel+iREC, summer} = C_{creel,summer} + m + k + C_{creel,summer}:k + C_{creel,summer}:m + 1
+\label{eq:jdf_summer}
+\end{equation}
 
 This model parameterization allows for combined creel and iREC catch in the whole summer period (months 5:9) to be predicted independently by the creel catch, mark status (e.g., marked vs. unmarked), and kept status (kept vs. released). In addition, the interactions allow the effect of summer creel on summer combined creel and iREC catch (i.e., the slope) to be modified by kept status and mark status separately.
 
@@ -531,9 +535,10 @@ plots[[1]] + ylab("combined creel and iREC catch estimate")  + xlab("summer cree
 #### WCVI
 
 The best model for WCVI Spring and Fall AABM iREC catch ($C_{iREC, seasonal}$), was a model with a Gaussian distribution that included region ($r$), season ($s$), their interaction, and an intercept. Notably, summer creel, marked status, and kept status were dropped from the model during model selection, as were more complex variations of interactions.
-
-$$C_{iREC, seasonal} = r + s + r:s + 1
-\label{eq:wcvi_seasonal}$$
+\begin{equation}
+C_{iREC, seasonal} = r + s + r:s + 1
+\label{eq:wcvi_seasonal}
+\end{equation}
 
 This model parameterization allows for iREC catch in the off-season to be predicted independently by region (Northern or Southern WCVI) and season (spring or fall), and for the effect of season to be modified by region.
 
@@ -565,9 +570,10 @@ plots <- run_main_region(
 #### Northern Strait of Georgia
 
 The best model for Northern Strait of Georgia off-season iREC catch ($C_{iREC, seasonal}$), was a model with a Gaussian distribution that included summer creel ($C_{creel,summer}$), kept status ($k$), season ($s$), an interaction between summer creel and season, an interaction between summer creel and kept status, and an intercept. Mark status and more complex variations and interactions were dropped during model selection.
-
-$$C_{iREC, seasonal} = C_{creel,summer} + k + s + C_{creel,summer}:s + C_{creel,summer}:k + 1
-\label{eq:ngs_seasonal}$$
+\begin{equation}
+C_{iREC, seasonal} = C_{creel,summer} + k + s + C_{creel,summer}:s + C_{creel,summer}:k + 1
+\label{eq:ngs_seasonal}
+\end{equation}
 
 This model parameterization allows for off-season iREC catch to be predicted independently by the summer creel catch, kept status, and season. Furthermore, this model formula allows for the effect of summer creel on off-season iREC catch to be modified by season and kept status.
 
@@ -594,10 +600,10 @@ plots[["NGS S SPRING"]] + ylab("seasonal iREC catch estimate") + xlab("summer cr
 #### Southern Strait of Georgia
 
 The best model for Southern Strait of Georgia off-season iREC catch ($C_{iREC, seasonal}$), was a model with a Gaussian distribution that included summer creel ($C_{creel,summer}$), mark status ($m$), season ($s$), an interaction between summer creel and mark status, and an intercept. Kept status and more complex variations and interactions were dropped during model selection.
-
-$$C_{iREC, seasonal} = C_{creel,summer} + m + s + C_{creel,summer}:m + 1
-\label{eq:sgs_seasonal}$$
-
+\begin{equation}
+C_{iREC, seasonal} = C_{creel,summer} + m + s + C_{creel,summer}:m + 1
+\label{eq:sgs_seasonal}
+\end{equation}
 This model parameterization allows for off-season iREC catch to be predicted independently by the unfiltered creel summer catch, mark status, and season. Furthermore, this model formula allows for the effect of summer creel on off-season iREC catch to be modified by mark status.
 
 Figure \@ref(fig:fig-sgs-spring-model) shows the modelled relationship for SGS Spring. The Fall counterpart plot can be found in Appendix \@ref(app:third-appendix). Overall, we found a weak positive linear relationship between summer creel and off-season iREC catch (p\<0.011, pseudo $R^{2} = 0.39$). There was an overall effect of season (more iREC catch in spring than fall). Similar to the summer SGS model, there was an overall effect of mark status (more unmarked than marked catch). However, in this model mark status modified the slope of the creel summer catch to iREC seasonal catch: the slope is steeper for marked than unmarked fish.
@@ -623,9 +629,10 @@ plots[["SGS S SPRING"]] + ylab("seasonal iREC catch estimate") + xlab("summer cr
 #### Johnstone Strait
 
 The best model for Johnstone Strait seasonal iREC catch ($C_{iREC, seasonal}$), was a model with a Gaussian distribution that included mark status ($m$) and an intercept. Notably, summer creel, kept status, season, and any more complex variations and interactions were dropped.
-
-$$C_{iREC, seasonal} = m + 1
-\label{eq:jnst_seasonal}$$
+\begin{equation}
+C_{iREC, seasonal} = m + 1
+\label{eq:jnst_seasonal}
+\end{equation}
 
 This model parameterization allows for iREC catch in the off-season to be predicted independently by mark status.
 
@@ -653,9 +660,10 @@ plots <- run_main_region(
 #### Juan de Fuca Strait
 
 The best model for Juan de Fuca Strait off-season iREC catch ($C_{iREC, seasonal}$), was a model with a Gamma distribution that included summer creel ($C_{creel,summer}$), kept status ($k$), mark status ($m$), season($s$), an interaction between mark status and summer creel, and an intercept. More complex variations and interactions were dropped.
-
-$$C_{iREC, seasonal} = C_{creel,summer} + m + k + s + C_{creel,summer}:m + 1
-\label{eq:jdf_seasonal}$$
+\begin{equation}
+C_{iREC, seasonal} = C_{creel,summer} + m + k + s + C_{creel,summer}:m + 1
+\label{eq:jdf_seasonal}
+\end{equation}
 
 This model parameterization allows for iREC catch in the off-season to be predicted independently by the summertime creel catch, mark status, kept status, and season. In addition, the interaction allows the effect of creel summer on off-season iREC catch (i.e., the slope) to be modified by mark status.
 
@@ -685,9 +693,10 @@ plots[["CA JDF S SPRING"]] + ylab("seasonal iREC catch estimate") + xlab("summer
 ### Annual Fisheries models
 #### Haida Gwaii
 The best model for the Haida Gwaii (Northern BC Sport AABM) annual iREC catch incorporated the annual creel catch $C_{creel, annual}$), kept status ($k$), mark status ($m$), and the interaction between kept and mark status, and an intercept, as identified in Equation \eqref{eq:haida_gwaii_annual}. We used a Gaussian link instead of a Gamma log link because earlier values in the time series were outside the range of the model fit (see details in Appendix \@ref(apdx-haida-model)).
-
-$$C_{iREC, annual} = C_{creel, annual} + k + m + k:m + 1 
-\label{eq:haida_gwaii_annual}$$
+\begin{equation}
+C_{iREC, annual} = C_{creel, annual} + k + m + k:m + 1 
+\label{eq:haida_gwaii_annual}
+\end{equation}
 
 This model parameterization allows for iREC catch to be predicted by annual creel catch, kept status and mark status. The interaction between kept and mark status allows the effect of kept status to be moderated by mark status. 
 
@@ -716,8 +725,9 @@ plots[[1]] + ylab("annual iREC catch estimate") + xlab("annual creel catch estim
 #### Northern BC ISBM
 
 The best model for annual Northern BC (NBC) ISBM iREC catch was one with a Gamma distribution using a log link that included annual creel catch, $C_{creel,annual}$), mark status ($m$), and an interaction between historic data and mark status. Kept status and more complex variations and interactions were dropped.
-
-$$C_{iREC, annual} = C_{creel,annual} + m + C_{creel,annual}:m \label{eq:nbc_isbm_annual}$$
+\begin{equation}
+C_{iREC, annual} = C_{creel,annual} + m + C_{creel,annual}:m \label{eq:nbc_isbm_annual}
+\end{equation}
 
 This model parameterization allows for annual iREC catch to be predicted both independently by the annual creel catch, by mark status, and by their interaction.
 
@@ -750,9 +760,12 @@ plots[[1]] +  ylab("annual iREC catch estimate") + xlab("annual creel catch esti
 #### Central BC
 
 Central BC was split into two models, one for kept fish and one for released fish where there were almost exclusively zeros provided in the historical data. The best model for the kept Central BC annual catch was one with a Gamma distribution with a log link which included logbook catch and mark status. The best model for the released Central BC annual catch was one with a Gamma distribution with a log link which included mark status and an intercept. As historic logbook estimates were mostly zero, this factor was excluded during model selection, as was kept status and various interactions.
-
-$$ C_{iREC,annual,kept} = C_{logbook,annual} + m \label{eq:cbc_annual_kept}$$
-$$ C_{iREC,annual,released} = m + 1 \label{eq:cbc_annual_released}$$
+\begin{equation}
+C_{iREC,annual,kept} = C_{logbook,annual} + m \label{eq:cbc_annual_kept}
+\end{equation}
+\begin{equation}
+C_{iREC,annual,released} = m + 1 \label{eq:cbc_annual_released}
+\end{equation}
 
 This model parameterization allows for kept iREC catch to be predicted independently by the annual logbook catch and by mark status and released iREC catch to be predicted independently by mark status.
 
@@ -776,6 +789,44 @@ plots <- run_main_region(
 
 plot <- plots[[1]] + ylab("annual iREC catch estimate") + xlab("annual logbook catch estimate")
 plot
+# 
+# facet_var <- "status"
+# 
+# orig_data <- plots[[1]]$layers[[1]]$data
+# head(orig_data)
+# # --- The 2 panels to convert to boxplots (grouped by finescale_fishery) ---
+# boxplot_levels <- c("marked_released_total", "unmarked_released_total")   # <- your actual facet levels
+# box_colours <- c("marked_released_total" = "#31688e",
+#                   "unmarked_released_total" = "#d4be02")
+# 
+# # --- Boxplot + jittered points ---
+# boxplot_plots <- lapply(boxplot_levels, function(lvl) {
+#   df <- orig_data %>% filter(.data[[facet_var]] == lvl) %>% mutate(grp = "0")
+#   ggplot(df, aes(x = grp, y = catch_estimate)) +
+#     geom_boxplot(fill = box_colours[[lvl]], alpha = 0.2, outlier.shape = NA) +
+#     geom_jitter(width = 0.1, alpha = 0.6, colour = box_colours[[lvl]]) +
+#     labs(title = lvl, x = NULL, y = "annual iREC catch estimate") +
+#     theme_bw() +
+#     theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
+# })
+# 
+# keep_levels <- c("marked_kept_total", "unmarked_kept_total")   # the 2 panels you want to keep as-is
+# 
+# make_kept_panel <- function(base_plot, lvl) {
+#   p <- base_plot
+#   p$layers <- lapply(p$layers, function(l) {
+#     # only filter layers that actually carry their own data
+#     # (skip any layer whose data is a bare "waiver" inheriting from the plot)
+#     if (is.data.frame(l$data) && facet_var %in% names(l$data)) {
+#       l$data <- l$data %>% filter(.data[[facet_var]] == lvl)
+#     }
+#     l
+#   })
+#   p <- p + facet_null() + ggtitle(lvl)
+#   p
+# }
+# 
+# keep_plots <- lapply(keep_levels, function(lvl) make_kept_panel(plots[[1]], lvl))
 
 ```
 
@@ -1553,7 +1604,7 @@ Revised released catch estimates are generally higher than the values reported i
 In other fisheries, where creel and/or logbooks did produce some estimated releases, the revised releases fluctuate, generally reflecting changing fisher behaviour and regulations over time (e.g. recent introduction of Chinook non-retention and mark selective fisheries in the Strait of Georgia and Strait of Juan de Fuca Sport have increased the number of released fish since 2019). For these fisheries, the revised releases were higher than previous estimates by an average of `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "GEO ST S" & models_combined2_avs$kept_status =="released"], scale=100)`% (`r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "GEO ST S" & models_combined2_avs$kept_status =="released"])` pieces) in the Strait of Georgia, `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "BC JF S" & models_combined2_avs$kept_status =="released"], scale=100)`% (`r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "BC JF S" & models_combined2_avs$kept_status =="released"])` pieces) in Juan de Fuca, `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "JNST S" & models_combined2_avs$kept_status =="released"], scale=100)`% (`r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "JNST S" & models_combined2_avs$kept_status =="released"])` pieces) in Johnstone Strait, `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "WCVI AABM S" & models_combined2_avs$kept_status =="released"], scale=100)`% (`r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "WCVI AABM S" & models_combined2_avs$kept_status =="released"])` pieces) in WCVI AABM and `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "WCVI ISBM S" & models_combined2_avs$kept_status =="released"], scale=100)`% (`r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "WCVI ISBM S" & models_combined2_avs$kept_status =="released"])` pieces) in WCVI ISBM. Northern BC ISBM Sport also had large percent changes, particularly in 2005-2012 period where no releases were previously reported (on average `r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "NBC ISBM S" & models_combined2_avs$kept_status =="released"])` pieces and `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "NBC ISBM S" & models_combined2_avs$kept_status =="released"], scale=100)`% change across the whole time series. Haida Gwaii Sport also had the largest average numeric increases of `r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "NBC AABM S" & models_combined2_avs$kept_status =="released"])` pieces, equating to a `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "NBC AABM S" & models_combined2_avs$kept_status =="released"], scale=100)`% change. 
 
 
-Released catch was revised downwards in a handful of cases. Strait of Georgia revised releases in 2014 were lower than those reported in 2024 (`r fmt_stat(models_combined2_diffs$pdiff_irec_rep[models_combined2_diffs$erafishery == "GEO ST S" & models_combined2_diffs$kept_status =="released" & models_combined2_diffs$year ==2014], scale=100)`%), however, this was due to the incorporation of iREC estimates that have since been revised. We observed the same pattern in 2012 for WCVI ISBM, coinciding with the piloting of iREC for this fishery, which was likely incorporated into reported estimates. Released catch is discussed more in the revised release rate section below. 
+Released catch was revised downwards in a handful of cases. Strait of Georgia revised releases in 2014 were lower than those reported in 2024 (`r fmt_stat(models_combined2_diffs$pdiff_irec_rep[models_combined2_diffs$erafishery == "GEO ST S" & models_combined2_diffs$kept_status =="released" & models_combined2_diffs$year ==2014], scale=100)`%), however, this was due to the incorporation of iREC estimates that have since been revised. We observed the same pattern in 2012 for WCVI ISBM, coinciding with the piloting of iREC for this fishery, which was likely incorporated into reported estimates. Released catch is discussed more in the revised release rate section below (Section \@ref(res-mrr)). 
 
 \newpage
 ### Updating CWT estimates
@@ -1639,7 +1690,7 @@ ggplot() +
 
 \newpage
 
-### Updating Chinook non-retention (release) estimates
+### Updating Chinook non-retention (release) estimates {res-mrr}
 ```{r results mrrukr1, results='asis', echo=FALSE}
 
 fishery_map <-
