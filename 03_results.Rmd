@@ -773,7 +773,8 @@ Figure \@ref(fig:fig-cbc-model) shows the combined CBC model results. Generally 
 
 ```{r results CBC model, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-cbc-model
-#| fig-cap: "CBC annual fishery modelled relationship between annual logbook estimates and annual iREC catch estimates. Data points are yearly estimates from 2015 to 2023. Note varying scales on the y-axes to better visualize the model fit."
+#| fig-cap: "CBC annual fishery modelled relationship between annual logbook estimates and annual iREC catch estimates. Data points are yearly estimates from 2015 to 2023. Note varying scales on the y-axes to better visualize the model fit. There are no releases reported in logbooks, therefore releases are presented as boxplots of iREC catch estimates."
+
 
 cfg <- main_regions[["Central BC ISBM kept"]]
 
@@ -787,47 +788,71 @@ plots <- run_main_region(
   fishery_codes = cfg$fishery_codes
 )
 
-plot <- plots[[1]] + ylab("annual iREC catch estimate") + xlab("annual logbook catch estimate")
-plot
-# 
-# facet_var <- "status"
-# 
-# orig_data <- plots[[1]]$layers[[1]]$data
-# head(orig_data)
-# # --- The 2 panels to convert to boxplots (grouped by finescale_fishery) ---
-# boxplot_levels <- c("marked_released_total", "unmarked_released_total")   # <- your actual facet levels
-# box_colours <- c("marked_released_total" = "#31688e",
-#                   "unmarked_released_total" = "#d4be02")
-# 
-# # --- Boxplot + jittered points ---
-# boxplot_plots <- lapply(boxplot_levels, function(lvl) {
-#   df <- orig_data %>% filter(.data[[facet_var]] == lvl) %>% mutate(grp = "0")
-#   ggplot(df, aes(x = grp, y = catch_estimate)) +
-#     geom_boxplot(fill = box_colours[[lvl]], alpha = 0.2, outlier.shape = NA) +
-#     geom_jitter(width = 0.1, alpha = 0.6, colour = box_colours[[lvl]]) +
-#     labs(title = lvl, x = NULL, y = "annual iREC catch estimate") +
-#     theme_bw() +
-#     theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
-# })
-# 
-# keep_levels <- c("marked_kept_total", "unmarked_kept_total")   # the 2 panels you want to keep as-is
-# 
-# make_kept_panel <- function(base_plot, lvl) {
-#   p <- base_plot
-#   p$layers <- lapply(p$layers, function(l) {
-#     # only filter layers that actually carry their own data
-#     # (skip any layer whose data is a bare "waiver" inheriting from the plot)
-#     if (is.data.frame(l$data) && facet_var %in% names(l$data)) {
-#       l$data <- l$data %>% filter(.data[[facet_var]] == lvl)
-#     }
-#     l
-#   })
-#   p <- p + facet_null() + ggtitle(lvl)
-#   p
-# }
-# 
-# keep_plots <- lapply(keep_levels, function(lvl) make_kept_panel(plots[[1]], lvl))
+facet_var <- "status"
+orig_data <- plots[[1]]$layers[[1]]$data
 
+
+boxplot_levels <- c("marked_released_total", "unmarked_released_total")   # <- your actual facet levels
+box_colours <- c("marked_released_total" = "#31688e",
+                  "unmarked_released_total" = "#d4be02")
+
+# --- Boxplot + jittered points ---
+boxplot_plots <- lapply(boxplot_levels, function(lvl) {
+  df <- orig_data %>% filter(.data[[facet_var]] == lvl) %>% mutate(grp = "0")
+  ggplot(df, aes(x = grp, y = catch_estimate)) +
+    geom_boxplot(fill = box_colours[[lvl]], alpha = 0.2, outlier.shape = NA) +
+    labs(title = lvl, x = NULL, y = "annual iREC catch estimate") +
+    theme_bw() +
+    theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())+
+    ylab("annual iREC catch estimate") + xlab("annual logbook catch estimate")+
+    ggplot2::theme(
+      axis.title = ggplot2::element_text(size = 14),
+      axis.text  = ggplot2::element_text(size = 12),
+      strip.text = ggplot2::element_text(size = 12, face = "bold"))+
+    geom_point(size=3, col = box_colours[[lvl]])+
+    coord_cartesian(ylim = c(0, NA))
+})
+
+boxplot_plots[[1]] <-boxplot_plots[[1]] +ggtitle("Marked Released Total")
+boxplot_plots[[2]] <-boxplot_plots[[2]] +ggtitle("Unmarked Released Total")
+
+# Pull a genuinely fresh copy first -- fresh_plots is contaminated now
+cfg <- main_regions[["Central BC ISBM kept"]]
+fresh_plots <- run_main_region(
+  model_name    = cfg$model_name,
+  x_var         = cfg$x_var,
+  x_var_mr      = cfg$x_var_mr,
+  x_var_rr      = cfg$x_var_rr,
+  year_start    = cfg$year_start,
+  season_codes  = cfg$season_codes,
+  fishery_codes = cfg$fishery_codes
+)
+
+facet_var <- "status"
+
+keep_levels <- c("marked_kept_total", "unmarked_kept_total")
+
+make_kept_panel <- function(base_plot, lvl) {
+  p <- base_plot
+  p$layers <- lapply(p$layers, function(l) {
+    if (is.data.frame(l$data) && facet_var %in% names(l$data)) {
+      filtered <- dplyr::filter(l$data, .data[[facet_var]] == lvl)
+      ggplot2::ggproto(NULL, l, data = filtered)   # <- new object, doesn't mutate l
+    } else {
+      l
+    }
+  })
+  p <- p + facet_null() + ggtitle(lvl)
+  p
+}
+
+keep_plots <- lapply(keep_levels, function(lvl) make_kept_panel(fresh_plots[[1]], lvl))
+keep_plots[[1]]<-keep_plots[[1]] + ylab("annual iREC catch estimate") + xlab("annual logbook catch estimate")+ coord_cartesian(ylim = c(0, NA)) + ggtitle("Marked Kept Total")
+keep_plots[[2]]<-keep_plots[[2]]+ ylab("annual iREC catch estimate") + xlab("annual logbook catch estimate") + coord_cartesian(ylim = c(0, NA))+ ggtitle("Unmarked Kept Total")
+
+
+combined <- wrap_plots(c(keep_plots[[1]], boxplot_plots[[1]], keep_plots[[2]], boxplot_plots[[2]]), ncol = 2, axis_titles="collect")
+combined
 ```
 
 \newpage
@@ -967,6 +992,8 @@ out_north_aabm$plot
 
 ```
 In Northern ISBM, iREC improves the fit of the heads to catch relationship ($R^{2}=$ `r fmt_stat(out_nbc_isbm$r2_creel)` for creel vs. $R^{2}=$ `r fmt_stat(out_nbc_isbm$r2_irec)` for iREC), and the sample rate drops slightly using iREC to `r fmt_stat(out_nbc_isbm$slope_irec, scale=100)`% from `r fmt_stat(out_nbc_isbm$slope_creel, scale=100)`% using creel.
+
+In Central BC, the logbook program was underestimating catch from 2013-2023, with a sample rate of `r fmt_stat(out_cbc$slope_creel, scale=100)`%, compared to a more reasonable sample rate of `r fmt_stat(out_cbc$slope_irec, scale=100)`% when using iREC. Despite this difference, the fit is very similar at $R^{2}=$ `r fmt_stat(out_cbc$r2_creel)` for creel and $R^{2}=$ `r fmt_stat(out_cbc$r2_irec)` for iREC.
 ```{r heads-to-creel-northern-isbm, echo=FALSE, fig.height=4, fig.width=8, out.width="100%", fig.asp=NA}
 #| label: fig-heads-to-creel-and-updated-catch-northern-isbm
 #| fig-cap: "Relationship between the Northern BC ISBM marked kept catch estimates from the creel program (left panel) and the combined creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP between 2015 and 2023."
@@ -986,8 +1013,6 @@ out_nbc_isbm$plot[[2]]$layers[[2]]$aes_params$fill   <- col_blue   # geom_smooth
 
 out_nbc_isbm$plot
 ```
-
-In Central BC, the logbook program was underestimating catch from 2013-2023, with a sample rate of `r fmt_stat(out_cbc$slope_creel, scale=100)`%, compared to a more reasonable sample rate of `r fmt_stat(out_cbc$slope_irec, scale=100)`% when using iREC. Despite this difference, the fit is very similar at $R^{2}=$ `r fmt_stat(out_cbc$r2_creel)` for creel and $R^{2}=$ `r fmt_stat(out_cbc$r2_irec)` for iREC.
 
 ```{r heads-to-creel-cbc, echo=FALSE, fig.height=4, fig.width=8, out.width="100%", fig.asp=NA}
 #| label: fig-heads-to-creel-and-updated-catch-central
@@ -1078,6 +1103,8 @@ out_seasonal05$plot
 
 Figure \@ref(fig:fig-heads-to-creel-and-updated-catch-nbc-aabm-2005) shows the relationships between head recoveries and marked kept catch from creel and modelled iREC estimates for the three Northern regions. Again, Haida Gwaii creel from 2005-2014 had a high sample rate (`r fmt_stat(out_north_aabm05$slope_creel, scale=100)`%) and very good fit ($R^{2}=$ `r fmt_stat(out_north_aabm05$r2_creel)`) and the modelled data only slightly differed from this (sample rate = `r fmt_stat(out_north_aabm05$slope_irec, scale=100)`%, $R^{2}=$ `r fmt_stat(out_north_aabm05$r2_irec)`). In contrast, NBC ISBM creel catch estimates in 2005-2014 have a poor fit to the head recoveries ($R^{2}=$ `r fmt_stat(out_nbc_isbm05$r2_creel)`%) which is slightly improved by using modelled iREC data ($R^{2}=$ `r fmt_stat(out_nbc_isbm05$r2_irec)`). The sample rates are also lower but similar to the 2013-2023 period, described in the preceding section, at `r fmt_stat(out_nbc_isbm05$slope_creel, scale=100)`% and `r fmt_stat(out_nbc_isbm05$slope_irec, scale=100)`% based on creel and modelled iREC catch estimates, respectively. NBC ISBM added May and September monitoring in 2019, so these data are all based on limited creel sampling from June to August. Central BC ISBM again has a highly biased sample rate bad on creel catch estimates (`r fmt_stat(out_cbc05$slope_creel, scale=100)`%),compared to a much more realistic rate of `r fmt_stat(out_cbc05$slope_irec, scale=100)`% based on modelled iREC. The relationship between head recoveries and modelled iREC catch ($R^{2}=$ `r fmt_stat(out_cbc05$r2_irec)`) is also slightly better than that with creel ( $R^{2}=$ `r fmt_stat(out_cbc05$r2_creel)`).
 
+Overall, these results validate the use of iREC catch estimates (modelled or otherwise) by demonstrating that iREC-based marked kept catch estimates are equal to or better than those from creel alone at predicting Chinook head recoveries throughout all regions over the time periods examined.
+
 ```{r heads-to-creel-nbc-aabm-2005, echo=FALSE, fig.height=10, fig.width=8, out.width="100%", fig.asp=NA}
 #| label: fig-heads-to-creel-and-updated-catch-nbc-aabm-2005
 #| fig-cap: "Relationships between annual marked kept catch estimates from creel (left panel, rows 1 and 2), logbook (left panel, 3rd row), and modelled iREC (right panel) with Chinook head recoveries provided to the SHRP for Northern and Central BC from 2005 to 2015."
@@ -1145,7 +1172,6 @@ out_all <-
 out_all
 
 ```
-Overall, these results validate the use of iREC catch estimates (modelled or otherwise) by demonstrating that iREC-based marked kept catch estimates are equal to or better than those from creel alone at predicting Chinook head recoveries throughout all regions over the time periods examined.
 
 \newpage
 ### Submission rates over time
@@ -1238,46 +1264,6 @@ The SHRP has generally run consistently over the transition between the 2005 - 2
 
 In Figure \@ref(fig:fig-fishery-rates-2) we visualize updated submission rates to the SHRP across time in each region. A submission rate of 20% of the catch is the desired minimum sampling rate, and some regions are meeting this target while others are not. Submission rates fluctuate year to year and between seasons. Above, for the South Coast and Northern BC AABM (Haida Gwaii) we noted a decline in submission rates from the 2005-2012 period to the 2013-2023 period, reflected both in creel and combined creel and iREC data, but the opposite trend in Northern BC ISBM and Central BC. Overall, while there are some trends over time in submission rates, there is no clear and consistent step change occurring in 2013 (or 2015 for Northern regions) that would indicate that pre- and post-iREC are separate catch regimes. Furthermore, when combining all regions and comparing the model fit before iREC (Figure \@ref(fig:fig-heads-kept-iREC) left panel) and with iREC (Figure \@ref(fig:fig-heads-kept-iREC) right panel), CWT sample rates are fairly consistent with a before iREC average sample rate (i.e., slope) of `r format(unname(coef(pre_iREC_lm)[1])*100, digits = 3)`% and an iREC period sample rate of `r format(unname(coef(post_iREC_lm)[1])*100, digits = 3)`% with similar $R^{2}$ values. This suggests that there is no consistent bias in the modelled versus observed combined creel and iREC estimates. 
 
-```{r results Pre iREC Head to Kept Mark Catch, echo=FALSE}
-#| label: fig-heads-kept-iREC
-#| fig-cap: "Chinook heads to marked kept catch based on combined creel and iREC. Each point is a yearly CWT Region based on the seasonal or annual time period in the southern or nothern portions of BC (i.e., NBC and CBC), respectively.  The left panel shows the relationship from 2005 to 2012 and the right panel shows the relationship from 2013 to 2023"
-
-pre_iREC <-
-  ggplot(data = pre_iREC_catch_model_df,
-         aes(x=catch_estimate_predicted, y=head_total)) +
-  geom_point(size=2, col="#D55E00") +
-  geom_smooth(method='lm', formula= y~x + 0, col="#D55E00", fill="#D55E00") +
-  geom_text(x = 500, 
-            y = max(pre_iREC_catch_model_df$head_total, na.rm = TRUE) * 0.9, 
-            label = lm_eqn_vec(pre_iREC_catch_model_df$head_total, 
-                               pre_iREC_catch_model_df$catch_estimate_predicted), 
-            parse = TRUE, 
-            hjust=0, 
-            vjust=0) +
-  labs( title = "All Regions - Before iREC",
-        x = "Chinook Marked Kept Catch",
-        y = "Chinook Head Recoveries")+
-  theme_bw()
-
-post_iREC <- ggplot(data = post_iREC_catch_model_df,
-                    aes(x=catch_estimate_predicted, y=head_total)) +
-  geom_point(size=2, col="#009E73") +
-  geom_smooth(method='lm', formula= y~x + 0, col="#009E73", fill="#009E73") +
-  geom_text(x = 500, 
-            y =  max(post_iREC_catch_model_df$head_total, na.rm= TRUE) * 0.9, 
-            label = lm_eqn_vec(post_iREC_catch_model_df$head_total, 
-                               post_iREC_catch_model_df$catch_estimate_predicted), 
-            parse = TRUE, 
-            hjust=0, 
-            vjust=0) +
-  labs(title = "All Regions - Combined iREC and Creel",
-       x = "Chinook Marked Kept Catch",
-       y = "Chinook Head Recoveries") +
-  theme_bw()
-
-pre_iREC + post_iREC + plot_layout(axes="collect")
-```
-
 The summer submission rates in Northern WCVI, Johnstone Strait, and the annual Haida Gwaii rates have typically been over 20% for most of the time series. This is likely due to high lodge participation in the sport head recovery program. Haida Gwaii Sport in particular has consistently high submission rates, which likely contributes to the accuracy of the CWT estimates. Annual submission rates for Northern BC ISBM and Central BC Sport and summer submission rates for Northern Strait of Georgia initially were quite low ($\le 10$%) early in the time series, but in the last ten years have had more than half of the submission rates above or very close to the target. This could be due to increasing lodge, guide, and avid angler participation in the SHRP over time. The summer submission rates for Southern WCVI Sport, Southern Strait of Georgia Sport, and Juan de Fuca Sport are all consistently under the 20% target, and have mostly been under 15% in the last ten years.
 
 As noted above, in general, summer submission rates are typically higher than off-season submission rates. Overall, the off-season submission rates could use improvement and are typically under 20%. The off-season submission rates in Juan de Fuca Strait and Southern Strait of Georgia tend to be under 10%, and improving these rates is of particular importance since off-season catch in each of those areas was over 7,000 in 2023. Northern Strait of Georgia also had off-season catch of over 5,000 in 2023, and could use improvement in off-season submission rates. In contrast, the sum total off-season catch in Northern WCVI, Southern WCVI, and Johnstone Strait Sport in 2023 was under 900. Overall, all regions outside of Haida Gwaii would benefit from increased participation in the SHRP to reduce the uncertainty of indicator stock assessments.
@@ -1353,21 +1339,21 @@ readr::read_csv("./data/cwt_sample_rates.csv", col_types = "ciicid") |>
                                            "Regional Average",
                                            "Regional Smoothing")),
          region_labels = factor(region_labels, 
-                                levels = c("NBC - Haidi Gwaii Sport", 
-                                           "NBC - Prince Rupert Sport",
-                                           "Central BC Sport",
-                                           "Northwest Vancouver Island Sport",
+                                levels = c("Northwest Vancouver Island Sport",
                                            "Southwest Vancouver Island Sport",
-                                           "Queen Charlotte Strait",
                                            "North Strait of Georgia",
                                            "South Strait of Georgia",
-                                           "Juan de Fuca Sport"))) |>
+                                           "Queen Charlotte Strait",
+                                           "Juan de Fuca Sport", 
+                                           "NBC - Haidi Gwaii Sport", 
+                                           "NBC - Prince Rupert Sport",
+                                           "Central BC Sport"))) |>
   ggplot(aes(x=year, y=submit_rate, color=season)) +
   geom_line(linewidth = 1,
             alpha = 0.6) +
   geom_vline(aes(xintercept = obs_catch_year)) +
   geom_point(aes(shape = est_method_name),
-             size = 2)+
+             size = 3)+
   facet_wrap(vars(region_labels),
              ncol = 3) +
   scale_color_manual(values =  c("#440154", "#d4be02", "#35b779", "#31688e")) +
@@ -1388,6 +1374,46 @@ readr::read_csv("./data/cwt_sample_rates.csv", col_types = "ciicid") |>
 
 ```
 \end{landscapepage}
+
+```{r results Pre iREC Head to Kept Mark Catch, echo=FALSE}
+#| label: fig-heads-kept-iREC
+#| fig-cap: "Chinook heads to marked kept catch based on combined creel and iREC. Each point is a yearly CWT Region based on the seasonal or annual time period in the southern or nothern portions of BC (i.e., NBC and CBC), respectively.  The left panel shows the relationship from 2005 to 2012 and the right panel shows the relationship from 2013 to 2023"
+
+pre_iREC <-
+  ggplot(data = pre_iREC_catch_model_df,
+         aes(x=catch_estimate_predicted, y=head_total)) +
+  geom_point(size=2, col="#D55E00") +
+  geom_smooth(method='lm', formula= y~x + 0, col="#D55E00", fill="#D55E00") +
+  geom_text(x = 500, 
+            y = max(pre_iREC_catch_model_df$head_total, na.rm = TRUE) * 0.9, 
+            label = lm_eqn_vec(pre_iREC_catch_model_df$head_total, 
+                               pre_iREC_catch_model_df$catch_estimate_predicted), 
+            parse = TRUE, 
+            hjust=0, 
+            vjust=0) +
+  labs( title = "All Regions - Before iREC",
+        x = "Chinook Marked Kept Catch",
+        y = "Chinook Head Recoveries")+
+  theme_bw()
+
+post_iREC <- ggplot(data = post_iREC_catch_model_df,
+                    aes(x=catch_estimate_predicted, y=head_total)) +
+  geom_point(size=2, col="#009E73") +
+  geom_smooth(method='lm', formula= y~x + 0, col="#009E73", fill="#009E73") +
+  geom_text(x = 500, 
+            y =  max(post_iREC_catch_model_df$head_total, na.rm= TRUE) * 0.9, 
+            label = lm_eqn_vec(post_iREC_catch_model_df$head_total, 
+                               post_iREC_catch_model_df$catch_estimate_predicted), 
+            parse = TRUE, 
+            hjust=0, 
+            vjust=0) +
+  labs(title = "All Regions - Combined iREC and Creel",
+       x = "Chinook Marked Kept Catch",
+       y = "Chinook Head Recoveries") +
+  theme_bw()
+
+pre_iREC + post_iREC + plot_layout(axes="collect")
+```
 
 ## Revised catch data in CTC processes
 
@@ -1606,7 +1632,6 @@ In other fisheries, where creel and/or logbooks did produce some estimated relea
 
 Released catch was revised downwards in a handful of cases. Strait of Georgia revised releases in 2014 were lower than those reported in 2024 (`r fmt_stat(models_combined2_diffs$pdiff_irec_rep[models_combined2_diffs$erafishery == "GEO ST S" & models_combined2_diffs$kept_status =="released" & models_combined2_diffs$year ==2014], scale=100)`%), however, this was due to the incorporation of iREC estimates that have since been revised. We observed the same pattern in 2012 for WCVI ISBM, coinciding with the piloting of iREC for this fishery, which was likely incorporated into reported estimates. Released catch is discussed more in the revised release rate section below (Section \@ref(res-mrr)). 
 
-\newpage
 ### Updating CWT estimates
 ```{r results indcwtest2, results='asis', echo=FALSE}
 
@@ -1688,9 +1713,7 @@ ggplot() +
 
 ```
 
-\newpage
-
-### Updating Chinook non-retention (release) estimates {res-mrr}
+### Updating Chinook non-retention (release) estimates {#res-mrr}
 ```{r results mrrukr1, results='asis', echo=FALSE}
 
 fishery_map <-
