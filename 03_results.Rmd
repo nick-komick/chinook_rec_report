@@ -863,11 +863,11 @@ For the South Coast, both the summer and seasonal sport head recovery analysis s
 
 out_summer$plot[[1]] <- 
   out_summer$plot[[1]] + 
-  labs(title = "previous catch (creel)") + theme(legend.position = "none") 
+  labs(title = "Previous Catch (creel)") + theme(legend.position = "none") 
 
 out_summer$plot[[2]] <- 
   out_summer$plot[[2]] + 
-  labs(title = "revised catch (creel + iREC)")
+  labs(title = "Revised Catch (creel + iREC)")
 
 out_summer$plot
 ```
@@ -878,11 +878,11 @@ out_summer$plot
 
 out_seasonal$plot[[1]] <- 
   out_seasonal$plot[[1]] + 
-  labs(title = "previous catch (creel)")+ theme(legend.position = "none") 
+  labs(title = "Previous Catch (creel)")+ theme(legend.position = "none") 
 
 out_seasonal$plot[[2]] <- 
   out_seasonal$plot[[2]] + 
-  labs(title = "revised catch (iREC)")
+  labs(title = "Revised Catch (iREC)")
 
 out_seasonal$plot[[2]]$layers[[1]]$aes_params$colour <- col_blue   # geom_point
 out_seasonal$plot[[2]]$layers[[2]]$aes_params$colour <- col_blue   # geom_smooth
@@ -901,11 +901,11 @@ Between 2015 and 2023, submission rates in Haida Gwaii (Northern AABM Sport) wer
 
 out_north_aabm$plot[[1]] <- 
   out_north_aabm$plot[[1]] + 
-  labs(title = "previous catch (creel)")+ theme(legend.position = "none") 
+  labs(title = "Previous Catch (creel)")+ theme(legend.position = "none") 
 
 out_north_aabm$plot[[2]] <- 
   out_north_aabm$plot[[2]] + 
-  labs(title = "revised catch (iREC)")+ theme(legend.position = "none") 
+  labs(title = "Revised Catch (iREC)")+ theme(legend.position = "none") 
 
 out_north_aabm$plot[[2]]$layers[[1]]$aes_params$colour <- col_blue   # geom_point
 out_north_aabm$plot[[2]]$layers[[2]]$aes_params$colour <- col_blue   # geom_smooth
@@ -922,12 +922,12 @@ In Northern ISBM, iREC improves the fit of the heads to catch relationship ($R^{
 
 out_nbc_isbm$plot[[1]] <- 
   out_nbc_isbm$plot[[1]] + 
-  labs(title = "previous catch (creel)") + 
+  labs(title = "Previous Catch (creel)") + 
   theme(legend.position = "none") 
 
 out_nbc_isbm$plot[[2]] <- 
   out_nbc_isbm$plot[[2]] + 
-  labs(title = "revised catch (iREC)") +theme(legend.position = "none")
+  labs(title = "Revised Catch (iREC)") +theme(legend.position = "none")
 
 out_nbc_isbm$plot[[2]]$layers[[1]]$aes_params$colour <- col_blue   # geom_point
 out_nbc_isbm$plot[[2]]$layers[[2]]$aes_params$colour <- col_blue   # geom_smooth
@@ -944,12 +944,12 @@ In Central BC, the logbook program was underestimating catch from 2013-2023, wit
 
 out_cbc$plot[[1]] <- 
   out_cbc$plot[[1]] + 
-  labs(title = "previous catch (logbook)") + 
+  labs(title = "Previous Catch (logbook)") + 
   theme(legend.position = "none")
 
 out_cbc$plot[[2]] <- 
   out_cbc$plot[[2]] + 
-  labs(title = "revised catch (iREC)") + 
+  labs(title = "Revised Catch (iREC)") + 
   theme(legend.position = "none")
 
 out_cbc$plot[[2]]$layers[[1]]$aes_params$colour <- col_blue   # geom_point
@@ -996,11 +996,11 @@ Next, Figure \@ref(fig:fig-heads-to-creel-and-updated-catch-seasonal-2005) shows
 
 out_summer05$plot[[1]] <- 
   out_summer05$plot[[1]] + 
-  labs(title = "previous catch (creel)") + theme(legend.position = "none") 
+  labs(title = "Previous Catch (creel)") + theme(legend.position = "none") 
 
 out_summer05$plot[[2]] <- 
   out_summer05$plot[[2]] + 
-  labs(title = "revised catch (modelled combined creel and iREC)")
+  labs(title = "Revised Catch (modelled combined creel and iREC)")
 
 out_summer05$plot
 
@@ -1011,8 +1011,8 @@ out_summer05$plot
 #| label: fig-heads-to-creel-and-updated-catch-seasonal-2005
 #| fig-cap: "Relationship between the seasonal marked kept catch estimates from the the creel program (left panel) and the modelled iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP between 2005 and 2012."
 
-out_seasonal05$plot[[1]] <- out_seasonal05$plot[[1]] + labs(title = "previous catch (creel)")
-out_seasonal05$plot[[2]] <- out_seasonal05$plot[[2]] + labs(title = "revised catch (modelled iREC)")
+out_seasonal05$plot[[1]] <- out_seasonal05$plot[[1]] + labs(title = "Previous Catch (creel)")
+out_seasonal05$plot[[2]] <- out_seasonal05$plot[[2]] + labs(title = "Revised Catch (modelled iREC)")
 
 
 out_seasonal05$plot[[2]]$layers[[1]]$aes_params$colour <- col_blue   # geom_point
