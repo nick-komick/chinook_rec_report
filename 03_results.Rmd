@@ -775,6 +775,7 @@ Figure \@ref(fig:fig-cbc-model) shows the combined CBC model results. Generally 
 #| label: fig-cbc-model
 #| fig-cap: "CBC annual fishery modelled relationship between annual logbook estimates and annual iREC catch estimates. Data points are yearly estimates from 2015 to 2023. Note varying scales on the y-axes to better visualize the model fit."
 
+
 cfg <- main_regions[["Central BC ISBM kept"]]
 
 plots <- run_main_region(
@@ -787,46 +788,72 @@ plots <- run_main_region(
   fishery_codes = cfg$fishery_codes
 )
 
-plot <- plots[[1]] + ylab("annual iREC catch estimate") + xlab("annual logbook catch estimate")
-plot
-# 
-# facet_var <- "status"
-# 
-# orig_data <- plots[[1]]$layers[[1]]$data
-# head(orig_data)
-# # --- The 2 panels to convert to boxplots (grouped by finescale_fishery) ---
-# boxplot_levels <- c("marked_released_total", "unmarked_released_total")   # <- your actual facet levels
-# box_colours <- c("marked_released_total" = "#31688e",
-#                   "unmarked_released_total" = "#d4be02")
-# 
-# # --- Boxplot + jittered points ---
-# boxplot_plots <- lapply(boxplot_levels, function(lvl) {
-#   df <- orig_data %>% filter(.data[[facet_var]] == lvl) %>% mutate(grp = "0")
-#   ggplot(df, aes(x = grp, y = catch_estimate)) +
-#     geom_boxplot(fill = box_colours[[lvl]], alpha = 0.2, outlier.shape = NA) +
-#     geom_jitter(width = 0.1, alpha = 0.6, colour = box_colours[[lvl]]) +
-#     labs(title = lvl, x = NULL, y = "annual iREC catch estimate") +
-#     theme_bw() +
-#     theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
-# })
-# 
-# keep_levels <- c("marked_kept_total", "unmarked_kept_total")   # the 2 panels you want to keep as-is
-# 
-# make_kept_panel <- function(base_plot, lvl) {
-#   p <- base_plot
-#   p$layers <- lapply(p$layers, function(l) {
-#     # only filter layers that actually carry their own data
-#     # (skip any layer whose data is a bare "waiver" inheriting from the plot)
-#     if (is.data.frame(l$data) && facet_var %in% names(l$data)) {
-#       l$data <- l$data %>% filter(.data[[facet_var]] == lvl)
-#     }
-#     l
-#   })
-#   p <- p + facet_null() + ggtitle(lvl)
-#   p
-# }
-# 
-# keep_plots <- lapply(keep_levels, function(lvl) make_kept_panel(plots[[1]], lvl))
+facet_var <- "status"
+orig_data <- plots[[1]]$layers[[1]]$data
+head(orig_data)
+
+boxplot_levels <- c("marked_released_total", "unmarked_released_total")   # <- your actual facet levels
+box_colours <- c("marked_released_total" = "#31688e",
+                  "unmarked_released_total" = "#d4be02")
+
+# --- Boxplot + jittered points ---
+boxplot_plots <- lapply(boxplot_levels, function(lvl) {
+  df <- orig_data %>% filter(.data[[facet_var]] == lvl) %>% mutate(grp = "0")
+  ggplot(df, aes(x = grp, y = catch_estimate)) +
+    geom_boxplot(fill = box_colours[[lvl]], alpha = 0.2, outlier.shape = NA) +
+    labs(title = lvl, x = NULL, y = "annual iREC catch estimate") +
+    theme_bw() +
+    theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())+
+    ylab("annual iREC catch estimate") + xlab("annual logbook catch estimate")+
+    ggplot2::theme(
+      axis.title = ggplot2::element_text(size = 14),
+      axis.text  = ggplot2::element_text(size = 12),
+      strip.text = ggplot2::element_text(size = 12, face = "bold"))+
+    geom_point(size=3, col = box_colours[[lvl]])+
+    coord_cartesian(ylim = c(0, NA))
+})
+
+boxplot_plots[[1]] <-boxplot_plots[[1]] +ggtitle("Marked Released Total")
+boxplot_plots[[2]] <-boxplot_plots[[2]] +ggtitle("Unmarked Released Total")
+
+# Pull a genuinely fresh copy first -- fresh_plots is contaminated now
+cfg <- main_regions[["Central BC ISBM kept"]]
+fresh_plots <- run_main_region(
+  model_name    = cfg$model_name,
+  x_var         = cfg$x_var,
+  x_var_mr      = cfg$x_var_mr,
+  x_var_rr      = cfg$x_var_rr,
+  year_start    = cfg$year_start,
+  season_codes  = cfg$season_codes,
+  fishery_codes = cfg$fishery_codes
+)
+
+facet_var <- "status"
+
+keep_levels <- c("marked_kept_total", "unmarked_kept_total")
+
+make_kept_panel <- function(base_plot, lvl) {
+  p <- base_plot
+  p$layers <- lapply(p$layers, function(l) {
+    if (is.data.frame(l$data) && facet_var %in% names(l$data)) {
+      filtered <- dplyr::filter(l$data, .data[[facet_var]] == lvl)
+      ggplot2::ggproto(NULL, l, data = filtered)   # <- new object, doesn't mutate l
+    } else {
+      l
+    }
+  })
+  p <- p + facet_null() + ggtitle(lvl)
+  p
+}
+
+keep_plots <- lapply(keep_levels, function(lvl) make_kept_panel(fresh_plots[[1]], lvl))
+keep_plots[[1]]<-keep_plots[[1]] + ylab("annual iREC catch estimate") + xlab("annual logbook catch estimate")+ coord_cartesian(ylim = c(0, NA)) + ggtitle("Marked Kept Total")
+keep_plots[[2]]<-keep_plots[[2]]+ ylab("annual iREC catch estimate") + xlab("annual logbook catch estimate") + coord_cartesian(ylim = c(0, NA))+ ggtitle("Unmarked Kept Total")
+
+
+combined <- wrap_plots(c(keep_plots[[1]], boxplot_plots[[1]], keep_plots[[2]], boxplot_plots[[2]]), ncol = 2, axis_titles="collect")
+combined
+
 
 ```
 
@@ -1690,7 +1717,7 @@ ggplot() +
 
 \newpage
 
-### Updating Chinook non-retention (release) estimates {res-mrr}
+### Updating Chinook non-retention (release) estimates {#res-mrr}
 ```{r results mrrukr1, results='asis', echo=FALSE}
 
 fishery_map <-

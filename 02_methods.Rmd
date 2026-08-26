@@ -69,7 +69,7 @@ angler programs are provided on a voluntary basis and are removed from
 area and month-specific estimates from the creel survey to avoid
 double-counting.
 
-##### South Coast Creel Survey quality control {qc}
+##### South Coast Creel Survey quality control {#qc}
 ```{r methods functions, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 
 col_blue_light = "#def3ff"
@@ -347,7 +347,7 @@ Canadian Science Advisory Secretariat (CSAS) regional peer review. The
 main report stemming from that meeting is the associated Science
 Advisory Report [@irec_sar_2015]. Appendix \@ref(app:apdx-irec-mthd) provides details on changes in methodology since the 2015 review as well as summaries of realized sample sizes. 
 
-#### iREC to Creel Calibration {calib}
+#### iREC to Creel Calibration {#calib}
 iREC catch estimates are bias corrected by scaling estimates using the
 linear regression slope, $m$, between monthly iREC and corresponding creel 
 estimates for angling by boat in each area, referred to as the calibration 
@@ -437,7 +437,7 @@ few instances where the other categories did not apply. To reduce bias,
 only mark rates that are based on a total catch estimate $\geq 20$ were
 used. 
 
-#### Choosing best monthly catch estimate per PFMA {best}
+#### Choosing best monthly catch estimate per PFMA {#best}
 From this point forward we will refer to calibrated iREC as simply
 "iREC". For South Coast, catch estimates that are a
 combination of iREC, filtered creel, and logbook data will be referred
@@ -767,7 +767,7 @@ the region for that season, as the knowledge and implementation of the
 SHRP are not expected to vary substantially across years within a region
 (e.g., head depot operations are generally consistent).
 
-## Updating Chinook non-retention (release) estimates {mrr}
+## Updating Chinook non-retention (release) estimates {#mrr}
 In 2025, in an attempt to account for mark-selective fisheries, the CTC
 updated its exploitation rate analysis (ERA) to a model that supports
 mark-selective fisheries [@CTC2025]. Therefore, the ERA requires the
