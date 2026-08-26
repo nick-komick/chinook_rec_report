@@ -773,7 +773,7 @@ Figure \@ref(fig:fig-cbc-model) shows the combined CBC model results. Generally 
 
 ```{r results CBC model, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-cbc-model
-#| fig-cap: "CBC annual fishery modelled relationship between annual logbook estimates and annual iREC catch estimates. Data points are yearly estimates from 2015 to 2023. Note varying scales on the y-axes to better visualize the model fit."
+#| fig-cap: "CBC annual fishery modelled relationship between annual logbook estimates and annual iREC catch estimates. Data points are yearly estimates from 2015 to 2023. Note varying scales on the y-axes to better visualize the model fit. There are no releases reported in logbooks, therefore releases are presented as boxplots of iREC catch estimates."
 
 
 cfg <- main_regions[["Central BC ISBM kept"]]
@@ -790,7 +790,7 @@ plots <- run_main_region(
 
 facet_var <- "status"
 orig_data <- plots[[1]]$layers[[1]]$data
-head(orig_data)
+
 
 boxplot_levels <- c("marked_released_total", "unmarked_released_total")   # <- your actual facet levels
 box_colours <- c("marked_released_total" = "#31688e",
@@ -853,8 +853,6 @@ keep_plots[[2]]<-keep_plots[[2]]+ ylab("annual iREC catch estimate") + xlab("ann
 
 combined <- wrap_plots(c(keep_plots[[1]], boxplot_plots[[1]], keep_plots[[2]], boxplot_plots[[2]]), ncol = 2, axis_titles="collect")
 combined
-
-
 ```
 
 \newpage
