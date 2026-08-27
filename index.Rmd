@@ -102,7 +102,6 @@ fig_asp <- 0.618
 fig_width <- 9
 fig_out_width <- "6in"
 fig_dpi <- 180
-fig_align <- "center"
 fig_pos <- "H"
 opts_chunk$set(
   collapse = TRUE,
@@ -120,7 +119,7 @@ opts_chunk$set(
   cache.comments = FALSE,
   dev = fig_out_type,
   dpi = fig_dpi,
-  fig.align = fig_align,
+  fig.align = "centre",
   fig.pos = fig_pos
 )
 
@@ -165,10 +164,10 @@ library(gtsummary)
 "%notin%" <- Negate("%in%")
 
 #uncomment this section to pull fresh... but can use stored data for troubleshooting
-# sport_catch_area <- 
+# sport_catch_area <-
 #   wrangle_rec_catch("pacRecCatch_db.yaml", by="area", most_recent_data_year=2025)
 # 
-# sport_catch_finescale <- 
+# sport_catch_finescale <-
 #   wrangle_rec_catch("pacRecCatch_db.yaml", by="fishery", most_recent_data_year=2025)
 # 
 # sport_catch_models <- model_rec_catch(sport_catch_finescale, most_recent_data_year=2023)
@@ -185,9 +184,7 @@ library(gtsummary)
 #  creel_month_PFMA,
 #  file = "data/sport_data.RData"
 # )
-# )
-# )
-# )
+
 
   load("data/sport_data.RData")
 
@@ -196,4 +193,13 @@ library(gtsummary)
   load("data/north_isbm_models.RData")
   load("data/north_aabm_models.RData")
 
+#   library(writexl)
+#   write_xlsx(
+#   list(
+#     "By_area_2013to2023" = sport_catch_area,
+#     "By_finescale_2005to2025" = sport_catch_models$model_catch
+#   ),
+#   "data/revised_chinook_catch.xlsx"
+# )
+  
 ```
