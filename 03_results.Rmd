@@ -505,7 +505,7 @@ C_{creel+iREC, summer} = C_{creel,summer} + m + k + C_{creel,summer}:k + C_{cree
 \label{eq:jdf_summer}
 \end{equation}
 
-This model parameterization allows for combined creel and iREC catch in the whole summer period (months 5:9) to be predicted independently by the creel catch, mark status (e.g., marked vs. unmarked), and kept status (kept vs. released). In addition, the interactions allow the effect of summer creel on summer combined creel and iREC catch (i.e., the slope) to be modified by kept status and mark status separately.
+This model parameterization allows for combined creel and iREC catch in the whole summer period (months 5 to 9) to be predicted independently by the creel catch, mark status (e.g., marked vs. unmarked), and kept status (kept vs. released). In addition, the interactions allow the effect of summer creel on summer combined creel and iREC catch (i.e., the slope) to be modified by kept status and mark status separately.
 
 Figure \@ref(fig:fig-jdf-summer-model) shows the modelled relationship for JDF Summer. Overall, we found a strong non-linear positive relationship between summer creel catch and summer combined creel and iREC catch (p\<0.001, pseudo $R^{2} = 0.91$), the slope of which was modestly modified by kept status (released steeper than kept) and marked status (marked steeper than unmarked). There was an overall effect of mark status, as above, more unmarked fish were encountered than marked fish, and an overall effect of kept status, more fish kept than released.
 
