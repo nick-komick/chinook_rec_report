@@ -1,14 +1,7 @@
 `r if(knitr:::is_latex_output()) '% begin csasdowntex appendix'` `r if(!knitr:::is_latex_output()) '# (APPENDIX) Appendix {-}'`
-
 \clearpage
 
-```{r fishery_name_cleaning, include = FALSE}
-name_lookup <- read.csv("data/fishery_name_cleaner.csv", stringsAsFactors = FALSE)
-lookup_vec <- setNames(name_lookup$fishery_full_name, name_lookup$finescale_fishery)
-```
-
 # iREC Reporting Program Selection Changes {#app:apdx-irec-mthd}
-
 Since the iREC survey began in 2012, several changes have been made to how annual recreational licences are selected for inclusion in each survey month. For example, the selection rate for 1-, 3-, and 5‑day (“term”) licences was 25% during licence years 2012–2019, but has been 100% since the 2020 licence year. All changes to selection procedures take effect at the start of a new licence year (April 1st). Here we describe how licences are selected for inclusion in the survey and how this has changed since the program began. Recent improvements to iREC quality control and calibration are described in Appendix \@ref(apdx-analytic-improvements).
 
 There are several types of licences are sold, distinguished by: term length (e.g., annual (valid from purchase date until March 31) or term (1, 3, or 5 days)), residency (Canadian or non-Canadian), age (Juvenile, Adult, or Senior). These factors along with month purchased contribute to the selection process. When selecting annual licences, purchase month is expected to be correlated with the type of fishing and target species of the licence holder. Licences bought in May or June are more likely targeting Coho and Chinook than those bought in September and October when the purchasers are more likely potentially targeting shellfish and finfish other than salmon. Accordingly, with each update in the selection approach, we mitigated bias caused by differential representation of licences by purchase month as described below.
@@ -26,6 +19,9 @@ For the 2020-21 licence year, we changed our selection approach to allow complet
 The approach was implemented to improve our precision in two ways. First, we had much larger sample sizes overall, since all licences were able to be selected. Second, treating the In-Month Purchases as a separate stratum likely explains a substantial portion of the overall variation. Purchasers often buy a licence just prior to a planned fishing trip. Thus, In-Month Purchases on average would have more fishing days and higher catches than licences bought prior to the survey month. As well, these licences would more likely target species that are relatively available in the survey month, whereas some of the licences purchased in months prior to the survey month would be more focused on other species; for example, August purchasers will tend to focus on salmon fishing, whereas licences bought in April will include fishers that are interested in fishing for a wider range of species. The overall increase in licenses selected and the resulting responses to the survey is shown in Figure \@ref(fig:fig-irec-licence-selection) and \@ref(fig:fig-irec-licence-selection), respectively.
 
 ```{r tbl-irec-licence-selection-prob, results='asis', echo=FALSE}
+
+name_lookup <- read.csv("data/fishery_name_cleaner.csv", stringsAsFactors = FALSE)
+lookup_vec <- setNames(name_lookup$fishery_full_name, name_lookup$finescale_fishery)
 
 fill_char <- "-"
 
@@ -590,7 +586,7 @@ for (i in 1:length(fishery_name_north)) {
 
 \clearpage
 
-# Revised estimates by ERA Fishery (2005-2023)  {#app:revised-catch-timeseries3}
+# Revised estimates by ERA Fishery (2005-2023) {#app:revised-catch-timeseries3}
 
 Here we present data similar to Appendix \@ref(app:revised-catch-timeseries), but rolled up to the ERA level and including previously reported information. This helps identify where reporting matches more closely with creel estimates or combined creel and iREC estimates.
 
