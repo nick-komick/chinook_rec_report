@@ -15,8 +15,8 @@ author: |
   Laura Tessier^1^, 
   Heidi Van Vliet^1^, 
   Catarina Wor^1^, and
-  Antonio Velez-Espino ^1^
-author_list: "Brown, N.E.M., Komick, N., Gill, L., Hein, K., Houtman, R., Swain, N., Tessier, L., Van Vliet, H., Wor, C., and Velez-Espino, A."
+  Antonio Vélez-Espino ^1^
+author_list: "Brown, N.E.M., Komick, N., Gill, L., Hein, K., Houtman, R., Swain, N., Tessier, L., Van Vliet, H., Wor, C., and Vélez-Espino, A."
 region: Pacific Region
 french_region: Région du Pacifique
 isbn: ""
@@ -31,7 +31,7 @@ french_address: |
   
 phone: "(555) 555-5555"
 author_footnote: "Email: norah.brown@dfo-mpo.gc.ca"
-citation_french: "Brown, N.E.M., Komick, N., Gill, L., Hein, K., Houtman, R., Swain, N., Tessier, L., Van Vliet, H., Wor, C., and Velez-Espino, A. 2026. Révisions des données de capture récréative du saumon chinook. Can. Tech. Rep. Fish. Aquat. Sci. nnn: vii + 99 p. https://doi.org/???"
+citation_french: "Brown, N.E.M., Komick, N., Gill, L., Hein, K., Houtman, R., Swain, N., Tessier, L., Van Vliet, H., Wor, C., and Vélez-Espino, A. 2026. Révisions des données de capture récréative du saumon chinook. Can. Tech. Rep. Fish. Aquat. Sci. nnn: vii + 99 p. https://doi.org/???"
 
 abstract: >
   Recreational catch estimation of Chinook salmon in the Pacific Region has historically been accomplished using a combination of creel surveys and logbook programs. However, there are substantial spatial and temporal gaps in the creel and logbook data, which are restricted to the most heavily fished areas and months. A mandatory Internet Recreational Effort and Catch (iREC) survey has been implemented since July 2012 to resolve these gaps and contribute to recreational catch information. Data from this survey have been variably incorporated into the Chinook recreational catch since 2013 (excluding 2012 as a pilot year) in most regions domestically, but this incorporation has not occurred in a standardized way. Furthermore, because iREC data were not available prior to 2013, incorporating them into recreational catch estimates confounds comparisons between pre- and post-2013 catch required to assess stock-specific impacts from Individual Stock Based Management fisheries as prescribed by the Pacific Salmon Treaty. Here, we present (1) revised catch estimates for years with creel and iREC overlap, (2) revised catch estimates for years without iREC back to 2005, (3) revised coded wire tag estimates that incorporate these revised catch estimates, and (4) how these revised estimates are incorporated into annual Chinook Technical Commmittee processes. We describe modelling and validation approaches that we used to calculate these revised estimates and identify potential areas for future refinement. This report recognizes decades of improvements to catch estimation methods and applying and building upon these standardized methods in future years will allow us to continue to maintain and improve catch estimates time series.
