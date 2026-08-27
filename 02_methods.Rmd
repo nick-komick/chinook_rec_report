@@ -236,7 +236,7 @@ winter and therefore has no creel coverage in the winter months.
 \newpage
 
 \begin{landscapepage}
-```{r methods plotting PFMA creel unfiltered, echo=FALSE, message=FALSE, warning=FALSE, fig.height=12, fig.width=20,  out.width="110%", fig.asp=NA, fig.align='left'}
+```{r methods plotting PFMA creel unfiltered, echo=FALSE, message=FALSE, warning=FALSE, fig.height=12, fig.width=20,  out.width="110%", fig.asp=NA, fig.align="left"}
 #| label: fig-creel-criteria
 #| fig-cap: "South Coast creel estimates that passed (yellow) or failed (red) quality control criteria by month and PFMA."
 
@@ -465,7 +465,7 @@ data sources are combined. In Figure \@ref(fig:fig-creel-iREC-NGS) we demonstrat
 
 For Northern and Central BC, we use iREC from 2015 onwards (as opposed to 2013) because iREC catch estimates did not seem to be consistent with other catch data sources before 2015 and iREC did not achieve effective sample rates in Northern and Central BC in 2013 or 2014. Northern and Central BC creel and logbook data is not currently incorporated into iREC calibration, and therefore iREC in these regions is calibrated against South Coast creel, but this may change with further improvements in iREC calibration. Furthermore, we use iREC as the best catch estimate in each month in these regions as much of the creel and logbook catch does not account for releases.
 
-```{r methods with iREC flowchart, out.width="90%", results='asis', echo=FALSE}
+```{r methods with iREC flowchart, out.width="90%", results='asis', echo=FALSE, dpi=300}
 #| label: fig-area-catch-process
 #| fig-cap: "Diagram showing the steps to combining various catch data sources in South Coast from 2013 onward to obtain revised combined creel and iREC catch estimate."
 
@@ -549,7 +549,7 @@ finescale fishery using:
     seasonal models). There is not enough creel data outside the summer
     months to create a direct modelled relationship.
 3)  a modelled relationship between annual creel catch estimates and
-    annual iREC catch estimates (Northernand Central BC annual models)
+    annual iREC catch estimates (Northern and Central BC annual models)
 
 For South Coast we chose 2013-2023 as a static period to model this
 relationship and then we predicted catch using summertime creel catch
@@ -561,7 +561,7 @@ age 2s), and 2003 is the earliest brood that could contribute to the the
 accomplished in the modelling function of the `pacRecCatch` R package
 [@pacRecCatch].
 
-```{r methods before iREC flowchart, out.width="90%", results='asis', echo=FALSE}
+```{r methods before iREC flowchart, out.width="90%", results='asis', echo=FALSE, dpi=300}
 #| label: fig-before-iREC-flowchart
 #| fig-cap: "Depiction of modelling process to estimate combined creel and iREC catch for South Coast BC in years before iREC is available. Note, the process for Northern and Central BC is the same, except that the post-iREC period does not begin until 2015."
 
