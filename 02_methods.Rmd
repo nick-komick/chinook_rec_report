@@ -570,12 +570,12 @@ knitr::include_graphics("img/flowchart_before_irec_nb.png")
 
 ### Splitting fisheries by season
 Following the procedure for incorporating iREC into the combined creel and
-iREC catch estimate (see Section \@ref(best)), we split previous South Coast fisheries into spring (months 1:4), summer (months 5:9), and fall (10:12) seasons. Fisheries were split by season in order to better combine estimates since there are not always iREC or creel estimates for each month. We did not split terminal fisheries up by season as they typically are defined by limited time periods for a given stock. Seasonality is also an important consideration for calculating marked released and unmarked kept rates used to evaluate mark-selective fishing (see Section \@ref(mrr) for more detail).
+iREC catch estimate (see Section \@ref(best)), we split previous South Coast fisheries into spring (months 1 to 4), summer (months 5 to 9), and fall (10 to 12) seasons. Fisheries were split by season in order to better combine estimates since there are not always iREC or creel estimates for each month. We did not split terminal fisheries up by season as they typically are defined by limited time periods for a given stock. Seasonality is also an important consideration for calculating marked released and unmarked kept rates used to evaluate mark-selective fishing (see Section \@ref(mrr) for more detail).
 
 We chose not to split Northern and Central BC by season since iREC data show that for these regions fishing in the off-season is uncommon and there is not enough iREC data to support informative separate seasonal models in each fishery. However, the annual models do incorporate all months, so off-season fishing is still captured when available.  
 
 For many of the fisheries, there is a relatively consistent partial
-creel and logbook coverage in the summer (months 5:9) throughout the
+creel and logbook coverage in the summer (months 5 to 9) throughout the
 time series (from 2005 to 2023). This consistent period of coverage is
 used to predict the estimated catch for all seasons in the years before iREC was available (before 2013 for South Coast). The annual models use annual creel catch estimates to predict pre-2015 modelled annual iREC catch estimates.  
 

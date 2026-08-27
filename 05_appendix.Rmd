@@ -1920,8 +1920,8 @@ With the initial corrections to the calibration with iREC data, we explored the 
 - South Strait of Georgia
 - North Strait of Georgia
 - Johnstone Strait
-- North Westcoast Vancouver Island
-- South Westcoast Vancouver Island
+- North West Coast Vancouver Island
+- South West Coast Vancouver Island
 - Juan de Fuca Strait
 
 We compared groupings of fisheries and the results can be found in Appendix \@ref(app:fifth-appendix). The summer models were a better fit for the six regions separately while the seasonal models allowed for the combination of Northern and Southern WCVI into WCVI. Splitting the summer and seasonal model into the separate regions improved the consistency between the creel and the modelled catch estimate.
@@ -1941,7 +1941,8 @@ The iREC calibration procedure was re-run on all years following the split flag 
 data.frame(Year = 2013:2024, 
            `Previous BCF` = c(1.23995, 1.52486, 0.96162, 0.99172, 1.05085, 0.81565, 0.96953, 0.98011, 0.95788, 0.95207, 0.92134, 0.91018),
            `New BCF` = c(1.23883, 1.53755, 1.02190, 1.09236, 1.12951, 1.13866, 1.21334, 0.99033,0.95462, 0.96606,0.94872,0.92654)) |>
-  csas_table(caption = "Updated iREC Bias Correction Factors (BCF) for Chinook Kept Catch")
+  csas_table(caption = "Updated iREC Bias Correction Factors (BCF) for Chinook Kept Catch",
+             col_names = c("Year", "Previous BCF", "New BCF"))
 
 ```
 
@@ -1973,7 +1974,8 @@ data.frame(Year = 2013:2024,
 1.05946,
 0.74900
 )) |>
-  csas_table(caption = "Updated iREC Bias Correction Factors (BCF) for Chinook Released Catch")
+  csas_table(caption = "Updated iREC Bias Correction Factors (BCF) for Chinook Released Catch",
+             col_names = c("Year", "Previous BCF", "New BCF"))
 
 ```
 
