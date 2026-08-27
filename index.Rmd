@@ -144,7 +144,6 @@ library(ROracle)
 library(pacRecCatch)
 
 library(odbc)
-library(tidyr)
 library(lubridate)
 library(stringr)
 library(ggnewscale)
@@ -153,6 +152,8 @@ library(patchwork)
 library(DHARMa)
 library(sf)
 library(gtsummary)
+library(writexl)
+
 
 
 #library(lme4)
@@ -193,13 +194,5 @@ library(gtsummary)
   load("data/north_isbm_models.RData")
   load("data/north_aabm_models.RData")
 
-#   library(writexl)
-#   write_xlsx(
-#   list(
-#     "By_area_2013to2023" = sport_catch_area,
-#     "By_finescale_2005to2025" = sport_catch_models$model_catch
-#   ),
-#   "data/revised_chinook_catch.xlsx"
-# )
   
 ```

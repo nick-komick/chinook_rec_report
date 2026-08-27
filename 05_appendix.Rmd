@@ -2042,4 +2042,60 @@ version_catch_tbl |>
 
 ```
 
+## Link to data
+
+```{r linktodata, results='asis', echo=FALSE}
+
+read_me <-
+    tibble(Variable=character(),
+           Description=character())
+
+read_me <-
+    read_me %>% 
+  add_row(Variable = "year", Description="calendar year")|>
+  add_row(Variable = "month", Description="calendar month")|>
+  add_row(Variable = "season", Description="annual or season. Seasons are spring: 1 to 4 (Jan to April), summer: 5 to 9 (May to September), fall 10 to 12 (October to December)")|>
+  add_row(Variable = "area", Description="Pacific Fishery Management Area (PFMA)")|>
+  add_row(Variable = "region", Description="fishery region: NC = North Coast, CBC = Central BC, JNST = Johnstone Strait, SGS =Southern Strait of Georgia, NGS = Northern Strait of Georgia, JDF = Juan de Fuca Strait, NWCVI =North WCVI, SWCVI = South WCVI")|>
+  add_row(Variable = "finescale_fishery", Description="finescale fishery as used by the CTC ")|>
+  add_row(Variable = "management", Description="AABM or ISBM")|>
+  add_row(Variable = "status", Description="marked kept, unmarked kept, marked released, unmarked released")|>
+  add_row(Variable = "catch_estimate_cat", Description="
+choice for best catch estimate, use iREC, use creel, or creel.plus is zero (i.e., use iREC) ")|>
+  add_row(Variable = "creel_unfiltered", Description="creel estimate not filtered by quality control criteria, from CREST, doesn't include logbook (logbook is subtracted before it goes into CREST)")|>
+  add_row(Variable = "historic", Description="historic  estimate (used for Central and Northern BC, fed in separately than CREST)")|>
+  add_row(Variable = "irec_calibrated", Description="calibrated iREC, from CREST")|>
+  add_row(Variable = "lodge_log", Description="logbook estimate, from CREST")|>
+  add_row(Variable = "creel", Description="filtered creel estimate of creel that passed quality control criteria")|>
+  add_row(Variable = "creel_plus", Description="filtered creel plus logbook estimate")|>
+  add_row(Variable = "historic_plus", Description="historic estimate plus logbook estimate")|>
+  add_row(Variable = "creel_unfiltered_plus", Description="unfiltered creel plus logbook")|>
+  add_row(Variable = "catch_estimate", Description="chosen best catch estimate to be  used for CTC purposes, based on priority rules")|>
+  add_row(Variable = "creel_plus_summer", Description="sum of filtered creel plus logbook from the summer months May-September")|>
+  add_row(Variable = "catch_estimate_predicted", Description="catch estimate predicted, if next category is observed then it is the same as catch_estimate above, otherwise if category is predicted, then it is the modelled result")|>
+  add_row(Variable = "pred_cat", Description="observed or predicted (i.e., modelled)")
+
+ sport_catch_area_trim<-  sport_catch_area |>
+                          dplyr::select(-season2, summer_core_coverage_tf, summer_coverage_tf, spring_coverage_tf, fall_coverage_tf)|> arrange(year, month, region, area)
+
+ sport_catch_models_trim<- sport_catch_models$model_catch |>
+                           dplyr::select(year, status, season, region, management, finescale_fishery, creel_unfiltered, historic, irec_calibrated, lodge_log, creel, creel_plus, historic_plus, creel_unfiltered_plus, catch_estimate, creel_plus_summer, catch_estimate_predicted, pred_cat )|> arrange(year, region, finescale_fishery)
+
+
+  write_xlsx(
+  list(
+     "read_me" = read_me,
+    "observed_by_area_month" =  sport_catch_area_trim,
+    "modelled_by_finescale_season" =  sport_catch_models_trim
+  ),
+  "data/revised_chinook_catch.xlsx"
+)
+
+
+
+
+```
+
+
+
 `r if(knitr:::is_latex_output()) '% end csasdowntex appendix'`
