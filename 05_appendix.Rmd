@@ -230,9 +230,7 @@ model.jags <- function() {
 ```
 
 \clearpage
-
 # Stratification Mapping {#apdx-strattab}
-
 ```{r methods strattab, echo=FALSE, message=FALSE, warning=FALSE}
 #| label: tbl-stratatab
 
@@ -267,7 +265,8 @@ strat_table <-
   summarize(month_category = paste0(min(month), " to ", max(month)),
             .groups = "drop") |>
   distinct() |> 
-  arrange(erafishery, finescale_fishery, area, month_category) |>
+   mutate(month_category = factor(month_category, levels = c("1 to 4", "5 to 9", "10 to 12")))|>
+  arrange(erafishery, month_category, area ) |>
   rename("CTC ERA Fishery" = erafishery,  
          "CTC Finescale Fishery" = finescale_fishery, 
          "PFMA" = area,
@@ -291,7 +290,7 @@ csas_table(strat_table, format = "latex")
 
 # Revised estimates by Finescale Fishery (2005-2023) {#app:revised-catch-timeseries}
 
-Revised and previous estimates at previous finescale fishery scale (i.e., without seasonal component).
+Kept and released catch estimates at annual finescale fishery scale (i.e, seasonal component summed). Solid green circles and lines indicate revised combined creel and iREC estimates. Open green circles indicate revised modelled combined creel and iREc estimate. Open orange triangles and dashed lines indicate unfiltered creel and/or logbook catch estimates. Blue circles indicate the revised iREC estimates (solid blue circles) and retrospectively modelled estimates (open blue circles). 
 
 ```{r m plots, results='asis', echo=FALSE}
 #| label: fig-catch-revised-1-appendix
@@ -588,7 +587,7 @@ for (i in 1:length(fishery_name_north)) {
 
 # Revised estimates by ERA Fishery (2005-2023) {#app:revised-catch-timeseries3}
 
-Here we present data similar to Appendix \@ref(app:revised-catch-timeseries), but rolled up to the ERA level and including previously reported information. This helps identify where reporting matches more closely with creel estimates or combined creel and iREC estimates.
+Here we present kept and released catch estimates, which are similar to Appendix \@ref(app:revised-catch-timeseries), but are rolled up to the ERA level and include previously reported estimates. This helps identify where reporting matches more closely with creel estimates or combined creel and iREC estimates. Catch estimates at annual finescale fishery scale (i.e, seasonal component summed). Solid green circles and lines indicate revised combined creel and iREC estimates. Open green circles indicate revised modelled combined creel and iREc estimate. Open orange triangles and dashed lines indicate unfiltered creel and/or logbook catch estimates. Blue circles indicate the revised iREC estimates (solid blue circles) and retrospectively modelled estimates (open blue circles). Previously reported catch estimates are either creel and/or logbook data or a combination of creel, logbook, and iREC data. In some regions iREC was incorporated earlier than in other regions and the reporting reflects this. 
 
 ```{r m plots, results='asis', echo=FALSE}
 #| label: fig-catch-revised-3-appendix
@@ -1035,7 +1034,9 @@ NWCVI_summer_model_table <- sport_catch_models$model_list[["NWCVI_summer_model"]
   bold_p(t = 0.05) |> # bold p values
   bold_labels() %>% # make label in bold
   italicize_levels() %>%        # make categories in label italic
-  modify_caption("NWCVI Summer Model")
+  modify_caption("NWCVI Summer Model")%>%
+  as_kable_extra(booktabs = TRUE) %>%
+  kableExtra::kable_styling(latex_options = c("HOLD_position", "repeat_header"))
 
 NWCVI_summer_model_table
 
@@ -1401,6 +1402,8 @@ m_north_isbm |>
 
 # Model Output {#app:third-appendix}
 
+Modelling plots for the best model for each region, showing modelled relationship between summertime unfiltered creel estimate (months 5 and 9) and total catch estimate that incorporates iREC. solid circles are yearly estimates from 2013 to 2023, coloured by year. Open circles are the predicted values from 2005-2012, to visualize if the prediction range is within or out of the observation range. Note varying scales on the y-axes to better visualize the model fit.
+
 ```{r appendix-plotting-function, include = FALSE}
 # Helper: runs predict_with_ci + plot_region_model_by_year for one region,
 # returns a named list of ggplot objects (one per fishery)
@@ -1477,31 +1480,31 @@ summer_plots <- purrr::map(summer_sections, function(sec) {
 names(summer_plots) <- summer_sections
 ```
 
-```{r summer-print-nwcvi, results='asis', echo=FALSE}
+```{r summer-print-nwcvi, results='asis', echo=FALSE, fig.height=6, fig.width=12, out.width="100%", fig.asp=NA}
 (summer_plots[["NWCVI Summer"]][["NWCVI S SUMMER AABM"]]+ ylab("summer creel + iREC catch estimate") + xlab("summer creel catch estimate") ) + (summer_plots[["NWCVI Summer"]][["NWCVI S SUMMER ISBM"]]+ ylab("summer creel + iREC catch estimate") + xlab("summer creel catch estimate")) + plot_layout(guides="collect")
 
 ```
 
-```{r summer-print-swcvi, results='asis', echo=FALSE}
+```{r summer-print-swcvi, results='asis', echo=FALSE, fig.height=6, fig.width=12, out.width="100%", fig.asp=NA}
 (summer_plots[["SWCVI Summer"]][["SWCVI S SUMMER AABM"]]+ ylab("summer creel + iREC catch estimate") + xlab("summer creel catch estimate") ) + (summer_plots[["SWCVI Summer"]][["SWCVI S SUMMER ISBM"]]+ ylab("summer creel + iREC catch estimate") + xlab("summer creel catch estimate")) + plot_layout(guides="collect")
 
 ```
 
-```{r summer-print-ngs, results='asis', echo=FALSE}
+```{r summer-print-ngs, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="100%", fig.asp=NA}
 summer_plots[["NGS Summer"]][["NGS S SUMMER"]] + ylab("summer creel + iREC catch estimate") + xlab("summer creel catch estimate")
 ```
 
-```{r summer-print-sgs, results='asis', echo=FALSE}
+```{r summer-print-sgs, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="100%", fig.asp=NA}
 
 summer_plots[["SGS Summer"]][["SGS S SUMMER"]] + ylab("summer creel + iREC catch estimate") + xlab("summer creel catch estimate")
 ```
 
-```{r summer-print-jnst, results='asis', echo=FALSE}
+```{r summer-print-jnst, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="100%", fig.asp=NA}
 summer_plots[["JNST Summer"]][["JOHN ST S SUMMER"]] + ylab("summer creel + iREC catch estimate") + xlab("summer creel catch estimate")
 
 ```
 
-```{r summer-print-jdf, results='asis', echo=FALSE}
+```{r summer-print-jdf, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="100%", fig.asp=NA}
 summer_plots[["JDF Summer"]][["CA JDF S SUMMER"]] +  ylab("summer creel + iREC catch estimate") + xlab("summer creel catch estimate")
 
 ```
@@ -1526,7 +1529,7 @@ seasonal_plots <- purrr::map(seasonal_sections, function(sec) {
 names(seasonal_plots) <- seasonal_sections
 ```
 
-```{r seasonal-print-wcvi, results='asis', echo=FALSE}
+```{r seasonal-print-wcvi, results='asis', echo=FALSE, fig.height=12, fig.width=12, out.width="100%", fig.asp=NA}
 (seasonal_plots[["WCVI Seasonal"]][["NWCVI S SPRING AABM"]] + ylab("seasonal iREC catch estimate") + xlab("summer creel catch estimate") ) + 
   (seasonal_plots[["WCVI Seasonal"]][["NWCVI S FALL AABM"]] + ylab("seasonal iREC catch estimate") + xlab("summer creel catch estimate") ) + 
   (seasonal_plots[["WCVI Seasonal"]][["SWCVI S SPRING AABM"]] + ylab("seasonal iREC catch estimate") + xlab("summer creel catch estimate") ) + 
@@ -1536,29 +1539,29 @@ names(seasonal_plots) <- seasonal_sections
  
 ```
 
-```{r seasonal-print-ngs, results='asis', echo=FALSE}
+```{r seasonal-print-ngs, results='asis', echo=FALSE, fig.height=6, fig.width=12, out.width="100%", fig.asp=NA}
 (seasonal_plots[["NGS Seasonal"]][["NGS S SPRING"]]+ ylab("seasonal iREC catch estimate") + xlab("summer creel catch estimate") ) + (seasonal_plots[["NGS Seasonal"]][["NGS S FALL"]]+ ylab("seasonal iREC catch estimate") + xlab("summer creel catch estimate")) + plot_layout(guides="collect")
 
 ```
 
-```{r seasonal-print-sgs, results='asis', echo=FALSE}
+```{r seasonal-print-sgs, results='asis', echo=FALSE, fig.height=6, fig.width=12, out.width="100%", fig.asp=NA}
 (seasonal_plots[["SGS Seasonal"]][["SGS S SPRING"]]+ ylab("seasonal iREC catch estimate") + xlab("summer creel catch estimate") ) + (seasonal_plots[["SGS Seasonal"]][["SGS S FALL"]]+ ylab("seasonal iREC catch estimate") + xlab("summer creel catch estimate")) + plot_layout(guides="collect")
 
 ```
 
-```{r seasonal-print-jnst, results='asis', echo=FALSE}
+```{r seasonal-print-jnst, results='asis', echo=FALSE, fig.height=6, fig.width=12, out.width="100%", fig.asp=NA}
 (seasonal_plots[["JNST Seasonal"]][["JOHN ST S SPRING"]]+ ylab("seasonal iREC catch estimate") + xlab("summer creel catch estimate") ) + (seasonal_plots[["JNST Seasonal"]][["JOHN ST S FALL"]]+ ylab("seasonal iREC catch estimate") + xlab("summer creel catch estimate")) + plot_layout(guides="collect")
 
 ```
 
-```{r seasonal-print-jdf, results='asis', echo=FALSE}
+```{r seasonal-print-jdf, results='asis', echo=FALSE, fig.height=6, fig.width=12, out.width="100%", fig.asp=NA}
 (seasonal_plots[["JDF Seasonal"]][["CA JDF S SPRING"]]+ ylab("seasonal iREC catch estimate") + xlab("summer creel catch estimate") ) + (seasonal_plots[["JDF Seasonal"]][["CA JDF S FALL"]]+ ylab("seasonal iREC catch estimate") + xlab("summer creel catch estimate")) + plot_layout(guides="collect")
 
 ```
 
 ## Annual models
 
-```{r north-appendix-compute, echo=FALSE}
+```{r north-appendix-compute, echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 north_sections <- c("North AABM", "North ISBM", "Central BC ISBM kept", "Central BC ISBM released")
 north_plots <- purrr::map(north_sections, function(sec) {
   cfg <- main_regions[[sec]]
@@ -1575,18 +1578,107 @@ north_plots <- purrr::map(north_sections, function(sec) {
 names(north_plots) <- north_sections
 ```
 
-```{r north-print-aabm, results='asis', echo=FALSE}
+```{r north-print-aabm, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 north_plots[["North AABM"]][["NORTH AABM S"]]  + ylab("annual iREC catch estimate") + xlab("annual creel catch estimate")
 
 ```
 
-```{r north-print-isbm, results='asis', echo=FALSE}
+```{r north-print-isbm, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 north_plots[["North ISBM"]][["NORTH ISBM S"]]  + ylab("annual iREC catch estimate") + xlab("annual creel catch estimate")
  
 ```
 
-```{r north-print-cbc, results='asis', echo=FALSE}
-north_plots[["Central BC ISBM kept"]][["CENTRAL S"]] + ylab("annual iREC catch estimate") + xlab("annual logbook catch estimate")
+```{r north-print-cbc, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
+#  north_plots[["Central BC ISBM kept"]][["CENTRAL S"]] + ylab("annual iREC catch estimate") + xlab("annual logbook catch estimate")
+# # 
+
+
+get_predicted_points <- function(p) {
+  pred_layers <- Filter(function(l) {
+    inherits(l$geom, "GeomPoint") && is.data.frame(l$data)
+  }, p$layers)
+  
+  dplyr::bind_rows(lapply(pred_layers, `[[`, "data"))
+}
+
+pred_data <- get_predicted_points(north_plots[["Central BC ISBM kept"]][["CENTRAL S"]])
+
+  year_breaks <- sort(unique(orig_data$year))
+
+boxplot_plots <- lapply(boxplot_levels, function(lvl) {
+  df      <- orig_data %>% filter(.data[[facet_var]] == lvl) %>% mutate(grp = "0")
+  pred_df <- pred_data %>% filter(.data[[facet_var]] == lvl) %>% mutate(grp = "0")
+  
+  ggplot(df, aes(x = grp, y = catch_estimate)) +
+    geom_boxplot(fill = col_grey_light, alpha = 0.2, outlier.shape = NA) +
+    labs(title = lvl, x = NULL, y = "annual iREC catch estimate") +
+    theme_bw() +
+    theme(axis.text.x = element_blank(), axis.ticks.x = element_blank()) +
+    ylab("annual iREC catch estimate") + xlab("annual logbook catch estimate") +
+    ggplot2::theme(
+      axis.title = ggplot2::element_text(size = 14),
+      axis.text  = ggplot2::element_text(size = 12),
+      strip.text = ggplot2::element_text(size = 12, face = "bold")
+    ) +
+    geom_point(size = 3, aes(col = year, shape = "Observed")) +
+    geom_point(
+      data        = pred_df,
+      mapping     = aes(x = grp, y = fit, shape = "Predicted"),
+      inherit.aes = FALSE,
+      colour      = "black",
+      fill        = NA,
+      size        = 3
+    ) +
+    scale_shape_manual(name = "Point Type", values = c("Observed" = 16, "Predicted" = 1)) +
+    coord_cartesian(ylim = c(0, NA)) +
+    viridis::scale_color_viridis(
+      option = "C", end = 0.95,
+      breaks = year_breaks,
+      labels = year_breaks,
+      name   = "Year"
+    )
+})
+
+boxplot_plots[[1]] <-boxplot_plots[[1]] +ggtitle("Marked Released Total") + theme(legend.position = "none") 
+boxplot_plots[[2]] <-boxplot_plots[[2]] +ggtitle("Unmarked Released Total")+ theme(legend.position = "none") 
+
+
+keep_levels <- c("marked_kept_total", "unmarked_kept_total")
+facet_var <- "status"
+make_kept_panel <- function(base_plot, lvl) {
+  p <- base_plot
+
+  # Filter the plot-level default data (this is what layers with
+  # no data of their own — i.e. waiver() — actually inherit and draw)
+  if (facet_var %in% names(p$data)) {
+    p$data <- dplyr::filter(p$data, .data[[facet_var]] == lvl)
+  }
+
+  # Still handle any layers that DO carry their own explicit data frame
+  p$layers <- lapply(p$layers, function(l) {
+    if (is.data.frame(l$data) && facet_var %in% names(l$data)) {
+      filtered <- dplyr::filter(l$data, .data[[facet_var]] == lvl)
+      ggplot2::ggproto(NULL, l, data = filtered)
+    } else {
+      l
+    }
+  })
+
+  p <- p + facet_null() + ggtitle(lvl)
+  p
+}
+
+keep_plots <- lapply(keep_levels, function(lvl) make_kept_panel( north_plots[["Central BC ISBM kept"]][["CENTRAL S"]], lvl))
+keep_plots[[1]]<-keep_plots[[1]] + ylab("annual iREC catch estimate") + xlab("annual logbook catch estimate")+ coord_cartesian(ylim = c(0, NA)) + ggtitle("Marked Kept Total") + theme(legend.position = "none") 
+keep_plots[[2]]<-keep_plots[[2]]+ ylab("annual iREC catch estimate") + xlab("annual logbook catch estimate") + coord_cartesian(ylim = c(0, NA))+ ggtitle("Unmarked Kept Total")
+
+
+combined <- wrap_plots(c(keep_plots[[1]], boxplot_plots[[1]], keep_plots[[2]], boxplot_plots[[2]]), ncol = 2, axis_titles="collect", guides="collect")
+combined
+
+
+
+
 
 ```
 
@@ -1594,7 +1686,7 @@ north_plots[["Central BC ISBM kept"]][["CENTRAL S"]] + ylab("annual iREC catch e
 
 # Analytical Improvements since February 2025 {#apdx-analytic-improvements}
 
-During the course of developing this technical report and reviewing the `pacRecCatch` package code, several issues were identified subsequent to the catch estimates used for the February 2025 CTC ERA. The more substantial change was to improve the model used for Haida Gwaii, which is described in the "Modified Haida Gwaii Model" section below. In addition to the Haida Gwaii model, there were various data and method fixes identified in the "Other Analysis Improvements" section below.
+During the course of developing this technical report and reviewing the `pacRecCatch` package code, several issues were identified subsequent to the catch estimates used for the February 2025 CTC ERA. The more substantial change was to improve the model used for Haida Gwaii, which is described in the "Modified Haida Gwaii Model" section below. In addition to the Haida Gwaii model, there were various data and method fixes identified in Section \@ref(otherimprov) below.
 
 ## Modified Haida Gwaii Model {#apdx-haida-model}
 
@@ -1782,6 +1874,7 @@ nbc_aabm |>
        color = "Status",
        x = "Year",
        y = "Catch") +
+  scale_colour_manual(values = status_colors) +
   theme_minimal()
 
 ```
@@ -1833,7 +1926,7 @@ csasdowntex::csas_table(fit_aic_df,
 
 ```
 
-AICs are presented for previous summer and seasonal model fits with the new gaussian "New Annual Gaussian Fit" in Table \@ref(tab:tbl-haida-gwaii-model-fit), although since these are fit on separate datasets they can not be directly compared. The Gamma model fit on the same data set as the new model is compared in Appendix \@ref(fifth-appendix). While the gaussian model has a higher AIc than the Gamma model, it has a much better residual fit and aligns better with sport head recovery data. The new model fit substantially reduces the estimate of unmarked kept catch during the 2005 to 2007 years and increases the estimate of unmarked releases, particularly in 2005 (Figure \@ref(fig:fig-nbc-aabm-catch-diff)) compared to the previous model fit. As there is very limited change in the marked kept and released estimate, the new model fit should not substantially change the ERA or CWT estimates.
+AICs are presented for previous summer and seasonal model fits with the new gaussian "New Annual Gaussian Fit" in Table \@ref(tab:tbl-haida-gwaii-model-fit), although since these are fit on separate datasets they can not be directly compared. The Gamma model fit on the same data set as the new model is compared in Appendix \@ref(app:fifth-appendix). While the gaussian model has a higher AIc than the Gamma model, it has a much better residual fit and aligns better with sport head recovery data. The new model fit substantially reduces the estimate of unmarked kept catch during the 2005 to 2007 years and increases the estimate of unmarked releases, particularly in 2005 (Figure \@ref(fig:fig-nbc-aabm-catch-diff)) compared to the previous model fit. As there is very limited change in the marked kept and released estimate, the new model fit should not substantially change the ERA or CWT estimates.
 
 ```{r NBC AABM New Model Predictions appendix, results='asis', echo=FALSE}
 #| label: fig-nbc-aabm-new-catch
@@ -1861,6 +1954,7 @@ all_north_aabm_full |>
        color = "Status",
        x = "Year",
        y = "Catch") +
+  scale_colour_manual(values = status_colors) +
   theme_minimal()
 ```
 
@@ -1896,6 +1990,7 @@ catch_diff |>
   labs(title = "NBC AABM Catch Change Time Series",
        x = "year",
        y = "Catch Difference \n (New Model - Previous Model)") +
+  scale_colour_manual(values = status_colors) +
   theme_minimal()
 ```
 
@@ -1914,7 +2009,7 @@ With the initial corrections to the calibration with iREC data, we explored the 
 
 We compared groupings of fisheries and the results can be found in Appendix \@ref(app:fifth-appendix). The summer models were a better fit for the six regions separately while the seasonal models allowed for the combination of Northern and Southern WCVI into WCVI. Splitting the summer and seasonal model into the separate regions improved the consistency between the creel and the modelled catch estimate.
 
-## Other Analytical Improvements
+## Other Analytical Improvements {#otherimprov}
 
 In addition to redefining the Haida Gwaii model for historic catch, the NBC ISBM model historic catch was updated to extrapolate catch for the 2005 to 2007 period. The past version of the analysis did not estimate NBC ISBM catch for 2005 to 2007 because no historic catch estimates were provided. To allow the model to estimate those years, we used to average historic catch estimates from 2008 to 2012 to fit the model for the earlier years. This will allow the historic catch model to estimate total catch for the 2005 to 2007 period in a consistent approach to more recent years. Furthermore, we no longer rely on the average sample rate of surrounding regions to estimate the CWT sample rate of NBC ISBM in those years. NBC ISBM was also updated to reflect an annual model, whereas previously it was seasonal.
 
@@ -2092,7 +2187,13 @@ choice for best catch estimate, use iREC, use creel, or creel.plus is zero (i.e.
 )
 
 
-
+write_xlsx(
+  list(
+     "read_me" = read_me,
+    "creel_month_PFMA" =  creel_month_PFMA
+  ),
+  "data/creel_month_area.xlsx"
+)
 
 ```
 
