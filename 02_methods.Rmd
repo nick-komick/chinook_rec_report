@@ -197,7 +197,7 @@ all_summary_2021_2025b <- creel_month_PFMA %>%
 Since the SCCSs vary in sampling intensity and spatial-temporal
 coverage, we have introduced systematic quality control of these
 estimates. Following the method used for iREC calibration to creel
-[@irec_sar_2015], we filter the creel estimates based on quality control
+[@irec_sar_2015], we filter the non-zero Chinook creel estimates based on quality control
 criteria in a given area and month. These quality control criteria are
 designed to avoid uncertainty associated with monthly estimates based on
 only a small number of days or biases when estimates are based on only a
@@ -215,7 +215,7 @@ criteria:
 
 These criteria are not applied to areas that have been occasionally
 surveyed but are not targeted and not estimated by the South Coast creel
-survey throughout the whole time series (e.g., PFMA 26, and 126), or are in other regions (e.g., PFMA 10 in CBC, 3 and 4 in NBC). We refer to the creel estimates that pass this quality control as "filtered creel". We use these filtered creel
+survey throughout the whole time series (e.g., PFMA 26, and 126), or are in other regions (e.g., PFMA 10 in CBC, 3 and 4 in NBC), or that did not have any Chinook catch (all of these creels failed criteria). We refer to the creel estimates that pass this quality control as "filtered creel". We use these filtered creel
 both to calibrate iREC (section \@ref(calib)) and as quality controlled estimates (section \@ref(best)), as described below.
 
 Across all regions, these criteria exclude `r fmt_stat(all_summary$pct[all_summary$criteria == "failed"])`% of all estimates between
@@ -238,7 +238,7 @@ winter and therefore has no creel coverage in the winter months.
 \begin{landscapepage}
 ```{r methods plotting PFMA creel unfiltered, echo=FALSE, message=FALSE, warning=FALSE, fig.height=12, fig.width=20,  out.width="110%", fig.asp=NA, fig.align="left"}
 #| label: fig-creel-criteria
-#| fig-cap: "South Coast creel estimates that passed (yellow) or failed (red) quality control criteria by month and PFMA."
+#| fig-cap: "South Coast non-zero Chinook creel estimates that passed (yellow) or failed (red) quality control criteria by month and PFMA."
 
 ggplot() +
   geom_tile(data=Creel_month_PFMA_passed, aes(x=year, y=as.factor(month), fill = estimate),colour = "white") +
