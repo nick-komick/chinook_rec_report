@@ -15,3 +15,9 @@
 \setlength{\parindent}{-0.2in}
 \setlength{\leftskip}{0.2in}
 \setlength{\parskip}{8pt}
+
+
+<!-- Reset paragraph formatting so it doesn't leak into whatever comes after this file -->
+\setlength{\parindent}{0pt}
+\setlength{\leftskip}{0pt}
+\setlength{\parskip}{6pt}
