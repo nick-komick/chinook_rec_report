@@ -347,7 +347,7 @@ for (i in 1:length(fishery_name_south)){
                            color = estimate_shape_type,
                            shape = estimate_shape_type,
                            linetype = estimate_shape_type)) +
-    geom_point(size = 2.5) +
+    geom_point(size = 3) +
     geom_line() +
     scale_color_manual(values = c(col_green,col_green,col_orange),
                        name = "Catch Estimate") +
@@ -418,7 +418,7 @@ for (i in 1:length(fishery_name_north)) {
                            color = estimate_shape_type,
                            shape = estimate_shape_type,
                            linetype = estimate_shape_type)) +
-    geom_point(size = 2.5) +
+    geom_point(size = 3) +
     geom_line() +
     scale_color_manual(values = c(col_orange,col_blue,col_blue),
                        name = "Catch Estimate") +
@@ -493,7 +493,7 @@ for (i in 1:length(fishery_name_south)){
                            color = estimate_shape_type,
                            shape = estimate_shape_type,
                            linetype = estimate_shape_type)) +
-    geom_point(size = 2.5) +
+    geom_point(size = 3) +
     geom_line() +
     scale_color_manual(values = c(col_green, col_green, col_orange),
                        name = "Catch Estimate") +
@@ -563,7 +563,7 @@ for (i in 1:length(fishery_name_north)) {
                            color = estimate_shape_type,
                            shape = estimate_shape_type,
                            linetype = estimate_shape_type)) +
-    geom_point(size = 2.5) +
+    geom_point(size = 3) +
     geom_line() +
     scale_color_manual(values = c(col_orange, col_blue, col_blue),
                        name = "Catch Estimate") +
@@ -587,7 +587,7 @@ for (i in 1:length(fishery_name_north)) {
 
 # Revised estimates by ERA Fishery (2005-2023) {#app:revised-catch-timeseries3}
 
-Here we present kept and released catch estimates, which are similar to Appendix \@ref(app:revised-catch-timeseries), but are rolled up to the ERA level and include previously reported estimates. This helps identify where reporting matches more closely with creel estimates or combined creel and iREC estimates. Catch estimates at annual finescale fishery scale (i.e, seasonal component summed). Solid green circles and lines indicate revised combined creel and iREC estimates. Open green circles indicate revised modelled combined creel and iREc estimate. Open orange triangles and dashed lines indicate unfiltered creel and/or logbook catch estimates. Blue circles indicate the revised iREC estimates (solid blue circles) and retrospectively modelled estimates (open blue circles). Previously reported catch estimates are either creel and/or logbook data or a combination of creel, logbook, and iREC data. In some regions iREC was incorporated earlier than in other regions and the reporting reflects this. 
+Here we present kept and released catch estimates, which are similar to Appendix \@ref(app:revised-catch-timeseries), but are rolled up to the ERA level and include previously reported estimates. This helps identify where reporting matches more closely with creel estimates or combined creel and iREC estimates. Catch estimates at annual finescale fishery scale (i.e, seasonal component summed). Solid green circles and lines indicate revised combined creel and iREC estimates. Open green circles indicate revised modelled combined creel and iREc estimates. Open orange triangles and dashed lines indicate unfiltered creel and/or logbook catch estimates. Blue circles (for NBC and CBC) indicate the revised iREC estimates (solid blue circles) and retrospectively modelled estimates (open blue circles). Previously reported catch estimates are represented as purple triangles and dashed lines, and are either creel and/or logbook data or a combination of creel, logbook, and iREC data. In some regions iREC was incorporated earlier than in other regions and the reporting reflects this. 
 
 ```{r m plots, results='asis', echo=FALSE}
 #| label: fig-catch-revised-3-appendix
@@ -671,12 +671,12 @@ for (i in 1:length(fishery_name_south)){
                            color = estimate_shape_type,
                            shape = estimate_shape_type,
                            linetype = estimate_shape_type)) +
-    geom_point(size = 2.5) +
+    geom_point(size = 3) +
     geom_line() +
     scale_color_manual(values = c(col_purple, col_green, col_green, col_orange),
                        name = "Catch Estimate") +
-    scale_shape_manual(values = c(16, 16, 1, 2)) +
-    scale_linetype_manual(values = c(1, 1, 1, 2)) +
+    scale_shape_manual(values = c(17, 16, 1, 2)) +
+    scale_linetype_manual(values = c(2, 1, 1, 2)) +
     scale_x_continuous(breaks = seq.int(2005, 2023, by = 2)) +
     theme_bw() +
     geom_vline(aes(xintercept = 2013)) +
@@ -721,12 +721,12 @@ for (i in 1:length(fishery_name_south)){
                            color = estimate_shape_type,
                            shape = estimate_shape_type,
                            linetype = estimate_shape_type)) +
-    geom_point(size = 2.5) +
+    geom_point(size = 3) +
     geom_line() +
     scale_color_manual(values = c(col_purple, col_green, col_green, col_orange),
                        name = "Catch Estimate") +
-    scale_shape_manual(values = c(16, 16, 1, 2)) +
-    scale_linetype_manual(values = c(1, 1, 1, 2)) +
+    scale_shape_manual(values = c(17, 16, 1, 2)) +
+    scale_linetype_manual(values = c(2, 1, 1, 2)) +
     scale_x_continuous(breaks = seq.int(2005, 2023, by = 2)) +
     theme_bw() +
     geom_vline(aes(xintercept = 2013)) +
@@ -816,11 +816,11 @@ for (i in 1:length(fishery_name_north)) {
                            color = estimate_shape_type,
                            shape = estimate_shape_type,
                            linetype = estimate_shape_type)) +
-    geom_point(size = 2.5) +
+    geom_point(size = 3) +
     geom_line() +
     scale_color_manual(values = c(col_purple,col_orange, col_blue, col_blue),
                        name = "Catch Estimate") +
-    scale_shape_manual(values = c(2, 2, 16, 1)) +
+    scale_shape_manual(values = c(17, 2, 16, 1)) +
     scale_linetype_manual(values = c(2, 2, 1, 1)) +
     scale_x_continuous(breaks = seq.int(2005, 2023, by = 2)) +
     theme_bw() +
@@ -866,11 +866,11 @@ for (i in 1:length(fishery_name_north)) {
                            color = estimate_shape_type,
                            shape = estimate_shape_type,
                            linetype = estimate_shape_type)) +
-    geom_point(size = 2.5) +
+    geom_point(size = 3) +
     geom_line() +
     scale_color_manual(values = c(col_purple,col_orange, col_blue, col_blue),
                        name = "Catch Estimate") +
-    scale_shape_manual(values = c(2, 2, 16, 1)) +
+    scale_shape_manual(values = c(17, 2, 16, 1)) +
     scale_linetype_manual(values = c(2, 2, 1, 1)) +
     scale_x_continuous(breaks = seq.int(2005, 2023, by = 2)) +
     theme_bw() +
@@ -2132,7 +2132,6 @@ version_catch_tbl |>
 
 ```
 
-## Link to data
 
 ```{r linktodata, results='asis', echo=FALSE}
 

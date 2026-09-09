@@ -1584,18 +1584,21 @@ We noted some downward changes in kept catch, mostly attributed to prior reporti
 
 ```{r results CandEkept, results='asis', echo=FALSE, fig.height=5, fig.width=10, out.width="100%", fig.asp=NA}
 #| label: fig-cande-kept
-#| fig-cap: "Revised (green) and previously reported (purple) kept catch estimates for ERA fisheries from 2005-2023. The vertical line on each graph identifies the first year that revised estimates are based on only on observed data (e.g., iREC and creel).  Years before the vertical line are modelled estimates that utilize past catch estimates."
+#| fig-cap: "Revised (green solid circles, solid lines) and previously reported (purple triangles, dashed lines) kept catch estimates for ERA fisheries from 2005-2023. The vertical line on each graph identifies the first year that revised estimates are based on only on observed data (e.g., iREC and creel).  Years before the vertical line are modelled estimates that utilize past catch estimates."
 
 ## Kept only
 k<-ggplot() +
   scale_shape_identity() +
   scale_linetype_identity() +
-  geom_point(data=total_catch_compare, aes(y=updated_kept_total, x=year, col=col_green, shape = 16)) + 
-  geom_line(data=total_catch_compare, aes(y=updated_kept_total, x=year, col=col_green, linetype = 1))+
-  geom_point(data=total_catch_compare, aes(y=total_kept, x=year, col=col_purple, shape = 1)) + 
-  geom_line(data=total_catch_compare, aes(y=total_kept, x=year, col=col_purple, linetype = 2))+
+  geom_point(data=total_catch_compare, aes(y=updated_kept_total, x=year, col=col_green), shape = 16) + 
+  geom_line(data=total_catch_compare, aes(y=updated_kept_total, x=year, col=col_green), linetype = 1)+
+  geom_point(data=total_catch_compare, aes(y=total_kept, x=year, col=col_purple), shape = 17) + 
+  geom_line(data=total_catch_compare, aes(y=total_kept, x=year, col=col_purple), linetype = 2)+
   scale_color_manual(values=c(col_green, col_purple),  
                      labels = c("Revised estimates", "2024 C&E Report"))+
+     scale_shape_manual(
+                     labels = c("Revised estimates", "2024 C&E Report"),
+                     values = c(16, 17)) + 
   facet_wrap(~erafishery, 
              scales = "free", 
              ncol=4)+
@@ -1613,7 +1616,7 @@ print(k)
 
 ```{r results CandErelease, results='asis', echo=FALSE, fig.height=5, fig.width=10, out.width="100%", fig.asp=NA}
 #| label: fig-cande-released
-#| fig-cap: "Revised (green) and previously reported (purple) legal-sized released catch estimates from 2005-2023. The vertical line on each graph identifies the first year that revised estimates are based only on observed data (e.g., iREC and creel). Years before the vertical line are modelled based on past legal-sized released catch estimates."
+#| fig-cap: "Revised (green solid circles, solid lines) and previously reported (purple triangles, dashed lines) legal-sized released catch estimates from 2005-2023. The vertical line on each graph identifies the first year that revised estimates are based only on observed data (e.g., iREC and creel). Years before the vertical line are modelled based on past legal-sized released catch estimates."
 
 rec_summary <- 
   read.csv("data/rec_summary_2005-2023.csv") |>
@@ -1632,12 +1635,14 @@ total_catch_compare <-
 ggplot() +
    scale_shape_identity() +
   scale_linetype_identity() +
-  geom_point(data=total_catch_compare, aes(y=updated_released_total, x=year, col=col_green, shape=16)) + 
-  geom_line(data=total_catch_compare, aes(y=updated_released_total, x=year, col=col_green, linetype=1))+
-  geom_point(data=total_catch_compare, aes(y=legal_releases, x=year, col=col_purple, shape=1)) + 
-  geom_line(data=total_catch_compare, aes(y=legal_releases, x=year, col=col_purple, linetype=2))+
+  geom_point(data=total_catch_compare, aes(y=updated_released_total, x=year, col=col_green), shape=16) + 
+  geom_line(data=total_catch_compare, aes(y=updated_released_total, x=year, col=col_green), linetype=1)+
+  geom_point(data=total_catch_compare, aes(y=legal_releases, x=year, col=col_purple), shape=17) + 
+  geom_line(data=total_catch_compare, aes(y=legal_releases, x=year, col=col_purple), linetype=2)+
   scale_color_manual(values=c(col_green,col_purple),  
                      labels = c("Revised estimates", "2024 C&E Report"))+
+    scale_shape_manual( labels = c("Revised estimates", "2024 C&E Report"),
+                     values = c(16, 17)) + 
   facet_wrap(~erafishery, 
              scales = "free", 
              ncol=4)+
@@ -1715,18 +1720,20 @@ Figure \@ref(fig:fig-indcwtest) shows the time series of total CWT estimates for
 
 ```{r results indcwtest, results='asis', echo=FALSE,fig.height=10, fig.width=10, out.width="100%", fig.asp=NA}
 #| label: fig-indcwtest
-#| fig-cap: "Time series of ERA indicator CWT estimate totals for all PSC indicator stocks within the CTC 2025 ERA for each ERA fishery. The vertical line on each panel identifies the first year that revised CWT estimates used catch estimates based primarily on observed data (e.g., iREC and creel). Years before the vertical line use modelled catch based on past catch estimates."
+#| fig-cap: "Time series of ERA indicator CWT estimate totals for all PSC indicator stocks within the CTC 2025 ERA for each ERA fishery. Green lines and solid circles are revised CWT data and purple dashed lines and triangles are CWT estimates from the 2024 ERA. The vertical line on each panel identifies the first year that revised CWT estimates used catch estimates based primarily on observed data (e.g., iREC and creel). Years before the vertical line use modelled catch based on past catch estimates."
 
 ## CWT Estimate Total time series
 ggplot() +
    scale_shape_identity() +
   scale_linetype_identity() +
-  geom_point(data=new_cwt_est, aes(y=cwt_estimate, x=run_year, col=col_green, shape=16)) + 
-  geom_line(data=new_cwt_est, aes(y=cwt_estimate, x=run_year, col=col_green, linetype=1))+
-  geom_point(data=prev_cwt_est, aes(y=cwt_estimate, x=run_year, col=col_purple, shape=1)) + 
-  geom_line(data=prev_cwt_est, aes(y=cwt_estimate, x=run_year, col=col_purple, linetype=2))+
+  geom_point(data=new_cwt_est, aes(y=cwt_estimate, x=run_year, col=col_green), shape=16) + 
+  geom_line(data=new_cwt_est, aes(y=cwt_estimate, x=run_year, col=col_green), linetype=1)+
+  geom_point(data=prev_cwt_est, aes(y=cwt_estimate, x=run_year, col=col_purple), shape=17) + 
+  geom_line(data=prev_cwt_est, aes(y=cwt_estimate, x=run_year, col=col_purple), linetype=2)+
   scale_color_manual(values=c(col_green, col_purple),
                      labels = c("Revised CWT Estimates", "2024 CWT Estimates"))+
+     scale_shape_manual(labels = c("Revised estimates", "2024 C&E Report"),
+                     values = c(16, 17)) + 
   ylab("CWT Estimate (All Indicators)")+
   xlab("Run Year")+
   facet_wrap(~fishery, scales = "free", ncol=4)+
@@ -1836,7 +1843,7 @@ The ERA has been accounting for releases since before 2005 for some fisheries (e
 
 ```{r results mrrukr2, results='asis', echo=FALSE, fig.height=10, fig.width=10}
 #| label: fig-mrrukr2
-#| fig-cap: "Release rate time series at the finescale fishery level, from 2005 to 2023. Light green lines are release rates of unmarked fish and dark green lines are release rates of marked fish from revised data. Green lines before 2013 or 2015 are release rates (regardless of mark status) calculated from modelled data. Purple lines are release rates (regardless of mark status) used in the 2024 CNR files applied to the 2024 ERA."
+#| fig-cap: "Release rate time series at the finescale fishery level, from 2005 to 2023. Light green circles and lines are release rates of unmarked fish and dark green circles and lines are release rates of marked fish from revised data. Green circles and lines before 2013 or 2015 are release rates (regardless of mark status) calculated from modelled data. Purple dashed lines and triangles are release rates (regardless of mark status) used in the 2024 CNR files applied to the 2024 ERA."
 mu <- 
   ggplot() +
   scale_shape_identity() +
@@ -1858,11 +1865,11 @@ mu <-
   geom_line(data = sport_mark_rate_mrr %>% filter(between(year, 2013, 2015), erafishery %notin% c("NBC AABM S", "NBC ISBM S", "CBC S")),
             aes(y = mrr, x = year, col = "Revised Marked Release Rate")) +
   geom_point(data = sport_mark_rate_mrr,
-             aes(y = release_rate, x = year, col = "2024 CNR Release Rate"), shape = 1) +
+             aes(y = release_rate, x = year, col = "2024 CNR Release Rate"), shape = 17) +
   geom_line(data = sport_mark_rate_mrr,
             aes(y = release_rate, x = year, col = "2024 CNR Release Rate"), linetype = 2) +
   geom_point(data = sport_mark_rate_mrr %>% filter(between(year, 2005, 2013)),
-             aes(y = rr, x = year, col = "Revised Release Rate"), shape = 16) +
+             aes(y = rr, x = year, col = "Revised Release Rate"), shape = 1) +
   geom_line(data = sport_mark_rate_mrr %>% filter(between(year, 2005, 2013)),
             aes(y = rr, x = year, col = "Revised Release Rate"), linetype = 1) +
   geom_point(data = sport_mark_rate_mrr %>% filter(between(year, 2013, 2015), erafishery %in% c("NBC AABM S", "NBC ISBM S", "CBC S")),
