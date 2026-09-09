@@ -1027,18 +1027,22 @@ res_gam <- simulateResiduals(sport_catch_models$model_list$central_isbm_kept, pl
 
 # Model Statistical Tables {#app:fourth-appendix}
 
-```{r appendix-model-table-NWCVI-summer, message=FALSE, warning=FALSE, results='asis', echo=FALSE}
+```{r appendix-model-table-NWCVI-summer, message=FALSE, warning=FALSE, results='asis', echo=FALSE, tbl.pos="H"}
 NWCVI_summer_model_table <- sport_catch_models$model_list[["NWCVI_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
   add_global_p() %>%# add p-values
   bold_p(t = 0.05) |> # bold p values
   bold_labels() %>% # make label in bold
   italicize_levels() %>%        # make categories in label italic
-  modify_caption("NWCVI Summer Model")%>%
-  as_kable_extra(booktabs = TRUE) %>%
-  kableExtra::kable_styling(latex_options = c("HOLD_position", "repeat_header"))
+  modify_caption("NWCVI Summer Model")
+ 
+patch_table_placement <- function(tbl, placement = "[H]") {
+  tex <- as.character(knitr::knit_print(tbl))
+  tex <- gsub("\\\\begin\\{table\\}\\[t\\]", paste0("\\\\begin{table}", placement), tex)
+  knitr::asis_output(tex)
+}
 
-NWCVI_summer_model_table
+patch_table_placement(NWCVI_summer_model_table)
 
 ```
 
@@ -1050,7 +1054,7 @@ SWCVI_summer_model_table <- sport_catch_models$model_list[["SWCVI_summer_model"]
   bold_labels() %>% # make label in bold
   italicize_levels() %>%        # make categories in label italic
   modify_caption("SWCVI Summer Model")
-SWCVI_summer_model_table
+patch_table_placement(SWCVI_summer_model_table)
 
 ```
 
@@ -1062,7 +1066,7 @@ NGS_summer_model_table <- sport_catch_models$model_list[["NGS_summer_model"]]  |
   bold_labels() %>% # make label in bold
   italicize_levels() %>%        # make categories in label italic
   modify_caption("NGS Summer Model")
-NGS_summer_model_table
+patch_table_placement(NGS_summer_model_table)
 
 ```
 
@@ -1074,7 +1078,7 @@ SGS_summer_model_table<- sport_catch_models$model_list[["SGS_summer_model"]]  |>
   bold_labels() %>% # make label in bold
   italicize_levels() %>%        # make categories in label italic
   modify_caption("SGS Summer Model")
-SGS_summer_model_table
+patch_table_placement(SGS_summer_model_table)
 
 ```
 
@@ -1086,7 +1090,7 @@ jnst_summer_model_table <- sport_catch_models$model_list[["jnst_summer_model"]] 
   bold_labels() %>% # make label in bold
   italicize_levels() %>%        # make categories in label italic
   modify_caption("JNST Summer Model")
-jnst_summer_model_table
+patch_table_placement(jnst_summer_model_table)
 
 ```
 
@@ -1098,7 +1102,7 @@ jdf_summer_model_table <- sport_catch_models$model_list[["jdf_summer_model"]]  |
   bold_labels() %>% # make label in bold
   italicize_levels() %>%        # make categories in label italic
   modify_caption("JDF Summer Model")
-jdf_summer_model_table
+patch_table_placement(jdf_summer_model_table)
 
 ```
 
@@ -1110,7 +1114,7 @@ seasonal_WCVI_table <- sport_catch_models$model_list[["seasonal_WCVI"]]  |>  tbl
   bold_labels() %>% # make label in bold
   italicize_levels() %>%        # make categories in label italic
   modify_caption("WCVI Seasonal Model")
-seasonal_WCVI_table
+patch_table_placement(seasonal_WCVI_table)
 
 ```
 
@@ -1122,7 +1126,7 @@ seasonal_NGS_only_table <- sport_catch_models$model_list[["seasonal_NGS_only"]] 
   bold_labels() %>% # make label in bold
   italicize_levels() %>%        # make categories in label italic
   modify_caption("NGS Seasonal Model")
-seasonal_NGS_only_table
+patch_table_placement(seasonal_NGS_only_table)
 
 ```
 
@@ -1134,7 +1138,7 @@ seasonal_SGS_only_table <- sport_catch_models$model_list[["seasonal_SGS_only"]] 
   bold_labels() %>% # make label in bold
   italicize_levels() %>%        # make categories in label italic
   modify_caption("SGS Seasonal Model")
-seasonal_SGS_only_table
+patch_table_placement(seasonal_SGS_only_table)
 
 ```
 
@@ -1146,7 +1150,7 @@ seasonal_JNST_table <- sport_catch_models$model_list[["seasonal_JNST"]]  |>  tbl
   bold_labels() %>% # make label in bold
   italicize_levels() %>%        # make categories in label italic
   modify_caption("JNST Seasonal Model")
-seasonal_JNST_table
+patch_table_placement(seasonal_JNST_table)
 
 ```
 
@@ -1158,7 +1162,7 @@ seasonal_JDF_table <- sport_catch_models$model_list[["seasonal_JDF"]]  |>  tbl_r
   bold_labels() %>% # make label in bold
   italicize_levels() %>%        # make categories in label italic
   modify_caption("JDF Seasonal Model")
-seasonal_JDF_table
+patch_table_placement(seasonal_JDF_table)
 
 ```
 
@@ -1170,7 +1174,7 @@ north_aabm_table <- sport_catch_models$model_list[["north_aabm"]]  |>  tbl_regre
   bold_labels() %>% # make label in bold
   italicize_levels() %>%        # make categories in label italic
   modify_caption("NBC AABM Annual Model")
-north_aabm_table
+patch_table_placement(north_aabm_table)
 
 ```
 
@@ -1182,7 +1186,7 @@ north_isbm_table <- sport_catch_models$model_list[["north_isbm"]]  |>  tbl_regre
   bold_labels() %>% # make label in bold
   italicize_levels() %>%        # make categories in label italic
   modify_caption("NBC ISBM Model")
-north_isbm_table
+patch_table_placement(north_isbm_table)
 
 ```
 
@@ -1194,7 +1198,7 @@ central_isbm_kept_table <- sport_catch_models$model_list[["central_isbm_kept"]] 
   bold_labels() %>% # make label in bold
   italicize_levels() %>%        # make categories in label italic
   modify_caption("CBC Kept Model")
-central_isbm_kept_table
+patch_table_placement(central_isbm_kept_table)
 
 ```
 
@@ -1206,18 +1210,16 @@ central_isbm_released_table <- sport_catch_models$model_list[["central_isbm_rele
   bold_labels() %>% # make label in bold
   italicize_levels() %>%        # make categories in label italic
   modify_caption("CBC Released Model")
-central_isbm_released_table
+patch_table_placement(central_isbm_released_table)
 
 ```
 
-\clearpage
-
 ::: {.landscape data-latex=""}
-# Model Selection Tables {#app:fifth-appendix}
 
+# Model Selection Tables {#app:fifth-appendix}
 ```{r appendix-model-selection-summer, echo = FALSE}
 
-m6 |>
+m6 <- m6 |>
   mutate(n_var = round(n_var, 0))|>
     dplyr::select(-name, -residual_check, -x_var, -McFadden, -AIC, -full_formula, -slope_creel, -r2_creel, -slope_irec, -r2_irec, -n_creel, -n_irec)|>
   relocate(region_name, family, chosen_formula, delta_aic, n_var, r2glm) |>
@@ -1258,14 +1260,7 @@ m6 |>
   )
 
 
- # m6 |>
- #    dplyr::select(-name, -x_var, -McFadden)|>
- # csasdowntex::csas_table(
- #                     caption = "Caption text",
- #                     landscape = TRUE,
- #                     font_size = 7,
- #                     repeat_header = TRUE, longtable = TRUE)
-
+patch_table_placement(m6)
 
 ```
 
@@ -2168,7 +2163,16 @@ choice for best catch estimate, use iREC, use creel, or creel.plus is zero (i.e.
   add_row(Variable = "catch_estimate", Description="chosen best catch estimate to be  used for CTC purposes, based on priority rules")|>
   add_row(Variable = "creel_plus_summer", Description="sum of filtered creel plus logbook from the summer months May-September")|>
   add_row(Variable = "catch_estimate_predicted", Description="catch estimate predicted, if next category is observed then it is the same as catch_estimate above, otherwise if category is predicted, then it is the modelled result")|>
-  add_row(Variable = "pred_cat", Description="observed or predicted (i.e., modelled)")
+  add_row(Variable = "pred_cat", Description="observed or predicted (i.e., modelled)")|>
+  add_row() %>%
+    add_row() %>%
+    add_row() %>%
+    add_row() %>%
+    add_row(Variable=paste0("Date run: ", format(Sys.time(), "%Y-%m-%d_%H%M"))) %>%
+    add_row()
+
+
+
 
  sport_catch_area_trim<-  sport_catch_area |>
                           dplyr::select(-season2, summer_core_coverage_tf, summer_coverage_tf, spring_coverage_tf, fall_coverage_tf)|> arrange(year, month, region, area)
