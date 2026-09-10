@@ -290,7 +290,7 @@ csas_table(strat_table, format = "latex")
 
 # Revised estimates by Finescale Fishery (2005-2023) {#app:revised-catch-timeseries}
 
-Kept and released catch estimates at annual finescale fishery scale (i.e, seasonal component summed). Solid green circles and lines indicate revised combined creel and iREC estimates. Open green circles indicate revised modelled combined creel and iREc estimate. Open orange triangles and dashed lines indicate unfiltered creel and/or logbook catch estimates. Blue circles indicate the revised iREC estimates (solid blue circles) and retrospectively modelled estimates (open blue circles). 
+Kept and released catch estimates at annual finescale fishery scale (i.e., seasonal component summed). Solid green circles and lines indicate revised combined creel and iREC estimates. Open green circles indicate revised modelled combined creel and iREc estimate. Open orange triangles and dashed lines indicate unfiltered creel and/or logbook catch estimates. Blue circles indicate the revised iREC estimates (solid blue circles) and retrospectively modelled estimates (open blue circles). 
 
 ```{r m plots, results='asis', echo=FALSE}
 #| label: fig-catch-revised-1-appendix
@@ -2087,7 +2087,7 @@ new_version_catch <-
   sport_catch_models$model_catch |>
   mutate(is_kept = grepl("kept", status, ignore.case = TRUE),
          creel_unfiltered_plus = if_else(grepl("CENTRAL|NORTH", finescale_fishery), historic_plus, creel_unfiltered_plus)) |>
-  group_by(year, is_kept, finescale_fishery) |> 
+  group_by(year, is_kept, season, region, management, finescale_fishery) |> 
   summarise(creel_unfiltered_plus = sum(creel_unfiltered_plus, na.rm = TRUE), 
             catch_estimate_predicted = sum(catch_estimate_predicted, na.rm = TRUE), 
             .groups = "drop")
@@ -2105,15 +2105,23 @@ version_catch_tbl <-
          creel_unfiltered_plus = round(creel_unfiltered_plus))
 
 
+# Grab all unique values once
+all_levels <- unique(version_catch_tbl$finescale_fishery)
+
+# Order: spring-containing first, then summer, then fall, then anything else
+level_order <- c("spring", "summer", "fall", "annual")
+
 version_catch_tbl |>
   filter(is_kept == TRUE) |>
+  mutate(season = factor(season, levels = level_order))|>
+  arrange(year, region, management, season)|>
   select(`Year` = year, 
          `CTC Finescale Fishery` = finescale_fishery, 
          `Creel + Log Kept` = creel_unfiltered_plus,
          `Feb. 2025 Kept` = prev_catch,
          `Updated Kept` = catch_estimate_predicted,
          `Updated Kept (%)` = update_pct) |>
-  csasdowntex::csas_table(caption = "Kept catch estimates based on just creel + logbooks, previous February 2025 version of analysis, and updated version of the method presented in this report.")
+  csasdowntex::csas_table(caption = "Kept catch estimates based on just creel + logbooks, previous February 2025 version of analysis, and updated version of the method presented in this report. Percent change from February 2025 to current analysis is shown.")
 
 
 ```
@@ -2122,13 +2130,15 @@ version_catch_tbl |>
 
 version_catch_tbl |>
   filter(is_kept == FALSE) |>
+    mutate(season = factor(season, levels = level_order))|>
+  arrange(year, region, management, season)|>
   select(`Year` = year, 
          `CTC Finescale Fishery` = finescale_fishery, 
          `Creel + Log Rel.` = creel_unfiltered_plus,
          `Feb. 2025 Rel.` = prev_catch,
          `Updated Rel.` = catch_estimate_predicted,
          `Updated Rel. (%)` = update_pct) |>
-  csasdowntex::csas_table(caption = "Released catch estimates based on just creel + logbooks, previous February 2025 version of analysis, and updated version of the method presented in this report.")
+  csasdowntex::csas_table(caption = "Released catch estimates based on just creel + logbooks, previous February 2025 version of analysis, and updated version of the method presented in this report. Percent change from February 2025 to current analysis is shown.")
 
 ```
 
