@@ -1028,7 +1028,7 @@ res_gam <- simulateResiduals(sport_catch_models$model_list$central_isbm_kept, pl
 # Model Statistical Tables {#app:fourth-appendix}
 
 ```{r appendix-model-table-NWCVI-summer, message=FALSE, warning=FALSE, results='asis', echo=FALSE, tbl.pos="H"}
-NWCVI_summer_model_table <- sport_catch_models$model_list[["NWCVI_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
+NWCVI_summer_model_table <- sport_catch_models$model_list[["NWCVI_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.95, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
   add_global_p() %>%# add p-values
   bold_p(t = 0.05) |> # bold p values
@@ -1047,7 +1047,7 @@ patch_table_placement(NWCVI_summer_model_table)
 ```
 
 ```{r appendix-model-table-SWCVI-summer,message=FALSE, warning=FALSE, results='hide', echo=FALSE}
-SWCVI_summer_model_table <- sport_catch_models$model_list[["SWCVI_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
+SWCVI_summer_model_table <- sport_catch_models$model_list[["SWCVI_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.95, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
   add_global_p() %>%# add p-values
   bold_p(t = 0.05) |> # bold p values
@@ -1059,7 +1059,7 @@ patch_table_placement(SWCVI_summer_model_table)
 ```
 
 ```{r appendix-model-table-NGS-summer, echo = FALSE}
-NGS_summer_model_table <- sport_catch_models$model_list[["NGS_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
+NGS_summer_model_table <- sport_catch_models$model_list[["NGS_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.95, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
   add_global_p() %>%# add p-values
   bold_p(t = 0.05) |> # bold p values
@@ -1071,7 +1071,7 @@ patch_table_placement(NGS_summer_model_table)
 ```
 
 ```{r appendix-model-table-SGS-summer, echo = FALSE}
-SGS_summer_model_table<- sport_catch_models$model_list[["SGS_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
+SGS_summer_model_table<- sport_catch_models$model_list[["SGS_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.95, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
   add_global_p() %>%# add p-values
   bold_p(t = 0.05) |> # bold p values
@@ -1083,7 +1083,7 @@ patch_table_placement(SGS_summer_model_table)
 ```
 
 ```{r appendix-model-table-jnst-summer, echo = FALSE}
-jnst_summer_model_table <- sport_catch_models$model_list[["jnst_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
+jnst_summer_model_table <- sport_catch_models$model_list[["jnst_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.95, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
   add_global_p() %>%# add p-values
   bold_p(t = 0.05) |> # bold p values
@@ -1095,7 +1095,7 @@ patch_table_placement(jnst_summer_model_table)
 ```
 
 ```{r appendix-model-table-jdf-summer, echo = FALSE}
-jdf_summer_model_table <- sport_catch_models$model_list[["jdf_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
+jdf_summer_model_table <- sport_catch_models$model_list[["jdf_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.95, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
   add_global_p() %>%# add p-values
   bold_p(t = 0.05) |> # bold p values
@@ -1107,7 +1107,7 @@ patch_table_placement(jdf_summer_model_table)
 ```
 
 ```{r appendix-model-table-WCVI-seasonal, echo = FALSE}
-seasonal_WCVI_table <- sport_catch_models$model_list[["seasonal_WCVI"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
+seasonal_WCVI_table <- sport_catch_models$model_list[["seasonal_WCVI"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.95, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
   add_global_p() %>%# add p-values
   bold_p(t = 0.05) |> # bold p values
@@ -1119,7 +1119,7 @@ patch_table_placement(seasonal_WCVI_table)
 ```
 
 ```{r appendix-model-table-NGS-seasonal, echo = FALSE}
-seasonal_NGS_only_table <- sport_catch_models$model_list[["seasonal_NGS_only"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
+seasonal_NGS_only_table <- sport_catch_models$model_list[["seasonal_NGS_only"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.95, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
   add_global_p() %>%# add p-values
   bold_p(t = 0.05) |> # bold p values
@@ -1131,7 +1131,7 @@ patch_table_placement(seasonal_NGS_only_table)
 ```
 
 ```{r appendix-model-table-SGS-seasonal, echo = FALSE}
-seasonal_SGS_only_table <- sport_catch_models$model_list[["seasonal_SGS_only"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
+seasonal_SGS_only_table <- sport_catch_models$model_list[["seasonal_SGS_only"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.95, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
   add_global_p() %>%# add p-values
   bold_p(t = 0.05) |> # bold p values
@@ -1143,7 +1143,7 @@ patch_table_placement(seasonal_SGS_only_table)
 ```
 
 ```{r appendix-model-table-JNST-seasonal, echo = FALSE}
-seasonal_JNST_table <- sport_catch_models$model_list[["seasonal_JNST"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
+seasonal_JNST_table <- sport_catch_models$model_list[["seasonal_JNST"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.95, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
   add_global_p() %>%# add p-values
   bold_p(t = 0.05) |> # bold p values
@@ -1155,7 +1155,7 @@ patch_table_placement(seasonal_JNST_table)
 ```
 
 ```{r appendix-model-table-JDF-seasonal, echo = FALSE}
-seasonal_JDF_table <- sport_catch_models$model_list[["seasonal_JDF"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
+seasonal_JDF_table <- sport_catch_models$model_list[["seasonal_JDF"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.95, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
   add_global_p() %>%# add p-values
   bold_p(t = 0.05) |> # bold p values
@@ -1167,7 +1167,7 @@ patch_table_placement(seasonal_JDF_table)
 ```
 
 ```{r appendix-model-table-north-aabm, echo = FALSE}
-north_aabm_table <- sport_catch_models$model_list[["north_aabm"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
+north_aabm_table <- sport_catch_models$model_list[["north_aabm"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.95, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
   add_global_p() %>%# add p-values
   bold_p(t = 0.05) |> # bold p values
@@ -1179,7 +1179,7 @@ patch_table_placement(north_aabm_table)
 ```
 
 ```{r appendix-model-table-north-isbm, echo = FALSE}
-north_isbm_table <- sport_catch_models$model_list[["north_isbm"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
+north_isbm_table <- sport_catch_models$model_list[["north_isbm"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.95, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
   add_global_p() %>%# add p-values
   bold_p(t = 0.05) |> # bold p values
@@ -1191,7 +1191,7 @@ patch_table_placement(north_isbm_table)
 ```
 
 ```{r appendix-model-table-central-isbm-kept, echo = FALSE}
-central_isbm_kept_table <- sport_catch_models$model_list[["central_isbm_kept"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
+central_isbm_kept_table <- sport_catch_models$model_list[["central_isbm_kept"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.95, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
   add_global_p() %>%# add p-values
   bold_p(t = 0.05) |> # bold p values
@@ -1203,7 +1203,7 @@ patch_table_placement(central_isbm_kept_table)
 ```
 
 ```{r appendix-model-table-central-isbm-released, echo = FALSE}
-central_isbm_released_table <- sport_catch_models$model_list[["central_isbm_released"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.9, show_single_row = everything() ) %>%
+central_isbm_released_table <- sport_catch_models$model_list[["central_isbm_released"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.95, show_single_row = everything() ) %>%
   add_glance_source_note() %>%
   add_global_p() %>%# add p-values
   bold_p(t = 0.05) |> # bold p values
@@ -2012,7 +2012,7 @@ During a review of the mark rates used to estimate marked and unmarked catch, a 
 
 When reviewing how the quality control flags were handled when combining creel reported areas into to iREC areas we found that the quality control flags were combined incorrectly. The only iREC area that this affects was PFMA 20 from 2013 to 2019 in some months. As PFMA 20 is operationally covered by two separate creel programs, in some cases part of PFMA 20 may have a quality creel estimate while the other may not. When combined it would identify the whole PFMA 20 as being a quality creel and potentially use less quality creel data instead of iREC for the whole area. This was fixed and now Juan de Fuca catch has a more consistent relationship with creel over the whole time series of this study. With the split of PFMA 20 in iREC reporting starting in 2020, this was no longer an issue and quality creel estimates either portion of PFMA 20 can be used as the final catch estimate. This flag update applies also to 2013 estimates for PFMAs 19 and 23, after which the split was incorporated into iREC. In addition to the PFMA split quality flags affecting our analysis, they were also identified as affecting iREC calibration analysis for licence years 2013 to 2019.
 
-The iREC calibration procedure was re-run on all years following the split flag update and several other improvements to the iREC data, notably: additions to data quality procedures (like excluding invalid date records), extending standardized data quality procedures back to 2012 (from 2018), variance calculated by season, and iREC estimates of zero excluded from calibration (S. Yalcin, pers.comm.). The previous and new bias calibration factors (BCF) are provided in Table \@ref(tab:tbl-irec-bcf-update) and Table \@ref(tab:tbl-irec-bcf-update2), for kept and released BCFs, respectively. With the review and and update, calibration factors generally increased and the resulting Chinook catch estimates decreased. That brought calibrated iREC catch estimates more inline with creel estimates for those re-calibrated years. Kept BCFs are approaching 1 in recent years (mean 0.99 +/- 0.02 SD from 2020-2024), whereas released BCFs are more variable and further from 1 (mean 0.98 +/- 0.15 SD from 2020-2024).
+The iREC calibration procedure was re-run on all years following the split flag update and several other improvements to the iREC data, notably: additions to data quality procedures (like excluding invalid date records), extending standardized data quality procedures back to 2012 (from 2018), variance calculated by season, and iREC estimates of zero excluded from calibration (S. Yalcin, pers.comm.). The previous and new bias calibration factors (BCF) are provided in Table \@ref(tab:tbl-irec-bcf-update) and Table \@ref(tab:tbl-irec-bcf-update2), for kept and released BCFs, respectively. With the review and and update, calibration factors generally increased and the resulting Chinook catch estimates decreased. That brought calibrated iREC catch estimates more inline with creel estimates for those re-calibrated years. Kept BCFs are approaching 1 in recent years (mean 0.96 +/- 0.02 SD from 2020-2024), whereas released BCFs are more variable and further from 1 (mean 0.86 +/- 0.15 SD from 2020-2024).
 
 ```{r tbl-irec-bcf-update, results='asis', echo=FALSE}
 
@@ -2160,7 +2160,7 @@ choice for best catch estimate, use iREC, use creel, or creel.plus is zero (i.e.
   add_row(Variable = "historic_plus", Description="historic estimate plus logbook estimate")|>
   add_row(Variable = "creel_unfiltered_plus", Description="unfiltered creel plus logbook")|>
   add_row(Variable = "catch_estimate", Description="chosen best catch estimate to be  used for CTC purposes, based on priority rules")|>
-  add_row(Variable = "creel_plus_summer", Description="sum of filtered creel plus logbook from the summer months May-September")|>
+  add_row(Variable = "creel_plus_summer", Description="sum of unfiltered creel plus logbook from the summer months May-September")|>
   add_row(Variable = "catch_estimate_predicted", Description="catch estimate predicted, if next category is observed then it is the same as catch_estimate above, otherwise if category is predicted, then it is the modelled result")|>
   add_row(Variable = "pred_cat", Description="observed or predicted (i.e., modelled)")|>
   add_row() %>%
