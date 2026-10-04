@@ -26,7 +26,7 @@ species, here we are concerned only with data related to Chinook salmon.
 The marine areas of interest are all Pacific Fishery Management Areas
 [PFMAs, Figure \@ref(fig:fig-PFMA), @pfma_2007], as shown and described
 on the DFO website [^1]. A table of how PFMAs map to broader regions and
-fisheries can be found in Appendix \@ref(apdx-strattab).
+fisheries can be found in Appendix \@ref(app:apdx-strattab).
 
 ### Background on survey methods
 #### South Coast Catch Estimation
@@ -294,7 +294,7 @@ offshore counterparts 106 through 110 (Figure \@ref(fig:fig-PFMA)).
 Catch data is not typically recorded by marked and kept status, so those
 distinctions are reconstructed using mark rate and release rates
 estimated by the lodges. The release rates provided have been 0% since
-2005, likely an inaccuracy that could be informed by iREC. Although not all lodges provide logbook catch data, the catch data has historically been reported as the total catch for the region. This was
+2005, likely an inaccuracy that will be addressed in this analysis using iREC released catch estimates. Although not all lodges provide logbook catch data, the catch data has historically been reported as the total catch for the region. This was
 identified as a bias in the recreational catch estimates that iREC
 inclusion should address. 
 
@@ -331,7 +331,7 @@ Region. Recreational fishing in the Pacific Region requires a Tidal
 Waters Sport Fishing Licence which have been sold predominantly online
 since roughly 2010. Several types of licences are sold, distinguished by
 term length, residency, and age. For this program, recreational licence
-holders are selected to report online, for one assigned month of their
+holders are required to report online, for one assigned month of their
 licence term, a detailed record of their fishing activity and catch.
 Reporting is mandatory, however completion rates are typically between 50 to 55% with the
 more recent reporting years. Using the completed reports, estimates of the total
@@ -341,7 +341,7 @@ monthly catch per licence by the number of licences eligible to fish in
 that month. These calculations are stratified by licence type to protect
 against bias due to differential fishing and reporting rates by licence
 type. Bias correction factors (BCFs), described in Section \@ref(calib), are then
-applied to estimate bias-corrected iREC estimates. The iREC program
+estimated for each licence year and applied to the iREC estimates to produce bias-corrected catch estimates. The iREC program
 operation and analytical methodology was initially reviewed at a 2015
 Canadian Science Advisory Secretariat (CSAS) regional peer review. The
 main report stemming from that meeting is the associated Science
@@ -391,7 +391,7 @@ package should provide a framework to implement further improvements to
 the recreational catch estimation methods in the future.
 
 #### Catch Stratification
-Appendix \@ref(apdx-strattab) presents the stratification of fisheries
+Appendix \@ref(app:apdx-strattab) presents the stratification of fisheries
 by PFMA and partial PFMAs, organized by monthly ranges used for catch
 estimation. The CTC Exploitation Rate Analysis (ERA) fisheries are
 fishery definitions that the CTC reports to estimate stock-specific
@@ -579,7 +579,7 @@ time series (from 2005 to 2023). This consistent period of coverage is
 used to predict the estimated catch for all seasons in the years before iREC was available (before 2013 for South Coast). The annual models use annual creel catch estimates to predict pre-2015 modelled annual iREC catch estimates.  
 
 ### Model selection
-We explored several different model forms and distribution families to characterize the relationship between the creel estimate and combined creel and iREC estimate or iREC estimate. All models included a grouping factor for kept status (i.e. kept and released) and mark status (i.e. marked or unmarked), with the exception of Central BC models, which only included marked category as there are zero estimated releases for this region. We developed two sets of models, one with catch data grouped by finescale fishery and another with data grouped by region, to allow for finescale fishery differences in model form and family. Other relevant parameters not applicable to all models included season (spring or fall) and management type (AABM or ISBM). We then applied a systematic model selection process to compete candidate models and select a best model for each group as follows:
+We explored several different model forms (e.g. linear and logarithmic) and distribution families to characterize the relationship between the creel estimate and combined creel and iREC estimate or iREC estimate. All models included a grouping factor for kept status (i.e. kept and released) and mark status (i.e. marked or unmarked), with the exception of Central BC models, which only included marked category as there are zero estimated releases for this region. We developed two sets of models, one with catch data grouped by finescale fishery and another with data grouped by region, to allow for finescale fishery differences in model form and family. Other relevant parameters not applicable to all models included season (spring or fall) and management type (AABM or ISBM). We then applied a systematic model selection process to compete candidate models and select a best model for each group as follows:
 
 - We first constructed global models that included all combinations of parameters relevant to data set and their interactions, with either a Gaussian distribution with an identity link or a Gamma distribution with a log link (appropriate for our positive, continuous data).
 
@@ -596,7 +596,7 @@ grouping (both finescale fishery and broader regional). Since models with differ
 
 ## Revised estimate validation with Salmon Head Recovery Program
 We validated the marked kept catch estimates from the observed catch (combined
-creel and iREC; 2013-2023) and the modelled catch (2005-2012) by plotting them in relation to the number of marked Chinook heads by the Salmon Head Recovery Program (SHRP), which collects heads from recreational fisheries to recover CWTs. As the total number of heads collected by the SHRP is expected to be primarily driven by the the total kept marked catch in recreational fisheries, the total kept marked catch and total heads collected by the SHRP should be correlated. The slope of the linear regression between the kept marked catch and the number of heads across CWT regions and seasons should provide the average submission rate of all recreational fisheries. The strength of the correlation (i.e., $R^{2}$ value) along with the submission rate can be used as an indicator of the accuracy of the catch estimate. 
+creel and iREC; 2013-2023) and the modelled catch (2005-2012) by plotting them in relation to the number of marked Chinook heads by the Salmon Head Recovery Program (SHRP), which collects heads from recreational fisheries to recover CWTs. As the total number of heads collected by the SHRP is expected to be primarily driven by the the total kept marked catch in recreational fisheries, the total kept marked catch and total heads collected by the SHRP should be correlated. The slope of the linear regression, forced through the origin, between the kept marked catch and the number of heads across CWT regions and seasons should provide the average submission rate of all recreational fisheries.  Forcing the regression through the origin should be consistent with the expectation the we would receive no heads from SHRP when catch is zero and allows direct evaluation of the slope as a submission rate. The strength of the correlation (i.e., $R^{2}$ value) along with the submission rate can be used as an indicator of the accuracy of the catch estimate. 
 
 In contrast to the creel program, the SHRP relies on several sampling approaches (e.g., lodge sampling, public collection points, avid anglers) and should not necessarily be driven by creel survey coverage nor iREC survey completion. Since there were no substantial changes to how the SHRP is delivered over both the modelled and observed catch time periods, the slopes should be similar, with any deviations potentially indicating a lack in congruence between the two catch time series. 
 
@@ -640,7 +640,10 @@ ongoing creel-based estimates from periods and areas with high fishing
 effort, allows us to directly estimate submission rates for most
 spatio-temporal strata. As discussed in @CYER2021, such a transition
 from indirect to direct estimation of submission rates will improve the
-accuracy of the resulting estimates.
+accuracy of the resulting estimates.  Direct estimation relies primarily on data
+from a specific spatial and temporal stratum, whereas indirect methods rely, 
+in whole or in part, on assumed relationships from other strata to estimate 
+stock impacts.
 
 Submission rates for recreational catch may vary both spatially and
 temporally for other various reasons (e.g., the proportion of guided

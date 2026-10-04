@@ -9,7 +9,7 @@ output:
 
 # Results {#sec:results}
 
-In the following section we present the results of revising Chinook catch using both the combined creel and iREC catch estimates for more recent years and modelled estimates for pre-iREC years back to 2005. In addition to revising catch, the relationship between marked kept Chinook catch and CWT sampling through the SHRP is presented, including sample rate time series plots for each CWT region.
+In the following section we present the results of revising Chinook catch using both the combined creel and iREC catch estimates for more recent years and modelled estimates for pre-iREC years back to 2005. In addition to revising catch, the relationship between marked kept Chinook catch and CWT sampling through the SHRP is presented, including sample rate (i.e. submission rate) time series plots for each CWT region.
 
 ## Revised catch estimates since iREC
 ```{r results catch1, echo=FALSE}
@@ -350,7 +350,7 @@ Figure \@ref(fig:fig-nwcvi-isbm-summer-model) shows ISBM modelled relationship f
 
 ```{r results example seasonal summer, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-nwcvi-isbm-summer-model
-#| fig-cap: "Northern WCVI ISBM Summer fishery modelled relationship between summertime unfiltered creel estimate (months 5 and 9) and total catch estimate that incorporates iREC. Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
+#| fig-cap: "Northern WCVI ISBM Summer fishery modelled relationship between summertime unfiltered creel estimate (months 5 and 9) and total catch estimate that incorporates iREC. Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit. Shaded area with each relationship is the 95% confidence interval."
 
 cfg <- main_regions[["NWCVI Summer"]]
 
@@ -382,7 +382,7 @@ Figure \@ref(fig:fig-swcvi-aabm-summer-model) shows the AABM modelled relationsh
 
 ```{r results example seasonal summer, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-swcvi-aabm-summer-model
-#| fig-cap: "Southern WCVI AABM Summer fishery modelled relationship for between summertime unfiltered creel estimate (months 5 and 9) and total catch estimate that incorporates iREC. Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
+#| fig-cap: "Southern WCVI AABM Summer fishery modelled relationship for between summertime unfiltered creel estimate (months 5 and 9) and total catch estimate that incorporates iREC. Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit. Shaded area with each relationship is the 95% confidence interval."
 
 cfg <- main_regions[["SWCVI Summer"]]
 
@@ -416,7 +416,7 @@ Figure \@ref(fig:fig-ngs-summer-model) shows the modelled relationship for NGS S
 
 ```{r results example seasonal summer, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-ngs-summer-model
-#| fig-cap: "Northern Strait of Georgia fishery modelled relationship between summertime unfiltered creel estimate and total catch estimate including iREC in summer months (5-9). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
+#| fig-cap: "Northern Strait of Georgia fishery modelled relationship between summertime unfiltered creel estimate and total catch estimate including iREC in summer months (5-9). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit. Shaded area with each relationship is the 95% confidence interval."
 cfg <- main_regions[["NGS Summer"]]
 
 plots <- run_main_region(
@@ -447,7 +447,7 @@ Figure \@ref(fig:fig-sgs-summer-model) shows the modelled relationship for SGS S
 
 ```{r results example seasonal summer, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-sgs-summer-model
-#| fig-cap: "Southern Strait of Georgia fishery modelled relationship between summertime unfiltered creel estimate and total catch estimate including iREC in summer months (5-9). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
+#| fig-cap: "Southern Strait of Georgia fishery modelled relationship between summertime unfiltered creel estimate and total catch estimate including iREC in summer months (5-9). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit. Shaded area with each relationship is the 95% confidence interval."
 cfg <- main_regions[["SGS Summer"]]
 
 plots <- run_main_region(
@@ -479,7 +479,7 @@ Figure \@ref(fig:fig-jnst-summer-model) shows the modelled relationship for JNST
 
 ```{r results example seasonal summer, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-jnst-summer-model
-#| fig-cap: "Johnstone Strait fishery modelled relationship between summertime unfiltered creel estimate and total catch estimate including iREC in summer months (5-9). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
+#| fig-cap: "Johnstone Strait fishery modelled relationship between summertime unfiltered creel estimate and total catch estimate including iREC in summer months (5-9). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit. Shaded area with each relationship is the 95% confidence interval."
 cfg <- main_regions[["JNST Summer"]]
 
 plots <- run_main_region(
@@ -511,7 +511,7 @@ Figure \@ref(fig:fig-jdf-summer-model) shows the modelled relationship for JDF S
 
 ```{r results example seasonal summer, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-jdf-summer-model
-#| fig-cap: "Juan de Fuca Strait Summer fishery modelled relationship between unfiltered creel and total catch estimates including iREC in summer months (5-9). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
+#| fig-cap: "Juan de Fuca Strait Summer fishery modelled relationship between unfiltered creel and total catch estimates including iREC in summer months (5-9). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit. Shaded area with each relationship is the 95% confidence interval."
 
 cfg <- main_regions[["JDF Summer"]]
 
@@ -546,7 +546,7 @@ Figure \@ref(fig:fig-swcvi-aabm-spring-model) shows the SWCVI AABM modelled rela
 
 ```{r results example seasonal summer, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-swcvi-aabm-spring-model
-#| fig-cap: "Southern WCVI AABM Summer fishery modelled relationship for between summertime unfiltered creel estimate (months 5 and 9) and total catch estimate that incorporates iREC. Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
+#| fig-cap: "Southern WCVI AABM Summer fishery modelled relationship for between summertime unfiltered creel estimate (months 5 and 9) and total catch estimate that incorporates iREC. Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit. Shaded area with each relationship is the 95% confidence interval."
 
 cfg <- main_regions[["WCVI Seasonal"]]
 
@@ -581,7 +581,7 @@ Figure \@ref(fig:fig-ngs-spring-model) shows the modelled relationship for NGS S
 
 ```{r results example seasonal summer, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-ngs-spring-model
-#| fig-cap: "Northern Strait of Georgia fishery modelled relationship between summertime unfiltered creel estimate and total catch estimate including iREC in spring (months 1 to 4). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
+#| fig-cap: "Northern Strait of Georgia fishery modelled relationship between summertime unfiltered creel estimate and total catch estimate including iREC in spring (months 1 to 4). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit. Shaded area with each relationship is the 95% confidence interval."
 cfg <- main_regions[["NGS Seasonal"]]
 
 plots <- run_main_region(
@@ -610,7 +610,7 @@ Figure \@ref(fig:fig-sgs-spring-model) shows the modelled relationship for SGS S
 
 ```{r results example seasonal summer, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-sgs-spring-model
-#| fig-cap: "Southern Strait of Georgia fishery modelled relationship between summertime unfiltered creel estimate and total catch estimate including iREC in spring (months 1 to 4). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
+#| fig-cap: "Southern Strait of Georgia fishery modelled relationship between summertime unfiltered creel estimate and total catch estimate including iREC in spring (months 1 to 4). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit. Shaded area with each relationship is the 95% confidence interval."
 cfg <- main_regions[["SGS Seasonal"]]
 
 plots <- run_main_region(
@@ -640,7 +640,7 @@ Figure \@ref(fig:fig-jnst-spring-model) shows the modelled relationship for JNST
 
 ```{r results example seasonal summer, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-jnst-spring-model
-#| fig-cap: "Johnstone Strait fishery modelled relationship between summertime unfiltered creel estimate and total catch estimate including iREC in spring (months 1 to 4). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
+#| fig-cap: "Johnstone Strait fishery modelled relationship between summertime unfiltered creel estimate and total catch estimate including iREC in spring (months 1 to 4). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit. Shaded area with each relationship is the 95% confidence interval."
 cfg <- main_regions[["JNST Seasonal"]]
 
 plots <- run_main_region(
@@ -671,7 +671,7 @@ Figure \@ref(fig:fig-jdf-spring-model) shows the modelled relationship for JDF S
 
 ```{r results example seasonal summer, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-jdf-spring-model
-#| fig-cap: "Juan de Fuca Spring fishery modelled relationship between unfiltered creel and total catch estimates including iREC in spring months (1 to 4). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit."
+#| fig-cap: "Juan de Fuca Spring fishery modelled relationship between unfiltered creel and total catch estimates including iREC in spring months (1 to 4). Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit. Shaded area with each relationship is the 95% confidence interval."
 
 cfg <- main_regions[["JDF Seasonal"]]
 
@@ -704,7 +704,7 @@ Figure \@ref(fig:fig-nbcaabm-model) shows the model results with Haida Gwaii. Ov
 
 ```{r results NBC AABM Annual, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-nbcaabm-model
-#| fig-cap: "Haida Gwaii (Northern BC Sport AABM) annual fishery modelled relationship between historic unfiltered creel estimate and total iREC catch estimates in the whole year. Data points are yearly estimates from 2015 to 2023. Note varying scales on the y-axes to better visualize the model fit."
+#| fig-cap: "Haida Gwaii (Northern BC Sport AABM) annual fishery modelled relationship between historic unfiltered creel estimate and total iREC catch estimates in the whole year. Data points are yearly estimates from 2015 to 2023. Note varying scales on the y-axes to better visualize the model fit. Shaded area with each relationship is the 95% confidence interval."
 
 cfg <- main_regions[["North AABM"]]
 
@@ -735,7 +735,7 @@ Figure \@ref(fig:fig-nbcisbm-model) shows the annual model results in NBC ISBM. 
 
 ```{r results NBC ISBM annual, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-nbcisbm-model
-#| fig-cap: "Northern BC Sport ISBM fishery modelled relationship between unfiltered creel estimate and iREC catch estimates over the whole year. Data points are yearly regional estimates from 2015 to 2023. Note varying scales on the y-axes to better visualize the model fit."
+#| fig-cap: "Northern BC Sport ISBM fishery modelled relationship between unfiltered creel estimate and iREC catch estimates over the whole year. Data points are yearly regional estimates from 2015 to 2023. Note varying scales on the y-axes to better visualize the model fit. Shaded area with each relationship is the 95% confidence interval."
 
 
 cfg <- main_regions[["North ISBM"]]
@@ -1001,7 +1001,9 @@ out_north_aabm$plot + plot_annotation(
 ```
 In Northern ISBM, iREC improves the fit of the heads to catch relationship ($R^{2}=$ `r fmt_stat(out_nbc_isbm$r2_creel)` for creel vs. $R^{2}=$ `r fmt_stat(out_nbc_isbm$r2_irec)` for iREC), and the sample rate drops slightly using iREC to `r fmt_stat(out_nbc_isbm$slope_irec, scale=100)`% from `r fmt_stat(out_nbc_isbm$slope_creel, scale=100)`% using creel.
 
-In Central BC, the logbook program was underestimating catch from 2013-2023, with a sample rate of `r fmt_stat(out_cbc$slope_creel, scale=100)`%, compared to a more reasonable sample rate of `r fmt_stat(out_cbc$slope_irec, scale=100)`% when using iREC. Despite this difference, the fit is very similar at $R^{2}=$ `r fmt_stat(out_cbc$r2_creel)` for creel and $R^{2}=$ `r fmt_stat(out_cbc$r2_irec)` for iREC.
+In Central BC, the logbook program was underestimating catch from 2013-2023, with a sample rate of `r fmt_stat(out_cbc$slope_creel, scale=100)`%, compared to a more reasonable sample rate of `r fmt_stat(out_cbc$slope_irec, scale=100)`% when using iREC. Despite this difference, the fit is very similar at $R^{2}=$ `r fmt_stat(out_cbc$r2_creel)` for creel and $R^{2}=$ `r fmt_stat(out_cbc$r2_irec)` for iREC.  It is important to note that the higher $R^2$ is the result of result of forcing the linear regression through the origin.  When the linear regression solves for both a slope and an intercept, the $R^2$ is much lower with a large negative intercept.  As a large negative intercept and a slope > 1 is not biologically reasonable for the SHRP, forcing the intercept through the origin seems the more appropriate model form.
+
+
 ```{r heads-to-creel-northern-isbm, echo=FALSE, fig.height=4, fig.width=8, out.width="100%", fig.asp=NA}
 #| label: fig-heads-to-creel-and-updated-catch-northern-isbm
 #| fig-cap: "Relationship between the Northern BC ISBM marked kept catch estimates from the creel program (left panel) and the combined creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP between 2015 and 2023."
@@ -1064,15 +1066,15 @@ out_seasonal05 <- run_catch_heads_group(seasonal_regions,
 
 out_north_aabm05 <- run_catch_heads_group(northern_aabm,
                               x_var_original = "historic_plus",
-                              x_var_mr       = "mr_historic_plus", start_y = 2005, end_y=2015)
+                              x_var_mr       = "mr_historic_plus", start_y = 2005, end_y=2014)
 
 out_nbc_isbm05 <- run_catch_heads_group(northern_isbm,
                               x_var_original = "historic_plus",
-                              x_var_mr       = "mr_historic_plus", start_y = 2005, end_y=2015)
+                              x_var_mr       = "mr_historic_plus", start_y = 2005, end_y=2014)
 
 out_cbc05 <- run_catch_heads_group(cbc_region,
                               x_var_original = "historic_plus",
-                              x_var_mr       = "mr_historic_plus", start_y = 2005, end_y=2015)
+                              x_var_mr       = "mr_historic_plus", start_y = 2005, end_y=2014)
 ```
 We first compare the relationship between South Coast marked creel catch and recovered heads to that of modelled combined marked creel and iREC catch and recovered heads using data from 2005 to 2012 (Figure \@ref(fig:fig-heads-to-creel-and-updated-catch-summer-2005)). The modelled estimate (right panel) explains `r fmt_stat(out_summer05$r2_irec, scale=100)`% of variation in head recoveries, a good fit and similar to the original creel estimate performance (`r fmt_stat(out_summer05$r2_creel, scale=100)`% left panel). These regressions also have similar slopes, indicating an average sample rate across South Coast regions of `r fmt_stat(out_summer05$slope_creel, scale=100)`% for creel and `r fmt_stat(out_summer05$slope_irec, scale=100)`% for modelled combined creel and iREC. In both cases, the sample rates were higher in the 2005-2012 period than the 2013-2023 period.
 
@@ -1839,7 +1841,7 @@ rr_sum<- sport_mark_rate_mrr |> group_by(erafishery)|>
 Annual marked and unmarked release rates based on revised catch estimates and summed across stocks are presented for 2005 to 2023 along with undifferentiated release rates applied in the CTC's 2024 ERA in Figure \@ref(fig:fig-mrrukr2). Unmarked release rate is presented as  $1 - UKR$ to facilitate direct comparison with $MRR$, though untransformed $UKR$ is used in the ERA. With the exception of Juan de Fuca Strait, which did have some mark-selective fisheries before 2012, all other sport fisheries were regulated as non-selective before 2013. Since the underlying catch is modelled before 2013 we have fixed the $MRR$ and $URR$ based on modelled catch to be equal (i.e., no mark selectivity), by calculating a single release rate for marked and unmarked fish combined. This removes any potential bias from the modelling process that might have affected marked and unmarked catch estimates differently (e.g., larger uncertainty in modelled marked derived estimates because of lower magnitude of catch). After 2013, the data is observed and therefore allowed to vary selectively even if no specific mark selective fishery was specified in regulations. When $MRR$ and $URR$ are identical, this indicates non-selectivity. If $MRR$ is higher than $URR$, this indicates marked fish are released at a higher rate than unmarked fish, which would be indicative of preferential selection of unmarked fish for retention. If $URR$ is higher than $MRR$, then marked fish are released at a lower rate than unmarked fish, indicating preferential mark retention. 
 
 
-The ERA has been accounting for releases since before 2005 for some fisheries (e.g.West Coast Vancouver Island and Haida Gwaii Sport), while for others release information has only recently been incorporated (e.g. since 2019 in Strait of Georgia, Juan de Fuca Sport, and Johnstone Strait Sport). Where release rates were reported, revised release rates are generally higher than reported 2024 CNR release rates, although NBC ISBM S has a few years where the opposite is the case. While only recently incorporated into the ERA, releases have been occurring throughout the time series and release rates have fluctuated over time. The highest average release rates occur in Haida Gwaii (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "NBC AABM S"], scale=100)`%) and Central BC (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "CBC S"], scale=100)`%) which are relatively stable throughout the time series. WCVI ISBM has the lowest release rates on average (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "WCVI ISBM S"], scale=100)`%), followed by Johnstone Strait (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "JNST S"], scale=100)`%) and WCVI AABM (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "WCVI AABM S"], scale=100)`%), all relatively stable throughout time. There does not appear to be strong selectivity (MRR > URR) in any of these fisheries. Release rates have increased in the Strait of Georgia, Juan de Fuca Strait, and Northern BC ISBM have all increased release rates since 2019. In Southern BC, these changes correspond with introductions of mark selective fishing regulations, and indeed mark selectivity is occurring in these fisheries in recent years (MRR > URR). In Northern BC, release rates are increasing but it does not appear to be linked with changes in regulation. Furthermore, there is a higher release rate for unmarked fish than marked fish (MRR < URR) in this fishery, which indicates a selectivity for unmarked fish. This could be a true preference for unmarked fish in this fishery or a product of uncertainty in mark rates. 
+The ERA has been accounting for releases since before 2005 for some fisheries (e.g.West Coast Vancouver Island and Haida Gwaii Sport), while for others release information has only recently been incorporated (e.g. since 2019 in Strait of Georgia, Juan de Fuca Sport, and Johnstone Strait Sport). Where release rates were reported, revised release rates are generally higher than reported 2024 CNR release rates, although NBC ISBM S has a few years where the opposite is the case. While only recently incorporated into the ERA, releases have been occurring throughout the time series and release rates have fluctuated over time. The highest average release rates occur in Haida Gwaii (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "NBC AABM S"], scale=100)`%) and Central BC (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "CBC S"], scale=100)`%) which are relatively stable throughout the time series. WCVI ISBM has the lowest release rates on average (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "WCVI ISBM S"], scale=100)`%), followed by Johnstone Strait (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "JNST S"], scale=100)`%) and WCVI AABM (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "WCVI AABM S"], scale=100)`%), all relatively stable throughout time. There does not appear to be strong selectivity (MRR > URR) in any of these fisheries. Release rates have increased in the Strait of Georgia, Juan de Fuca Strait, and Northern BC ISBM have all increased release rates since 2019. In Southern BC, these changes correspond with introductions of mark selective fishing regulations, and indeed mark selectivity is occurring in these fisheries in recent years (MRR < URR). In Northern BC, release rates are increasing but it does not appear to be linked with changes in regulation. Furthermore, there is a higher release rate for unmarked fish than marked fish (MRR < URR) in this fishery, which suggests selectivity for unmarked fish. This could be a true preference for unmarked fish in this fishery or a product of uncertainty in mark rates. 
 
 ```{r results mrrukr2, results='asis', echo=FALSE, fig.height=10, fig.width=10}
 #| label: fig-mrrukr2
