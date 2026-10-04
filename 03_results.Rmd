@@ -1094,7 +1094,8 @@ out_summer05$plot[[1]] <-
 
 out_summer05$plot[[2]] <- 
   out_summer05$plot[[2]] + 
-  labs(title = "Revised Catch (modelled combined creel and iREC)")
+  labs(title = "Revised Catch (modelled combined creel and iREC)", 
+       shape = "Finescale Fishery")
 
 out_summer05$plot+ plot_annotation(
   title = 'South Coast',
@@ -1108,8 +1109,15 @@ out_summer05$plot+ plot_annotation(
 #| label: fig-heads-to-creel-and-updated-catch-seasonal-2005
 #| fig-cap: "Relationship between the seasonal marked kept catch estimates from the the creel program (left panel) and the modelled iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP between 2005 and 2012."
 
-out_seasonal05$plot[[1]] <- out_seasonal05$plot[[1]] + labs(title = "Previous Catch (creel)") + theme(legend.position = "none") 
-out_seasonal05$plot[[2]] <- out_seasonal05$plot[[2]] + labs(title = "Revised Catch (modelled iREC)")
+out_seasonal05$plot[[1]] <- 
+  out_seasonal05$plot[[1]] + 
+  labs(title = "Previous Catch (creel)") + 
+  theme(legend.position = "none") 
+
+out_seasonal05$plot[[2]] <- 
+  out_seasonal05$plot[[2]] + 
+  labs(title = "Revised Catch (modelled iREC)",
+       shape = "Finescale Fishery")
 
 
 out_seasonal05$plot[[2]]$layers[[1]]$aes_params$colour <- col_blue   # geom_point
