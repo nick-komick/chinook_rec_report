@@ -290,7 +290,7 @@ csas_table(strat_table, format = "latex")
 
 # Revised estimates by Finescale Fishery (2005-2023) {#app:revised-catch-timeseries}
 
-Kept and released catch estimates at annual finescale fishery scale (i.e., seasonal component summed). Solid green circles and lines indicate revised combined creel and iREC estimates. Open green circles indicate revised modelled combined creel and iREc estimate. Open orange triangles and dashed lines indicate unfiltered creel and/or logbook catch estimates. Blue circles indicate the revised iREC estimates (solid blue circles) and retrospectively modelled estimates (open blue circles). 
+Kept and released catch estimates at annual finescale fishery scale (i.e., seasonal component summed). Solid green circles and lines indicate revised integrated creel and iREC estimates. Open green circles indicate revised modelled integrated creel and iREC estimate. Open orange triangles and dashed lines indicate unfiltered creel and/or logbook catch estimates. Blue circles indicate the revised iREC estimates (solid blue circles) and retrospectively modelled estimates (open blue circles). 
 
 ```{r m plots, results='asis', echo=FALSE}
 #| label: fig-catch-revised-1-appendix
@@ -331,13 +331,13 @@ for (i in 1:length(fishery_name_south)){
                  values_to = "catch_estimate") |>
     mutate(estimate_type = recode_values(estimate_type,
                                       "creel_unfiltered_plus" ~ "Unfiltered creel and logbook",
-                                      "catch_estimate_predicted" ~ "Combined iREC and Creel"),
-           estimate_shape_type = if_else(year < 2013 & estimate_type == "Combined iREC and Creel",
+                                      "catch_estimate_predicted" ~ "Integrated iREC and Creel"),
+           estimate_shape_type = if_else(year < 2013 & estimate_type == "Integrated iREC and Creel",
                                          "Retrospectively Modelled",
                                          estimate_type))
   graph_data <-
     graph_data |>
-    filter(year == 2013, estimate_type == "Combined iREC and Creel") |>
+    filter(year == 2013, estimate_type == "Integrated iREC and Creel") |>
     mutate(estimate_shape_type = "Retrospectively Modelled") |>
     bind_rows(graph_data)
   
@@ -477,13 +477,13 @@ for (i in 1:length(fishery_name_south)){
                  values_to = "catch_estimate") |>
     mutate(estimate_type = recode_values(estimate_type,
                                       "creel_unfiltered_plus" ~ "Unfiltered creel and logbook",
-                                      "catch_estimate_predicted" ~ "Combined iREC and Creel"),
-           estimate_shape_type = if_else(year < 2013 & estimate_type == "Combined iREC and Creel",
+                                      "catch_estimate_predicted" ~ "Integrated iREC and Creel"),
+           estimate_shape_type = if_else(year < 2013 & estimate_type == "Integrated iREC and Creel",
                                          "Retrospectively Modelled",
                                          estimate_type))
   graph_data <-
     graph_data |>
-    filter(year == 2013, estimate_type == "Combined iREC and Creel") |>
+    filter(year == 2013, estimate_type == "Integrated iREC and Creel") |>
     mutate(estimate_shape_type = "Retrospectively Modelled") |>
     bind_rows(graph_data)
   
@@ -587,7 +587,7 @@ for (i in 1:length(fishery_name_north)) {
 
 # Revised estimates by ERA Fishery (2005-2023) {#app:revised-catch-timeseries3}
 
-Here we present kept and released catch estimates, which are similar to Appendix \@ref(app:revised-catch-timeseries), but are rolled up to the ERA level and include previously reported estimates. This helps identify where reporting matches more closely with creel estimates or combined creel and iREC estimates. Catch estimates at annual finescale fishery scale (i.e, seasonal component summed). Solid green circles and lines indicate revised combined creel and iREC estimates. Open green circles indicate revised modelled combined creel and iREc estimates. Open orange triangles and dashed lines indicate unfiltered creel and/or logbook catch estimates. Blue circles (for NBC and CBC) indicate the revised iREC estimates (solid blue circles) and retrospectively modelled estimates (open blue circles). Previously reported catch estimates are represented as purple triangles and dashed lines, and are either creel and/or logbook data or a combination of creel, logbook, and iREC data. In some regions iREC was incorporated earlier than in other regions and the reporting reflects this. 
+Here we present kept and released catch estimates, which are similar to Appendix \@ref(app:revised-catch-timeseries), but are rolled up to the ERA level and include previously reported estimates. This helps identify where reporting matches more closely with creel estimates or integrated creel and iREC estimates. Catch estimates at annual finescale fishery scale (i.e, seasonal component summed). Solid green circles and lines indicate revised integrated creel and iREC estimates. Open green circles indicate revised modelled integrated creel and iREC estimates. Open orange triangles and dashed lines indicate unfiltered creel and/or logbook catch estimates. Blue circles (for NBC and CBC) indicate the revised iREC estimates (solid blue circles) and retrospectively modelled estimates (open blue circles). Previously reported catch estimates are represented as purple triangles and dashed lines, and are either creel and/or logbook data or a combination of creel, logbook, and iREC data. In some regions iREC was incorporated earlier than in other regions and the reporting reflects this. 
 
 ```{r m plots, results='asis', echo=FALSE}
 #| label: fig-catch-revised-3-appendix
@@ -654,14 +654,14 @@ for (i in 1:length(fishery_name_south)){
                  values_to = "catch_estimate") |>
     mutate(estimate_type = recode_values(estimate_type,
                                       "creel_unfiltered_plus" ~ "Unfiltered creel and logbook",
-                                      "catch_estimate_predicted" ~ "Combined iREC and Creel", 
+                                      "catch_estimate_predicted" ~ "Integrated iREC and Creel", 
                                       "ce_report" ~ "C&E Reported 2024"),
-           estimate_shape_type = if_else(year < 2013 & estimate_type == "Combined iREC and Creel",
+           estimate_shape_type = if_else(year < 2013 & estimate_type == "Integrated iREC and Creel",
                                          "Retrospectively Modelled",
                                          estimate_type))
   graph_data <-
     graph_data |>
-    filter(year == 2013, estimate_type == "Combined iREC and Creel") |>
+    filter(year == 2013, estimate_type == "Integrated iREC and Creel") |>
     mutate(estimate_shape_type = "Retrospectively Modelled") |>
     bind_rows(graph_data)
   
@@ -704,14 +704,14 @@ for (i in 1:length(fishery_name_south)){
                  values_to = "catch_estimate") |>
     mutate(estimate_type = recode_values(estimate_type,
                                       "creel_unfiltered_plus" ~ "Unfiltered creel and logbook",
-                                      "catch_estimate_predicted" ~ "Combined iREC and Creel", 
+                                      "catch_estimate_predicted" ~ "Integrated iREC and Creel", 
                                       "ce_report" ~ "C&E Reported 2024"),
-           estimate_shape_type = if_else(year < 2013 & estimate_type == "Combined iREC and Creel",
+           estimate_shape_type = if_else(year < 2013 & estimate_type == "Integrated iREC and Creel",
                                          "Retrospectively Modelled",
                                          estimate_type))
   graph_data <-
     graph_data |>
-    filter(year == 2013, estimate_type == "Combined iREC and Creel") |>
+    filter(year == 2013, estimate_type == "Integrated iREC and Creel") |>
     mutate(estimate_shape_type = "Retrospectively Modelled") |>
     bind_rows(graph_data)
   
@@ -889,7 +889,7 @@ for (i in 1:length(fishery_name_north)) {
  
 ```
 
-# Model Residuals {#app:second-appendix}
+# Model Residuals {#app:residuals-appendix}
 
 ## Summer models
 
@@ -1219,10 +1219,15 @@ patch_table_placement(central_isbm_released_table)
 # Model Selection Tables {#app:fifth-appendix}
 ```{r appendix-model-selection-summer, echo = FALSE}
 
-m6 <- m6 |>
-  mutate(n_var = round(n_var, 0))|>
-    dplyr::select(-name, -residual_check, -x_var, -McFadden, -AIC, -full_formula, -slope_creel, -r2_creel, -slope_irec, -r2_irec, -n_creel, -n_irec)|>
-  relocate(region_name, family, chosen_formula, delta_aic, n_var, r2glm) |>
+if("delta_aic" %in% colnames(m6)) {
+  m6 <- rename(m6, delta_aicc = delta_aic)
+}
+
+m6 <- 
+  m6 |>
+  mutate(n_var = round(n_var, 0)) |>
+  dplyr::select(-name, -residual_check, -x_var, -McFadden, -AIC, -full_formula, -slope_creel, -r2_creel, -slope_irec, -r2_irec, -n_creel, -n_irec) |>
+  relocate(region_name, family, chosen_formula, delta_aicc, n_var, r2glm) |>
   gt() |>
   tab_header(title = "Summer Fishery Model Comparison") |>
   tab_source_note("Ranked by residual fit and pseudo-R-squared") |>
@@ -1265,11 +1270,14 @@ patch_table_placement(m6)
 ```
 
 ```{r appendix-model-selection-seasonal, echo = FALSE}
+if("delta_aic" %in% colnames(m_seasonal_all)) {
+  m_seasonal_all <- rename(m_seasonal_all, delta_aicc = delta_aic)
+}
 
 m_seasonal_all |>
   mutate(n_var = round(n_var, 0))|>
     dplyr::select(-name, -residual_check, -x_var, -McFadden, -AIC, -full_formula, -slope_creel, -r2_creel, -slope_irec, -r2_irec, -n_creel, -n_irec)|>
-  relocate(region_name, family, chosen_formula, delta_aic, n_var, r2glm) |>
+  relocate(region_name, family, chosen_formula, delta_aicc, n_var, r2glm) |>
   gt() |>
   tab_header(title = "Seasonal Fishery Model Comparison") |>
   tab_source_note("Ranked by residual fit and pseudo-R-squared") |>
@@ -1308,11 +1316,14 @@ m_seasonal_all |>
 ```
 
 ```{r appendix-model-selection-northern-isbm, echo = FALSE}
+if("delta_aic" %in% colnames(m_north_isbm)) {
+  m_north_isbm <- rename(m_north_isbm, delta_aicc = delta_aic)
+}
 
 m_north_isbm |>
   mutate(n_var = round(n_var, 0))|>
     dplyr::select(-name, -residual_check, -x_var, -McFadden, -AIC, -full_formula, -slope_creel, -r2_creel, -slope_irec, -r2_irec, -n_creel, -n_irec)|>
-  relocate(region_name, family, chosen_formula, delta_aic, n_var, r2glm) |>
+  relocate(region_name, family, chosen_formula, delta_aicc, n_var, r2glm) |>
   gt() |>
   tab_header(title = "Northern BC ISBM and Crental BC ISBM Model Comparison") |>
   tab_source_note("Ranked by residual fit and pseudo-R-squared") |>
@@ -1351,10 +1362,14 @@ m_north_isbm |>
 ```
 
 ```{r appendix-model-selection-northern-aabm, echo = FALSE}
- m_north_aabm |>
+if("delta_aic" %in% colnames(m_north_aabm)) {
+  m_north_aabm <- rename(m_north_aabm, delta_aicc = delta_aic)
+}
+
+m_north_aabm |>
   mutate(n_var = round(n_var, 0))|>
     dplyr::select(-name, -residual_check, -x_var, -McFadden, -AIC, -full_formula, -slope_creel, -r2_creel, -slope_irec, -r2_irec, -n_creel, -n_irec)|>
-  relocate(region_name, family, chosen_formula, delta_aic, n_var, r2glm) |>
+  relocate(region_name, family, chosen_formula, delta_aicc, n_var, r2glm) |>
   gt() |>
   tab_header(title = "Northern AABM Fishery Model Comparison") |>
   tab_source_note("Ranked by residual fit and pseudo-R-squared") |>
@@ -1397,7 +1412,7 @@ m_north_isbm |>
 
 # Model Output {#app:third-appendix}
 
-Modelling plots for the best model for each region, showing modelled relationship between summertime unfiltered creel estimate (months 5 and 9) and total catch estimate that incorporates iREC. solid circles are yearly estimates from 2013 to 2023, coloured by year. Open circles are the predicted values from 2005-2012, to visualize if the prediction range is within or out of the observation range. Note varying scales on the y-axes to better visualize the model fit.
+Modelling plots for the best model for each region, showing modelled relationship between summertime unfiltered creel estimate (months 5 to 9) and total catch estimate that incorporates iREC. solid circles are yearly estimates from 2013 to 2023, coloured by year. Open circles are the predicted values from 2005-2012, to visualize if the prediction range is within or out of the observation range. Note varying scales on the y-axes to better visualize the model fit.
 
 ```{r appendix-plotting-function, include = FALSE}
 # Helper: runs predict_with_ci + plot_region_model_by_year for one region,
@@ -1791,14 +1806,16 @@ summer_north_fit <-
 Before the development of this report, updated recreational catch estimates where need from Canada to support the implementation of mark selective fisheries in the 2025 CTC Exploitation Rate Analysis. Although most of the model structures were exactly the same, the earlier analysis had different models fit for Haida Gwaii (i.e. NBC AABM) based on separate summer and spring/fall model fit. The predicted catch estimates based on the earlier model forms, using Equations \@ref(eq:haida-prev-summer-model) and \@ref(eq:haida-prev-season-model) with a Gamma log link, are provided in Figure \@ref(fig:fig-prev-season-catch).
 
 \begin{equation} 
-C_{total,summer} = C_{historic, summer} + S + C_{historic, summer}:S 
+C_\text{total,summer} \sim C_\text{historic, summer} + S + C_\text{historic, summer}:S 
 (\#eq:haida-prev-summer-model)
-\end{equation} \begin{equation} 
-C_{total,Z} = Z + S + C_{historic, summer}:Z, Z \in (spring, fall) 
+\end{equation} 
+
+\begin{equation} 
+C_\text{total,Z} \sim Z + S + C_\text{historic, summer}:Z, Z \in (spring, fall) 
 (\#eq:haida-prev-season-model)
 \end{equation}
 
-As the summer model predictions show in Figure \@ref(fig:fig-prev-season-catch), the estimates of unmarked kept catch is substantially higher then any other values in the time series. Furthermore, the spring + fall estimates are orders of magnitude smaller then the summer predictions. Compared to the source catch data shown in Figure \@ref(fig:fig-nbc-aabm-src-catch), the historic catch data does show an increase in the 2005 to 2007 years for both unmarked kept and released catch. However, that increase is not expected to be a `r round(filter(summer_north_fit, year == 2006, status == "unmarked_kept_total") |> pull(catch_estimate_adj) / filter(summer_north_aabm, year == 2006, status == "unmarked_kept_total") |> pull(historic_plus), digits = 1)` times increase as predicted by the model. With the early years having historic catch estimates outside the range of values used for the model fit, the Gamma log link used for the model fit would exponentially increase the historic catch to represent the total catch estimate. As the rest of the time series has a more linear relative expansion, the exponential increase outside the range did not seem appropriate. This suggests a Gaussian link would better represent values outside of the range of model fit values.
+As the summer model predictions show in Figure \@ref(fig:fig-prev-season-catch), the estimates of unmarked kept catch is substantially higher then any other values in the time series. Furthermore, the spring + fall estimates are orders of magnitude smaller then the summer predictions. Compared to the source catch data shown in Figure \@ref(fig:fig-nbc-aabm-src-catch), the historic catch data does show an increase in the 2005 to 2007 years for both unmarked kept and released catch. However, that increase is not expected to be a `r round(filter(summer_north_fit, year == 2006, status == "unmarked_kept_total") |> pull(catch_estimate_adj) / filter(summer_north_aabm, year == 2006, status == "unmarked_kept_total") |> pull(historic_plus), digits = 1)` times increase as predicted by the model. With the early years having historic catch estimates outside the range of values used for the model fit, the Gamma distribution with a log link used for the model fit would exponentially increase the historic catch to represent the total catch estimate. As the rest of the time series has a more linear relative expansion, the exponential increase outside the range did not seem appropriate. This suggests a Gaussian distribution with an identity link would better represent values outside of the range of model fit values.
 
 ```{r NBC AABM Previous Summer Model Catch appendix, results='asis', echo=FALSE}
 #| label: fig-prev-season-catch
@@ -1897,10 +1914,10 @@ all_north_aabm_gaussian_spec <-
 
 ```
 
-The relationship between historic logbook and iREC catch is expected to be more linear than the previous log link form previously used as logbook estimates have commonly represented the majority of catch. Furthermore, the 2005 to 2007 logbook catch estimates are out side the range of the fitted years. A new generalized linear model was fit using Equation \@ref(eq:haida-new-model) with a Gaussian link that estimates annual historic Haida Gwaii catch ($C_{historic}$) by kept and marked status.
+The relationship between historic logbook and iREC catch is expected to be more linear than the previous log link form previously used as logbook estimates have commonly represented the majority of catch. Furthermore, the 2005 to 2007 logbook catch estimates are out side the range of the fitted years. A new generalized linear model was fit using Equation \@ref(eq:haida-new-model) with a Gaussian distribution with an identity link that estimates annual historic Haida Gwaii catch ($C_\text{historic}$) by kept and mark status.
 
 \begin{equation} 
-C_{iREC, annual} = C_{creel, annual} + k + m + k:m + 1 
+C_\text{iREC, annual} \sim C_\text{creel, annual} + k + m + k:m
 (\#eq:haida-new-model)
 \end{equation}
 
@@ -1910,18 +1927,16 @@ fit_aic_df <-
   data.frame(Model = c("Original Summer (Gamma Log)", 
                        "Original Spring/Fall (Gamma Log)", 
                        "New Annual (Gaussian)"),
-             AIC = c(summer_north_aabm_gamma_spec$aic,
-                     season_north_aabm_gamma_spec$aic,
-                     sport_catch_models$model_list$north_aabm$aic))
-
-
+             AICc = round(c(MuMIn::AICc(summer_north_aabm_gamma_spec),
+                      MuMIn::AICc(season_north_aabm_gamma_spec),
+                      MuMIn::AICc(sport_catch_models$model_list$north_aabm)), 2))
 
 csasdowntex::csas_table(fit_aic_df,
-                        caption = "AIC for the two original model fits (i.e. Original Summer and Original Spring/Fall) and the new annual gaussian fit.")
+                        caption = "AICc for the two original model fits (i.e. Original Summer and Original Spring/Fall) and the new annual gaussian fit.")
 
 ```
 
-AICs are presented for previous summer and seasonal model fits with the new gaussian "New Annual Gaussian Fit" in Table \@ref(tab:tbl-haida-gwaii-model-fit), although since these are fit on separate datasets they can not be directly compared. The Gamma model fit on the same data set as the new model is compared in Appendix \@ref(app:fifth-appendix). While the gaussian model has a higher AIC than the Gamma model, it has a much better residual fit and aligns better with sport head recovery data. The new model fit substantially reduces the estimate of unmarked kept catch during the 2005 to 2007 years and increases the estimate of unmarked releases, particularly in 2005 (Figure \@ref(fig:fig-nbc-aabm-catch-diff)) compared to the previous model fit. As there is very limited change in the marked kept and released estimate, the new model fit should not substantially change the ERA or CWT estimates.
+AICc is presented for previous summer and seasonal model fits with the new fit with Gaussian distribution and identity link, identified as "New Annual Gaussian Fit" in Table \@ref(tab:tbl-haida-gwaii-model-fit), although since these are fit on separate datasets they can not be directly compared. The Gamma model fit on the same data set as the new model is compared in Appendix \@ref(app:fifth-appendix). While the Gaussian model has a higher AICc than the Gamma model, it has a much better residual fit and aligns better with sport head recovery data. The new model fit substantially reduces the estimate of unmarked kept catch during the 2005 to 2007 years and increases the estimate of unmarked releases, particularly in 2005 (Figure \@ref(fig:fig-nbc-aabm-catch-diff)) compared to the previous model fit. As there is very limited change in the marked kept and released estimate, the new model fit should not substantially change the ERA or CWT estimates.
 
 ```{r NBC AABM New Model Predictions appendix, results='asis', echo=FALSE}
 #| label: fig-nbc-aabm-new-catch
@@ -2012,48 +2027,42 @@ During a review of the mark rates used to estimate marked and unmarked catch, a 
 
 When reviewing how the quality control flags were handled when combining creel reported areas into to iREC areas we found that the quality control flags were combined incorrectly. The only iREC area that this affects was PFMA 20 from 2013 to 2019 in some months. As PFMA 20 is operationally covered by two separate creel programs, in some cases part of PFMA 20 may have a quality creel estimate while the other may not. When combined it would identify the whole PFMA 20 as being a quality creel and potentially use less quality creel data instead of iREC for the whole area. This was fixed and now Juan de Fuca catch has a more consistent relationship with creel over the whole time series of this study. With the split of PFMA 20 in iREC reporting starting in 2020, this was no longer an issue and quality creel estimates either portion of PFMA 20 can be used as the final catch estimate. This flag update applies also to 2013 estimates for PFMAs 19 and 23, after which the split was incorporated into iREC. In addition to the PFMA split quality flags affecting our analysis, they were also identified as affecting iREC calibration analysis for licence years 2013 to 2019.
 
-The iREC calibration procedure was re-run on all years following the split flag update and several other improvements to the iREC data, notably: additions to data quality procedures (like excluding invalid date records), extending standardized data quality procedures back to 2012 (from 2018), variance calculated by season, and iREC estimates of zero excluded from calibration (S. Yalcin, pers.comm.). The previous and new bias calibration factors (BCF) are provided in Table \@ref(tab:tbl-irec-bcf-update) and Table \@ref(tab:tbl-irec-bcf-update2), for kept and released BCFs, respectively. With the review and and update, calibration factors generally increased and the resulting Chinook catch estimates decreased. That brought calibrated iREC catch estimates more inline with creel estimates for those re-calibrated years. Kept BCFs are approaching 1 in recent years (mean 0.96 +/- 0.02 SD from 2020-2024), whereas released BCFs are more variable and further from 1 (mean 0.86 +/- 0.15 SD from 2020-2024).
+```{r irec-bcf-values, results='asis', echo=FALSE}
+irec_rel_cf <-
+  data.frame(Year = 2013:2024, 
+           `Previous CF` = c(1.020830,1.94642,1.21112,1.15970,0.96177,0.92091,0.91173,0.94976,0.78808,0.69782,1.02521,0.74061),
+           `New CF` = c(0.97775,1.88884,1.35704,1.26823,1.00564,1.16012,0.95233,0.98059,0.82657,0.70825,1.05946,0.74900))
+
+irec_rel_recent <- 
+  filter(irec_rel_cf, between(Year, 2020, 2024)) |>
+  pull(New.CF)
+
+irec_kept_cf <-
+   data.frame(Year = 2013:2024, 
+           `Previous CF` = c(1.23995, 1.52486, 0.96162, 0.99172, 1.05085, 0.81565, 0.96953, 0.98011, 0.95788, 0.95207, 0.92134, 0.91018),
+           `New CF` = c(1.23883, 1.53755, 1.02190, 1.09236, 1.12951, 1.13866, 1.21334, 0.99033,0.95462, 0.96606,0.94872,0.92654))
+
+irec_kept_recent <- 
+  filter(irec_kept_cf, between(Year, 2020, 2024)) |>
+  pull(New.CF)
+```
+
+The iREC calibration procedure was re-run on all years following the split flag update and several other improvements to the iREC data, notably: additions to data quality procedures (like excluding invalid date records), extending standardized data quality procedures back to 2012 (from 2018), variance calculated by season, and iREC estimates of zero excluded from calibration (S. Yalcin, pers.comm.). The previous and new calibration factors (CF) are provided in Table \@ref(tab:tbl-irec-bcf-update) and Table \@ref(tab:tbl-irec-bcf-update2), for kept and released CFs, respectively. With the review and and update, calibration factors generally increased and the resulting Chinook catch estimates decreased. That brought calibrated iREC catch estimates more inline with creel estimates for those re-calibrated years. Kept CFs are approaching 1 since 2020 (mean `r fmt_stat(mean(irec_kept_recent))` +/- `r fmt_stat(sd(irec_kept_recent))` SD from 2020-2024), whereas released CFs are more variable and further from 1 (mean `r fmt_stat(mean(irec_rel_recent))` +/- `r fmt_stat(sd(irec_rel_recent))` SD from 2020-2024).
 
 ```{r tbl-irec-bcf-update, results='asis', echo=FALSE}
 
-data.frame(Year = 2013:2024, 
-           `Previous BCF` = c(1.23995, 1.52486, 0.96162, 0.99172, 1.05085, 0.81565, 0.96953, 0.98011, 0.95788, 0.95207, 0.92134, 0.91018),
-           `New BCF` = c(1.23883, 1.53755, 1.02190, 1.09236, 1.12951, 1.13866, 1.21334, 0.99033,0.95462, 0.96606,0.94872,0.92654)) |>
-  csas_table(caption = "Updated iREC Bias Correction Factors (BCF) for Chinook Kept Catch",
-             col_names = c("Year", "Previous BCF", "New BCF"))
+irec_kept_cf |>
+  csas_table(caption = "Updated iREC Calibration Factors (CF) for Chinook Kept Catch",
+             col_names = c("Year", "Previous CF", "New CF"))
 
 ```
 
 ```{r tbl-irec-bcf-update2, results='asis', echo=FALSE}
 
-data.frame(Year = 2013:2024, 
-           `Previous BCF` = c(1.020830,
-1.94642,
-1.21112,
-1.15970,
-0.96177,
-0.92091,
-0.91173,
-0.94976,
-0.78808,
-0.69782,
-1.02521,
-0.74061),
-           `New BCF` = c(0.97775,
-1.88884,
-1.35704,
-1.26823,
-1.00564,
-1.16012,
-0.95233,
-0.98059,
-0.82657,
-0.70825,
-1.05946,
-0.74900
-)) |>
-  csas_table(caption = "Updated iREC Bias Correction Factors (BCF) for Chinook Released Catch",
-             col_names = c("Year", "Previous BCF", "New BCF"))
+
+irec_rel_cf |>
+  csas_table(caption = "Updated iREC Calibration Factors (CF) for Chinook Released Catch",
+             col_names = c("Year", "Previous CF", "New CF"))
 
 ```
 
@@ -2160,7 +2169,7 @@ read_me <-
   add_row(Variable = "management", Description="AABM or ISBM")|>
   add_row(Variable = "status", Description="marked kept, unmarked kept, marked released, unmarked released")|>
   add_row(Variable = "catch_estimate_cat", Description="
-choice for best catch estimate, use iREC, use creel, or creel.plus is zero (i.e., use iREC) ")|>
+choice for best available catch estimate, use iREC, use creel, or creel.plus is zero (i.e., use iREC) ")|>
   add_row(Variable = "creel_unfiltered", Description="creel estimate not filtered by quality control criteria, from CREST, doesn't include logbook (logbook is subtracted before it goes into CREST)")|>
   add_row(Variable = "historic", Description="historic  estimate (used for Central and Northern BC, fed in separately than CREST)")|>
   add_row(Variable = "irec_calibrated", Description="calibrated iREC, from CREST")|>
@@ -2169,7 +2178,7 @@ choice for best catch estimate, use iREC, use creel, or creel.plus is zero (i.e.
   add_row(Variable = "creel_plus", Description="filtered creel plus logbook estimate")|>
   add_row(Variable = "historic_plus", Description="historic estimate plus logbook estimate")|>
   add_row(Variable = "creel_unfiltered_plus", Description="unfiltered creel plus logbook")|>
-  add_row(Variable = "catch_estimate", Description="chosen best catch estimate to be  used for CTC purposes, based on priority rules")|>
+  add_row(Variable = "catch_estimate", Description="chosen best available catch estimate to be  used for CTC purposes, based on priority rules")|>
   add_row(Variable = "creel_plus_summer", Description="sum of unfiltered creel plus logbook from the summer months May-September")|>
   add_row(Variable = "catch_estimate_predicted", Description="catch estimate predicted, if next category is observed then it is the same as catch_estimate above, otherwise if category is predicted, then it is the modelled result")|>
   add_row(Variable = "pred_cat", Description="observed or predicted (i.e., modelled)")|>

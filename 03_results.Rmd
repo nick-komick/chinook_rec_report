@@ -9,7 +9,7 @@ output:
 
 # Results {#sec:results}
 
-In the following section we present the results of revising Chinook catch using both the combined creel and iREC catch estimates for more recent years and modelled estimates for pre-iREC years back to 2005. In addition to revising catch, the relationship between marked kept Chinook catch and CWT sampling through the SHRP is presented, including sample rate (i.e. submission rate) time series plots for each CWT region.
+In the following section we present the results of revising Chinook catch using both the integrated creel and iREC catch estimates for more recent years and modelled estimates for pre-iREC years back to 2005. In addition to revising catch, the relationship between marked kept Chinook catch and CWT sampling through the SHRP is presented, including sample rate (i.e. submission rate) time series plots for each CWT region.
 
 ## Revised catch estimates since iREC
 ```{r results catch1, echo=FALSE}
@@ -70,9 +70,9 @@ models_combined2a <-
 
 ```
 
-In finescale fisheries, we found that the combined creel and iREC catch estimates were generally higher than creel catch estimates. For example, Figure \@ref(fig:fig-ngs-catch-revised-1) shows the effect of the summed and revised 2013 to 2023 kept catch estimates for the Northern Straight of Georgia finescale fishery (solid line) compared to the previous creel catch estimates without iREC inclusion (dashed line). Though the relative difference between the two time series vary, the revised combined creel and iREC catch estimates are consistently higher than the previous creel catch estimates. For Northern Strait of Georgia, the difference between creel and combined creel and iREC is larger in the early years of the iREC program (mean `r fmt_stat(models_combined2a_avs_pre2019$pdiff_irec_creel_mean[models_combined2a_avs_pre2019$region_mgmt == "NGS" & models_combined2a_avs_pre2019$kept_status =="kept"], scale=100)`% 2013-2018, an average of `r fmt_stat(models_combined2a_avs_pre2019$diff_irec_creel_mean[models_combined2a_avs_pre2019$region_mgmt == "NGS" & models_combined2a_avs_pre2019$kept_status =="kept"])` pieces per year), and less pronounced in more recent years (mean `r fmt_stat(models_combined2a_avs_post2019$pdiff_irec_creel_mean[models_combined2a_avs_post2019$region_mgmt == "NGS" & models_combined2a_avs_post2019$kept_status =="kept"], scale=100)`% and `r fmt_stat(models_combined2a_avs_post2019$diff_irec_creel_mean[models_combined2a_avs_post2019$region_mgmt == "NGS" & models_combined2a_avs_post2019$kept_status =="kept"])` pieces on average per year 2019-2023). This pattern is likely a combination of improvements in creel surveying in recent years (see Section \@ref(qc)) and improvements to the iREC survey which increased the number of survey responses and therefore reduced uncertainty in iREC estimates (see Appendix \@ref(app:apdx-irec-mthd) for more details). In some fisheries, the difference between combined creel and iREC and creel is consistent across all years of iREC (e.g., NWCVI AABM). Released catch estimates in finescale fisheries were also higher using combined creel and iREC compared to creel and generally consistent through time (see Figure \@ref(fig:fig-ngs-catch-revised-2-released)). The released estimates generated a larger difference than the kept estimates, in Northern Strait of Gerogis on average a `r fmt_stat(models_combined2a_avs$pdiff_irec_creel_mean[models_combined2a_avs$region_mgmt == "NGS" & models_combined2a_avs$kept_status =="released"], scale=100)`% increase (`r fmt_stat(models_combined2a_avs$diff_irec_creel_mean[models_combined2a_avs$region_mgmt == "NGS" & models_combined2a_avs$kept_status =="released"])` pieces per year). Revised kept and released catch estimates summed to ERA fishery level are discussed in detail below.
+In finescale fisheries, we found that the integrated creel and iREC catch estimates were generally higher than creel catch estimates. For example, Figure \@ref(fig:fig-ngs-catch-revised-1) shows the effect of the summed and revised 2013 to 2023 kept catch estimates for the Northern Strait of Georgia finescale fishery (solid line) compared to the previous creel catch estimates without iREC inclusion (dashed line). Though the relative difference between the two time series vary, the revised integrated creel and iREC catch estimates are consistently higher than the previous creel catch estimates. For Northern Strait of Georgia, the difference between creel and integrated creel and iREC is larger in the early years of the iREC program (mean `r fmt_stat(models_combined2a_avs_pre2019$pdiff_irec_creel_mean[models_combined2a_avs_pre2019$region_mgmt == "NGS" & models_combined2a_avs_pre2019$kept_status =="kept"], scale=100)`% 2013-2018, an average of `r fmt_stat(models_combined2a_avs_pre2019$diff_irec_creel_mean[models_combined2a_avs_pre2019$region_mgmt == "NGS" & models_combined2a_avs_pre2019$kept_status =="kept"])` pieces per year), and less pronounced in more recent years (mean `r fmt_stat(models_combined2a_avs_post2019$pdiff_irec_creel_mean[models_combined2a_avs_post2019$region_mgmt == "NGS" & models_combined2a_avs_post2019$kept_status =="kept"], scale=100)`% and `r fmt_stat(models_combined2a_avs_post2019$diff_irec_creel_mean[models_combined2a_avs_post2019$region_mgmt == "NGS" & models_combined2a_avs_post2019$kept_status =="kept"])` pieces on average per year 2019-2023). This pattern is likely a combination of improvements in creel surveying in recent years (see Section \@ref(qc)) and improvements to the iREC survey which increased the number of survey responses and therefore reduced uncertainty in iREC estimates (see Appendix \@ref(app:apdx-irec-mthd) for more details). In some fisheries, the difference between integrated creel and iREC and creel is consistent across all years of iREC (e.g., NWCVI AABM). Released catch estimates in finescale fisheries were also higher using integrated creel and iREC compared to creel and generally consistent through time (see Figure \@ref(fig:fig-ngs-catch-revised-2-released)). The released estimates generated a larger difference than the kept estimates, in Northern Strait of Gerogis on average a `r fmt_stat(models_combined2a_avs$pdiff_irec_creel_mean[models_combined2a_avs$region_mgmt == "NGS" & models_combined2a_avs$kept_status =="released"], scale=100)`% increase (`r fmt_stat(models_combined2a_avs$diff_irec_creel_mean[models_combined2a_avs$region_mgmt == "NGS" & models_combined2a_avs$kept_status =="released"])` pieces per year). Revised kept and released catch estimates summed to ERA fishery level are discussed in detail below.
 
-As demonstrated by Figure \@ref(fig:fig-creel-iREC-NGS), iREC fills in spatial and temporal gaps in creel sampling, so it is expected that the summed yearly estimates are typically higher when iREC is included, especially in regions with many gaps to fill. The highest percent differences between the revised estimates (combined creel and iREC) and previous estimates occurred in Southern Strait of Georgia and Central BC. The fishery with the least amount of change across the time series was Haida Gwaii. This pattern holds for other fisheries with few exceptions (Appendix \@ref(app:revised-catch-timeseries)). In a few cases, the combined creel and iREC catch estimate was lower than the creel catch, for example in Johnstone Strait in 2019 (see Appendix \@ref(app:revised-catch-timeseries)). This could be due to overestimation by the unfiltered creel since seven out of nine estimates in this region and year failed the inclusion criteria. This could result in a monthly overestimation if, for example, a long holiday weekend is extrapolated to represent the entire monthly catch. 
+As demonstrated by Figure \@ref(fig:fig-creel-iREC-NGS), iREC fills in spatial and temporal gaps in creel sampling, so it is expected that the summed yearly estimates are typically higher when iREC is included, especially in regions with many gaps to fill. The highest percent differences between the revised estimates (integrated creel and iREC) and previous estimates occurred in Southern Strait of Georgia and Central BC. The fishery with the least amount of change across the time series was Haida Gwaii. This pattern holds for other fisheries with few exceptions (Appendix \@ref(app:revised-catch-timeseries)). In a few cases, the integrated creel and iREC catch estimate was lower than the creel catch, for example in Johnstone Strait in 2019 (see Appendix \@ref(app:revised-catch-timeseries)). This could be due to overestimation by the unfiltered creel since seven out of nine estimates in this region and year failed the inclusion criteria. This could result in a monthly overestimation if, for example, a long holiday weekend is extrapolated to represent the entire monthly catch. 
 
   
 
@@ -182,7 +182,7 @@ Based on model selection, the following regional-temporal stratification and tim
 
 The model selection process determined that separating South Coast into smaller regional models made for a better fit overall. See Appendix \@ref(app:fifth-appendix) for model selection tables comparing groupings of fisheries. These groupings make intuitive sense as creel programs in each of the regions are operated in different ways. For example, WCVI may include more extensive log book programs than other Southern regions. 
 
-Among the top ranked models, summer models for southern regions fit the data much better than southern seasonal models and Central and Northern BC annual models based on diagnostic plots and tests (Appendix E). This pattern is not surprising given that these models contained the most correlated variables (summer creel vs. summer combined creel and iREC), and there is likely a more tenuous relationship between the summer creel estimate and spring or fall iREC estimate (mismatch of season and iREC-only data compared) and the annual creel estimate and iREC estimate (time period too broad, iREC-only data compared). 
+Diagnostic plots and tests (Appendix \@ref(app:residuals-appendix) and \@ref(app:fourth-appendix)) show that summer models for southern regions fit the data much better than both southern seasonal models and Central/Northern BC annual models among top-ranked candidates. This outcome is expected, as predictor and response are not completely independent with the inclusion of summer creel in both. Conversely, the relationship weakens when comparing summer creel estimates to spring or fall iREC estimates (seasonal mismatch in iREC-only data) or comparing annual creel to annual iREC estimates (time period is too broad for iREC-only data).
 
 In the following subsections we describe the best fitting models for each spatio-temporal combination. The full suite of model outputs can be found in Appendix \@ref(app:third-appendix). 
 
@@ -338,19 +338,19 @@ run_main_region <- function(model_name, x_var, x_var_mr, x_var_rr, year_start,
 
 #### Northern WCVI
 
-The best model for Northern WCVI summer combined creel and iREC catch ($C_{creel+iREC, summer}$), was a model with a Gaussian distribution that included summer creel catch ($C_{creel,summer}$), marked status ($m$) and management ($M$), an interaction between mark status and management, and an intercept. Kept status was dropped from the model during model selection, as were more complex variations of interactions.
+The best model for Northern WCVI summer integrated creel and iREC catch ($C_\text{creel+iREC, summer}$), was a model with a Gaussian distribution with an identity link that included summer creel catch ($C_\text{creel,summer}$), mark status ($m$) and management ($M$), an interaction between mark status and management, and an intercept. Kept status was dropped from the model during model selection, as were more complex variations of interactions.
 \begin{equation}
-C_{creel+iREC, summer} = C_{creel,summer} + M + m + M:m + 1
+C_\text{creel+iREC, summer} \sim C_\text{creel,summer} + M + m + M:m
 \label{eq:nwcvi_summer}
 \end{equation}
 
-This model parameterization allows for combined creel and iREC catch to be predicted independently by the creel catch, management type (e.g., AABM or ISBM), and mark status (e.g., marked or unmarked). In addition, the interaction between management and mark status allows the effect of management type on combined creel and iREC catch to be modified by mark status.
+This model parameterization allows for integrated creel and iREC catch to be predicted as a function of creel catch, management type (e.g., AABM or ISBM), mark status (e.g., marked or unmarked), and the interactions between management type and mark status. In addition, the interaction between management and mark status allows the effect of management type on integrated creel and iREC catch to be modified by mark status.
 
-Figure \@ref(fig:fig-nwcvi-isbm-summer-model) shows ISBM modelled relationship for Northern WCVI Summer. The AABM counterpart plot can be found in Appendix \@ref(app:third-appendix). Overall, we found a strong linear relationship between summer combined creel and iREC catch and summer creel catch (p\<0.001, pseudo-$R^{2}$ = 0.98), the intercept (but not slope) of which changed with mark status (overall there were more unmarked fish than marked fish), and the interaction between mark status and management type, such that more unmarked fish were caught during ISBM than AABM fisheries.
+Figure \@ref(fig:fig-nwcvi-isbm-summer-model) shows ISBM modelled relationship for Northern WCVI Summer. The AABM counterpart plot can be found in Appendix \@ref(app:third-appendix). Overall, we found a strong linear relationship between summer integrated creel and iREC catch and summer creel catch (p\<0.001, pseudo-$R^{2}$ = 0.98), the intercept (but not slope) of which changed with mark status (overall there were more unmarked fish than marked fish), and the interaction between mark status and management type, such that more unmarked fish were caught during ISBM than AABM fisheries.
 
 ```{r results example seasonal summer, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-nwcvi-isbm-summer-model
-#| fig-cap: "Northern WCVI ISBM Summer fishery modelled relationship between summertime unfiltered creel estimate (months 5 and 9) and total catch estimate that incorporates iREC. Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit. Shaded area with each relationship is the 95% confidence interval."
+#| fig-cap: "Northern WCVI ISBM Summer fishery modelled relationship between summertime unfiltered creel estimate (months 5 to 9) and total catch estimate that incorporates iREC. Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit. Shaded area with each relationship is the 95% confidence interval."
 
 cfg <- main_regions[["NWCVI Summer"]]
 
@@ -371,18 +371,18 @@ plots <- run_main_region(
 \newpage
 #### Southern WCVI
 
-The best model for Southern WCVI Summer combined creel and iREC catch ($C_{creel+iREC, summer}$), was a model with a Gaussian distribution that included summer creel catch ($C_{creel,summer}$), kept status ($k$) , marked status ($m$) and management ($M$), an interaction between kept status and summer creel, an interaction between mark status and summer creel, and an intercept. More complex variations and interactions were dropped during model selection.
+The best model for Southern WCVI Summer integrated creel and iREC catch ($C_\text{creel+iREC, summer}$), was a model with a Gaussian distribution with an identity link that included summer creel catch ($C_\text{creel,summer}$), kept status ($k$) , mark status ($m$) and management ($M$), an interaction between kept status and summer creel, an interaction between mark status and summer creel, and an intercept. More complex variations and interactions were dropped during model selection.
 \begin{equation}
-C_{creel+iREC, summer} = C_{creel,summer} + M + m + k + C_{creel,summer}:k + C_{creel,summer}:m + 1
+C_\text{creel+iREC, summer} \sim C_\text{creel,summer} + M + m + k + C_\text{creel,summer}:k + C_\text{creel,summer}:m
 \label{eq:swcvi_summer}
 \end{equation}
-This model parameterization allows for combined creel and iREC catch to be predicted by the creel catch, management type, mark status, and kept status (kept or released). In addition, the interactions allow the effect of creel summer on catch (i.e., the slope) to be modified by kept status and mark status separately.
+This model parameterization allows for integrated creel and iREC catch to be predicted by the creel catch, management type, mark status, and kept status (kept or released). In addition, the interactions allow the effect of creel summer on catch (i.e., the slope) to be modified by kept status and mark status separately.
 
-Figure \@ref(fig:fig-swcvi-aabm-summer-model) shows the AABM modelled relationship for SWCVI Summer. The ISBM counterpart plot can be found in Appendix \@ref(app:third-appendix). Overall, we found a strong positive linear relationship between summer combined creel and iREC catch and summer creel catch (p\<0.001, pseudo-$R^{2} = 0.98$), the slope of which was modestly modified by kept status (released steeper than kept) and marked status (unmarked steeper than marked). No significant independent effects were found for kept or mark status. There was significant effect of management (AABM fisheries had more consistent and high catch overall compared to ISBM fisheries). 
+Figure \@ref(fig:fig-swcvi-aabm-summer-model) shows the AABM modelled relationship for SWCVI Summer. The ISBM counterpart plot can be found in Appendix \@ref(app:third-appendix). Overall, we found a strong positive linear relationship between summer integrated creel and iREC catch and summer creel catch (p\<0.001, pseudo-$R^{2} = 0.98$), the slope of which was modestly modified by kept status (released steeper than kept) and mark status (unmarked steeper than marked). No significant independent effects were found for kept or mark status. There was significant effect of management (AABM fisheries had more consistent and high catch overall compared to ISBM fisheries). 
 
 ```{r results example seasonal summer, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-swcvi-aabm-summer-model
-#| fig-cap: "Southern WCVI AABM Summer fishery modelled relationship for between summertime unfiltered creel estimate (months 5 and 9) and total catch estimate that incorporates iREC. Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit. Shaded area with each relationship is the 95% confidence interval."
+#| fig-cap: "Southern WCVI AABM Summer fishery modelled relationship between summertime unfiltered creel estimate (months 5 to 9) and total catch estimate that incorporates iREC. Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit. Shaded area with each relationship is the 95% confidence interval."
 
 cfg <- main_regions[["SWCVI Summer"]]
 
@@ -398,21 +398,21 @@ plots <- run_main_region(
 
 
 (plots[["SWCVI S SUMMER AABM"]] + ylab("summer creel + iREC catch estimate") + xlab("summer creel catch estimate") )
-  #+ facet_wrap(~management, scales="fixed")) + (plots[["SWCVI S SUMMER ISBM"]] + ylab("combined creel and iREC catch estimate") ) + facet_wrap(~management, scales="fixed")
+  #+ facet_wrap(~management, scales="fixed")) + (plots[["SWCVI S SUMMER ISBM"]] + ylab("integrated creel and iREC catch estimate") ) + facet_wrap(~management, scales="fixed")
 
 ```
 \newpage
 #### Northern Strait of Georgia
 
-The best model for Northern Strait of Georgia (NGS) summer combined creel and iREC catch ($C_{creel+iREC, summer}$), was a model with a Gaussian distribution that included summer creel ($C_{creel,summer}$) and mark status ($m$) and an intercept. Kept status was dropped from the model during model selection, as were more complex variations and interactions.
+The best model for Northern Strait of Georgia (NGS) summer integrated creel and iREC catch ($C_\text{creel+iREC, summer}$), was a model with a Gaussian distribution with an identity link that included summer creel ($C_\text{creel,summer}$) and mark status ($m$) and an intercept. Kept status was dropped from the model during model selection, as were more complex variations and interactions.
 \begin{equation}
-C_{creel+iREC, summer} = C_{creel,summer} + m + 1
+C_\text{creel+iREC, summer} \sim C_\text{creel,summer} + m
 \label{eq:ngs_summer}
 \end{equation}
 
-This model parameterization allows for summer combined creel and iREC catch to be predicted independently by the unfiltered creel and logbook catch and mark status.
+This model parameterization allows for summer integrated creel and iREC catch to be predicted as a function of unfiltered creel (including logbook) catch and mark status.
 
-Figure \@ref(fig:fig-ngs-summer-model) shows the modelled relationship for NGS Summer. Overall, we found a strong positive linear relationship between summer combined creel and iREC catch and summer creel catch (p\<0.001, pseudo-$R^{2} = 0.94$). There were significantly more unmarked fish than marked fish encountered.
+Figure \@ref(fig:fig-ngs-summer-model) shows the modelled relationship for NGS Summer. Overall, we found a strong positive linear relationship between summer integrated creel and iREC catch and summer creel catch (p\<0.001, pseudo-$R^{2} = 0.94$). There were significantly more unmarked fish than marked fish encountered.
 
 ```{r results example seasonal summer, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-ngs-summer-model
@@ -436,14 +436,14 @@ plot
 \newpage
 #### Southern Strait of Georgia
 
-The best model for Southern Strait of Georgia (SGS) summer combined creel and iREC catch ($C_{creel+iREC,summer}$), was also a model with a Gaussian distribution that included summer creel catch ($C_{creel,summer}$) and mark status ($m$) and an intercept. Kept status was dropped from the model during model selection, as were more complex variations and interactions.
+The best model for Southern Strait of Georgia (SGS) summer integrated creel and iREC catch ($C_\text{creel+iREC,summer}$), was also a model with a Gaussian distribution with an identity link that included summer creel catch ($C_\text{creel,summer}$) and mark status ($m$) and an intercept. Kept status was dropped from the model during model selection, as were more complex variations and interactions.
 \begin{equation}
-C_{creel+iREC, summer} = C_{creel,summer} + m + 1
+C_\text{creel+iREC, summer} \sim C_\text{creel,summer} + m
 \label{eq:sgs_summer}
 \end{equation}
-This model parameterization allows for combined creel and iREC catch to be predicted independently by the creel catch and mark status (e.g., marked vs. unmarked).
+This model parameterization allows for integrated creel and iREC catch to be predicted as a function of summer creel catch and mark status (marked vs. unmarked).
 
-Figure \@ref(fig:fig-sgs-summer-model) shows the modelled relationship for SGS Summer. Overall, we found a moderate positive linear relationship between summer combined creel and iREC catch and summer creel catch (p\<0.001, pseudo-$R^{2} = 0.71$). Overall, there were more unmarked fish than marked fish encountered.
+Figure \@ref(fig:fig-sgs-summer-model) shows the modelled relationship for SGS Summer. Overall, we found a moderate positive linear relationship between summer integrated creel and iREC catch and summer creel catch (p\<0.001, pseudo-$R^{2} = 0.71$). Overall, there were more unmarked fish than marked fish encountered.
 
 ```{r results example seasonal summer, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-sgs-summer-model
@@ -467,15 +467,15 @@ plot
 \newpage
 #### Johnstone Strait
 
-The best model for Johnstone Strait (JNST) summer combined creel and iREC catch ($C_{creel+iREC,summer}$), was a model with a Gamma distribution that included summer creel ($C_{creel,summer}$), kept status ($k$), mark status ($m$), an interaction between kept status and summer creel, an interaction between mark status and summer creel, and an intercept. More complex variations and interactions were dropped.
+The best model for Johnstone Strait (JNST) summer integrated creel and iREC catch ($C_\text{creel+iREC,summer}$), was a model with a Gamma distribution that included summer creel ($C_\text{creel,summer}$), kept status ($k$), mark status ($m$), an interaction between kept status and summer creel, an interaction between mark status and summer creel, and an intercept. More complex variations and interactions were dropped.
 \begin{equation}
-C_{creel+iREC, summer} = C_{creel,summer} + m + k + C_{creel,summer}:k + C_{creel,summer}:m + 1
+C_\text{creel+iREC, summer} \sim C_\text{creel,summer} + m + k + C_\text{creel,summer}:k + C_\text{creel,summer}:m
 \label{eq:jnst_summer}
 \end{equation}
 
-This model parameterization allows for combined creel and iREC catch in the whole summer period (months 5 to 9) to be predicted independently by the unfiltered creel and logbook catch, mark status (e.g., marked vs. unmarked), and kept status (kept vs. released). In addition, the interactions allow the effect of creel summer on combined catch (i.e., the slope) to be modified by kept status and mark status separately.
+This model parameterization allows for integrated creel and iREC catch for the whole summer period (months 5 to 9) to be predicted as a function of unfiltered creel and logbook catch, mark status (marked vs. unmarked), and kept status (kept vs. released), including interactions between summer catch and both kept status and mark status. The interactions allow the effect of creel summer on integrated catch (i.e., the slope) to be modified by kept status and mark status separately.
 
-Figure \@ref(fig:fig-jnst-summer-model) shows the modelled relationship for JNST Summer. Overall, we found a strong non-linear positive relationship between summer combined creel and iREC catch and summer creel catch (p\<0.001, pseudo-$R^{2} = 0.96$), the slope of which was modestly modified by kept status (released steeper than kept) and marked status (marked steeper than unmarked). There was an overall effect of mark status, as above, more unmarked fish were encountered than marked fish, and an overall effect of kept status, more fish kept than released.
+Figure \@ref(fig:fig-jnst-summer-model) shows the modelled relationship for JNST Summer. Overall, we found a strong non-linear positive relationship between summer integrated creel and iREC catch and summer creel catch (p\<0.001, pseudo-$R^{2} = 0.96$), the slope of which was modestly modified by kept status (released steeper than kept) and mark status (marked steeper than unmarked). There was an overall effect of mark status, as above, more unmarked fish were encountered than marked fish, and an overall effect of kept status, more fish kept than released.
 
 ```{r results example seasonal summer, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-jnst-summer-model
@@ -492,22 +492,23 @@ plots <- run_main_region(
   fishery_codes = cfg$fishery_codes
 )
 
- plots[[1]] + ylab("combined creel and iREC catch estimate") + xlab("summer creel catch estimate")  
+ plots[[1]] + ylab("integrated creel and iREC catch estimate") + xlab("summer creel catch estimate")  
 
 ```
 
 \newpage
 #### Juan de Fuca Strait
 
-The best model for Juan de Fuca (JDF) Strait summer combined creel and iREC catch ($C_{creel+iREC,summer}$), was a model with a Gamma distribution that included summer creel ($C_{creel,summer}$), kept_status ($k$), mark status ($m$), an interaction between kept status and summer creel, an interaction between mark status and summer creel, and an intercept. More complex variations and interactions were dropped.
+The best model for Juan de Fuca (JDF) Strait summer integrated creel and iREC catch ($C_\text{creel+iREC,summer}$), was a model with a Gamma distribution that included summer creel ($C_\text{creel,summer}$), kept_status ($k$), mark status ($m$), an interaction between kept status and summer creel, an interaction between mark status and summer creel, and an intercept. More complex variations and interactions were dropped.
+
 \begin{equation}
-C_{creel+iREC, summer} = C_{creel,summer} + m + k + C_{creel,summer}:k + C_{creel,summer}:m + 1
+C_\text{creel+iREC, summer} \sim C_\text{creel,summer} + m + k + C_\text{creel,summer}:k + C_\text{creel,summer}:m
 \label{eq:jdf_summer}
 \end{equation}
 
-This model parameterization allows for combined creel and iREC catch in the whole summer period (months 5 to 9) to be predicted independently by the creel catch, mark status (e.g., marked vs. unmarked), and kept status (kept vs. released). In addition, the interactions allow the effect of summer creel on summer combined creel and iREC catch (i.e., the slope) to be modified by kept status and mark status separately.
+This model parameterization allows for integrated creel and iREC catch for the whole summer period (months 5 to 9) to be predicted as a function of creel catch, mark status (marked vs. unmarked), and kept status (kept vs. released), including interactions between creel catch and both kept status and mark status. The interactions allow the effect of summer creel on summer integrated creel and iREC catch (i.e., the slope) to be modified by kept status and mark status separately.
 
-Figure \@ref(fig:fig-jdf-summer-model) shows the modelled relationship for JDF Summer. Overall, we found a strong non-linear positive relationship between summer creel catch and summer combined creel and iREC catch (p\<0.001, pseudo-$R^{2} = 0.91$), the slope of which was modestly modified by kept status (released steeper than kept) and marked status (marked steeper than unmarked). There was an overall effect of mark status, as above, more unmarked fish were encountered than marked fish, and an overall effect of kept status, more fish kept than released.
+Figure \@ref(fig:fig-jdf-summer-model) shows the modelled relationship for JDF Summer. Overall, we found a strong non-linear positive relationship between summer creel catch and summer integrated creel and iREC catch (p\<0.001, pseudo-$R^{2} = 0.91$), the slope of which was modestly modified by kept status (released steeper than kept) and mark status (marked steeper than unmarked). There was an overall effect of mark status, as above, more unmarked fish were encountered than marked fish, and an overall effect of kept status, more fish kept than released.
 
 ```{r results example seasonal summer, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-jdf-summer-model
@@ -525,7 +526,7 @@ plots <- run_main_region(
   fishery_codes = cfg$fishery_codes
 )
 
-plots[[1]] + ylab("combined creel and iREC catch estimate")  + xlab("summer creel catch estimate") 
+plots[[1]] + ylab("integrated creel and iREC catch estimate")  + xlab("summer creel catch estimate") 
 
 
 ```
@@ -534,19 +535,19 @@ plots[[1]] + ylab("combined creel and iREC catch estimate")  + xlab("summer cree
 ### Spring and Fall Models
 #### WCVI
 
-The best model for WCVI Spring and Fall AABM iREC catch ($C_{iREC, seasonal}$), was a model with a Gaussian distribution that included region ($r$), season ($s$), their interaction, and an intercept. Notably, summer creel, marked status, and kept status were dropped from the model during model selection, as were more complex variations of interactions.
+The best model for WCVI Spring and Fall AABM iREC catch ($C_\text{iREC, seasonal}$), was a model with a Gaussian distribution with an identity link that included region ($r$), season ($s$), their interaction, and an intercept. Notably, summer creel, mark status, and kept status were dropped from the model during model selection, as were more complex variations of interactions.
 \begin{equation}
-C_{iREC, seasonal} = r + s + r:s + 1
+C_\text{iREC, seasonal} \sim r + s + r:s
 \label{eq:wcvi_seasonal}
 \end{equation}
 
-This model parameterization allows for iREC catch in the off-season to be predicted independently by region (Northern or Southern WCVI) and season (spring or fall), and for the effect of season to be modified by region.
+This model parameterization allows for iREC catch in the off-season to be predicted as a function of region (Northern or Southern WCVI) and season (spring or fall), including the interaction between region and season.
 
 Figure \@ref(fig:fig-swcvi-aabm-spring-model) shows the SWCVI AABM modelled relationship for Spring. The Fall and NWCVI counterpart plots can be found in Appendix \@ref(app:third-appendix). Overall, we found no relationship between summer creel and off-season iREC catch. There was a significant interaction such that SWCVI Spring had more catch than the other regions and season combinations, but no overall main effect of region or season. This flat relationship explains minimal variation in the data (pseudo-$R^{2} = 0.18$), but gives an offset (intercept) to use as a predictor for off-season catch. Unlike the summer models for NWCVI and SWCVI, which both demonstrated overall more unmarked catch than marked catch, mark status was not included in the model, indicating similar catch for marked and unmarked fish in the off-season.
 
 ```{r results example seasonal summer, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-swcvi-aabm-spring-model
-#| fig-cap: "Southern WCVI AABM Summer fishery modelled relationship for between summertime unfiltered creel estimate (months 5 and 9) and total catch estimate that incorporates iREC. Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit. Shaded area with each relationship is the 95% confidence interval."
+#| fig-cap: "Southern WCVI AABM Summer fishery modelled relationship between summertime unfiltered creel estimate (months 5 to 9) and total catch estimate that incorporates iREC. Data points are yearly estimates from 2013 to 2023. Note varying scales on the y-axes to better visualize the model fit. Shaded area with each relationship is the 95% confidence interval."
 
 cfg <- main_regions[["WCVI Seasonal"]]
 
@@ -569,13 +570,13 @@ plots <- run_main_region(
 \newpage
 #### Northern Strait of Georgia
 
-The best model for Northern Strait of Georgia off-season iREC catch ($C_{iREC, seasonal}$), was a model with a Gaussian distribution that included summer creel ($C_{creel,summer}$), kept status ($k$), season ($s$), an interaction between summer creel and season, an interaction between summer creel and kept status, and an intercept. Mark status and more complex variations and interactions were dropped during model selection.
+The best model for Northern Strait of Georgia off-season iREC catch ($C_\text{iREC, seasonal}$), was a model with a Gaussian distribution with an identity link that included summer creel ($C_\text{creel,summer}$), kept status ($k$), season ($s$), an interaction between summer creel and season, an interaction between summer creel and kept status, and an intercept. Mark status and more complex variations and interactions were dropped during model selection.
 \begin{equation}
-C_{iREC, seasonal} = C_{creel,summer} + k + s + C_{creel,summer}:s + C_{creel,summer}:k + 1
+C_\text{iREC,seasonal} \sim C_\text{creel,summer} + k + s + C_\text{creel,summer}:s + C_\text{creel,summer}:k
 \label{eq:ngs_seasonal}
 \end{equation}
 
-This model parameterization allows for off-season iREC catch to be predicted independently by the summer creel catch, kept status, and season. Furthermore, this model formula allows for the effect of summer creel on off-season iREC catch to be modified by season and kept status.
+This model parameterization allows for off-season iREC catch to be predicted as a function of summer creel catch, kept status, and season, including the interactions between summer creel catch with both season and kept status. These interactions allows for the relationship between summer creel and off-season iREC catch to be modified by season and kept status.
 
 Figure \@ref(fig:fig-ngs-spring-model) shows the modelled relationship for NGS Spring. The Fall counterpart plot can be found in Appendix \@ref(app:third-appendix). Overall, we found a moderate positive linear relationship between summer creel and off-season iREC catch (p\<0.001, pseudo-$R^{2} = 0.57$). There was an overall effect of season (more iREC catch in spring than fall), and season altered the slope of the summer creel to seasonal iREC such that the slope is steeper for spring than for fall catch. There was no overall effect of kept status, but kept status modified the slope of the creel summer catch to iREC seasonal catch: the slope is steeper for released than kept fish. Unlike the summer model for NGS, which demonstrated overall more unmarked catch than marked catch, mark status was dropped from this model, indicating similar catch for marked and unmarked fish in the off-season.
 
@@ -599,12 +600,14 @@ plots[["NGS S SPRING"]] + ylab("seasonal iREC catch estimate") + xlab("summer cr
 \newpage
 #### Southern Strait of Georgia
 
-The best model for Southern Strait of Georgia off-season iREC catch ($C_{iREC, seasonal}$), was a model with a Gaussian distribution that included summer creel ($C_{creel,summer}$), mark status ($m$), season ($s$), an interaction between summer creel and mark status, and an intercept. Kept status and more complex variations and interactions were dropped during model selection.
+The best model for Southern Strait of Georgia off-season iREC catch ($C_\text{iREC, seasonal}$), was a model with a Gaussian distribution with an identity link that included summer creel ($C_\text{creel,summer}$), mark status ($m$), season ($s$), an interaction between summer creel and mark status, and an intercept. Kept status and more complex variations and interactions were dropped during model selection.
+
 \begin{equation}
-C_{iREC, seasonal} = C_{creel,summer} + m + s + C_{creel,summer}:m + 1
+C_\text{iREC, seasonal} \sim C_\text{creel,summer} + m + s + C_\text{creel,summer}:m
 \label{eq:sgs_seasonal}
 \end{equation}
-This model parameterization allows for off-season iREC catch to be predicted independently by the unfiltered creel summer catch, mark status, and season. Furthermore, this model formula allows for the effect of summer creel on off-season iREC catch to be modified by mark status.
+
+This model parameterization allows for off-season iREC catch to be predicted as a function of unfiltered creel summer catch, mark status, and season, including the interaction between summer creel catch and mark status. This model interaction allows the relationship between summer creel and off-season iREC catch to be modified by mark status.
 
 Figure \@ref(fig:fig-sgs-spring-model) shows the modelled relationship for SGS Spring. The Fall counterpart plot can be found in Appendix \@ref(app:third-appendix). Overall, we found a weak positive linear relationship between summer creel and off-season iREC catch (p\<0.011, pseudo-$R^{2} = 0.39$). There was an overall effect of season (more iREC catch in spring than fall). Similar to the summer SGS model, there was an overall effect of mark status (more unmarked than marked catch). However, in this model mark status modified the slope of the creel summer catch to iREC seasonal catch: the slope is steeper for marked than unmarked fish.
 
@@ -628,13 +631,13 @@ plots[["SGS S SPRING"]] + ylab("seasonal iREC catch estimate") + xlab("summer cr
 \newpage
 #### Johnstone Strait
 
-The best model for Johnstone Strait seasonal iREC catch ($C_{iREC, seasonal}$), was a model with a Gaussian distribution that included mark status ($m$) and an intercept. Notably, summer creel, kept status, season, and any more complex variations and interactions were dropped.
+The best model for Johnstone Strait seasonal iREC catch ($C_\text{iREC, seasonal}$), was a model with a Gaussian distribution with an identity link that included mark status ($m$) and an intercept. Notably, summer creel, kept status, season, and any more complex variations and interactions were dropped.
 \begin{equation}
-C_{iREC, seasonal} = m + 1
+C_\text{iREC, seasonal} \sim m
 \label{eq:jnst_seasonal}
 \end{equation}
 
-This model parameterization allows for iREC catch in the off-season to be predicted independently by mark status.
+This model parameterization allows for iREC catch in the off-season to be predicted as a function of mark status.
 
 Figure \@ref(fig:fig-jnst-spring-model) shows the modelled relationship for JNST Spring. The Fall counterpart plot can be found in Appendix \@ref(app:third-appendix). Overall, we found no relationship between summer creel and off-season iREC catch. As in the summer model for JNST, there was a significant effect of mark status, more unmarked fish caught than marked fish. The flat relationship explains minimal variation in the data (pseudo-$R^{2} = 0.08$), but gives an offset (intercept) to use as a predictor for off-season iREC catch.
 
@@ -659,15 +662,15 @@ plots <- run_main_region(
 \newpage
 #### Juan de Fuca Strait
 
-The best model for Juan de Fuca Strait off-season iREC catch ($C_{iREC, seasonal}$), was a model with a Gamma distribution that included summer creel ($C_{creel,summer}$), kept status ($k$), mark status ($m$), season($s$), an interaction between mark status and summer creel, and an intercept. More complex variations and interactions were dropped.
+The best model for Juan de Fuca Strait off-season iREC catch ($C_\text{iREC, seasonal}$), was a model with a Gamma distribution that included summer creel ($C_\text{creel,summer}$), kept status ($k$), mark status ($m$), season($s$), an interaction between mark status and summer creel, and an intercept. More complex variations and interactions were dropped.
 \begin{equation}
-C_{iREC, seasonal} = C_{creel,summer} + m + k + s + C_{creel,summer}:m + 1
+C_\text{iREC, seasonal} \sim C_\text{creel,summer} + m + k + s + C_\text{creel,summer}:m
 \label{eq:jdf_seasonal}
 \end{equation}
 
-This model parameterization allows for iREC catch in the off-season to be predicted independently by the summertime creel catch, mark status, kept status, and season. In addition, the interaction allows the effect of creel summer on off-season iREC catch (i.e., the slope) to be modified by mark status.
+This model parameterization allows for iREC catch in the off-season to be predicted as a function of summer creel catch, mark status, kept status, and season, including interactions between summer creel catch and mark status. The interaction allows the effect of creel summer on off-season iREC catch (i.e., the slope) to be modified by mark status.
 
-Figure \@ref(fig:fig-jdf-spring-model) shows the modelled relationship for JDF Spring. The Fall counterpart plot can be found in Appendix \@ref(app:third-appendix). Overall, we found a modest non-linear positive relationship between summer creel and seasonal iREC catch (p\<0.003, pseudo-$R^{2} = 0.43$), the slope of which was modified by marked status (marked steeper than unmarked), similar to the summer JDF model. Although there was no overall effect of mark status, the trend was in the opposite direction to the summer JDF model, slightly more marked fish than unmarked fish caught in the off-season (p=0.08). There was an overall effect of kept status, slightly more fish released than kept (p\<0.003), the opposite direction to the summer JDF model. Finally, there was an overall effect of season, where more fish were caught in the spring than the fall.
+Figure \@ref(fig:fig-jdf-spring-model) shows the modelled relationship for JDF Spring. The Fall counterpart plot can be found in Appendix \@ref(app:third-appendix). Overall, we found a modest non-linear positive relationship between summer creel and seasonal iREC catch (p\<0.003, pseudo-$R^{2} = 0.43$), the slope of which was modified by mark status (marked steeper than unmarked), similar to the summer JDF model. Although there was no overall effect of mark status, the trend was in the opposite direction to the summer JDF model, slightly more marked fish than unmarked fish caught in the off-season (p=0.08). There was an overall effect of kept status, slightly more fish released than kept (p\<0.003), the opposite direction to the summer JDF model. Finally, there was an overall effect of season, where more fish were caught in the spring than the fall.
 
 ```{r results example seasonal summer, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-jdf-spring-model
@@ -692,9 +695,9 @@ plots[["CA JDF S SPRING"]] + ylab("seasonal iREC catch estimate") + xlab("summer
 \newpage
 ### Annual Fisheries models
 #### Haida Gwaii
-The best model for the Haida Gwaii (Northern BC Sport AABM) annual iREC catch incorporated the annual creel catch $C_{creel, annual}$), kept status ($k$), mark status ($m$), and the interaction between kept and mark status, and an intercept, as identified in Equation \eqref{eq:haida_gwaii_annual}. We used a Gaussian link instead of a Gamma log link because earlier values in the time series were outside the range of the model fit (see details in Appendix \@ref(apdx-haida-model)).
+The best model for the Haida Gwaii (Northern BC Sport AABM) annual iREC catch incorporated the annual creel catch $C_\text{creel, annual}$), kept status ($k$), mark status ($m$), and the interaction between kept and mark status, and an intercept, as identified in Equation \eqref{eq:haida_gwaii_annual}. We used a Gaussian distribution with an identity link instead of a Gamma distribution with a log link because earlier values in the time series were outside the range of the model fit (see details in Appendix \@ref(apdx-haida-model)).
 \begin{equation}
-C_{iREC, annual} = C_{creel, annual} + k + m + k:m + 1 
+C_\text{iREC, annual} \sim C_\text{creel, annual} + k + m + k:m
 \label{eq:haida_gwaii_annual}
 \end{equation}
 
@@ -724,12 +727,13 @@ plots[[1]] + ylab("annual iREC catch estimate") + xlab("annual creel catch estim
 \newpage
 #### Northern BC ISBM
 
-The best model for annual Northern BC (NBC) ISBM iREC catch was one with a Gamma distribution using a log link that included annual creel catch, $C_{creel,annual}$), mark status ($m$), and an interaction between historic data and mark status. Kept status and more complex variations and interactions were dropped.
+The best model for annual Northern BC (NBC) ISBM iREC catch was one with a Gamma distribution using a log link that included annual creel catch, $C_\text{creel,annual}$), mark status ($m$), and an interaction between historic data and mark status. Kept status and more complex variations and interactions were dropped.
 \begin{equation}
-C_{iREC, annual} = C_{creel,annual} + m + C_{creel,annual}:m \label{eq:nbc_isbm_annual}
+C_\text{iREC, annual} \sim C_\text{creel,annual} + m + C_\text{creel,annual}:m 
+\label{eq:nbc_isbm_annual}
 \end{equation}
 
-This model parameterization allows for annual iREC catch to be predicted both independently by the annual creel catch, by mark status, and by their interaction.
+This model parameterization allows for annual iREC catch to be predicted as a function of annual creel catch, mark status, and the interaction between the two variables.
 
 Figure \@ref(fig:fig-nbcisbm-model) shows the annual model results in NBC ISBM. There is a positive non-linear relationship between creel catch and iREC annual catch estimates (p\<0.0001, pseudo-$R^{2} = 0.91$). The slope of this relationship was slightly steeper for marked fish than unmarked fish. There was a significant effect of mark status, such that overall the marked catch was substantially less (\< 1,500 pieces) than the catch of unmarked fish (\< 15,000 pieces).
 
@@ -760,11 +764,15 @@ plots[[1]] +  ylab("annual iREC catch estimate") + xlab("annual creel catch esti
 #### Central BC
 
 Central BC was split into two models, one for kept fish and one for released fish where there were almost exclusively zeros provided in the historical data. The best model for the kept Central BC annual catch was one with a Gamma distribution with a log link which included logbook catch and mark status. The best model for the released Central BC annual catch was one with a Gamma distribution with a log link which included mark status and an intercept. As historic logbook estimates were mostly zero, this factor was excluded during model selection, as was kept status and various interactions.
+
 \begin{equation}
-C_{iREC,annual,kept} = C_{logbook,annual} + m \label{eq:cbc_annual_kept}
+C_\text{iREC,annual,kept} \sim C_\text{logbook,annual} + m 
+\label{eq:cbc_annual_kept}
 \end{equation}
+
 \begin{equation}
-C_{iREC,annual,released} = m + 1 \label{eq:cbc_annual_released}
+C_\text{iREC,annual,released} \sim m
+\label{eq:cbc_annual_released}
 \end{equation}
 
 This model parameterization allows for kept iREC catch to be predicted independently by the annual logbook catch and by mark status and released iREC catch to be predicted independently by mark status.
@@ -860,7 +868,7 @@ combined
 
 ```{r heads-to-creel plotting function, echo=FALSE}
 #| label: fig-heads-to-creel-and-updated-catch-2
-#| fig-cap: "Relationship between the marked kept catch estimates from the the creel program (left panel) and the combined creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP."
+#| fig-cap: "Relationship between the marked kept catch estimates from the creel program (left panel) and the integrated creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP."
 run_catch_heads_group <- function(region_names, x_var_original, x_var_mr,
                                    region_list = main_regions, start_y=2005, end_y=2023) {
 
@@ -927,15 +935,15 @@ out_cbc <- run_catch_heads_group(cbc_region,
 
 ### Validating revised catch estimates since iREC
 
-In Figure \@ref(fig:fig-heads-to-creel-and-updated-catch-summer) we compare the observed summertime relationship between marked creel catch to recovered heads (left panel) to that of marked combined creel and iREC catch to recovered heads (right panel) using data from 2013 to 2023 and combining regions from the South Coast of BC. As described above, in the summer months we prioritized the creel estimate and the iREC estimate was used to fill in months and areas where a high-quality creel estimate was unavailable. Therefore, while the number of points remains the same (one for each region and year), the underlying number of areas and months contributing catch data to each point is higher for the combined creel and iREC (see Figure \@ref(fig:fig-creel-iREC-NGS) for a visualization of the increased spatio-temporal coverage of combined creel and iREC). Across the South Coast region, creel and combined creel and iREC perform similarly, and explaining `r fmt_stat(out_summer$r2_creel, scale=100)` and `r fmt_stat(out_summer$r2_irec, scale=100)`% of the variation, respectively, and have similar slopes, indicating an average sample rate of `r fmt_stat(out_summer$slope_creel, scale=100)`% for creel and `r fmt_stat(out_summer$slope_irec, scale=100)`% for combined creel and iREC. While there is some variation among finescale fisheries (e.g., NWCVI and NGS have steeper slopes, higher sample rates due to high lodge participation), the addition of iREC doesn't change the slope substantially and improves the $R^{2}$ values slightly.
+In Figure \@ref(fig:fig-heads-to-creel-and-updated-catch-summer) we compare the observed summertime relationship between marked creel catch to recovered heads (left panel) to that of marked integrated creel and iREC catch to recovered heads (right panel) using data from 2013 to 2023 and combining regions from the South Coast of BC. As described above, in the summer months we prioritized the creel estimate and the iREC estimate was used to fill in months and areas where a high-quality creel estimate was unavailable. Therefore, while the number of points remains the same (one for each region and year), the underlying number of areas and months contributing catch data to each point is higher for the integrated creel and iREC (see Figure \@ref(fig:fig-creel-iREC-NGS) for a visualization of the increased spatio-temporal coverage of integrated creel and iREC). Across the South Coast region, creel and integrated creel and iREC perform similarly, and explaining `r fmt_stat(out_summer$r2_creel, scale=100)` and `r fmt_stat(out_summer$r2_irec, scale=100)`% of the variation, respectively, and have similar slopes, indicating an average sample rate of `r fmt_stat(out_summer$slope_creel, scale=100)`% for creel and `r fmt_stat(out_summer$slope_irec, scale=100)`% for integrated creel and iREC. While there is some variation among finescale fisheries (e.g., NWCVI and NGS have steeper slopes, higher sample rates due to high lodge participation), the addition of iREC doesn't change the slope substantially and improves the $R^{2}$ values slightly.
 
-The off-season relationship between both marked creel catch to recovered heads and marked iREC catch to recovered heads are shown in Figure \@ref(fig:fig-heads-to-creel-and-updated-catch-seasonal). In the off-season (spring and fall), the fit is substantially improved: from $R^{2}=$ `r fmt_stat(out_seasonal$r2_creel)` using creel to $R^{2}=$ `r fmt_stat(out_seasonal$r2_irec)` using iREC. This is likely because as iREC covers more months and areas, it allows more head recoveries to be used with the appropriate regional and seasonal catch (n = `r fmt_stat(out_seasonal$n_irec)` vs. n = `r fmt_stat(out_seasonal$n_creel)`). Previously, these heads were not assigned to a seasonal catch and were given an estimated rather than direct submission rate. In addition, using creel would indicate a sample rate of `r fmt_stat(out_seasonal$slope_creel, scale=100)`%, which, given that the fit is so poor and previous catch was underestimated, is likely biased high. iREC has a more realistic sample rate of `r fmt_stat(out_seasonal$slope_irec, scale=100)`% on average. However, this low rate is likely due to low lodge use in the off-season and indicated that a new strategy may needed to increase the head submission rates during these times of year. Sample rates by region and season over time can be found in Figure \@ref(fig:fig-fishery-rates-2) and are discussed below. 
+The off-season relationship between both marked creel catch to recovered heads and marked iREC catch to recovered heads are shown in Figure \@ref(fig:fig-heads-to-creel-and-updated-catch-seasonal). In the off-season (spring and fall), the fit is substantially improved: from $R^{2}=$ `r fmt_stat(out_seasonal$r2_creel)` using creel to $R^{2}=$ `r fmt_stat(out_seasonal$r2_irec)` using iREC. This is likely because as iREC covers more months and areas, it allows more head recoveries to be used with the appropriate regional and seasonal catch (n = `r fmt_stat(out_seasonal$n_irec)` vs. n = `r fmt_stat(out_seasonal$n_creel)`). Previously, these heads were not assigned to a seasonal catch and were given an estimated rather than direct submission rate. In addition, using creel would indicate a sample rate of `r fmt_stat(out_seasonal$slope_creel, scale=100)`%, which, given that the fit is so poor and previous catch was underestimated, is likely biased high. iREC has a more realistic sample rate of `r fmt_stat(out_seasonal$slope_irec, scale=100)`% on average. However, this low rate is likely due to low lodge use in the off-season and indicated that a new strategy may be needed to increase the head submission rates during these times of year. Sample rates by region and season over time can be found in Figure \@ref(fig:fig-fishery-rates-2) and are discussed below. 
 
-For the South Coast, both the summer and seasonal sport head recovery analysis supports the concern that creel catch alone provides an under estimate of catch that could impact assessment of CWT indicators. These plots validate the use of iREC as the best catch estimate in the off-season and support the combination of creel with iREC during the summertime.
+For the South Coast, both the summer and seasonal sport head recovery analysis supports the concern that creel catch alone provides an under estimate of catch that could impact assessment of CWT indicators. These plots validate the use of iREC as the best catch estimate in the off-season and support the integration of creel with iREC during the summertime.
 
 ```{r heads-to-creel-summer, echo=FALSE, fig.height=4, fig.width=10, out.width="100%", fig.asp=NA}
 #| label: fig-heads-to-creel-and-updated-catch-summer
-#| fig.cap: "Relationship between the summer marked kept catch estimates from the creel program (left panel) and combined creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP for South Coast between 2013 and 2023."
+#| fig.cap: "Relationship between the summer marked kept catch estimates from the creel program (left panel) and integrated creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP for South Coast between 2013 and 2023."
 
 out_summer$plot[[1]] <- 
   out_summer$plot[[1]] + 
@@ -979,7 +987,7 @@ Between 2015 and 2023, submission rates in Haida Gwaii (Northern AABM Sport) wer
 
 ```{r heads-to-creel-northern-aabm, echo=FALSE, fig.height=4, fig.width=8, out.width="100%", fig.asp=NA}
 #| label: fig-heads-to-creel-and-updated-catch-northern-aabm
-#| fig-cap: "Relationship between the Northern BC AABM marked kept catch estimates from the creel program (left panel) and the combined creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP between 2015 and 2023."
+#| fig-cap: "Relationship between the Northern BC AABM marked kept catch estimates from the creel program (left panel) and the integrated creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP between 2015 and 2023."
 
 out_north_aabm$plot[[1]] <- 
   out_north_aabm$plot[[1]] + 
@@ -1006,7 +1014,7 @@ In Central BC, the logbook program was underestimating catch from 2013-2023, wit
 
 ```{r heads-to-creel-northern-isbm, echo=FALSE, fig.height=4, fig.width=8, out.width="100%", fig.asp=NA}
 #| label: fig-heads-to-creel-and-updated-catch-northern-isbm
-#| fig-cap: "Relationship between the Northern BC ISBM marked kept catch estimates from the creel program (left panel) and the combined creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP between 2015 and 2023."
+#| fig-cap: "Relationship between the Northern BC ISBM marked kept catch estimates from the creel program (left panel) and the integrated creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP between 2015 and 2023."
 
 out_nbc_isbm$plot[[1]] <- 
   out_nbc_isbm$plot[[1]] + 
@@ -1076,17 +1084,17 @@ out_cbc05 <- run_catch_heads_group(cbc_region,
                               x_var_original = "historic_plus",
                               x_var_mr       = "mr_historic_plus", start_y = 2005, end_y=2014)
 ```
-We first compare the relationship between South Coast marked creel catch and recovered heads to that of modelled combined marked creel and iREC catch and recovered heads using data from 2005 to 2012 (Figure \@ref(fig:fig-heads-to-creel-and-updated-catch-summer-2005)). The modelled estimate (right panel) explains `r fmt_stat(out_summer05$r2_irec, scale=100)`% of variation in head recoveries, a good fit and similar to the original creel estimate performance (`r fmt_stat(out_summer05$r2_creel, scale=100)`% left panel). These regressions also have similar slopes, indicating an average sample rate across South Coast regions of `r fmt_stat(out_summer05$slope_creel, scale=100)`% for creel and `r fmt_stat(out_summer05$slope_irec, scale=100)`% for modelled combined creel and iREC. In both cases, the sample rates were higher in the 2005-2012 period than the 2013-2023 period.
+We first compare the relationship between South Coast marked creel catch and recovered heads to that of modelled integrated marked creel and iREC catch and recovered heads using data from 2005 to 2012 (Figure \@ref(fig:fig-heads-to-creel-and-updated-catch-summer-2005)). The modelled estimate (right panel) explains `r fmt_stat(out_summer05$r2_irec, scale=100)`% of variation in head recoveries, a good fit and similar to the original creel estimate performance (`r fmt_stat(out_summer05$r2_creel, scale=100)`% left panel). These regressions also have similar slopes, indicating an average sample rate across South Coast regions of `r fmt_stat(out_summer05$slope_creel, scale=100)`% for creel and `r fmt_stat(out_summer05$slope_irec, scale=100)`% for modelled integrated creel and iREC. In both cases, the sample rates were higher in the 2005-2012 period than the 2013-2023 period.
 
-Next, Figure \@ref(fig:fig-heads-to-creel-and-updated-catch-seasonal-2005) shows the off-season relationship between marked creel catch to recovered heads and modelled iREC only marked catch to recovered heads. In the off-season, the fit is improved: from $R^{2}=$ `r fmt_stat(out_seasonal05$r2_creel)` using creel to $R^{2}=$ `r fmt_stat(out_seasonal05$r2_irec)` using modelled iREC. This is likely because iREC covers more months and areas, it allows more head recoveries to be used in more times are areas (n=`r fmt_stat(out_seasonal05$n_irec)`, vs. n=`r fmt_stat(out_seasonal05$n_creel)`). This validates our use of modelled iREC catch in the off-season. In addition, using creel would indicate a sample rate of `r fmt_stat(out_seasonal05$slope_creel, scale=100)`%, which is much more likely than the 2013-2023 estimate of 2019 but still perhaps a bit high, while the modelled iREC catch indicates a sample rate of `r fmt_stat(out_seasonal05$slope_irec, scale=100)`% ($R^{2}=$ `r fmt_stat(out_seasonal$r2_irec)`), similar to the 2013-2023 period.
+Next, Figure \@ref(fig:fig-heads-to-creel-and-updated-catch-seasonal-2005) shows the off-season relationship between marked creel catch to recovered heads and modelled iREC only marked catch to recovered heads. In the off-season, the fit is improved: from $R^{2}=$ `r fmt_stat(out_seasonal05$r2_creel)` using creel to $R^{2}=$ `r fmt_stat(out_seasonal05$r2_irec)` using modelled iREC. This is likely because iREC covers more months and areas, it allows more head recoveries to be used across times are areas (n=`r fmt_stat(out_seasonal05$n_irec)`, vs. n=`r fmt_stat(out_seasonal05$n_creel)`). This validates our use of modelled iREC catch in the off-season. In addition, using creel would indicate a sample rate of `r fmt_stat(out_seasonal05$slope_creel, scale=100)`%, which is much more likely than the 2013-2023 estimate of `r fmt_stat(out_seasonal$slope_creel, scale=100)`% but still perhaps a bit high, while the modelled iREC catch indicates a sample rate of `r fmt_stat(out_seasonal05$slope_irec, scale=100)`% ($R^{2}=$ `r fmt_stat(out_seasonal$r2_irec)`), similar to the 2013-2023 period.
 
-Figure \@ref(fig:fig-heads-to-creel-and-updated-catch-nbc-aabm-2005) shows the relationships between head recoveries and marked kept catch from creel and modelled iREC estimates for the three Northern regions. Again, Haida Gwaii creel from 2005-2014 had a high sample rate (`r fmt_stat(out_north_aabm05$slope_creel, scale=100)`%) and very good fit ($R^{2}=$ `r fmt_stat(out_north_aabm05$r2_creel)`) and the modelled data only slightly differed from this (sample rate = `r fmt_stat(out_north_aabm05$slope_irec, scale=100)`%, $R^{2}=$ `r fmt_stat(out_north_aabm05$r2_irec)`). In contrast, NBC ISBM creel catch estimates in 2005-2014 have a poor fit to the head recoveries ($R^{2}=$ `r fmt_stat(out_nbc_isbm05$r2_creel)`%) which is slightly improved by using modelled iREC data ($R^{2}=$ `r fmt_stat(out_nbc_isbm05$r2_irec)`). The sample rates are also lower but similar to the 2013-2023 period, described in the preceding section, at `r fmt_stat(out_nbc_isbm05$slope_creel, scale=100)`% and `r fmt_stat(out_nbc_isbm05$slope_irec, scale=100)`% based on creel and modelled iREC catch estimates, respectively. NBC ISBM added May and September monitoring in 2019, so these data are all based on limited creel sampling from June to August. Central BC ISBM again has a highly biased sample rate bad on creel catch estimates (`r fmt_stat(out_cbc05$slope_creel, scale=100)`%),compared to a much more realistic rate of `r fmt_stat(out_cbc05$slope_irec, scale=100)`% based on modelled iREC. The relationship between head recoveries and modelled iREC catch ($R^{2}=$ `r fmt_stat(out_cbc05$r2_irec)`) is also slightly better than that with creel ($R^{2}=$ `r fmt_stat(out_cbc05$r2_creel)`).
+Figure \@ref(fig:fig-heads-to-creel-and-updated-catch-nbc-aabm-2005) shows the relationships between head recoveries and marked kept catch from creel and modelled iREC estimates for the three Northern regions. Again, Haida Gwaii creel from 2005-2014 had a high sample rate (`r fmt_stat(out_north_aabm05$slope_creel, scale=100)`%) and very good fit ($R^{2}=$ `r fmt_stat(out_north_aabm05$r2_creel)`) and the modelled data only slightly differed from this (sample rate = `r fmt_stat(out_north_aabm05$slope_irec, scale=100)`%, $R^{2}=$ `r fmt_stat(out_north_aabm05$r2_irec)`). In contrast, NBC ISBM creel catch estimates in 2005-2014 have a poor fit to the head recoveries ($R^{2}=$ `r fmt_stat(out_nbc_isbm05$r2_creel)`) which is slightly improved by using modelled iREC data ($R^{2}=$ `r fmt_stat(out_nbc_isbm05$r2_irec)`). The sample rates are also lower but similar to the 2013-2023 period, described in the preceding section, at `r fmt_stat(out_nbc_isbm05$slope_creel, scale=100)`% and `r fmt_stat(out_nbc_isbm05$slope_irec, scale=100)`% based on creel and modelled iREC catch estimates, respectively. NBC ISBM added May and September monitoring in 2019, so these data are all based on limited creel sampling from June to August. Central BC ISBM again has a highly biased sample rate based on creel catch estimates (`r fmt_stat(out_cbc05$slope_creel, scale=100)`%), compared to a much more realistic rate of `r fmt_stat(out_cbc05$slope_irec, scale=100)`% based on modelled iREC. The relationship between head recoveries and modelled iREC catch ($R^{2}=$ `r fmt_stat(out_cbc05$r2_irec)`) is also slightly better than that with creel ($R^{2}=$ `r fmt_stat(out_cbc05$r2_creel)`).
 
 Overall, these results validate the use of iREC catch estimates (modelled or otherwise) by demonstrating that iREC-based marked kept catch estimates are equal to or better than those from creel alone at predicting Chinook head recoveries throughout all regions over the time periods examined.
 
 ```{r heads-to-creel-summer-2005-2012, echo=FALSE, fig.height=4, fig.width=10, out.width="100%", fig.asp=NA}
 #| label: fig-heads-to-creel-and-updated-catch-summer-2005
-#| fig-cap: "Relationship between the summer marked kept catch estimates from the creel program (left panel) and the modelled combined creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP in South Coast between 2005 and 2012."
+#| fig-cap: "Relationship between the summer marked kept catch estimates from the creel program (left panel) and the modelled integrated creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP in South Coast between 2005 and 2012."
 
 out_summer05$plot[[1]] <- 
   out_summer05$plot[[1]] + 
@@ -1094,7 +1102,7 @@ out_summer05$plot[[1]] <-
 
 out_summer05$plot[[2]] <- 
   out_summer05$plot[[2]] + 
-  labs(title = "Revised Catch (modelled combined creel and iREC)", 
+  labs(title = "Revised Catch (modelled integrated creel and iREC)", 
        shape = "Finescale Fishery")
 
 out_summer05$plot+ plot_annotation(
@@ -1107,7 +1115,7 @@ out_summer05$plot+ plot_annotation(
 
 ```{r heads-to-creel-summer-2005-2012, echo=FALSE, fig.height=4, fig.width=10, out.width="100%", fig.asp=NA}
 #| label: fig-heads-to-creel-and-updated-catch-seasonal-2005
-#| fig-cap: "Relationship between the seasonal marked kept catch estimates from the the creel program (left panel) and the modelled iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP between 2005 and 2012."
+#| fig-cap: "Relationship between the seasonal marked kept catch estimates from the creel program (left panel) and the modelled iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP between 2005 and 2012."
 
 out_seasonal05$plot[[1]] <- 
   out_seasonal05$plot[[1]] + 
@@ -1289,18 +1297,18 @@ south_combine_to_heads_df <-
 combine_creel_to_heads_lm <- lm(head_total ~ catch_estimate_predicted + 0, south_combine_to_heads_df)
 ```
 
-The SHRP has generally run consistently over the transition between the 2005 - 2012 period (or 2014 for Northern and Central regions) where iREC catch estimates are modelled, and the subsequent period during which observed iREC data has been combined with or replaced creel estimates (2013 [or 2015] - 2023). Consequently, the linear relationship between marked kept catch and head recoveries from both periods should be continuous. In this section we explore submission rates over the whole time series (from 2005 to 2023) to test this assumption. 
+The SHRP has generally run consistently over the transition between the 2005 - 2012 period (or 2014 for Northern and Central regions) where iREC catch estimates are modelled, and the subsequent period during which observed iREC data is integrated with creel estimates (2013 [or 2015] - 2023). Consequently, the linear relationship between marked kept catch and head recoveries from both periods should be continuous. In this section we explore submission rates over the whole time series (from 2005 to 2023) to test this assumption. 
 
-In Figure \@ref(fig:fig-fishery-rates-2) we visualize updated submission rates to the SHRP across time in each region. A submission rate of 20% of the catch is the desired minimum sampling rate, and some regions are meeting this target while others are not. Submission rates fluctuate year to year and between seasons. Above, for the South Coast and Northern BC AABM (Haida Gwaii) we noted a decline in submission rates from the 2005-2012 period to the 2013-2023 period, reflected both in creel and combined creel and iREC data, but the opposite trend in Northern BC ISBM and Central BC. Overall, while there are some trends over time in submission rates, there is no clear and consistent step change occurring in 2013 (or 2015 for Northern regions) that would indicate that pre- and post-iREC are separate catch regimes. Furthermore, when combining all regions and comparing the model fit before iREC (Figure \@ref(fig:fig-heads-kept-iREC) left panel) and with iREC (Figure \@ref(fig:fig-heads-kept-iREC) right panel), CWT sample rates are fairly consistent with a before iREC average sample rate (i.e., slope) of `r format(unname(coef(pre_iREC_lm)[1])*100, digits = 3)`% and an iREC period sample rate of `r format(unname(coef(post_iREC_lm)[1])*100, digits = 3)`% with similar $R^{2}$ values. This suggests that there is no consistent bias in the modelled versus observed combined creel and iREC estimates. 
+In Figure \@ref(fig:fig-fishery-rates-2) we visualize updated submission rates to the SHRP across time in each region. A submission rate of 20% of the catch is the desired minimum sampling rate, and some regions are meeting this target while others are not. Submission rates fluctuate year to year and between seasons. Above, for the South Coast and Northern BC AABM (Haida Gwaii) we noted a decline in submission rates from the 2005-2012 period to the 2013-2023 period, reflected both in creel and integrated creel and iREC data, but the opposite trend in Northern BC ISBM and Central BC. Overall, while there are some trends over time in submission rates, there is no clear and consistent step change occurring in 2013 (or 2015 for Northern regions) that would indicate that pre- and post-iREC are separate catch regimes. Furthermore, when combining all regions and comparing the model fit before iREC (Figure \@ref(fig:fig-heads-kept-iREC) left panel) and with iREC (Figure \@ref(fig:fig-heads-kept-iREC) right panel), CWT sample rates are fairly consistent with a before iREC average sample rate (i.e., slope) of `r format(unname(coef(pre_iREC_lm)[1])*100, digits = 3)`% and an iREC period sample rate of `r format(unname(coef(post_iREC_lm)[1])*100, digits = 3)`% with similar $R^{2}$ values. This suggests that there is no consistent bias in the modelled versus observed combined creel and iREC estimates. 
 
 The summer submission rates in Northern WCVI, Johnstone Strait, and the annual Haida Gwaii rates have typically been over 20% for most of the time series. This is likely due to high lodge participation in the sport head recovery program in these regions. Haida Gwaii Sport in particular has consistently high submission rates, which likely contributes to the accuracy of the CWT estimates. Annual submission rates for Central BC Sport and summer submission rates for Northern Strait of Georgia initially were quite low ($\le 10$%) early in the time series, but in the last ten years have had more than half of the submission rates above or very close to the target. This could be due to increasing lodge, guide, and avid angler participation in the SHRP over time. NBC ISBM initially had a similar pattern but has been under 15% for the last five years. The summer submission rates for Southern WCVI Sport, Southern Strait of Georgia Sport, and Juan de Fuca Sport are all consistently under the 20% target, and have mostly been under 15% in the last ten years.
 
-As noted above, in general, summer submission rates are typically higher than off-season (i.e., spring and fall) submission rates, where regular off-season fishing occurs. Overall, the off-season submission rates could use improvement and are typically under 20%. The off-season submission rates in Juan de Fuca Strait and Southern Strait of Georgia tend to be under 10%, and improving these rates is of particular importance since off-season catch in each of those areas was over 7,000 in 2023. Northern Strait of Georgia also had off-season catch of over 5,000 in 2023, and could use improvement in off-season submission rates. In contrast, the sum total off-season catch in Northern WCVI, Southern WCVI, and Johnstone Strait Sport in 2023 was under 900, and rate, where calculated, are in line with or higher than summer rates. Overall, all regions outside of Haida Gwaii would benefit from increased participation in the SHRP to reduce the uncertainty of indicator stock assessments.
+As noted above, in general, summer submission rates are typically higher than off-season (i.e., spring and fall) submission rates, where regular off-season fishing occurs. Overall, the off-season submission rates could use improvement and are typically under 20%. The off-season submission rates in Juan de Fuca Strait and Southern Strait of Georgia tend to be under 10%, and improving these rates is of particular importance since off-season catch in each of those areas was over 7,000 in 2023. Northern Strait of Georgia also had off-season catch of over 5,000 in 2023, and could use improvement in off-season submission rates. In contrast, the sum total off-season catch in Northern WCVI, Southern WCVI, and Johnstone Strait Sport in 2023 was under 900, and rates, where calculated, are in line with or higher than summer rates. Overall, all regions outside of Haida Gwaii would benefit from increased participation in the SHRP to reduce the uncertainty of indicator stock assessments.
 
 \begin{landscapepage}
 ```{r results Fishery Rates, echo=FALSE, fig.height=8, fig.width=12, fig.align="left", out.width="90%", fig.asp=NA}
 #| label: fig-fishery-rates-2
-#| fig-cap: "Chinook sport head submission rates by CWT region and associated time periods (spring, fall, summer, or annual).  Direct estimates (solid circles) are estimates based on data from the region and season, regional averages (hollow circles) are based on the average of all data within the year used for the specific season, and regional smoothing (hollow triagle) is based on the seasonal average from two years before and after the specific year."
+#| fig-cap: "Chinook sport head submission rates by CWT region and associated time periods (spring, fall, summer, or annual).  Direct estimates (solid circles) are estimates based on data from the region and season, regional averages (hollow circles) are based on the average of all data within the year used for the specific season, and temporal smoothing smoothing (hollow triangle) is based on the seasonal average from two years before and after the specific year."
 
 region_labels <- c(
   "JDF" = "Juan de Fuca Sport",
@@ -1358,13 +1366,13 @@ readr::read_csv("./data/cwt_sample_rates.csv", col_types = "ciicid") |>
   mutate(obs_catch_year = if_else(grepl("NBC|Central BC", region_labels),
                                   2015,
                                   2013),
-         est_method_name = if_else(est_method_name == "Temporal Average",
-                                   "Direct Estimate",
-                                   est_method_name),
+         est_method_name = case_when(est_method_name == "Temporal Average" ~ "Direct Estimate",
+                                     est_method_name == "Regional Smoothing" ~ "Temporal Smoothing",
+                                   .default = est_method_name),
          est_method_name = factor(est_method_name, 
                                 levels = c("Direct Estimate", 
                                            "Regional Average",
-                                           "Regional Smoothing")),
+                                           "Temporal Smoothing")),
          region_labels = factor(region_labels, 
                                 levels = c("Northwest Vancouver Island Sport",
                                            "Southwest Vancouver Island Sport",
@@ -1396,7 +1404,7 @@ readr::read_csv("./data/cwt_sample_rates.csv", col_types = "ciicid") |>
   scale_color_manual(values =  c("#440154", "#d4be02", "#35b779", "#31688e")) +
   scale_shape_manual(values = c("Direct Estimate" = 16,   # solid circle
                                 "Regional Average" = 1,    # hollow circle
-                                "Regional Smoothing" = 2)) + # hollow triangle
+                                "Temporal Smoothing" = 2)) + # hollow triangle
   labs(x = "Year", 
        y = "Chinook Head Submission Rate", 
        color = "Season",
@@ -1414,7 +1422,7 @@ readr::read_csv("./data/cwt_sample_rates.csv", col_types = "ciicid") |>
 
 ```{r results Pre iREC Head to Kept Mark Catch, echo=FALSE, fig.height=4, fig.width=10, out.width="100%", fig.asp=NA}
 #| label: fig-heads-kept-iREC
-#| fig-cap: "Chinook heads to marked kept catch based on combined creel and iREC. Each point is a yearly CWT Region based on the seasonal or annual time period in the Southern or Northern portions of BC (i.e., NBC and CBC), respectively. The left panel shows the relationship from 2005 to 2012 and the right panel shows the relationship from 2013 to 2023"
+#| fig-cap: "Chinook heads to marked kept catch based on integrated creel and iREC. Each point is a yearly CWT Region based on the seasonal or annual time period in the Southern or Northern portions of BC (i.e., NBC and CBC), respectively. The left panel shows the relationship from 2005 to 2012 and the right panel shows the relationship from 2013 to 2023"
 
 pre_iREC <-
   ggplot(data = pre_iREC_catch_model_df,
@@ -1444,7 +1452,7 @@ post_iREC <- ggplot(data = post_iREC_catch_model_df,
             parse = TRUE, 
             hjust=0, 
             vjust=0) +
-  labs(title = "All Regions - Combined iREC and Creel",
+  labs(title = "All Regions - Integrated iREC and Creel",
        x = "Chinook Marked Kept Catch",
        y = "Chinook Head Recoveries") +
   theme_bw()
@@ -1586,7 +1594,7 @@ Here we present the difference between the revised kept and released catch estim
 
 In line with the trends we observed as at the finescale fishery level, we found that the revised kept catch estimates were typically higher than estimates reported prior to the revision. The largest percent changes in kept catch occurred in Central BC Sport where iREC had not been previously incorporated, but the inclusion of iREC more than doubles recent estimates (e.g. in 2020 the revised catch is `r fmt_stat(models_combined2_diffs$pdiff_irec_rep[models_combined2_diffs$erafishery == "CBC S" & models_combined2_diffs$year ==2020 & models_combined2_diffs$kept_status =="kept"], scale=100)`% larger than the previous estimate, an addition of `r fmt_stat(models_combined2_diffs$diff_irec_rep[models_combined2_diffs$erafishery == "CBC S" & models_combined2_diffs$year ==2020 & models_combined2_diffs$kept_status =="kept"])` pieces). On average, across the time series, the revised catch was `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "CBC S" & models_combined2_avs$kept_status =="kept"], scale=100)`% higher (an average difference of `r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "CBC S" & models_combined2_avs$kept_status =="kept"])` pieces) than previously reported. This is consistent with the SHRP data which indicate that previous CBC catch estimates based on logbooks were underestimated. 
 
-Strait of Georgia sport catch estimates prior to 2013 (i.e., pre-iREC) also changed substantially with revised catch: on average `r fmt_stat(models_combined2_avs_pre2013$pdiff_irec_rep_mean[models_combined2_avs_pre2013$erafishery == "GEO ST S"  & models_combined2_avs_pre2013$kept_status =="kept"], scale=100)`% larger (`r fmt_stat(models_combined2_diffs$diff_irec_rep[models_combined2_diffs$erafishery == "GEO ST S" & models_combined2_diffs$year ==2012 & models_combined2_diffs$kept_status =="kept"])` to `r fmt_stat(models_combined2_diffs$diff_irec_rep[models_combined2_diffs$erafishery == "GEO ST S" & models_combined2_diffs$year ==2005 & models_combined2_diffs$kept_status =="kept"])` more pieces) than pre-revision catch. However, post-2013 the average kept catch percent change was extremely small at `r fmt_stat(models_combined2_avs_post2013$pdiff_irec_rep_mean[models_combined2_avs_post2013$erafishery == "GEO ST S"  & models_combined2_avs_post2013$kept_status =="kept"], scale=100)`%, likely because iREC had already been incorporated into these values starting in reporting year 2018. The large differences between creel estimates and combined creel and iREC estimates in this fishery are expected in part due to this fishery having some of the highest off-season fishing among Canadian fisheries, which has been poorly captured due to this region's creel surveys facing some of the greatest challenges in implementation. 
+Strait of Georgia sport catch estimates prior to 2013 (i.e., pre-iREC) also changed substantially with revised catch: on average `r fmt_stat(models_combined2_avs_pre2013$pdiff_irec_rep_mean[models_combined2_avs_pre2013$erafishery == "GEO ST S"  & models_combined2_avs_pre2013$kept_status =="kept"], scale=100)`% larger (`r fmt_stat(models_combined2_diffs$diff_irec_rep[models_combined2_diffs$erafishery == "GEO ST S" & models_combined2_diffs$year ==2012 & models_combined2_diffs$kept_status =="kept"])` to `r fmt_stat(models_combined2_diffs$diff_irec_rep[models_combined2_diffs$erafishery == "GEO ST S" & models_combined2_diffs$year ==2005 & models_combined2_diffs$kept_status =="kept"])` more pieces) than pre-revision catch. However, post-2013 the average kept catch percent change was extremely small at `r fmt_stat(models_combined2_avs_post2013$pdiff_irec_rep_mean[models_combined2_avs_post2013$erafishery == "GEO ST S"  & models_combined2_avs_post2013$kept_status =="kept"], scale=100)`%, likely because iREC had already been incorporated into these values starting in reporting year 2018. The large differences between creel estimates and integrated creel and iREC estimates in this fishery are expected in part due to this fishery having some of the highest off-season fishing among Canadian fisheries, which has been poorly captured due to this region's creel surveys facing some of the greatest challenges in implementation. 
 
 Next, Northern BC ISBM Sport had `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "NBC ISBM S" & models_combined2_avs$kept_status =="kept"], scale=100)`% higher estimates than previously reported on average, an average of `r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "NBC ISBM S" & models_combined2_avs$kept_status =="kept"])` additional pieces per year. The modelled catch from 2005-2007 in Northern ISBM was `r fmt_stat(models_combined2_diffs$pdiff_irec_rep[models_combined2_diffs$erafishery == "NBC ISBM S" & models_combined2_diffs$year ==2005 & models_combined2_diffs$kept_status =="kept"], scale=100)`% higher than previously reported, however, the creel and logbook data has since been updated to ~10,000 pieces (a static average of 2008-2012), making the percent change to the newly modelled catch at ~11,000 pieces much less dramatic (`r fmt_stat(models_combined2_diffs$pdiff_irec_creel[models_combined2_diffs$erafishery == "NBC ISBM S" & models_combined2_diffs$year ==2005 & models_combined2_diffs$kept_status =="kept"], scale=100)`%). The remainder of the upward revisions were less than 10% change on average across the time series (although individual years varied by up to 30%).
 
@@ -1594,7 +1602,7 @@ We noted some downward changes in kept catch, mostly attributed to prior reporti
 
 ```{r results CandEkept, results='asis', echo=FALSE, fig.height=5, fig.width=10, out.width="100%", fig.asp=NA}
 #| label: fig-cande-kept
-#| fig-cap: "Revised (green solid circles, solid lines) and previously reported (purple triangles, dashed lines) kept catch estimates for ERA fisheries from 2005-2023. The vertical line on each graph identifies the first year that revised estimates are based on only on observed data (e.g., iREC and creel).  Years before the vertical line are modelled estimates that utilize past catch estimates."
+#| fig-cap: "Revised (green solid circles, solid lines) and previously reported (purple triangles, dashed lines) kept catch estimates for ERA fisheries from 2005-2023. The vertical line on each graph identifies the first year that revised estimates are based only on observed data (e.g., iREC and creel).  Years before the vertical line are modelled estimates that utilize past catch estimates."
 
 ## Kept only
 k<-ggplot() +
@@ -1665,7 +1673,7 @@ ggplot() +
   coord_cartesian(ylim = c(0, NA))
 
 ```
-Revised released catch estimates are generally higher than the values reported in 2024, particularly in the pre-iREC period where very few releases were estimated (Figure \@ref(fig:fig-cande-released)). While in recent years many of the South Coast fisheries had previously incorporated some form of iREC estimate into the kept catch estimates, the reported released estimates in contrast were not updated until after the 2024 C&E report. While our models assume that the relationship between creel and combined creel and iREC estimates does not change between the pre-iREC and the during-iREC periods, this revision necessarily added large amounts of releases for regions where this information was not recorded by lodges and creel surveys. This was most pronounced for Central BC Sport where almost no releases were reported by lodges and iREC, which does report released catch, added `r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "CBC S" & models_combined2_avs$kept_status =="released"])` pieces per year on average. The static predicted annual values of ~15,000 releases for 2005-2014 are essentially an average of annual releases recorded by iREC in the 2015-2023 period after it was implemented, reflecting the near complete lack of lodge data for the model to predict from.
+Revised released catch estimates are generally higher than the values reported in 2024, particularly in the pre-iREC period where very few releases were estimated (Figure \@ref(fig:fig-cande-released)). While in recent years many of the South Coast fisheries had previously incorporated some form of iREC estimate into the kept catch estimates, the reported released estimates in contrast were not updated until after the 2024 C&E report. While our models assume that the relationship between creel and integrated creel and iREC estimates does not change between the pre-iREC and the during-iREC periods, this revision necessarily added large amounts of releases for regions where this information was not recorded by lodges and creel surveys. This was most pronounced for Central BC Sport where almost no releases were reported by lodges and iREC, which does report released catch, added `r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "CBC S" & models_combined2_avs$kept_status =="released"])` pieces per year on average. The static predicted annual values of ~15,000 releases for 2005-2014 are essentially an average of annual releases recorded by iREC in the 2015-2023 period after it was implemented, reflecting the near complete lack of lodge data for the model to predict from.
 
 In other fisheries, where creel and/or logbooks did produce some estimated releases, the revised releases fluctuate, generally reflecting changing fisher behaviour and regulations over time (e.g. recent introduction of Chinook non-retention and mark selective fisheries in the Strait of Georgia and Strait of Juan de Fuca Sport have increased the number of released fish since 2019). For these fisheries, the revised releases were higher than previous estimates by an average of `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "GEO ST S" & models_combined2_avs$kept_status =="released"], scale=100)`% (`r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "GEO ST S" & models_combined2_avs$kept_status =="released"])` pieces) in the Strait of Georgia, `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "BC JF S" & models_combined2_avs$kept_status =="released"], scale=100)`% (`r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "BC JF S" & models_combined2_avs$kept_status =="released"])` pieces) in Juan de Fuca, `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "JNST S" & models_combined2_avs$kept_status =="released"], scale=100)`% (`r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "JNST S" & models_combined2_avs$kept_status =="released"])` pieces) in Johnstone Strait, `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "WCVI AABM S" & models_combined2_avs$kept_status =="released"], scale=100)`% (`r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "WCVI AABM S" & models_combined2_avs$kept_status =="released"])` pieces) in WCVI AABM and `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "WCVI ISBM S" & models_combined2_avs$kept_status =="released"], scale=100)`% (`r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "WCVI ISBM S" & models_combined2_avs$kept_status =="released"])` pieces) in WCVI ISBM. Northern BC ISBM Sport also had large percent changes, particularly in 2005-2012 period where no releases were previously reported (on average `r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "NBC ISBM S" & models_combined2_avs$kept_status =="released"])` pieces and `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "NBC ISBM S" & models_combined2_avs$kept_status =="released"], scale=100)`% change across the whole time series. Haida Gwaii Sport also had the largest average numeric increases of `r fmt_stat(models_combined2_avs$diff_irec_rep_mean[models_combined2_avs$erafishery == "NBC AABM S" & models_combined2_avs$kept_status =="released"])` pieces, equating to a `r fmt_stat(models_combined2_avs$pdiff_irec_rep_mean[models_combined2_avs$erafishery == "NBC AABM S" & models_combined2_avs$kept_status =="released"], scale=100)`% change. 
 
@@ -1849,7 +1857,7 @@ rr_sum<- sport_mark_rate_mrr |> group_by(erafishery)|>
 Annual marked and unmarked release rates based on revised catch estimates and summed across stocks are presented for 2005 to 2023 along with undifferentiated release rates applied in the CTC's 2024 ERA in Figure \@ref(fig:fig-mrrukr2). Unmarked release rate is presented as  $1 - UKR$ to facilitate direct comparison with $MRR$, though untransformed $UKR$ is used in the ERA. With the exception of Juan de Fuca Strait, which did have some mark-selective fisheries before 2012, all other sport fisheries were regulated as non-selective before 2013. Since the underlying catch is modelled before 2013 we have fixed the $MRR$ and $URR$ based on modelled catch to be equal (i.e., no mark selectivity), by calculating a single release rate for marked and unmarked fish combined. This removes any potential bias from the modelling process that might have affected marked and unmarked catch estimates differently (e.g., larger uncertainty in modelled marked derived estimates because of lower magnitude of catch). After 2013, the data is observed and therefore allowed to vary selectively even if no specific mark selective fishery was specified in regulations. When $MRR$ and $URR$ are identical, this indicates non-selectivity. If $MRR$ is higher than $URR$, this indicates marked fish are released at a higher rate than unmarked fish, which would be indicative of preferential selection of unmarked fish for retention. If $URR$ is higher than $MRR$, then marked fish are released at a lower rate than unmarked fish, indicating preferential mark retention. 
 
 
-The ERA has been accounting for releases since before 2005 for some fisheries (e.g.West Coast Vancouver Island and Haida Gwaii Sport), while for others release information has only recently been incorporated (e.g. since 2019 in Strait of Georgia, Juan de Fuca Sport, and Johnstone Strait Sport). Where release rates were reported, revised release rates are generally higher than reported 2024 CNR release rates, although NBC ISBM S has a few years where the opposite is the case. While only recently incorporated into the ERA, releases have been occurring throughout the time series and release rates have fluctuated over time. The highest average release rates occur in Haida Gwaii (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "NBC AABM S"], scale=100)`%) and Central BC (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "CBC S"], scale=100)`%) which are relatively stable throughout the time series. WCVI ISBM has the lowest release rates on average (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "WCVI ISBM S"], scale=100)`%), followed by Johnstone Strait (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "JNST S"], scale=100)`%) and WCVI AABM (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "WCVI AABM S"], scale=100)`%), all relatively stable throughout time. There does not appear to be strong selectivity (MRR > URR) in any of these fisheries. Release rates have increased in the Strait of Georgia, Juan de Fuca Strait, and Northern BC ISBM have all increased release rates since 2019. In Southern BC, these changes correspond with introductions of mark selective fishing regulations, and indeed mark selectivity is occurring in these fisheries in recent years (MRR < URR). In Northern BC, release rates are increasing but it does not appear to be linked with changes in regulation. Furthermore, there is a higher release rate for unmarked fish than marked fish (MRR < URR) in this fishery, which suggests selectivity for unmarked fish. This could be a true preference for unmarked fish in this fishery or a product of uncertainty in mark rates. 
+The ERA has been accounting for releases since before 2005 for some fisheries (e.g. West Coast Vancouver Island and Haida Gwaii Sport), while for others release information has only recently been incorporated (e.g. since 2019 in Strait of Georgia, Juan de Fuca Sport, and Johnstone Strait Sport). Where release rates were reported, revised release rates are generally higher than reported 2024 CNR release rates, although NBC ISBM S has a few years where the opposite is the case. While only recently incorporated into the ERA, releases have been occurring throughout the time series and release rates have fluctuated over time. The highest average release rates occur in Haida Gwaii (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "NBC AABM S"], scale=100)`%) and Central BC (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "CBC S"], scale=100)`%) which are relatively stable throughout the time series. WCVI ISBM has the lowest release rates on average (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "WCVI ISBM S"], scale=100)`%), followed by Johnstone Strait (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "JNST S"], scale=100)`%) and WCVI AABM (`r fmt_stat(rr_sum$rr[rr_sum$erafishery == "WCVI AABM S"], scale=100)`%), all relatively stable throughout time. There does not appear to be strong selectivity (MRR > URR) in any of these fisheries. Release rates have increased in the Strait of Georgia, Juan de Fuca Strait, and Northern BC ISBM have all increased release rates since 2019. In Southern BC, these changes correspond with introductions of mark selective fishing regulations, and indeed mark selectivity is occurring in these fisheries in recent years (MRR < URR). In Northern BC, release rates are increasing but it does not appear to be linked with changes in regulation. Furthermore, there is a higher release rate for unmarked fish than marked fish (MRR < URR) in this fishery, which suggests selectivity for unmarked fish. This could be a true preference for unmarked fish in this fishery or a product of uncertainty in mark rates. 
 
 ```{r results mrrukr2, results='asis', echo=FALSE, fig.height=10, fig.width=10}
 #| label: fig-mrrukr2
