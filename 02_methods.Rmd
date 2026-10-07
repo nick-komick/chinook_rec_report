@@ -341,12 +341,13 @@ PFMA. Uncalibrated estimates are developed by expanding the average
 monthly catch per licence by the number of licences eligible to fish in
 that month. These calculations are stratified by licence type to protect
 against bias due to differential fishing and reporting rates by licence
-type. Bias correction factors (BCFs), described in Section \@ref(calib), are then
-estimated for each licence year and applied to the iREC estimates to produce bias-corrected catch estimates. The iREC program
+type. Correction factors (CFs), described in Section \@ref(calib), are then
+estimated for each licence year and applied to the iREC estimates to produce corrected catch estimates. The iREC program
 operation and analytical methodology was initially reviewed at a 2015
 Canadian Science Advisory Secretariat (CSAS) regional peer review. The
 main report stemming from that meeting is the associated Science
-Advisory Report [@irec_sar_2015]. Appendix \@ref(app:apdx-irec-mthd) provides details on changes in methodology since the 2015 review as well as summaries of realized sample sizes. 
+Advisory Report [@irec_sar_2015]. Appendix \@ref(app:apdx-irec-mthd) provides details on changes in methodology since the 2015 review,
+as well as summaries of realized sample sizes. 
 
 #### iREC to Creel Calibration {#calib}
 iREC catch estimates are bias corrected by scaling estimates using the
@@ -605,9 +606,22 @@ grouping (both finescale fishery and broader regional). Since models with differ
 
 ## Revised estimate validation with Salmon Head Recovery Program
 We validated the marked kept catch estimates from the observed catch (integrated
-creel and iREC; 2013-2023) and the modelled catch (2005-2012) by plotting them in relation to the number of marked Chinook heads by the Salmon Head Recovery Program (SHRP), which collects heads from recreational fisheries to recover CWTs. As the total number of heads collected by the SHRP is expected to be primarily driven by the total kept marked catch in recreational fisheries, the total kept marked catch and total heads collected by the SHRP should be correlated. The slope of the linear regression, forced through the origin, between the kept marked catch and the number of heads across CWT regions and seasons should provide the average submission rate of all recreational fisheries.  Forcing the regression through the origin should be consistent with the expectation the we would receive no heads from SHRP when catch is zero and allows direct evaluation of the slope as a submission rate. The strength of the correlation (i.e., $R^{2}$ value) along with the submission rate can be used as an indicator of the accuracy of the catch estimate. 
+creel and iREC; 2013-2023) and the modelled catch (2005-2012) by plotting them in 
+relation to the number of marked Chinook heads by the Salmon Head Recovery Program (SHRP), 
+which collects heads from recreational fisheries to recover CWTs. As the total number 
+of heads collected by the SHRP is expected to be primarily driven by the total kept 
+marked catch in recreational fisheries, the total kept marked catch and total heads collected 
+by the SHRP should be correlated. The slope of the linear regression, forced through the origin, 
+between the kept marked catch and the number of heads across CWT regions and seasons 
+should provide the average submission rate of all recreational fisheries.  Forcing the 
+regression through the origin should be consistent with the expectation the we would receive 
+no heads from SHRP when catch is zero and allows direct evaluation of the slope as a submission rate. 
+The coefficient of determination (i.e., Adjusted $R^{2}$, denoted as $\bar{R}^{2}$) along with the submission rate can be used 
+as an indicators of how well mark kept catch estimates fits observed SHRP recoveries.  The $\bar{R}^{2}$ was used for this part of the analysis because in some circumstances the comparison of sample rates can involve different sample sizes.
 
 In contrast to the creel program, the SHRP relies on several sampling approaches (e.g., lodge sampling, public collection points, avid anglers) and should not necessarily be driven by creel survey coverage nor iREC survey completion. Since there were no substantial changes to how the SHRP is delivered over both the modelled and observed catch time periods, the slopes should be similar, with any deviations potentially indicating a lack in congruence between the two catch time series. 
+
+It is important to note that the relationship between marked kept catch and heads can be affected by numerous regional differences, such as SHRP depot availability, degree of biological sampling by creel surveyors, and likelihood of anglers to submit heads to the program.  With these potential regional and temporal differences and the fact that only marked kept catch can be evaluated, the relationship between heads and marked kept catch provides a somewhat limited validation.  However, since there has been not substantial coast-wide change to the SHRP (e.g. most regions had similar numbers of depots available for all years in this analysis), the comparison should be appropriate to check the consistency of marked kept catch between years with and without iREC.  Given that marked kept catch is central to estimating fishery impacts on CWT indicator stocks, the comparison reflects the relative magnitude of catch estimates between historical modelled years and iREC-surveyed years on the CTC ERA.
 
 To align with the modelling stratification, we examine these relationships in both the summer season and the off-season in Southern fishery regions and annually in Northern and Central BC fishery regions. To better align with the CWT estimation methods, the catch and heads were spatially grouped by the region defined in Figure \@ref(fig:fig-CwtMap) and the seasonal period. To provide a clearer comparison, we removed a single outlying observation that consisted of over 6,000 head recoveries from the South West Coast Vancouver Island (SWCVI) summer period in 2010 where the majority of the heads originated from a single depot that contributed substantially more samples compared to other years.
 
@@ -736,6 +750,7 @@ whole_bc_map_gg <- ggplot() +
 whole_bc_map_gg
 
 ```
+
 #### Changes to Indirect CWT Estimation Methods
 Despite improvements in CWT recovery strata and the associated complete
 spatio-temporal coverage in recreational catch, in rare cases for
