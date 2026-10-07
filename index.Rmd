@@ -82,8 +82,6 @@ header-includes:
  - \usepackage{float}
  - \usepackage[table, xcdraw]{xcolor}
  - \usepackage{pdflscape}
- - \floatplacement{table}{H}
- - \usepackage{placeins} 
 
 execute:
   echo: false
@@ -122,8 +120,7 @@ opts_chunk$set(
   dev = fig_out_type,
   dpi = fig_dpi,
   fig.align = "centre",
-  fig.pos = fig_pos, 
-  tbl.pos = fig_pos
+  fig.pos = fig_pos
 )
 
 knitr::opts_chunk$set(dev = "ragg_png")
