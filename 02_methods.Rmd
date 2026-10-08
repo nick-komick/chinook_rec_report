@@ -64,10 +64,10 @@ In the past, kept and released catch with unknown adipose clip status
 were split based on mark rate and release rate of the known catch. For
 more information and methods about the SCCS, see the most recent program
 overview and bulletins [@scab2024; @Ma2026]. While the SCCS is the primary
-data source for the South Coast, logbook data from guides and avid
-angler programs are provided on a voluntary basis and are removed from
+data source for the South Coast, data from lodges, guides, and avid
+angler programs are provided on a voluntary basis and are subtracted from
 area and month-specific estimates from the creel survey to avoid
-double-counting.
+double-counting. Here, we refer to the combination of these external voluntary catch sources as "logbook data". 
 
 ##### South Coast Creel Survey quality control {#qc}
 ```{r methods functions, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
@@ -335,7 +335,7 @@ term length, residency, and age. For this program, recreational licence
 holders are required to report online, for one assigned month of their
 licence term, a detailed record of their fishing activity and catch.
 Reporting is mandatory, however completion rates are typically between 50 to 55% with the
-more recent reporting years. Using the completed reports, estimates of the total
+more recent reporting years. The completed reports are flagged for quality control for anomalous fishing patterns (e.g. number of fish per person per day is high, fishing in non-adjacent areas in a single day) and user comments are considered before excluding these data. Using the quality controlled and completed reports, estimates of the total
 kept and released catch, by mark status are developed for each month and
 PFMA. Uncalibrated estimates are developed by expanding the average
 monthly catch per licence by the number of licences eligible to fish in
@@ -589,7 +589,7 @@ time series (from 2005 to 2023). This consistent period of coverage is
 used to predict the estimated catch for all seasons in the years before iREC was available (before 2013 for South Coast). The annual models use annual creel catch estimates to predict pre-2015 modelled annual iREC catch estimates.  
 
 ### Model selection
-We explored several different model forms (e.g. linear and logarithmic) and distribution families to characterize the relationship between the creel estimate and integrated creel and iREC estimate or iREC estimate. All models included a grouping factor for kept status (i.e. kept and released) and mark status (i.e. marked or unmarked), with the exception of Central BC models, which only included marked category as there are zero estimated releases for this region. We developed two sets of models, one with catch data grouped by finescale fishery and another with data grouped by region, to allow for finescale fishery differences in model form and family. Other relevant parameters not applicable to all models included season (spring or fall) and management type (AABM or ISBM). We then applied a systematic model selection process to compete candidate models and select a best model for each group as follows:
+We explored several different model forms (i.e., combinations of terms and their interactions) and distribution families (both linear and non-linear) to characterize the relationship between the creel estimate and integrated creel and iREC estimate or iREC estimate. All models included a grouping factor for kept status (i.e. kept and released) and mark status (i.e. marked or unmarked), with the exception of Central BC models, which only included marked category as there are zero estimated releases for this region. We developed two sets of models, one with catch data grouped by finescale fishery and another with data grouped by region, to allow for finescale fishery differences in model form and family. Other relevant parameters not applicable to all models included season (spring or fall) and management type (AABM or ISBM). We then applied a systematic model selection process to compete candidate models and select a best model for each group as follows:
 
 - We first constructed global models that included all combinations of parameters relevant to data set and their interactions, with either a Gaussian distribution with an identity link or a Gamma distribution with a log link (appropriate for our positive, continuous data).
 
@@ -663,7 +663,7 @@ ongoing creel-based estimates from periods and areas with high fishing
 effort, allows us to directly estimate submission rates for most
 spatio-temporal strata. As discussed in @CYER2021, such a transition
 from indirect to direct estimation of submission rates will improve the
-accuracy of the resulting estimates.  Direct estimation relies primarily on data
+accuracy of the resulting estimates. Direct estimation relies primarily on data
 from a specific spatial and temporal stratum, whereas indirect methods rely, 
 in whole or in part, on assumed relationships from other strata to estimate 
 stock impacts.
