@@ -210,8 +210,8 @@ criteria:
   weekdays
 - At least 25 interviews on weekends OR at least 10% of interviews from
   weekends
-- At least a 15 day spread in flights
-- At least a 15 day spread in interviews
+- At least 15 days between the first and last flight
+- At least 15 days between the first and last interview
 
 These criteria are not applied to areas that have been occasionally
 surveyed but are not targeted and not estimated by the South Coast creel
@@ -238,7 +238,7 @@ winter and therefore has no creel coverage in the winter months.
 \begin{landscapepage}
 ```{r methods plotting PFMA creel unfiltered, echo=FALSE, message=FALSE, warning=FALSE, fig.height=12, fig.width=20,  out.width="110%", fig.asp=NA, fig.align="left"}
 #| label: fig-creel-criteria
-#| fig-cap: "South Coast non-zero Chinook creel estimates that passed (yellow) or failed (red) quality control criteria by month and PFMA."
+#| fig-cap: "South Coast non-zero Chinook creel estimates that passed (yellow) or failed (red) quality control criteria by month and PFMA.  The darkness of each colour indicates that total creel catch (i.e. kept and released) with darker colours representing greater catch."
 
 ggplot() +
   geom_tile(data=Creel_month_PFMA_passed, aes(x=year, y=as.factor(month), fill = estimate),colour = "white") +
@@ -443,7 +443,7 @@ the unchecked catch based on availability. As mark rate can vary by season and r
 within the same area, month, and year and then expanded outward grouping
 into seasons and regions and finally averaging across years for the very
 few instances where the other categories did not apply. To reduce bias,
-only mark rates that are based on a total catch estimate $\geq 20$ were
+only mark rates that are based on a total catch estimate $\geq$20 were
 used. 
 
 #### Choosing best available monthly catch estimate per PFMA {#best}
@@ -793,7 +793,7 @@ the region for that season, as the knowledge and implementation of the
 SHRP are not expected to vary substantially across years within a region
 (e.g., head depot operations are generally consistent).
 
-## Updating Chinook non-retention (release) estimates {#mrr}
+## Updating Chinook Mark-Selective Rate Estimates {#mrr}
 In 2025, in an attempt to account for mark-selective fisheries, the CTC
 updated its exploitation rate analysis (ERA) to a model that supports
 mark-selective fisheries [@CTC2025]. Therefore, the ERA requires the
@@ -820,12 +820,19 @@ With the exception of Juan de Fuca, which did have mark-selective
 fisheries before 2013, all other sport fisheries were non-selective
 before 2013. Since the data is modelled, we did not want to bias the
 previous non-selective fisheries by allowing for selectivity, therefore
-we have fixed the $MRR$ and $UKR$ rates to be equivalent in the modelled
+we have fixed the $MRR$ and $UKR$ rates to be equivalent (using Equation
+\eqref{eq:equivalent_selective_mrr}) in the modelled
 data, by calculating a single release rate ($RR$) for marked and unmarked fish
-combined based on the following equation:
+combined based Equation \eqref{eq:none_selective_rr} (irregardless of mark status):
+
+\begin{equation}
+MRR = 1 - UKR
+\label{eq:equivalent_selective_mrr}
+\end{equation}
+
 \begin{equation}
 RR = C_\text{released} / (C_\text{released} + C_\text{kept})
-\label{eq:none_selective_mrr}
+\label{eq:none_selective_rr}
 \end{equation}
 
 After 2013, the data is observed and therefore allowed to vary in
