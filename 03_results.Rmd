@@ -184,7 +184,7 @@ The model selection process determined that separating South Coast into smaller 
 
 Diagnostic plots and tests (Appendix \@ref(app:residuals-appendix) and \@ref(app:fourth-appendix)) show that summer models for southern regions fit the data much better than both southern seasonal models and Central/Northern BC annual models among top-ranked candidates. This outcome is expected, as predictor and response are not completely independent with the inclusion of summer creel in both. Conversely, the relationship weakens when comparing summer creel estimates to spring or fall iREC estimates (seasonal mismatch in iREC-only data) or comparing annual creel to annual iREC estimates (time period is too broad for iREC-only data).
 
-In the following subsections we describe the best fitting models for each spatio-temporal combination. The full suite of model outputs can be found in Appendix \@ref(app:third-appendix). 
+In the following subsections we describe the best fitting models for each spatio-temporal combination. The full suite of model outputs can be found in Appendix \@ref(app:third-appendix). The reference levels for each of the categorical variables are as follows: kept_status: kept, marked_status: marked, management: AABM, and region: northern WCVI, season: fall. 
 
 ```{r plotting-function, include = FALSE}
 #plotting function that will be used for the next few sections
@@ -378,7 +378,7 @@ C_\text{creel+iREC, summer} \sim C_\text{creel,summer} + M + m + k + C_\text{cre
 \end{equation}
 This model parameterization allows for integrated creel and iREC catch to be predicted by the creel catch, management type, mark status, and kept status (kept or released). In addition, the interactions allow the effect of creel summer on catch (i.e., the slope) to be modified by kept status and mark status separately.
 
-Figure \@ref(fig:fig-swcvi-aabm-summer-model) shows the AABM modelled relationship for SWCVI Summer. The ISBM counterpart plot can be found in Appendix \@ref(app:third-appendix). Overall, we found a strong positive linear relationship between summer integrated creel and iREC catch and summer creel catch (p\<0.001, pseudo-$R^{2} = 0.98$), the slope of which was modestly modified by kept status (released steeper than kept) and mark status (unmarked steeper than marked). No significant independent effects were found for kept or mark status. There was significant effect of management (AABM fisheries had more consistent and high catch overall compared to ISBM fisheries). 
+Figure \@ref(fig:fig-swcvi-aabm-summer-model) shows the AABM modelled relationship for SWCVI Summer. The ISBM counterpart plot can be found in Appendix \@ref(app:third-appendix). Overall, we found a strong positive linear relationship between summer integrated creel and iREC catch and summer creel catch (p\<0.001, pseudo-$R^{2} = 0.98$), the slope of which was modestly modified by kept status (released steeper than kept) and mark status (unmarked steeper than marked). No significant effects were found for kept or mark status. There was significant effect of management (AABM fisheries had more consistent and high catch overall compared to ISBM fisheries). 
 
 ```{r results example seasonal summer, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-swcvi-aabm-summer-model
@@ -535,7 +535,7 @@ plots[[1]] + ylab("integrated creel and iREC catch estimate")  + xlab("summer cr
 ### Spring and Fall Models
 #### WCVI
 
-The best model for WCVI Spring and Fall AABM iREC catch ($C_\text{iREC, seasonal}$), was a model with a Gaussian distribution with an identity link that included region ($r$), season ($s$), their interaction, and an intercept. Notably, summer creel, mark status, and kept status were dropped from the model during model selection, as were more complex variations of interactions.
+The best model for WCVI Spring and Fall AABM iREC catch ($C_\text{iREC, seasonal}$), was a model with a Gamma distribution with a log link that included region ($r$), season ($s$), their interaction, and an intercept. Notably, summer creel, mark status, and kept status were dropped from the model during model selection, as were more complex variations of interactions.
 \begin{equation}
 C_\text{iREC, seasonal} \sim r + s + r:s
 \label{eq:wcvi_seasonal}
@@ -543,7 +543,7 @@ C_\text{iREC, seasonal} \sim r + s + r:s
 
 This model parameterization allows for iREC catch in the off-season to be predicted as a function of region (Northern or Southern WCVI) and season (spring or fall), including the interaction between region and season.
 
-Figure \@ref(fig:fig-swcvi-aabm-spring-model) shows the SWCVI AABM modelled relationship for Spring. The Fall and NWCVI counterpart plots can be found in Appendix \@ref(app:third-appendix). Overall, we found no relationship between summer creel and off-season iREC catch. There was a significant interaction such that SWCVI Spring had more catch than the other regions and season combinations, but no overall main effect of region or season. This flat relationship explains minimal variation in the data (pseudo-$R^{2} = 0.18$), but gives an offset (intercept) to use as a predictor for off-season catch. Unlike the summer models for NWCVI and SWCVI, which both demonstrated overall more unmarked catch than marked catch, mark status was not included in the model, indicating similar catch for marked and unmarked fish in the off-season.
+Figure \@ref(fig:fig-swcvi-aabm-spring-model) shows the SWCVI AABM modelled relationship for Spring. The Fall and NWCVI counterpart plots can be found in Appendix \@ref(app:third-appendix). Overall, we found no relationship between summer creel and off-season iREC catch. There was a trending interaction such that SWCVI Spring had more catch than the other regions and season combinations, but no overall main effect of region or season. This flat relationship explains minimal variation in the data (pseudo-$R^{2} = 0.18$), but gives an offset (intercept) to use as a predictor for off-season catch. Unlike the summer models for NWCVI and SWCVI, which both demonstrated overall more unmarked catch than marked catch, mark status was not included in the model, indicating similar catch for marked and unmarked fish in the off-season.
 
 ```{r results example seasonal summer, results='asis', echo=FALSE, fig.height=6, fig.width=8, out.width="70%", fig.asp=NA}
 #| label: fig-swcvi-aabm-spring-model
