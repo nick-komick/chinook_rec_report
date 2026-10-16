@@ -352,12 +352,12 @@ as well as summaries of realized sample sizes.
 #### iREC to Creel Calibration {#calib}
 iREC catch estimates are bias corrected by scaling estimates using the
 linear regression slope, $m$, between iREC and corresponding creel 
-for angling by boat using appropriate area and month estimates, referred to as the calibration 
+for angling by boat using matched area and month estimates, referred to as the calibration 
 coefficient. Specifically, calibrated iREC point estimates ($iREC^{*}$) of 
 boat-based angling catch are calculated from uncalibrated estimates ($iREC$) as:
 
 \begin{equation}
-iREC_{i} \sim \text{Normal}(m \cdot \text{Creel}_{i}^{\text{true}}, \sigma^2)
+iREC_{i} \sim \text{Normal}(m \cdot \text{Creel}_{i_true}, \frac{1}{\sigma^2})
 \label{eq:iREC_correction}
 \end{equation}
 \begin{equation}
@@ -365,7 +365,7 @@ iREC^{*}= \frac{iREC}{m}
 \label{eq:iREC_calibration}
 \end{equation}
 
-The calibration coefficient $m$ is estimated for each licence year (i.e., April 1 to March 31) using all area and month creel estimates that meet the inclusion criteria defined in Section \@ref(qc), above. Separate calibration factors are estimated for total kept and released catch, by species, for angling by boat. As both the creel and iREC estimates have uncertainty associated with them, an error-in-variables approach is used to estimate $m$ using JAGS [a hierarchical Bayesian analysis program, @plummer2003jags] through the `rjags` R package [@rjags]. The specific model code, provided in Appendix \@ref(app:apdx-irec-calib), identifies that the model incorporates uncertainty from creel estimates, but does not include uncertainty from iREC estimates. Although iREC estimates catch from both shore and boat angling, South Coast creel surveys are limited to boat-based fishing.  Therefore, only boat-based iREC data is used for calibration and this analysis.
+The calibration coefficient $m$ is estimated for each licence year (i.e., April 1 to March 31) using all South Coast area and month creel estimates that meet the inclusion criteria defined in Section \@ref(qc), above. Separate calibration coefficients are estimated for total kept and released catch, by species, for angling by boat. As both the creel and iREC estimates have uncertainty associated with them, an error-in-variables approach is used to estimate $m$ using JAGS [a hierarchical Bayesian analysis program, @plummer2003jags] through the `rjags` R package [@rjags]. The specific model code, provided in Appendix \@ref(app:apdx-irec-calib), identifies that the model incorporates uncertainty from creel estimates, but does not include uncertainty from iREC estimates. Although iREC estimates catch from both shore and boat angling, South Coast creel surveys are limited to boat-based fishing. Therefore, only boat-based iREC data is used for calibration and this analysis.
 
 ### Integrating survey methods for best available catch estimates
 In the past, iREC was incorporated into catch estimates in various ways,
@@ -443,15 +443,14 @@ the unchecked catch based on availability. As mark rate can vary by season and r
 within the same area, month, and year and then expanded outward grouping
 into seasons and regions and finally averaging across years for the very
 few instances where the other categories did not apply. To reduce bias,
-only mark rates that are based on a total catch estimate $\geq$20 were
+only mark rates that are based on a total catch estimate $\geq$ 20 were
 used. 
 
 #### Choosing best available monthly catch estimate per PFMA {#best}
 From this point forward we will refer to calibrated iREC as simply
 "iREC". For South Coast, catch estimates that are a
 integration of iREC, filtered creel, and logbook data will be referred
-to as "Integrated creel and iREC catch estimates", or in some plot axes simply "creel + iREC". Catch estimates that
-only based on iREC data will be referred to as "iREC catch
+to as "Integrated creel and iREC catch estimates", or in some plot axes simply "creel + iREC". Catch estimates that are only based on iREC data will be referred to as "iREC catch
 estimates". Catch estimates that only include unfiltered creel and
 logbook data will be referred to as "creel catch estimates". For the Northern BC, 
 the nomenclature will be the same but it is to be noted that the creel does
@@ -809,6 +808,14 @@ MRR = C_\text{marked, released} / (C_\text{marked, released} + C_\text{marked, k
 UKR = C_\text{unmarked, kept} / (C_\text{unmarked, released} + C_\text{unmarked, kept})
 \label{eq:ukr}
 \end{equation}
+
+For ease of comparison to $MRR$, we also calculate $URR$, unmarked release rate, as follows:
+
+\begin{equation}
+URR = 1 - UKR
+\label{eq:equivalent_selective_urr}
+\end{equation}
+
 We calculated the $MRR$ and $UKR$ at an area and month scale and then
 use a weighted average based on total catch per area and month to
 estimate a finescale fishery-specific $MRR$ and $UKR$. Within the ERA,
@@ -820,15 +827,10 @@ With the exception of Juan de Fuca, which did have mark-selective
 fisheries before 2013, all other sport fisheries were non-selective
 before 2013. Since the data is modelled, we did not want to bias the
 previous non-selective fisheries by allowing for selectivity, therefore
-we have fixed the $MRR$ and $UKR$ rates to be equivalent (using Equation
-\eqref{eq:equivalent_selective_mrr}) in the modelled
-data, by calculating a single release rate ($RR$) for marked and unmarked fish
+we have fixed the $MRR$ and $URR$ rates to be equivalent (using Equation
+\eqref{eq:none_selective_rr}) in the modelled
+data, by calculating a single release rate ($RR$) for both marked and unmarked fish
 combined based Equation \eqref{eq:none_selective_rr} (irregardless of mark status):
-
-\begin{equation}
-MRR = 1 - UKR
-\label{eq:equivalent_selective_mrr}
-\end{equation}
 
 \begin{equation}
 RR = C_\text{released} / (C_\text{released} + C_\text{kept})
