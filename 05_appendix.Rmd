@@ -2231,7 +2231,7 @@ version_catch_tbl |>
 ```
 
 
-```{r linktodata, results='asis', echo=FALSE}
+```{r linktodata, results='hide', echo=FALSE}
 
 read_me <-
     tibble(Variable=character(),
