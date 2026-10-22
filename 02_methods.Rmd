@@ -348,7 +348,7 @@ linear regression slope, $m$, between iREC and corresponding creel
 for angling by boat using matched area and month estimates, referred to as the calibration coefficient. Specifically, calibrated iREC point estimates ($iREC^{*}$) of boat-based angling catch are calculated from uncalibrated estimates ($iREC$) as:
 
 \begin{equation}
-iREC_{i} \sim \text{Normal}(m \cdot \text{Creel}_{i_true}, \frac{1}{\sigma^2})
+iREC_{i} \sim \text{Normal}(m \cdot \text{Creel}_{i-true}, \frac{1}{\sigma^2})
 \label{eq:iREC_correction}
 \end{equation}
 \begin{equation}
