@@ -196,13 +196,12 @@ all_summary_2021_2025b <- creel_month_PFMA %>%
 Since the SCCSs vary in sampling intensity and spatial-temporal
 coverage, we have introduced systematic quality control of these
 estimates. Following the method used for iREC calibration to creel
-[@irec_sar_2015], we filter the non-zero Chinook creel estimates based on quality control
-criteria in a given area and month. These quality control criteria are
+[@irec_sar_2015], we limited creel estimates to non-zero Chinook estimates based on quality control
+criteria for each creel area (typically PFMA) and month combination. These quality control criteria are
 designed to avoid uncertainty associated with monthly estimates based on
 only a small number of days or biases when estimates are based on only a
-certain type of day (e.g., weekends). Each area and monthly creel
-estimate included in our filtered data set met each of the following
-criteria:
+certain type of day (e.g., weekends). Each creel surveyed area and month must pass the following criteria 
+to be used as the best available catch estimate:
 
 - At least three flights for each type of day (weekday or weekend)
 - At least 25 interviews on weekdays OR at least 10% of interviews from
@@ -544,6 +543,8 @@ finescale fishery using:
     months to create a direct modelled relationship.
 3)  a modelled relationship between annual creel catch estimates and
     annual iREC catch estimates (Northern and Central BC annual models). 
+
+A key assumption of modelling historic catch expansion is that the relationship between catch in creeled areas and months is consistent with non-creeled areas and months across the whole time series of this analysis (i.e., 2005 to 2023).  Although this relationship is expected to be more consistent in the summer and annual time periods with creeled strata representing the majority of fishing effort in adjoining months and areas, the relationship of summer to non-summer periods relies more on the underlying spatial and temporal consistency assumption.  As the modelled non-summer periods are expected to experience much less effort, violations of this assumption should have less effect on annual catch estimates. However, indicator stocks that are predominantly encountered in periods outside of summer may be more affected by assumption violations in the predicted years.
 
 For South Coast we chose 2013-2023 as a static observed period to model this
 relationship and then we predicted catch using summertime creel catch
