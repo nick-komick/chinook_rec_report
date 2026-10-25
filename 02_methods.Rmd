@@ -214,7 +214,7 @@ to be used as the best available catch estimate:
 These criteria are not applied to areas that have been occasionally
 surveyed but are not targeted and not estimated by the South Coast creel
 survey throughout the whole time series (e.g., PFMA 26, and 126), or are in other regions (e.g., PFMA 10 in CBC, 3 and 4 in NBC), or that did not have any Chinook catch (all of these creels failed criteria). We refer to the creel estimates that pass this quality control as "filtered creel". We use these filtered creel
-both to calibrate iREC (section \@ref(calib)) and as quality controlled estimates (section \@ref(best)), as described below.
+both to calibrate iREC (Section \@ref(calib)) and as quality controlled estimates (Section \@ref(best)), as described below.
 
 Across all regions, these criteria exclude `r fmt_stat(all_summary$pct[all_summary$criteria == "failed"])`% of all estimates between
 2005 and 2025 (Figure \@ref(fig:fig-creel-criteria)). In general, creel
@@ -233,9 +233,9 @@ winter and therefore has no creel coverage in the winter months.
 
 \newpage
 \begin{landscapepage}
-```{r methods plotting PFMA creel unfiltered, echo=FALSE, message=FALSE, warning=FALSE, fig.height=12, fig.width=20,  out.width="110%", fig.asp=NA, fig.align="left"}
+```{r methods plotting PFMA creel unfiltered, echo=FALSE, message=FALSE, warning=FALSE, fig.height=12, fig.width=20,  out.width="100%", fig.asp=NA, fig.align="left"}
 #| label: fig-creel-criteria
-#| fig-cap: "South Coast non-zero Chinook creel estimates that passed (yellow) or failed (red) quality control criteria by month and PFMA.  The darkness of each colour indicates that total creel catch (i.e. kept and released) with darker colours representing greater catch."
+#| fig-cap: "South Coast non-zero Chinook creel estimates that passed (yellow) or failed (red) quality control criteria by month and PFMA.  The darkness of each colour indicates that total creel catch (i.e., kept and released) with darker colours representing greater catch."
 
 ggplot() +
   geom_tile(data=Creel_month_PFMA_passed, aes(x=year, y=as.factor(month), fill = estimate),colour = "white") +
@@ -253,13 +253,14 @@ ggplot() +
   theme(
     legend.position="bottom",
 #     legend.box = "vertical",
-    strip.text = element_text(size = 12), #facet wrap labels
-    plot.title = element_text(size = 18, face = "bold"),
-    axis.title.x = element_text(size = 14), # x-axis title
-    axis.title.y = element_text(size = 17),  # y-axis title
-    legend.text = element_text(size = 13),
-    axis.text.y = element_text(size = 8),# make y axis bigger,
-    plot.margin = margin(2, 2, 2, 2)
+    strip.text = element_text(size = 18), #facet wrap labels
+    axis.title.x = element_text(size = 18), # x-axis title
+    axis.title.y = element_text(size = 18),  # y-axis title
+    legend.text = element_text(size = 15),
+    legend.title = element_text(size = 18),
+    axis.text.y = element_text(size = 15),# make y axis bigger,
+    axis.text.x = element_text(size = 14),# make y axis bigger,
+    plot.margin = margin(1,1,1,1)
   )
 
 ```
@@ -330,16 +331,14 @@ since roughly 2010. Several types of licences are sold, distinguished by
 term length, residency, and age. For this program, recreational licence
 holders are required to report online, for one assigned month of their
 licence term, a detailed record of their fishing activity and catch.
-Reporting is mandatory, however completion rates are typically between 50 to 55% with the more recent reporting years. The completed reports are flagged for quality control for anomalous fishing patterns (e.g. number of fish per person per day is high, fishing in non-adjacent areas in a single day) and user comments are considered before excluding these data. Using the quality controlled and completed reports, estimates of the total kept and released catch, by mark status are developed for each month and PFMA. Uncalibrated estimates are developed by expanding the average monthly catch per licence by the number of licences eligible to fish in
+Reporting is mandatory, however completion rates are typically between 50 to 55% with the more recent reporting years. The completed reports are flagged for quality control for anomalous fishing patterns (e.g. number of fish per person per day is high, fishing in non-adjacent areas in a single day) and user comments are considered before excluding these data. Using the quality controlled and completed reports, estimates of the total kept and released catch, by mark status are developed for each month and area. Uncalibrated estimates are developed by expanding the average monthly catch per licence in each area by the number of licences eligible to fish in
 that month. These calculations are stratified by licence type to protect
 against bias due to differential fishing and reporting rates by licence
 type. Correction factors (CFs), described in Section \@ref(calib), are then
-estimated for each licence year and applied to the iREC estimates to produce corrected catch estimates. The iREC program
+estimated for each licence year and retention status (i.e., kept or released), and subsequently applied to the iREC estimates to produce corrected catch estimates. The iREC program
 operation and analytical methodology was initially reviewed at a 2015
-Canadian Science Advisory Secretariat (CSAS) regional peer review. The
-main report stemming from that meeting is the associated Science
-Advisory Report [@irec_sar_2015]. Appendix \@ref(app:apdx-irec-mthd) provides details on changes in methodology since the 2015 review,
-as well as summaries of realized sample sizes. 
+Canadian Science Advisory Secretariat (CSAS) regional peer review. The Science
+Advisory Report [@irec_sar_2015] provides the results of that review. Appendix \@ref(app:apdx-irec-mthd) details method changes since the 2015 review, as well as summaries of realized sample sizes. 
 
 #### iREC to Creel Calibration {#calib}
 iREC catch estimates are bias corrected by scaling estimates using the
@@ -355,7 +354,7 @@ iREC^{*}= \frac{iREC}{m}
 \label{eq:iREC_calibration}
 \end{equation}
 
-The calibration coefficient $m$ is estimated for each licence year (i.e., April 1 to March 31) using all South Coast area and month creel estimates that meet the inclusion criteria defined in Section \@ref(qc), above. Separate calibration coefficients are estimated for total kept and released catch, by species, for angling by boat. As both the creel and iREC estimates have uncertainty associated with them, an error-in-variables approach is used to estimate $m$ using JAGS [a hierarchical Bayesian analysis program, @plummer2003jags] through the `rjags` R package [@rjags]. The specific model code, provided in Appendix \@ref(app:apdx-irec-calib), identifies that the model incorporates uncertainty from creel estimates, but does not include uncertainty from iREC estimates. Although iREC estimates catch from both shore and boat angling, South Coast creel surveys are limited to boat-based fishing. Therefore, only boat-based iREC data is used for calibration and this analysis.
+The calibration coefficient $m$ is estimated for each licence year (i.e., April 1 to March 31), retention status, and species using all South Coast area and month creel estimates of angling by boat that meet the inclusion criteria defined in Section \@ref(qc), above. As both the creel and iREC estimates have uncertainty associated with them, an error-in-variables approach is used to estimate $m$ using JAGS [a hierarchical Bayesian analysis program, @plummer2003jags] through the `rjags` R package [@rjags]. The specific model code, provided in Appendix \@ref(app:apdx-irec-calib), identifies that the model incorporates uncertainty from creel estimates, but does not include uncertainty from iREC estimates. Although iREC estimates angling catch from both shore and boat, South Coast creel surveys are limited to boat-based fishing. Therefore, only boat-based iREC data is used for calibration and this analysis.
 
 ### Integrating survey methods for best available catch estimates
 In the past, iREC was incorporated into catch estimates in various ways,
@@ -429,7 +428,7 @@ number of different ways and prioritized the assignment of mark rate to
 the unchecked catch based on availability. As mark rate can vary by season and region and is relatively stable year to year, we prioritized mark rates first from
 within the same area, month, and year and then expanded outward grouping
 into seasons and regions and finally averaging across years for the very
-few instances where the other categories did not apply. To reduce bias,
+few instances where the other categories did not apply. To reduce uncertainty,
 only mark rates that are based on a total catch estimate $\geq$ 20 were
 used. 
 
@@ -456,7 +455,7 @@ seasons and where there are gaps in creel coverage. Figure
 \@ref(fig:fig-area-catch-process) provides a diagram on how the catch
 data sources are integrated. In Figure \@ref(fig:fig-creel-iREC-NGS) we demonstrate how iREC fills in the gaps in each PFMA using the Northern Strait of Georgia finescale fishery as an example. 
 
-For Northern and Central BC, we use iREC from 2015 onwards (as opposed to 2013) because iREC catch estimates did not seem to be consistent with other catch data sources before 2015 and iREC did not achieve effective sample rates in Northern and Central BC in 2013 or 2014. Northern and Central BC creel and logbook data is not currently incorporated into iREC calibration, and therefore iREC in these regions is calibrated against South Coast creel, but this may change with further improvements in iREC calibration. Furthermore, we use iREC as the best available catch estimate in each month in these regions as much of the creel and logbook catch does not account for releases. For Northern BC AABM (Haida Gwaii) releases, we use creel total releases (legal + sub_legal) to predict iREC legal releases. 
+For Northern and Central BC, we use iREC from 2015 onwards (as opposed to 2013) because iREC catch estimates did not seem to be consistent with other catch data sources before 2015 and iREC did not achieve effective sample rates in Northern and Central BC in 2013 or 2014. Northern and Central BC creel and logbook data is not currently incorporated into iREC calibration, and therefore iREC in these regions is calibrated against South Coast creel, but this may change with further improvements in iREC calibration. Furthermore, we use iREC as the best available catch estimate in each month in these regions, as much of the creel and logbook catch does not account for releases. For Northern BC AABM (Haida Gwaii) releases, we use creel total releases (legal + sub_legal) to predict iREC legal releases. 
 
 ```{r methods with iREC flowchart, out.width="90%", results='asis', echo=FALSE, dpi=300}
 #| label: fig-area-catch-process
@@ -491,7 +490,7 @@ pfma_yearMonth_iREC_1 <-
 
 ```{r echo=FALSE, fig.align="left", fig.height=5, fig.width=10, message=FALSE, warning=FALSE, out.width="100%", fig.asp=NA}
 #| label: fig-creel-iREC-NGS
-#| fig-cap: "Chosen best available catch estimates in Northern Strait of Georgia by PFMA and month and source. Yellow indicates a filtered creel estimate and blue a calibrated iREC estimate. This plot demonstrates the priority rules in South Coast: filtered creel is chosen if available May to September, otherwise use iREC, and in the off-season (October - April) iREC is chosen."
+#| fig-cap: "Chosen best available catch estimate in Northern Strait of Georgia by source, PFMA, and month. Yellow indicates a filtered creel estimate and blue a calibrated iREC estimate. This plot demonstrates the priority rules in South Coast: filtered creel is chosen if available May to September, otherwise use iREC, and in the off-season (October - April) iREC is chosen."
 
 ngs_catch <-
   pfma_yearMonth |>
@@ -544,12 +543,12 @@ finescale fishery using:
 3)  a modelled relationship between annual creel catch estimates and
     annual iREC catch estimates (Northern and Central BC annual models). 
 
-A key assumption of modelling historic catch expansion is that the relationship between catch in creeled areas and months is consistent with non-creeled areas and months across the whole time series of this analysis (i.e., 2005 to 2023).  Although this relationship is expected to be more consistent in the summer and annual time periods with creeled strata representing the majority of fishing effort in adjoining months and areas, the relationship of summer to non-summer periods relies more on the underlying spatial and temporal consistency assumption.  As the modelled non-summer periods are expected to experience much less effort, violations of this assumption should have less effect on annual catch estimates. However, indicator stocks that are predominantly encountered in periods outside of summer may be more affected by assumption violations in the predicted years.
+A key assumption of modelling historic catch is that the relationship between catch in creeled and non-creeled areas and months is consistent across the whole time series of this analysis (i.e., 2005 to 2023).  Although this relationship is expected to be more consistent in the summer and annual time periods with creeled strata representing the majority of fishing effort in adjoining months and areas, the relationship of summer to seasonal periods relies more on the underlying spatial and temporal consistency assumption.  As the modelled seasonal periods are expected to experience much less effort, violations of this assumption should have less effect on annual catch estimates. However, CWT indicator stocks that are predominantly encountered in periods outside of summer may be more affected by assumption violations in the predicted years.
 
 For South Coast we chose 2013-2023 as a static observed period to model this
 relationship and then we predicted catch using summertime creel catch
 estimates from 2005-2012, referred to as the historic expansion period. The observed period for Northern and Central BC regions is 2015-2023 and the historic expansion period is 2005-2014. We selected 2005 as the starting point for the historic expansion period as it is the first year that fish from brood year 2003 are caught in pre-terminal sport fisheries (as
-age 2s), and 2003 is the earliest brood that could contribute to the 
+age 2s), and 2003 is the earliest brood year that could contribute to the 
 2009 CYER (as age 6s), and thus be relevant to the 2009-2015 base period. The modelling protocol is described below. These seasonal catch estimates are then rolled up into yearly estimates for reporting purposes. This process, shown in Figure \@ref(fig:fig-before-iREC-flowchart), is automated and
 accomplished in the modelling function of the `pacRecCatch` R package
 [@pacRecCatch].
@@ -565,7 +564,7 @@ knitr::include_graphics("img/flowchart_before_irec_nb.png")
 Following the procedure for incorporating iREC into the integrated creel and
 iREC catch estimate (see Section \@ref(best)), we split previous South Coast fisheries into spring (months 1 to 4), summer (months 5 to 9), and fall (10 to 12) seasons. Fisheries were split by season in order to better integrate estimates since there are not always iREC or creel estimates for each month. We did not split terminal fisheries up by season as they typically are defined by limited time periods for a given stock. Seasonality is also an important consideration for calculating marked released and unmarked kept rates used to evaluate mark-selective fishing (see Section \@ref(mrr) for more detail).
 
-We chose not to split Northern and Central BC by season since iREC data show that for these regions fishing in the off-season is uncommon and there is not enough iREC data to support informative separate seasonal models in each fishery. However, the annual models do incorporate all months, so off-season fishing is still captured when available.  
+We chose not to split Northern and Central BC by season since iREC data show that for these regions fishing in the off-season is uncommon and there is not enough iREC data to support separate seasonal models in each fishery. However, the annual models do incorporate all months, so off-season fishing is still captured when available.  
 
 For many of the fisheries, there is a relatively consistent partial
 creel and logbook coverage in the summer (months 5 to 9) throughout the
@@ -573,7 +572,7 @@ time series (from 2005 to 2023). This consistent period of coverage is
 used to predict the estimated catch for all seasons in the historic expansion period (2005-2013 for South Coast). The annual models use annual creel catch estimates to predict 2005-2015 modelled annual iREC catch estimates.  
 
 ### Model selection
-We explored several different model forms (i.e., combinations of terms and their interactions) and distribution families (both linear and non-linear) to characterize the relationship between the creel estimate and integrated creel and iREC estimate or iREC estimate. All models included a grouping factor for kept status (i.e. kept and released) and mark status (i.e. marked or unmarked), with the exception of Central BC models, which only included marked category as there are zero estimated releases for this region. We developed two sets of models, one with catch data grouped by finescale fishery and another with data grouped by region, to allow for finescale fishery differences in model form and family. Other relevant parameters not applicable to all models included season (spring or fall) and management type (AABM or ISBM). We then applied a systematic model selection process to compete candidate models and select a best model for each group as follows:
+We explored several different model forms (i.e., combinations of terms and their interactions) and distribution families (both linear and non-linear) to characterize the relationship between the creel estimate and integrated creel and iREC estimate or iREC estimate. All models included a grouping factor for kept status (i.e., kept and released) and mark status (i.e., marked or unmarked), with the exception of Central BC models, which only included marked category as there are zero estimated releases for this region. We developed two sets of models, one with catch data grouped by finescale fishery and another with data grouped by region, to allow for finescale fishery differences in model form and family. Other relevant parameters not applicable to all models included season (spring or fall) and management type (AABM or ISBM). We then applied a systematic model selection process to compete candidate models and select a best model for each group as follows:
 
 - We first constructed global models that included all combinations of parameters relevant to data set and their interactions, with either a Gaussian distribution with an identity link or a Gamma distribution with a log link (appropriate for our positive, continuous data).
 
@@ -600,10 +599,10 @@ between the kept marked catch and the number of heads across CWT regions and sea
 should provide the average submission rate of all recreational fisheries.  Forcing the 
 regression through the origin should be consistent with the expectation the we would receive 
 no heads from SHRP when catch is zero and allows direct evaluation of the slope as a submission rate. 
-The coefficient of determination (i.e., Adjusted $R^{2}$, denoted as $\bar{R}^{2}$) along with the submission rate can be used 
+The adjusted coefficient of determination (i.e., Adjusted $R^{2}$, denoted as $\bar{R}^{2}$) along with the submission rate can be used 
 as an indicators of how well mark kept catch estimates fits observed SHRP recoveries.  The $\bar{R}^{2}$ was used for this part of the analysis because in some circumstances the comparison of sample rates can involve different sample sizes.
 
-In contrast to the creel program, the SHRP relies on several sampling approaches (e.g., lodge sampling, public collection points, avid anglers) and should not necessarily be driven by creel survey coverage nor iREC survey completion. Since there were no substantial changes to how the SHRP is delivered over both the modelled and observed catch time periods, the slopes should be similar, with any deviations potentially indicating a lack in congruence between the two catch time series. 
+In contrast to the creel program, the SHRP relies on several sampling approaches (e.g., lodge sampling, public collection points, avid anglers) and should not necessarily be driven by creel survey coverage nor iREC survey completion. Since there were no substantial changes to how the SHRP is delivered over both the modelled and observed catch time periods, the slopes should be similar, with any deviations potentially indicating a lack in congruence between the two marked kept catch time series. 
 
 It is important to note that the relationship between marked kept catch and heads can be affected by numerous regional differences, such as SHRP depot availability, degree of biological sampling by creel surveyors, and likelihood of anglers to submit heads to the program.  With these potential regional and temporal differences and the fact that only marked kept catch can be evaluated, the relationship between heads and marked kept catch provides a somewhat limited validation.  However, since there has been not substantial coast-wide change to the SHRP (e.g. most regions had similar numbers of depots available for all years in this analysis), the comparison should be appropriate to check the consistency of marked kept catch between years with and without iREC.  Given that marked kept catch is central to estimating fishery impacts on CWT indicator stocks, the comparison reflects the relative magnitude of catch estimates between historical modelled years and iREC-surveyed years on the CTC ERA.
 

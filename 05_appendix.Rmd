@@ -8,7 +8,7 @@ There are several types of licences are sold, distinguished by: term length (e.g
 
 Originally, a targeted number of licences was selected by simple random sampling from all licences sold up until immediately prior to the start of a given survey month. This selection represented the “Pre” sample. To ensure representation of fishers with licences purchased within the survey month, a “Post” sample was taken at the end of the survey month. The advantage taking a Pre sample was that those licence holders could be notified by email prior to the survey onset, allowing anglers to report their fishing through the month with less recall bias. From survey onset in July 2012 through March 2014, licences were vulnerable to selection for a given survey month regardless of whether they had been selected to report for earlier months under the same licence. As expected, some licence holders were selected to report for several months, leading to concerns in such cases over survey fatigue affecting the accuracy of reports for subsequent months, or the likelihood of them even being completed.
 
-In response, as of April 2014, we stopped re-selecting licences. With this change, sampling was adjusted to account for lower representation of licences purchased during earlier months of the licence year (e.g. April, May, and June). When randomly sampling licences for the October survey, annual licences purchased in April have been depleted by selections to all 6 preceding survey months (i.e. April through September). On the other hand, licences purchased in September had only been depleted by selection to the September survey. We solved for this by apportioning the overall sample size target for the Pre sample for a given survey month into purchase month targets based on the sales distribution across the months prior to the survey month. For example, if the targeted size for the October survey Pre sample was 5,000 and 15% of the annual licence sales through the end of September had occurred in April, then our sampling target for April purchases was 750. Those 750 licences were selected randomly from the April purchased licences that had not been selected to an earlier survey month. An alternative approach to protecting against the effect of uneven representation by purchase month, stratifying the analysis by purchase month, was rejected because of the number of strata created, with month and licence type dimensions leading to over 96 strata for the March survey (12 purchase months by 9 licence types). To this point, the analysis to estimate total catches from the responses was stratified by licence type and Pre-vs Post- sample.
+In response, as of April 2014, we stopped re-selecting licences. With this change, sampling was adjusted to account for lower representation of licences purchased during earlier months of the licence year (e.g. April, May, and June). When randomly sampling licences for the October survey, annual licences purchased in April have been depleted by selections to all 6 preceding survey months (i.e., April through September). On the other hand, licences purchased in September had only been depleted by selection to the September survey. We solved for this by apportioning the overall sample size target for the Pre sample for a given survey month into purchase month targets based on the sales distribution across the months prior to the survey month. For example, if the targeted size for the October survey Pre sample was 5,000 and 15% of the annual licence sales through the end of September had occurred in April, then our sampling target for April purchases was 750. Those 750 licences were selected randomly from the April purchased licences that had not been selected to an earlier survey month. An alternative approach to protecting against the effect of uneven representation by purchase month, stratifying the analysis by purchase month, was rejected because of the number of strata created, with month and licence type dimensions leading to over 96 strata for the March survey (12 purchase months by 9 licence types). To this point, the analysis to estimate total catches from the responses was stratified by licence type and Pre-vs Post- sample.
 
 Starting April 2018, we implemented “Instantaneous Licence Selection and Notification” whereby, during the online licence purchase, the licencing system automatically selected each licence to a particular survey month and notified the purchaser of the selection using a screen ‘pop-up’. Further, the system included on the printed licence the licence holders ‘reporting period’, reporting deadline, purchaser's unique AccessID, and the iREC web address. Previously, this information was only provided by email, and a substantial portion of licence holders either do not have provide a valid email addresses when purchasing a licence or do not receive/read the emails for various reasons; thus, printing this information on the licence ensured all selected licence holders have the information to complete their report. The change to instantaneous selection also meant there was no longer a Post sample; thus, all licences were selected and notified of their selection prior to or at the beginning of their reporting period, such that all selected fishers knew of their reporting requirement and could report fishing throughout their reporting period. With this change in survey selection, the analysis only needed to be stratify each reporting periods results by licence type.
 
@@ -1809,7 +1809,7 @@ summer_north_fit <-
 
 ```
 
-Before the development of this report, updated recreational catch estimates where need from Canada to support the implementation of mark selective fisheries in the 2025 CTC Exploitation Rate Analysis. Although most of the model structures were exactly the same, the earlier analysis had different models fit for Haida Gwaii (i.e. NBC AABM) based on separate summer and spring/fall model fit. The predicted catch estimates based on the earlier model forms, using Equations \@ref(eq:haida-prev-summer-model) and \@ref(eq:haida-prev-season-model) with a Gamma log link, are provided in Figure \@ref(fig:fig-prev-season-catch).
+Before the development of this report, updated recreational catch estimates where need from Canada to support the implementation of mark selective fisheries in the 2025 CTC Exploitation Rate Analysis. Although most of the model structures were exactly the same, the earlier analysis had different models fit for Haida Gwaii (i.e., NBC AABM) based on separate summer and spring/fall model fit. The predicted catch estimates based on the earlier model forms, using Equations \@ref(eq:haida-prev-summer-model) and \@ref(eq:haida-prev-season-model) with a Gamma log link, are provided in Figure \@ref(fig:fig-prev-season-catch).
 
 \begin{equation} 
 C_\text{total,summer} \sim C_\text{historic, summer} + S + C_\text{historic, summer}:S 
@@ -1875,7 +1875,7 @@ previous_model_catch |>
 
 ```{r NBC AABM Catch Time Series appendix, results='asis', echo=FALSE}
 #| label: fig-nbc-aabm-src-catch
-#| fig-cap: "Estimate from the historic (i.e. logbook) and iREC catch estimate sources from Haida Gwaii."
+#| fig-cap: "Estimate from the historic (i.e., logbook) and iREC catch estimate sources from Haida Gwaii."
 
 nbc_aabm |>
   mutate(name = case_when(name == "historic_summer" ~ "Historic Summer",
@@ -1938,7 +1938,7 @@ fit_aic_df <-
                       MuMIn::AICc(sport_catch_models$model_list$north_aabm)), 2))
 
 csasdowntex::csas_table(fit_aic_df,
-                        caption = "AICc for the two original model fits (i.e. Original Summer and Original Spring/Fall) and the new annual  gaussian with identity link fit.")
+                        caption = "AICc for the two original model fits (i.e., Original Summer and Original Spring/Fall) and the new annual  gaussian with identity link fit.")
 
 ```
 
@@ -1946,7 +1946,7 @@ AICc is presented for previous summer and seasonal model fits with the new fit w
 
 ```{r NBC AABM New Model Predictions appendix, results='asis', echo=FALSE}
 #| label: fig-nbc-aabm-new-catch
-#| fig-cap: "Updated catch estimate predicted times series based on historic (i.e. logbook)."
+#| fig-cap: "Updated catch estimate predicted times series based on historic (i.e., logbook)."
 
 all_north_aabm_full <-
   all_north_aabm_predict |>
