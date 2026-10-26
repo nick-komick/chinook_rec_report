@@ -341,6 +341,7 @@ Canadian Science Advisory Secretariat (CSAS) regional peer review. The Science
 Advisory Report [@irec_sar_2015] provides the results of that review. Appendix \@ref(app:apdx-irec-mthd) details method changes since the 2015 review, as well as summaries of realized sample sizes. 
 
 #### iREC to Creel Calibration {#calib}
+
 iREC catch estimates are bias corrected by scaling estimates using the
 linear regression slope, $m$, between iREC and corresponding creel 
 for angling by boat using matched area and month estimates, referred to as the calibration coefficient. Specifically, calibrated iREC point estimates ($iREC^{*}$) of boat-based angling catch are calculated from uncalibrated estimates ($iREC$) as:
@@ -355,6 +356,14 @@ iREC^{*}= \frac{iREC}{m}
 \end{equation}
 
 The calibration coefficient $m$ is estimated for each licence year (i.e., April 1 to March 31), retention status, and species using all South Coast area and month creel estimates of angling by boat that meet the inclusion criteria defined in Section \@ref(qc), above. As both the creel and iREC estimates have uncertainty associated with them, an error-in-variables approach is used to estimate $m$ using JAGS [a hierarchical Bayesian analysis program, @plummer2003jags] through the `rjags` R package [@rjags]. The specific model code, provided in Appendix \@ref(app:apdx-irec-calib), identifies that the model incorporates uncertainty from creel estimates, but does not include uncertainty from iREC estimates. Although iREC estimates angling catch from both shore and boat, South Coast creel surveys are limited to boat-based fishing. Therefore, only boat-based iREC data is used for calibration and this analysis.
+
+A key consideration when interpreting iREC catch estimates is that the system relies on common assumptions inherent to fisher-dependent reporting systems (e.g., logbooks). Specifically, these assumptions include:
+
+ * License holders are as likely to report active fishing trips as they are to report non-activity (zero-catch/zero-effort).
+ * Reported catch counts and associated fish attributes (e.g., species identification and adipose mark status) are accurate.
+ * The fishing effort and catch rates of responding license holders are representative of non-selected or non-responding license holders.
+
+To mitigate potential assumption violations, iREC estimates are calibrated against creel survey data, which serve as an independent estimate that is less susceptible to potential recall and non-response biases. Although calibration adjusts for broad regional discrepancies across the Pacific Region within a licence  year, small scale violations may persist. While routine QC procedures screen for egregious anomalies (e.g., implausibly high single day catches), subtle violations can not be readily identified (e.g. Chinook species misidentification). Future calibration models could explore finer spatial and temporal resolutions; however, iREC and creel precision may be insufficient to reliably characterize possible localized bias.
 
 ### Integrating survey methods for best available catch estimates
 In the past, iREC was incorporated into catch estimates in various ways,
@@ -639,13 +648,10 @@ submission rates may be used to estimate recoveries in Central BC or
 summer submission rates may be used to estimate winter recoveries). In
 other cases, the assumed maximum or minimum submission rates were
 applied when estimated rates were extreme and presumed to result from
-uncertainty in marked kept catch estimates. The implementation of iREC
-provides complete representation of recreational catch in the Pacific
-Region [@irec_sar_2015]. Using these iREC estimates, in combination with
-ongoing creel-based estimates from months and areas with high fishing
-effort, allows us to directly estimate submission rates for most
+uncertainty in marked kept catch estimates. Using the best available catch estimates
+identified through this analysis allows us to directly estimate submission rates for most
 spatio-temporal strata. As discussed in @CYER2021, such a transition
-from indirect to direct estimation of submission rates will improve the
+from indirect to direct estimation of submission rates typically improves the
 accuracy of the resulting estimates. Direct estimation relies primarily on data
 from a specific spatial and temporal stratum, whereas indirect methods rely, 
 in whole or in part, on assumed relationships from other strata to estimate 
@@ -770,7 +776,7 @@ derived from Method 1 may still produce an outlier. This typically
 occurs in the Strait of Georgia prior to iREC reporting. In these
 circumstances, a weighted average of the annual submission rates two years
 prior and two years after the year of the outlier are used. This moving
-average should better represent average submission rate of fishers in
+average should may better represent average submission rate of fishers in
 the region for that season, as the knowledge and implementation of the
 SHRP are not expected to vary substantially across years within a region
 (e.g., head depot operations are generally consistent).
@@ -803,7 +809,7 @@ We calculated the $MRR$ and $UKR$ at an area and month scale and then
 use a weighted average based on total catch per area and month to
 estimate a finescale fishery-specific $MRR$ and $UKR$. Within the ERA,
 these finescale fishery $MRR$ and $UKR$ values are incorporated into a
-ERA fishery value based on a cohort-specific weighted average of each
+ERA fishery value based on a stock-specific weighted average of each
 finescale value.
 
 With the exception of Juan de Fuca, which did have mark-selective
