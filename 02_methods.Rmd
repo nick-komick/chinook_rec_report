@@ -554,11 +554,12 @@ finescale fishery using:
 
 A key assumption of modelling historic catch is that the relationship between catch in creeled and non-creeled areas and months is consistent across the whole time series of this analysis (i.e., 2005 to 2023).  Although this relationship is expected to be more consistent in the summer and annual time periods with creeled strata representing the majority of fishing effort in adjoining months and areas, the relationship of summer to seasonal periods relies more on the underlying spatial and temporal consistency assumption.  As the modelled seasonal periods are expected to experience much less effort, violations of this assumption should have less effect on annual catch estimates. However, CWT indicator stocks that are predominantly encountered in periods outside of summer may be more affected by assumption violations in the predicted years.
 
-For South Coast we chose 2013-2023 as a static observed period to model this
-relationship and then we predicted catch using summertime creel catch
+For South Coast, we chose 2013–2023 as a static observed period to model this relationship, as it was the closest and likely the most representative period for the years in which the model will be applied. We then predicted catch using summertime creel catch
 estimates from 2005-2012, referred to as the historic expansion period. The observed period for Northern and Central BC regions is 2015-2023 and the historic expansion period is 2005-2014. We selected 2005 as the starting point for the historic expansion period as it is the first year that fish from brood year 2003 are caught in pre-terminal sport fisheries (as
 age 2s), and 2003 is the earliest brood year that could contribute to the 
-2009 CYER (as age 6s), and thus be relevant to the 2009-2015 base period. The modelling protocol is described below. These seasonal catch estimates are then rolled up into yearly estimates for reporting purposes. This process, shown in Figure \@ref(fig:fig-before-iREC-flowchart), is automated and
+2009 CYER (as age 6s), and thus be relevant to the 2009-2015 base period. The modelling protocol is described below. 
+These seasonal catch estimates are then rolled up into yearly estimates for reporting purposes. 
+This process, shown in Figure \@ref(fig:fig-before-iREC-flowchart), is automated and
 accomplished in the modelling function of the `pacRecCatch` R package
 [@pacRecCatch].
 

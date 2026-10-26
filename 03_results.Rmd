@@ -1451,7 +1451,7 @@ post_iREC <- ggplot(data = post_iREC_catch_model_df,
             parse = TRUE, 
             hjust=0, 
             vjust=0) +
-  labs(title = "All Regions - Integrated iREC and Creel in observed period",
+  labs(title = "All Regions - iREC + Creel in observed period",
        x = "Chinook Marked Kept Catch",
        y = "Chinook Head Recoveries") +
   theme_bw()
