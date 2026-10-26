@@ -459,8 +459,8 @@ unique challenges in delivering catch monitoring programs within each region.
 
 In South Coast from 2013 to present, from May to September we use the
 creel data if it met all of the quality control rules. Otherwise, we use iREC to fill in the gaps, creating a seasonal integrated creel and iREC catch estimate.
-Outside of these months, we use iREC only. These rules prioritize quality-controlled creel estimates, when most creel survey effort is concentrated, and prioritizes iREC estimates during shoulder
-seasons and where there are gaps in creel coverage. Figure
+Outside of these months, we use iREC only. These QC rules prioritize higher effort creel estimates that have consistent and representative sampling throughout the whole month within an area, when most creel survey effort is concentrated, and prioritizes 
+iREC estimates during shoulder seasons when there are commonly extensive gaps in creel coverage. Figure
 \@ref(fig:fig-area-catch-process) provides a diagram on how the catch
 data sources are integrated. In Figure \@ref(fig:fig-creel-iREC-NGS) we demonstrate how iREC fills in the gaps in each PFMA using the Northern Strait of Georgia finescale fishery as an example. 
 
