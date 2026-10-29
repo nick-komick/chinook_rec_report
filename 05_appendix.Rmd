@@ -43,7 +43,7 @@ select_prob_df <-
              Mar = c(rep("0.04", 3), rep("0.08", 8), "1.00"))
 
 select_prob_df |>
-  gt(caption = "Probabilities of an annual licence being selected for a reporting month, based on the licence purchase month after March 2020.") |>
+  gt(caption = "Probabilities of an annual licence being selected for a reporting month, based on the licence purchase month between March 2020 and March 2025.") |>
   tab_style(style = list(cell_text(align = "center")), locations = cells_body()) |>
   tab_style(
     style = list(
