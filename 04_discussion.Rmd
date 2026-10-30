@@ -29,7 +29,7 @@ Some models were better supported using a Gamma distribution with a log link, wh
 
 Based on our work to date, when considering how to enhance the overall quality of recreational catch estimates in future years, we recommend focusing efforts on improving how existing data are integrated into catch estimation methods and building upon creel and iREC catch monitoring programs, as discussed below.
 
-## Potential Estimation Improvements
+## Potential estimation improvements
 
 The temporal and spatial complexity of recreational catch monitoring and the extensive scale of the fishery warrant further exploration of how to integrate available Canadian recreational fisheries data more effectively. During the development of methods described in this report, we identified several potential improvements that should be considered in future work, including: 
 
@@ -49,7 +49,7 @@ Historic catch model fits may also be improved by accounting for uncertainty in 
 
 In recreational fisheries, accurate mark rates are an important component to estimating sample rates of CWT fish. As only heads of marked fish are contributed to the program, the sample rate is estimated using the estimate of marked kept catch. As part of both the iREC and creel programs, mark rate data is collected for both kept and released catch. The method defined in this report typically selects the mark rate from one of the sources (i.e., creel or iREC). In future iterations of our estimation methods, we could explore leveraging the combined mark sample data (i.e., integrated creel and iREC) to reduce the overall uncertainty in the marked kept catch estimate, especially in areas and times with lower fishing effort. 
 
-## Potential Catch Monitoring Improvements
+## Potential catch monitoring improvements
 
 A key component to these integrated recreational catch estimation methods is the operation of creel programs. The fisher-dependent nature of the iREC catch reporting can potentially bias catch estimates if it is relied upon solely. As described above, variability in fisher behaviour and participation rates can potentially introduce bias and reduce the precision of iREC catch estimates. Going forward, creel programs should continue to be a key component of recreational catch monitoring to ensure the integrity of recreational catch estimates.
 
@@ -65,7 +65,7 @@ In general, the effectiveness of iREC is contingent on fishers knowing their res
  
 The primary goal of this work has been to incorporate direct catch estimation into a systematic, standardized, and replicable approach to better represent the impacts of Canadian marine recreational fisheries on Chinook stocks. Prior to this work, multiple methods were inconsistently applied to incorporate catch data from different sources to the estimation process. Our updated methods standardize how the data are integrated into recreational CWT estimates and how inconsistencies between sampling and catch estimates are handled. These updates leverage direct measurements and systematic methods to better reflect the recreational fishery impacts on CWT indicator stocks from 2005 to present. The revised methods described in this report provide a framework for ongoing improvements to recreational catch monitoring data and inform the operation and refinement of catch monitoring programs into the future.
 
-# Acknowledgement
+# Acknowledgements
 
 This analysis is only possible thanks to the many individuals contributing to numerous important programs within the Pacific Region of Fisheries and Oceans Canada. The authors would like to thank the exceptional teams supporting the creel surveys, from the field technicians to the biologists across the northern and southern regions; your hard work is a key underpinning of these results. This includes creel survey programs operated both by the DFO and outside of DFO. Furthermore, the biologists supporting ongoing iREC operations make this analysis possible. Finally, the staff supporting the Salmon Head Recovery Program have been critical to our ability to evaluate these results and inform our impacts on coded-wire-tag indicators. The commitment to quality science across these programs is clearly evident in the results of this analysis.
 

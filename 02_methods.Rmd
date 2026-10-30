@@ -5,7 +5,7 @@ output:
 ---
 \clearpage
 # Methods {#sec:methods}
-## Revised current Chinook catch estimates integrating iREC
+## Revising current catch estimates
 Since the introduction of iREC in 2012, there have been various methods
 used to integrate Chinook catch information from creel surveys, logbooks,
 and iREC to produce recreational catch estimates. This has historically
@@ -535,7 +535,7 @@ g <-
         legend.box.just = "left") 
 g
 ```
-## Revised historic Chinook catch estimates
+## Revising historic catch estimates
 Where iREC is unavailable (before 2013 in South Coast and before 2015 in
 Northern and Central BC), we predict integrated creel and iREC catch estimates by
 finescale fishery using:
@@ -592,7 +592,7 @@ We explored several different model forms (i.e., combinations of terms and their
 This protocol generated a candidate model for each seasonal and regional
 grouping (both finescale fishery and broader regional). Since models with different subsets of data (i.e., data from a single finescale fishery vs. data from multiple finescale fisheries in a broader region) can not be compared with AICc, we ranked the candidate models for each region or finescale fishery on pseudo-$R^{2}$ [a goodness of fit test, @Nakagawa2017], visual assessment of diagnostic qq (used to detect deviations in observations from expected distributions) and residual (used to detect patterns in residuals) plots using the `DHARMa` package in R [@dharma, Appendix \@ref(app:residuals-appendix)], as well as test results for deviations between observed and simulated dispersion, outliers, and uniformity (Kolmogorov-Smirnov test) [see @dharma for all test details]. We chose the model with the best fit, lowest deviation from expected distributions, and least apparent residual patterns. Finally, when the automated process selected the Gamma family, we manually checked the top Gaussian alternative for residual fit and favoured models with a Gaussian fit unless a Gamma fit substantially improved a candidate model's performance, as linear fits can mitigate potentially large swings in predicted estimates outside of the range observed in the fitted data. 
 
-## Revised estimate validation with Salmon Head Recovery Program
+## Validating revised estimates using the Salmon Head Recovery Program
 We validated the marked kept catch estimates from the observed catch (integrated
 creel and iREC; 2013-2023) and the modelled catch (2005-2012) by plotting them in 
 relation to the number of marked Chinook heads by the Salmon Head Recovery Program (SHRP), 
@@ -736,7 +736,7 @@ whole_bc_map_gg
 
 ```
 
-#### Changes to Indirect CWT Estimation Methods
+#### Changes to indirect CWT estimation methods
 Despite improvements in CWT recovery strata and the associated complete
 spatio-temporal coverage in recreational catch, in rare cases for
 certain strata, the combination of the marked catch estimate and head
@@ -777,7 +777,7 @@ the region for that season, as the knowledge and implementation of the
 SHRP are not expected to vary substantially across years within a region
 (e.g., head depot operations are generally consistent).
 
-## Updating Chinook Mark-Selective Rate Estimates {#mrr}
+## Updating mark-selective rate estimates {#mrr}
 In 2025, in an attempt to account for mark-selective fisheries, the CTC
 updated its exploitation rate analysis (ERA) to a model that supports
 mark-selective fisheries [@CTC2025]. Therefore, the ERA requires the
@@ -828,7 +828,7 @@ imposed. Terminal fisheries typically happen in the summer period,
 therefore they were assigned the same $MRR$ and $UKR$ rates as the
 equivalent summer fishery.
 
-## Incorporation of all revised estimates in bilateral PST processes
+## Incorporating all revised estimates in bilateral PST processes
 The CTC produces several annual analyses
 and reports for the PSC. Notably: (1) the
 Catch and Escapement Report which details catch estimates across
