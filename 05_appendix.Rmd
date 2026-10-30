@@ -267,8 +267,8 @@ strat_table <-
   summarize(month_category = paste0(min(month), " to ", max(month)),
             .groups = "drop") |>
   distinct() |> 
-   mutate(month_category = factor(month_category, levels = c("1 to 4", "5 to 9", "10 to 12")))|>
-  arrange(erafishery, month_category, area ) |>
+   mutate(month_category = factor(month_category, levels = c("1 to 4", "5 to 9", "5 to 6",  "5 to 7", "7 to 9", "8 to 9", "8 to 10", "10 to 12", "1 to 12")))|>
+  arrange(erafishery, finescale_fishery, month_category, area ) |>
   rename("CTC ERA Fishery" = erafishery,  
          "CTC Finescale Fishery" = finescale_fishery, 
          "PFMA" = area,
@@ -287,7 +287,6 @@ csas_table(strat_table, format = "latex")
 
 
 ```
-
 \clearpage
 
 # Revised estimates by Finescale Fishery (2005-2023) {#app:revised-catch-timeseries}
