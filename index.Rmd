@@ -4,7 +4,7 @@ title: |
 french_title: "Révisions des données de capture récréative du saumon chinook"
 year: 2026
 report_number: 3826
-report_DOI: 
+report_DOI: ""
 author: |
   Norah E.M. Brown^1^, 
   Nicholas Komick^1^,
