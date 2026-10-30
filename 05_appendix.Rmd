@@ -1,7 +1,7 @@
 `r if(knitr:::is_latex_output()) '% begin csasdowntex appendix'` `r if(!knitr:::is_latex_output()) '# (APPENDIX) Appendix {-}'`
 \clearpage
 
-# iREC Reporting Program Selection Changes {#app:apdx-irec-mthd}
+# iREC reporting program selection changes {#app:apdx-irec-mthd}
 Since the iREC survey began in 2012, several changes have been made to how annual recreational licences are selected for inclusion in each survey month. For example, the selection rate for 1-, 3-, and 5‑day (“term”) licences was 25% during licence years 2012–2019, but has been 100% since the 2020 licence year. All changes to selection procedures take effect at the start of a new licence year (April 1st). Here we describe how licences are selected for inclusion in the survey and how this has changed since the program began. Recent improvements to iREC quality control and calibration are described in Appendix \@ref(apdx-analytic-improvements).
 
 There are several types of licences are sold, distinguished by: term length (e.g., annual (valid from purchase date until March 31) or term (1, 3, or 5 days)), residency (Canadian or non-Canadian), age (Juvenile, Adult, or Senior). These factors along with month purchased contribute to the selection process. When selecting annual licences, purchase month is expected to be correlated with the type of fishing and target species of the licence holder. Licences bought in May or June are more likely targeting Coho and Chinook than those bought in September and October when the purchasers are more likely potentially targeting shellfish and finfish other than salmon. Accordingly, with each update in the selection approach, we mitigated bias caused by differential representation of licences by purchase month as described below.
@@ -208,7 +208,7 @@ irec_responses_graph
 
 \clearpage
 
-# iREC calibration JAGs model {#app:apdx-irec-calib}
+# iREC calibration JAGS model {#app:apdx-irec-calib}
 
 The specific model code used for iREC calibration is provided below, with `creel.obs` representing the creel estimate, `creel.se` representing the standard error of the creel estimate, and `iREC.obs` representing the iREC uncalibrated catch estimate for the same area and time as the creel estimate.
 
@@ -232,7 +232,7 @@ model.jags <- function() {
 ```
 
 \clearpage
-# Stratification Mapping {#app:apdx-strattab}
+# Stratification mapping {#app:apdx-strattab}
 ```{r methods strattab, echo=FALSE, message=FALSE, warning=FALSE}
 #| label: tbl-stratatab
 
@@ -289,7 +289,7 @@ csas_table(strat_table, format = "latex")
 ```
 \clearpage
 
-# Revised estimates by Finescale Fishery (2005-2023) {#app:revised-catch-timeseries}
+# Revised estimates by finescale fishery (2005-2023) {#app:revised-catch-timeseries}
 
 Kept and released catch estimates at annual finescale fishery scale (i.e., seasonal component summed). Solid green circles and lines indicate revised integrated creel and iREC estimates. Open green circles indicate revised modelled integrated creel and iREC estimate. Open orange triangles and dashed lines indicate unfiltered creel and/or logbook catch estimates. Blue circles indicate the revised iREC estimates (solid blue circles) and retrospectively modelled estimates (open blue circles). 
 
@@ -586,7 +586,7 @@ for (i in 1:length(fishery_name_north)) {
 
 \clearpage
 
-# Revised estimates by ERA Fishery (2005-2023) {#app:revised-catch-timeseries3}
+# Revised estimates by ERA fishery (2005-2023) {#app:revised-catch-timeseries3}
 
 Here we present kept and released catch estimates, which are similar to Appendix \@ref(app:revised-catch-timeseries), but are rolled up to the ERA level and include previously reported estimates. This helps identify where reporting matches more closely with creel estimates or integrated creel and iREC estimates. Catch estimates at annual finescale fishery scale (i.e., seasonal component summed). Solid green circles and lines indicate revised integrated creel and iREC estimates. Open green circles indicate revised modelled integrated creel and iREC estimates. Open orange triangles and dashed lines indicate unfiltered creel and/or logbook catch estimates. Blue circles (for NBC and CBC) indicate the revised iREC estimates (solid blue circles) and retrospectively modelled estimates (open blue circles). Previously reported catch estimates are represented as purple triangles and dashed lines, and are either creel and/or logbook data or a combination of creel, logbook, and iREC data. In some regions iREC was incorporated earlier than in other regions and the reporting reflects this. 
 
@@ -890,7 +890,7 @@ for (i in 1:length(fishery_name_north)) {
  
 ```
 
-# Model Residuals {#app:residuals-appendix}
+# Model residuals {#app:residuals-appendix}
 
 ## Summer models
 
@@ -948,7 +948,7 @@ res_gam <- simulateResiduals(sport_catch_models$model_list$jdf_summer_model,
                              quantreg=T)
 ```
 
-## Seasonal models
+## Spring and Fall models
 
 ```{r Modelling spring and fall subsetting appendix, message=FALSE, warning=FALSE, results='hide', echo=FALSE}
 #| label: fig-seasonal-wcvi-residuals
@@ -1026,7 +1026,7 @@ res_gam <- simulateResiduals(sport_catch_models$model_list$central_isbm_kept, pl
 
 \clearpage
 
-# Model Statistical Tables {#app:fourth-appendix}
+# Model statistical tables {#app:fourth-appendix}
 
 ```{r appendix-model-table-NWCVI-summer, message=FALSE, warning=FALSE, results='asis', echo=FALSE, tbl.pos="H"}
 NWCVI_summer_model_table <- sport_catch_models$model_list[["NWCVI_summer_model"]]  |>  tbl_regression(intercept=TRUE, conf.level=0.95) %>%
@@ -1223,7 +1223,7 @@ patch_table_placement(central_isbm_released_table)
 
 ::: {.landscape data-latex=""}
 
-# Model Selection Tables {#app:fifth-appendix}
+# Model selection tables {#app:fifth-appendix}
 ```{r appendix-model-selection-summer, echo = FALSE}
 
 if("delta_aic" %in% colnames(m6)) {
@@ -1417,7 +1417,7 @@ m_north_aabm |>
 
 \clearpage
 
-# Model Output {#app:third-appendix}
+# Model output {#app:third-appendix}
 
 Modelling plots for the best model for each region, showing modelled relationship between summertime unfiltered creel estimate (months 5 to 9) and total catch estimate that incorporates iREC. solid circles are yearly estimates from 2013 to 2023, coloured by year. Open circles are the predicted values from 2005-2012, to visualize if the prediction range is within or out of the observation range. Note varying scales on the y-axes to better visualize the model fit.
 
@@ -1526,7 +1526,7 @@ summer_plots[["JDF Summer"]][["CA JDF S SUMMER"]] +  ylab("summer creel + iREC c
 
 ```
 
-## Seasonal models
+## Spring and Fall models
 
 ```{r seasonal-appendix-compute, echo=FALSE}
 seasonal_sections <- c("SGS Seasonal", "NGS Seasonal", "JDF Seasonal",
@@ -1701,11 +1701,11 @@ combined
 
 \clearpage
 
-# Analytical Improvements since February 2025 {#apdx-analytic-improvements}
+# Analytical improvements since February 2025 {#apdx-analytic-improvements}
 
 During the course of developing this technical report and reviewing the `pacRecCatch` package code, several issues were identified subsequent to the catch estimates used for the February 2025 CTC ERA. The more substantial change was to improve the model used for Haida Gwaii, which is described in the "Modified Haida Gwaii Model" section below. In addition to the Haida Gwaii model, there were various data and method fixes identified in Section \@ref(otherimprov) below.
 
-## Modified Haida Gwaii Model {#apdx-haida-model}
+## Modified Haida Gwaii model {#apdx-haida-model}
 
 ```{r Setup Haida Gwaii Model appendix data}
 
@@ -2013,7 +2013,7 @@ catch_diff |>
 
 \clearpage
 
-## Splitting Southern BC Summer and Seasonal Models
+## Splitting Southern BC summer and seasonal models
 
 With the initial corrections to the calibration with iREC data, we explored the model fit and how catch was modified in each finescale fishery. The original analysis only had a single model fit for the summer and seasonal models in Southern BC. We found that these models would reduce the kept catch in certain finescale fisheries and years that did not seem consistent with the expectation that the creel lacked coverage and should have been a slight underestimate. As the creel program is operated differently in various portions of Southern BC, we explored splitting the model into separate summer models for the following regions:
 
@@ -2026,7 +2026,7 @@ With the initial corrections to the calibration with iREC data, we explored the 
 
 We compared groupings of fisheries and the results can be found in Appendix \@ref(app:fifth-appendix). The summer models were a better fit for the six regions separately while the seasonal models allowed for the combination of Northern and Southern WCVI into WCVI. Splitting the summer and seasonal model into the separate regions improved the consistency between the creel and the modelled catch estimate.
 
-## Other Analytical Improvements {#otherimprov}
+## Other analytical improvements {#otherimprov}
 
 In addition to redefining the Haida Gwaii model for historic catch, the NBC ISBM model historic catch was updated to extrapolate catch for the 2005 to 2007 period. The past version of the analysis did not estimate NBC ISBM catch for 2005 to 2007 because no historic catch estimates were provided. To allow the model to estimate those years, we used to average historic catch estimates from 2008 to 2012 to fit the model for the earlier years. This will allow the historic catch model to estimate total catch for the 2005 to 2007 period in a consistent approach to more recent years. Furthermore, we no longer rely on the average sample rate of surrounding regions to estimate the CWT sample rate of NBC ISBM in those years. NBC ISBM was also updated to reflect an annual model, whereas previously it was seasonal.
 
@@ -2075,7 +2075,7 @@ irec_rel_cf |>
 
 Finally, in this report we have improved the model fitting process using automated model selection, expanding the status variable to kept status and mark status to allow for an interaction, and adding a management term where appropriate to test for differences in ISBM and AABM fisheries. We did explore other model forms such as modelling total kept and total released catch and including mark rate and release rate as continuous predictors, but ultimately the variability in mark rate between data sources made these models more uncertain and were less flexible for combining for our various reporting requirements. With the various improvements made previously discussed, we reviewed the model fits and chose the model form that better fit the improved catch estimates. The changes from February 2025 to current analysis are detailed in the following table.
 
-## Changes to Catch
+## Changes to catch estimates since February 2025
 
 ```{r tbl-previous-kept-catch, results='asis', echo=FALSE}
 options(knitr.kable.NA = '')

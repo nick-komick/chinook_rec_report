@@ -829,7 +829,7 @@ therefore they were assigned the same $MRR$ and $UKR$ rates as the
 equivalent summer fishery.
 
 ## Incorporating all revised estimates in bilateral PST processes
-The CTC produces several annual analyses
+The Chinook Technical Committee (CTC) produces several annual analyses
 and reports for the PSC. Notably: (1) the
 Catch and Escapement Report which details catch estimates across
 all fisheries [e.g., @CTC2025b]; (2) the ERA report that uses a cohort analysis on CWT hatchery stocks to calculate CYERs on a stock-specific basis

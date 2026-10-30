@@ -1465,7 +1465,7 @@ The revised recreational catch estimates derived using the methods described in 
 
 A version of these revised catch estimates were first incorporated into the February 2025 CTC ERA [@CTC2026]. Upon subsequent review of the methods and implementation of the `pacRecCatch` R package for this technical report, we made some corrections and improvements to both our datasets and methods. While this report focuses on the results produced after these revisions, the changes made to data and methods after the 2025 ERA report are summarized in Appendix \@ref(apdx-analytic-improvements).
 
-### Reporting Kept and Released Catch
+### Reporting kept and released Catch
 ```{r results CandEkept1, echo=FALSE}
 
 erafishery_order<-c("WCVI AABM S", "WCVI ISBM S", "GEO ST S", "JNST S", "BC JF S", "NBC AABM S","NBC ISBM S", "CBC S")
