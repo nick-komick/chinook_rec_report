@@ -226,7 +226,7 @@ estimates from the winter months (October through February) fail the
 criteria. The broadest coverage occurs in the protected waters of the
 Strait of Georgia, which has a higher human population density and can
 be fished year-round, and the narrowest coverage occurs on the exposed
-North West Coast of Vancouver Island (NWCVI) which is difficult to fish in the
+North West Coast of Vancouver Island (NWCVI), which is difficult to fish in the
 winter and therefore has no creel coverage in the winter months.
 
 \newpage
@@ -601,8 +601,7 @@ between the kept marked catch and the number of heads across CWT regions and sea
 should provide the average submission rate of all recreational fisheries.  Forcing the 
 regression through the origin should be consistent with the expectation the we would receive 
 no heads from SHRP when catch is zero and allows direct evaluation of the slope as a submission rate. 
-The adjusted coefficient of determination (i.e., Adjusted $R^{2}$, denoted as $\bar{R}^{2}$) along with the submission rate can be used 
-as an indicators of how well mark kept catch estimates fits observed SHRP recoveries.  The $\bar{R}^{2}$ was used for this part of the analysis because in some circumstances the comparison of sample rates can involve different sample sizes.
+The adjusted coefficient of determination (i.e., Adjusted $R^{2}$, denoted as $\bar{R}^{2}$) along with the submission rate can be used as indicators of how well mark kept catch estimates fits observed SHRP recoveries.  The $\bar{R}^{2}$ was used for this part of the analysis because in some circumstances the comparison of sample rates can involve different sample sizes.
 
 In contrast to the creel program, the SHRP relies on several sampling approaches (e.g., lodge sampling, public collection points, avid anglers) and should not necessarily be driven by creel survey coverage nor iREC survey completion. Since there were no substantial changes to how the SHRP is delivered over both the modelled and observed catch time periods, the slopes should be similar, with any deviations potentially indicating a lack in congruence between the two marked kept catch time series. 
 
@@ -769,7 +768,7 @@ derived from Method 1 may still produce an outlier. This typically
 occurs in the Strait of Georgia prior to iREC reporting. In these
 circumstances, a weighted average of the annual submission rates two years
 prior and two years after the year of the outlier are used. This moving
-average should may better represent average submission rate of fishers in
+average should better represent average submission rate of fishers in
 the region for that season, as the knowledge and implementation of the
 SHRP are not expected to vary substantially across years within a region
 (e.g., head depot operations are generally consistent).
