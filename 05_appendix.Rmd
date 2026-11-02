@@ -1222,7 +1222,6 @@ patch_table_placement(central_isbm_released_table)
 ```
 
 ::: {.landscape data-latex=""}
-
 # Model selection tables {#app:fifth-appendix}
 ```{r appendix-model-selection-summer, echo = FALSE}
 

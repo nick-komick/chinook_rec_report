@@ -329,8 +329,7 @@ since roughly 2010. Several types of licences are sold, distinguished by
 term length, residency, and age. For this program, recreational licence
 holders are required to report online, for one assigned month of their
 licence term, a detailed record of their fishing activity and catch.
-Reporting is mandatory, however completion rates are typically between 50 to 55% with the more recent reporting years. The completed reports are flagged for quality control for anomalous fishing patterns (e.g., number of fish per person per day is high, fishing in non-adjacent areas in a single day) and user comments are considered before excluding these data. Using the quality controlled and completed reports, estimates of the total kept and released catch, by mark status are developed for each month and area. Uncalibrated estimates are developed by expanding the average monthly catch per licence in each area by the number of licences eligible to fish in
-that month. These calculations are stratified by licence type to protect
+Reporting is mandatory, however completion rates are typically between 50 to 55% with the more recent reporting years. The completed reports are flagged for quality control for anomalous fishing patterns (e.g., number of fish per person per day is high, fishing in non-adjacent areas in a single day) and user comments are considered before excluding these data. Using the quality controlled and completed reports, estimates of the total kept and released catch, by mark status are developed for each month and area. Uncalibrated estimates are developed by expanding the average monthly catch per licence in each area by the number of licences eligible to fish in that month. These calculations are stratified by licence type to protect
 against bias due to differential fishing and reporting rates by licence
 type. Correction factors (CFs), described in Section \@ref(calib), are then
 estimated for each licence year and retention status (i.e., kept or released), and subsequently applied to the iREC estimates to produce corrected catch estimates. The iREC program
@@ -356,7 +355,7 @@ iREC^{*}= \frac{iREC}{m}
 The calibration coefficient $m$ is estimated for each licence year (i.e., April 1 to March 31), retention status, and species using all South Coast area and month creel estimates of angling by boat that meet the inclusion criteria defined in Section \@ref(qc), above. As the creel estimates have uncertainty associated with them, an error-in-variables approach is used to estimate $m$ using JAGS [a hierarchical Bayesian analysis program, @plummer2003jags] through the `rjags` R package [@rjags]. The specific model code, provided in Appendix \@ref(app:apdx-irec-calib), identifies that the model incorporates uncertainty from creel estimates. Although iREC estimates angling catch from both shore and boat, South Coast creel surveys are limited to boat-based fishing. Therefore, only boat-based iREC data is used for calibration and this analysis.
 
 A key consideration when interpreting iREC catch estimates is that the system relies on common assumptions inherent to fisher-dependent reporting systems (e.g., logbooks). Specifically, these assumptions include:
-
+ 
  * License holders are as likely to report active fishing trips as they are to report non-activity (zero-catch/zero-effort).
  * Reported catch counts and associated fish attributes (e.g., species identification and adipose mark status) are accurate.
  * The fishing effort and catch rates of responding license holders are representative of non-selected or non-responding license holders.
@@ -449,20 +448,16 @@ the nomenclature will be the same but it is to be noted that the creel does
 not go through the same quality control measures and therefore there is
 no filtered creel category. For Central BC, there is no
 creel program so the catch estimates will be referred to as "logbook
-catch estimates".
-
-When identifying the best available month-area catch estimate between creel and iREC, we used different procedures for South Coast, compared
+catch estimates". When identifying the best available month-area catch estimate between creel and iREC, we used different procedures for South Coast, compared
 to Northern and Central BC. This allowed catch estimates to align with the
 unique challenges in delivering catch monitoring programs within each region.
 
 In South Coast from 2013 to present, from May to September we use the
 creel data if it met all of the quality control rules. Otherwise, we use iREC to fill in the gaps, creating a seasonal integrated creel and iREC catch estimate.
-Outside of these months, we use iREC only. These QC rules prioritize higher effort creel estimates that have consistent and representative sampling throughout the whole month within an area, when most creel survey effort is concentrated, and prioritizes 
-iREC estimates during shoulder seasons when there are commonly extensive gaps in creel coverage. Figure
-\@ref(fig:fig-area-catch-process) provides a diagram on how the catch
+Outside of these months, we use iREC only. These QC rules prioritize higher effort creel estimates that have consistent and representative sampling throughout the whole month within an area, when most creel survey effort is concentrated, and prioritizes iREC estimates during shoulder seasons when there are commonly extensive gaps in creel coverage. Figure \@ref(fig:fig-area-catch-process) provides a diagram on how the catch
 data sources are integrated. In Figure \@ref(fig:fig-creel-iREC-NGS) we demonstrate how iREC fills in the gaps in each PFMA using the Northern Strait of Georgia finescale fishery as an example. 
 
-For Northern and Central BC, we use iREC from 2015 onwards (as opposed to 2013) because iREC catch estimates did not seem to be consistent with other catch data sources before 2015 and iREC did not achieve effective sample rates in Northern and Central BC in 2013 or 2014. Northern and Central BC creel and logbook data is not currently incorporated into iREC calibration, and therefore iREC in these regions is calibrated against South Coast creel, but this may change with further improvements in iREC calibration. Furthermore, we use iREC as the best available catch estimate in each month in these regions, as much of the creel and logbook catch does not account for releases. For Northern BC AABM (Haida Gwaii) releases, we use creel total releases (legal + sub_legal) to predict iREC legal releases. 
+For Northern and Central BC, we use iREC from 2015 onwards (as opposed to 2013) because iREC catch estimates were not consistent with other catch data sources before 2015 and iREC did not achieve effective sample rates in Northern and Central BC in 2013 or 2014. Northern and Central BC creel and logbook data is not currently incorporated into iREC calibration, and therefore iREC in these regions is calibrated against South Coast creel, but this may change with further improvements in iREC calibration. Furthermore, we use iREC as the best available catch estimate in each month in these regions, as much of the creel and logbook catch does not account for releases. For Northern BC AABM (Haida Gwaii) releases, we use creel total releases (legal + sub-legal) to predict iREC legal releases. 
 
 ```{r methods with iREC flowchart, out.width="90%", results='asis', echo=FALSE, dpi=300}
 #| label: fig-area-catch-process
@@ -557,6 +552,8 @@ These seasonal catch estimates are then rolled up into yearly estimates for repo
 This process, shown in Figure \@ref(fig:fig-before-iREC-flowchart), is automated and
 accomplished in the modelling function of the `pacRecCatch` R package
 [@pacRecCatch].
+
+
 
 ```{r methods before iREC flowchart, out.width="90%", results='asis', echo=FALSE, dpi=300}
 #| label: fig-before-iREC-flowchart
