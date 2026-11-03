@@ -1002,7 +1002,7 @@ out_north_aabm$plot[[2]]$layers[[2]]$aes_params$fill   <- col_blue   # geom_smoo
 
 
 out_north_aabm$plot + plot_annotation(
-  title = 'Haida creel (Northern BC AABM)'
+  title = 'Haida Gwaii creel (Northern BC AABM)'
 )
 
 ```
