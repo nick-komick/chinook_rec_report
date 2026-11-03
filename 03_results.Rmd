@@ -986,7 +986,7 @@ Between 2015 and 2023, submission rates in Haida Gwaii (Northern AABM Sport) wer
 
 ```{r heads-to-creel-northern-aabm, echo=FALSE, fig.height=4, fig.width=8, out.width="100%", fig.asp=NA}
 #| label: fig-heads-to-creel-and-updated-catch-northern-aabm
-#| fig-cap: "Relationship between the Northern BC AABM marked kept catch estimates from the creel program (left panel) and the integrated creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP between 2015 and 2023."
+#| fig-cap: "Relationship between the Haida Gwaii (Northern BC AABM) marked kept catch estimates from the creel program (left panel) and the integrated creel and iREC catch estimates (right panel) compared to the Chinook head recoveries provided to the SHRP between 2015 and 2023."
 
 out_north_aabm$plot[[1]] <- 
   out_north_aabm$plot[[1]] + 
@@ -1002,7 +1002,7 @@ out_north_aabm$plot[[2]]$layers[[2]]$aes_params$fill   <- col_blue   # geom_smoo
 
 
 out_north_aabm$plot + plot_annotation(
-  title = 'Haida Gwaii creel (Northern BC AABM)'
+  title = 'Haida Gwaii creel'
 )
 
 ```
