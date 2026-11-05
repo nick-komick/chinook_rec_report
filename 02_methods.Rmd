@@ -443,7 +443,7 @@ From this point forward we will refer to calibrated iREC as simply
 "iREC". For South Coast, catch estimates that are a
 integration of iREC, filtered creel, and logbook data will be referred
 to as "Integrated creel and iREC catch estimates", or in some plot axes simply "creel + iREC". Catch estimates that are only based on iREC data will be referred to as "iREC catch estimates". Catch estimates that only include unfiltered creel and
-logbook data will be referred to as "creel catch estimates". For the Northern BC, 
+logbook data will be referred to as "creel catch estimates". For Northern BC, 
 the nomenclature will be the same but it is to be noted that the creel does
 not go through the same quality control measures and therefore there is
 no filtered creel category. For Central BC, there is no
@@ -492,7 +492,7 @@ pfma_yearMonth_iREC_1 <-
 
 ```{r echo=FALSE, fig.align="left", fig.height=5, fig.width=10, message=FALSE, warning=FALSE, out.width="100%", fig.asp=NA}
 #| label: fig-creel-iREC-NGS
-#| fig-cap: "Chosen best available catch estimate in Northern Strait of Georgia by source, PFMA, and month. Yellow indicates a filtered creel estimate and blue a calibrated iREC estimate. This plot demonstrates the priority rules in South Coast: filtered creel is chosen if available May to September, otherwise use iREC, and in the off-season (October - April) iREC is chosen."
+#| fig-cap: "Chosen best available catch estimate in Northern Strait of Georgia by source, PFMA (13-16), and month from 2012 to 2025. Yellow indicates a filtered creel estimate and blue a calibrated iREC estimate. This plot demonstrates the priority rules in South Coast: filtered creel is chosen if available May to September, otherwise use iREC, and in the off-season (October - April) iREC is chosen."
 
 ngs_catch <-
   pfma_yearMonth |>
