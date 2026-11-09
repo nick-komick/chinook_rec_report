@@ -1216,11 +1216,10 @@ central_isbm_released_table <- sport_catch_models$model_list[["central_isbm_rele
   bold_p(t = 0.05) |> # bold p values
   bold_labels() %>% # make label in bold
   italicize_levels() %>%        # make categories in label italic
-  modify_caption("CBC Released Model - gamm with log link")
+  modify_caption("CBC Released Model - gamma with log link")
 patch_table_placement(central_isbm_released_table)
 
 ```
-
 ::: {.landscape data-latex=""}
 # Model selection tables {#app:fifth-appendix}
 ```{r appendix-model-selection-summer, echo = FALSE}
@@ -1233,6 +1232,7 @@ m6 <-
   m6 |>
   mutate(n_var = round(n_var, 0)) |>
   dplyr::select(-name, -residual_check, -x_var, -McFadden, -AIC, -full_formula, -slope_creel, -r2_creel, -slope_irec, -r2_irec, -n_creel, -n_irec) |>
+  filter(region_name!="South Coast Group Summer")|>
   relocate(region_name, family, chosen_formula, delta_aicc, n_var, r2glm) |>
   gt() |>
   tab_header(title = "Summer Fishery Model Comparison") |>
@@ -1331,7 +1331,7 @@ m_north_isbm |>
     dplyr::select(-name, -residual_check, -x_var, -McFadden, -AIC, -full_formula, -slope_creel, -r2_creel, -slope_irec, -r2_irec, -n_creel, -n_irec)|>
   relocate(region_name, family, chosen_formula, delta_aicc, n_var, r2glm) |>
   gt() |>
-  tab_header(title = "Northern BC ISBM and Crental BC ISBM Model Comparison") |>
+  tab_header(title = "Northern BC ISBM and Central BC ISBM Model Comparison") |>
   tab_source_note("Ranked by residual fit and pseudo-R-squared") |>
   fmt_number(columns = where(is.numeric) & !matches("n_var"), decimals = 2) |>
   cols_width(
@@ -1413,7 +1413,6 @@ m_north_aabm |>
   )
 ```
 :::
-
 \clearpage
 
 # Model output {#app:third-appendix}

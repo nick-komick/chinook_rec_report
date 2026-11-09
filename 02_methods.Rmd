@@ -211,7 +211,7 @@ to be used as the best available catch estimate:
 
 These criteria are not applied to areas that have been occasionally
 surveyed but are not targeted and not estimated by the South Coast creel
-survey throughout the whole time series (e.g., PFMA 26, and 126), or are in other regions (e.g., PFMA 10 in CBC, 3 and 4 in NBC), or that did not have any Chinook catch (all of these creels failed criteria). We refer to the creel estimates that pass this quality control as "filtered creel". We use these filtered creel
+survey throughout the whole time series (e.g., PFMA 26, and 126), or are in other regions (e.g., PFMA 10 in Central British Columbia (CBC), 3 and 4 in Northern British Columbia (NBC)), or that did not have any Chinook catch (all of these creels failed criteria). We refer to the creel estimates that pass this quality control as "filtered creel". We use these filtered creel
 both to calibrate iREC (Section \@ref(calib)) and as quality controlled estimates (Section \@ref(best)), as described below.
 
 Across all regions, these criteria exclude `r fmt_stat(all_summary$pct[all_summary$criteria == "failed"])`% of all estimates between
