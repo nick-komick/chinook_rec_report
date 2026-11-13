@@ -4,34 +4,34 @@ title: |
 french_title: "Révisions des données de capture récréative du saumon chinook"
 year: 2026
 report_number: 3826
-report_DOI: ""
+report_DOI: "10.60825/x1pf-9z92"
 author: |
-  Norah E.M. Brown^1^, 
-  Nicholas Komick^1^,
-  Lauren Gill^1^,
-  Kristopher Hein^1^,
-  Rob Houtman^1^, 
-  Noel Swain^1^, 
-  Laura Tessier^1^, 
-  Heidi Van Vliet^1^, 
-  Catarina Wor^1^, and
-  Antonio Vélez-Espino ^1^
-author_list: "Brown, N.E.M., Komick, N., Gill, L., Hein, K., Houtman, R., Swain, N., Tessier, L., Van Vliet, H., Wor, C., and Vélez-Espino, A."
+  Norah Brown, 
+  Nicholas Komick,
+  Lauren Gill,
+  Kristopher Hein,
+  Rob Houtman, 
+  Noel Swain, 
+  Laura Tessier, 
+  Heidi Van Vliet, 
+  Catarina Wor, and
+  Antonio Vélez-Espino 
+author_list: "Brown, N., Komick, N., Gill, L., Hein, K., Houtman, R., Swain, N., Tessier, L., Van Vliet, H., Wor, C., and Vélez-Espino, A."
 region: Pacific Region
 french_region: Région du Pacifique
 isbn: 978-1-100-01185-1
 address: |
-  ^1^Pacific Biological Station\
+     Pacific Biological Station\
      Fisheries and Oceans Canada, 3190 Hammond Bay Road\
      Nanaimo, British Columbia, V9T 6N7, Canada\
 french_address: |
-  ^1^Station biologique du Pacifique\
+     Station biologique du Pacifique\
      Pêches et Océans Canada, 3190 Hammond Bay Road\
      Nanaimo, Colombie-Britannique, V9T 6N7, Canada\
   
 phone: "(555) 555-5555"
 author_footnote: "Email: norah.brown@dfo-mpo.gc.ca"
-citation_french: "Brown, N.E.M., Komick, N., Gill, L., Hein, K., Houtman, R., Swain, N., Tessier, L., Van Vliet, H., Wor, C., and Vélez-Espino, A. 2026. Révisions des données de capture récréative du saumon chinook. Can. Tech. Rep. Fish. Aquat. Sci. 3826: vii + 147 p."
+citation_french: "Brown, N., Komick, N., Gill, L., Hein, K., Houtman, R., Swain, N., Tessier, L., Van Vliet, H., Wor, C., and Vélez-Espino, A. 2026. Chinook Salmon Marine Recreational Catch Data Revisions. Can. Tech. Rep. Fish. Aquat. Sci. 3826: vii + 147 p."
 
 abstract: >
   Recreational catch estimation of Chinook salmon in the Pacific Region has historically been accomplished using a combination of creel surveys and logbook programs. However, there are substantial spatial and temporal gaps in the creel and logbook data, which are restricted to the most heavily fished areas and months. A mandatory Internet Recreational Effort and Catch (iREC) survey has been implemented since July 2012 to resolve these gaps and contribute to recreational catch information. Data from this survey have been variably incorporated into the Chinook recreational catch since 2013 (excluding 2012 as a pilot year) in most regions domestically, but this incorporation has not occurred in a standardized way. Furthermore, because iREC data were not available prior to 2013, incorporating them into recreational catch estimates confounds comparisons between pre- and post-2013 catch required to assess stock-specific impacts from Individual Stock Based Management fisheries as prescribed by the Pacific Salmon Treaty. Here, we present (1) revised current catch estimates for years with creel and iREC overlap, (2) revised historical catch estimates for years without iREC back to 2005, (3) revised coded wire tag estimates that incorporate these revised catch estimates, and (4) how these revised estimates are incorporated into annual Chinook Technical Committee processes. We describe modelling and validation approaches that we used to calculate these revised estimates and identify potential areas for future refinement. This report recognizes decades of improvements to catch estimation methods. Continuing to apply and build upon these standardized approaches will ensure the ongoing accuracy and integrity of the recreational catch time series.
@@ -46,7 +46,7 @@ output:
    # copy_sty is a toggle to copy the style file from the csasdown package every time you compile
    # the document. If false, any changes you have made to the style file in your project
    # will remain between compilations. If true, your changes will be lost when you compile
-   copy_sty: true
+   copy_sty: false
    # line_nums is a toggle to show line numbers on the left side of the page. 
    line_nums: false
    # line_nums_mod represents showing every Nth line if line_nums is true
